@@ -6,14 +6,14 @@
   <display-name>Android File Transfer Servlet</display-name>
   
   <servlet>
-  	<servlet-name>aft-servlet</servlet-name>
+  	<servlet-name>aft</servlet-name>
   	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
   	<load-on-startup>1</load-on-startup>
   </servlet>
   
   <servlet-mapping>
-  	<servlet-name>aft-servlet</servlet-name>
-  	<url-pattern>*</url-pattern>
+  	<servlet-name>aft</servlet-name>
+  	<url-pattern>/manager/*</url-pattern>
   </servlet-mapping>
   
 </web-app>
