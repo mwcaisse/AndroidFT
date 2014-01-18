@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ricex.aft</groupId>
-  <artifactId>aft-serlet</artifactId>
+  <artifactId>aft-servlet</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>aft-serlet Maven Webapp</name>
+  <name>aft-servlet Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
 	<properties>
@@ -60,6 +60,6 @@
     
   </dependencies>
   <build>
-    <finalName>aft-serlet</finalName>
+    <finalName>aft-servlet</finalName>
   </build>
 </project>
