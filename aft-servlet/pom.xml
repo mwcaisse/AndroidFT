@@ -37,6 +37,21 @@
 		<version>${spring.version}</version>
 	</dependency>
 	
+	<!-- Jackson JSON Mapper for Spring -->
+	
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.9.13</version>
+	</dependency>
+	
+	<!--  Google JSON Library -->
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.2.4</version>
+	</dependency>
+	
     <!-- Logging -->
     
     <dependency>

@@ -2,6 +2,7 @@ package com.ricex.aft.servlet.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Mitchell Caisse
@@ -11,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DeviceController {
 	
+	public DeviceController() {
+		System.out.println("We are creating a device controller!");
+	}
+	
 	@RequestMapping("/device")
-	public String deviceTest() {
+	public @ResponseBody String deviceTest() {
 		return "Hello World";
 	}
 
