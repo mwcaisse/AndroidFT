@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.ricex.aft.servlet.controller;
 
 import org.springframework.stereotype.Controller;
@@ -8,6 +11,6 @@ import org.springframework.stereotype.Controller;
  */
 
 @Controller
-public class DeviceController {
+public class RequestController {
 
 }
