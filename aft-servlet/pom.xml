@@ -1,15 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.ricex.aft</groupId>
-  <artifactId>aft-servlet</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>aft-servlet Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
   
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ricex.aft</groupId>
+	<artifactId>aft-servlet</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>aft-servlet Maven Webapp</name>
+	<url>http://maven.apache.org</url>  
+  
+ 	<!--  Version Properties -->
 	<properties>
 		<spring.version>4.0.0.RELEASE</spring.version>
+		<mybatis.version>3.2.3</mybatis.version>
+		<mybatis-spring.version>1.2.1</mybatis-spring.version>
+		<jackson.version>1.9.13</jackson.version>
+		<gson.version>2.2.4</gson.version>
+		<slf4j.version>1.7.5</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
 	</properties>
   
   <dependencies>
@@ -26,8 +34,17 @@
     <dependency>
 		<groupId>org.mybatis</groupId>
 		<artifactId>mybatis</artifactId>
-		<version>3.2.3</version>
+		<version>${mybatis.version}</version>
 	</dependency>
+	
+	<!--  MyBatis Spring -->
+	
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>${mybatis-spring.version}</version>
+	</dependency>
+            
 	
     <!-- Spring -->
     
@@ -42,14 +59,14 @@
 	<dependency>
 		<groupId>org.codehaus.jackson</groupId>
 		<artifactId>jackson-mapper-asl</artifactId>
-		<version>1.9.13</version>
+		<version>${jackson.version}</version>
 	</dependency>
 	
 	<!--  Google JSON Library -->
 	<dependency>
 		<groupId>com.google.code.gson</groupId>
 		<artifactId>gson</artifactId>
-		<version>2.2.4</version>
+		<version>${gson.version}</version>
 	</dependency>
 	
     <!-- Logging -->
@@ -57,19 +74,19 @@
     <dependency>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-log4j12</artifactId>
-		<version>1.7.5</version>
+		<version>${slf4j.version}</version>
 	</dependency>
 	
     <dependency>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-api</artifactId>
-		<version>1.7.5</version>
+		<version>${slf4j.version}</version>
 	</dependency>
 	
     <dependency>
 		<groupId>log4j</groupId>
 		<artifactId>log4j</artifactId>
-		<version>1.2.17</version>
+		<version>${log4j.version}</version>
 	</dependency>           
             
     

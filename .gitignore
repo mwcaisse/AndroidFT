@@ -36,7 +36,13 @@
 ehthumbs.db
 Thumbs.db
 
+
+# Credential Files #
+####################
+data-source.xml
+
 # Misc stuff #
+##############
 *.mf
 bin/
 .prefs

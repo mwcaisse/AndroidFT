@@ -9,7 +9,31 @@
 	    http://www.springframework.org/schema/context 
 	    http://www.springframework.org/schema/context/spring-context.xsd">
 	
+	<!-- Import the data source -->
+	<import resource="classpath:data-source.xml" />
 	
+	<!--  Spring MVC Controllers auto search -->
 	<context:component-scan	base-package="com.ricex.aft.servlet.controller" />
+	
+	<!--  Sql Session Factory for MyBatis-Spring -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" /> <!--  TODO CREATE SPRING DATA SOURCE -->
+	</bean>
+	
+	<!-- Mapper declaration -->
+	
+	<!-- Device Mapper -->
+	<bean id="deviceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.ricex.aft.servlet.mapper.DeviceMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	
+	<!--  Manager Declaration, injects mappers into manager singletons -->
+	
+	<bean id="deviceManager" class="com.ricex.aft.servlet.manager.DeviceManager" factory-method="valueOf">
+		<constructor-arg value="INSTANCE"/>
+		<property name="deviceMapper" ref="deviceMapper" />
+	</bean>
 	
 </beans>
