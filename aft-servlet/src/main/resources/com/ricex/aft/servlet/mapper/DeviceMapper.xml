@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.DeviceMapper">
+
+	<!-- Device result map -->
+	<resultMap id="deviceResultMap" type="Device">
+		<id property="deviceId" column="DEVICE_ID" />
+		<result property="deviceName" column="DEVICE_NAME"/>
+	</resultMap>
+
+	<!--  selects all devices -->
+	<select id="getAllDevices" resultMap="deviceResultMap">
+		SELECT * FROM DEVICE	
+	</select>
+	
+	<!-- Updates the device in the param -->
+	<update id="updateDevice">
+		UPDATE DEVICE SET
+			DEVICE_NAME = #{device.deviceName}
+		WHERE DEVICE_ID = #{device.deviceId}
+	</update>
+	
+	<!-- Inserts the device in the param -->
+	<insert id="createDevice" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO DEVICE (DEVICE_NAME)
+		VALUES (#{device.deviceName})
+	</insert>
+	
+</mapper>

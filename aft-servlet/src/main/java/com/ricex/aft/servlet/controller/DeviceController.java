@@ -39,7 +39,7 @@ public class DeviceController {
 	/** Updates the information on the specified device
 	 *  Used when changing information based upon
 	 *  
-	 *  TODO: Have a seperate create device function?
+	 *  TODO: Have a separate create device function?
 	 */
 	
 	

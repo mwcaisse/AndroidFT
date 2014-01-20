@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	
+<configuration>
+	
+	<typeAliases>
+		<typeAlias alias="Device" type="com.ricex.aft.servlet.entity.Device"/>
+		<typeAlias alias="File" type="com.ricex.aft.servlet.entity.File"/>
+		<typeAlias alias="Request" type="com.ricex.aft.servlet.entity.Request"/>
+	</typeAliases>
+	
+	
+	<mappers>
+		<mapper resource="com/ricex/aft/servlet/mapper/DeviceMapper.xml" />
+		<mapper resource="com/ricex/aft/servlet/mapper/FileMapper.xml" />
+		<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" />
+	</mappers>
+
+</configuration>
