@@ -14,8 +14,8 @@
 	
 	<mappers>
 		<mapper resource="com/ricex/aft/servlet/mapper/DeviceMapper.xml" />
-		<mapper resource="com/ricex/aft/servlet/mapper/FileMapper.xml" />
-		<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" />
+		<!--<mapper resource="com/ricex/aft/servlet/mapper/FileMapper.xml" /> -->
+		<!--<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" /> -->
 	</mappers>
 
 </configuration>

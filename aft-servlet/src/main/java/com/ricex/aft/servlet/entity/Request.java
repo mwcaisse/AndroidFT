@@ -8,7 +8,7 @@ import java.util.Date;
  *
  */
 
-public class UpdateRequest {
+public class Request {
 	
 	/** The id of this update request */
 	private long requestId;
