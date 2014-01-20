@@ -50,7 +50,7 @@ public class RequestController {
 	 * @return The id of the newly created request
 	 */
 	
-	@RequestMapping(value="/create", method= RequestMethod.POST)
+	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
 	public long createRequest(Request request) {
 		return 1;
 	}
@@ -62,6 +62,7 @@ public class RequestController {
 	 * @return The id of the updated request
 	 */
 	
+	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
 	public long updateRequest(Request request) {
 		return 1;
 	}

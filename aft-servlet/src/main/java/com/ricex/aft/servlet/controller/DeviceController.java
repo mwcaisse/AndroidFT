@@ -32,7 +32,7 @@ public class DeviceController {
 	 * @return List of all available devices
 	 */
 	
-	@RequestMapping(value="/all", method= RequestMethod.GET)
+	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Device> getAllDevices() {
 		return deviceManager.getAllDevices();
 	}
@@ -44,7 +44,7 @@ public class DeviceController {
 	 */
 	
 	
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes={"application/json"})
 	public void updateDevice(@RequestBody Device device) {
 		deviceManager.updateDevice(device);
 	}
@@ -54,7 +54,7 @@ public class DeviceController {
 	 * @param device The new device to create
 	 */
 	
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
 	public void createDevice(@RequestBody Device device) {
 		deviceManager.createDevice(device);
 	}
