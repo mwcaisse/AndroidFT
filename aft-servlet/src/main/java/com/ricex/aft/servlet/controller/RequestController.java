@@ -51,7 +51,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public long createRequest(Request request) {
+	public @ResponseBody long createRequest(Request request) {
 		return 1;
 	}
 	
@@ -63,7 +63,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
-	public long updateRequest(Request request) {
+	public @ResponseBody long updateRequest(Request request) {
 		return 1;
 	}
 	

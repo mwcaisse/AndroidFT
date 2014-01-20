@@ -55,10 +55,8 @@ public class DeviceController {
 	 */
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
-	public void createDevice(@RequestBody Device device) {
-		deviceManager.createDevice(device);
+	public @ResponseBody long createDevice(@RequestBody Device device) {
+		return deviceManager.createDevice(device);
 	}
-	
-	
 
 }
