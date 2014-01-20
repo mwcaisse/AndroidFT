@@ -8,6 +8,7 @@
 	<!-- Device result map -->
 	<resultMap id="deviceResultMap" type="Device">
 		<id property="deviceId" column="DEVICE_ID" />
+		<result property="deviceUid" column="DEVICE_UID" />
 		<result property="deviceName" column="DEVICE_NAME"/>
 	</resultMap>
 
@@ -16,17 +17,22 @@
 		SELECT * FROM DEVICE	
 	</select>
 	
+	<select id="getDeviceUid" parameterType="long" resultMap="deviceResultMap">
+		SELECT * FROM DEVICE WHERE DEVICE_UID = #{deviceUid}
+	</select>
+	
 	<!-- Updates the device in the param -->
 	<update id="updateDevice">
 		UPDATE DEVICE SET
 			DEVICE_NAME = #{device.deviceName}
+			DEVICE_UID = #{device.deviceUid}
 		WHERE DEVICE_ID = #{device.deviceId}
 	</update>
 	
 	<!-- Inserts the device in the param -->
 	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
-		INSERT INTO DEVICE (DEVICE_NAME)
-		VALUES (#{device.deviceName})
+		INSERT INTO DEVICE (DEVICE_UID, DEVICE_NAME)
+		VALUES (#{device.deviceUid}, #{device.deviceName})
 	</insert>
 	
 </mapper>

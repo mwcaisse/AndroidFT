@@ -57,10 +57,12 @@ public enum DeviceManager {
 	public long createDevice(Device device) {
 		deviceMapper.createDevice(device);
 		return device.getDeviceId();
-	}
+	}	
+	
 	/** Retrieves the device mapper this manager is using
 	 * @return the deviceMapper
 	 */
+	
 	public DeviceMapper getDeviceMapper() {
 		return deviceMapper;
 	}
@@ -68,6 +70,7 @@ public enum DeviceManager {
 	/** Sets the implementation of the device mapper that this manager will use
 	 * @param deviceMapper the deviceMapper to set
 	 */
+	
 	public void setDeviceMapper(DeviceMapper deviceMapper) {
 		this.deviceMapper = deviceMapper;
 	}

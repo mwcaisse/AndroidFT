@@ -20,6 +20,14 @@ public interface DeviceMapper {
 	 */
 	public List<Device> getAllDevices();
 	
+	/** Returns the device with the given UID
+	 * 
+	 * @param deviceUid The UID of the device to fetch
+	 * @return The device with the given UID
+	 */
+	
+	public Device getDeviceUid(long deviceUid);
+	
 	/** Updates the device
 	 * 
 	 * @param device The device to update, uses the unique id to update
