@@ -3,14 +3,67 @@
  */
 package com.ricex.aft.servlet.controller;
 
+import java.util.List;
+
+import org.omg.CORBA.Request;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ *  Request Controller, for dealing with requests having to do with requests
+ *   -Creation of new requests and updating of old requests
+ *   -Retrieving the list of requests for a specific device
+ * 
  * @author Mitchell Caisse
  *
  */
 
 @Controller
+@RequestMapping("/request")
 public class RequestController {
 
+	/** Returns a list of all requests for a specified device
+	 * 
+	 * @param deviceId The unique id of the device
+	 */
+	@RequestMapping(value="/all/{deviceId}", method= RequestMethod.GET)
+	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable long deviceId) {
+		return null;
+	}
+	
+	/** Returns a list of all new (unprocessed requests) for the specified device
+	 * 
+	 * @param deviceId The unique id of the device
+	 */
+	
+	@RequestMapping(value="/new/{deviceId}", method= RequestMethod.GET)
+	public @ResponseBody List<Request> getNewRequestsForDevice(long deviceId) {
+		return null;
+	}
+	
+	/** Creates the given request
+	 * 
+	 * @param request The request to create, with an undefined id
+	 * @return The id of the newly created request
+	 */
+	
+	@RequestMapping(value="/create", method= RequestMethod.POST)
+	public long createRequest(Request request) {
+		return 1;
+	}
+	
+	/** Updates the given request
+	 * 
+	 * @param request The request to update
+	 * TODO: Might want to make this a status code instead..
+	 * @return The id of the updated request
+	 */
+	
+	public long updateRequest(Request request) {
+		return 1;
+	}
+	
 }
