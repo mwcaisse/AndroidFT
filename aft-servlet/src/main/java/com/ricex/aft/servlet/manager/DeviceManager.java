@@ -3,6 +3,9 @@
  */
 package com.ricex.aft.servlet.manager;
 
+import java.util.List;
+
+import com.ricex.aft.servlet.entity.Device;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 
 /** Device Manager, responsible for polling the Mapper/Database for information on devices
@@ -24,7 +27,37 @@ public enum DeviceManager {
 	private DeviceManager() {
 	
 	}
+	
+	/** Returns a list of all devices
+	 * 
+	 * @return list of all devices
+	 */
+	
+	public List<Device> getAllDevices() {
+		return deviceMapper.getAllDevices();
+	}
+	
+	/** Updates the given device
+	 * 
+	 * @param device The device to update
+	 * @return 1
+	 */
+	
+	public long updateDevice(Device device) {
+		deviceMapper.updateDevice(device);
+		return 1;
+	}
 
+	/** Adds the given device to the database, and returns the ID of the new device
+	 * 
+	 * @param device The new device to add
+	 * @return The id of the device
+	 */
+	
+	public long createDevice(Device device) {
+		deviceMapper.createDevice(device);
+		return device.getDeviceId();
+	}
 	/** Retrieves the device mapper this manager is using
 	 * @return the deviceMapper
 	 */

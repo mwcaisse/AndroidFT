@@ -24,7 +24,7 @@
 	</update>
 	
 	<!-- Inserts the device in the param -->
-	<insert id="createDevice" useGeneratedKeys="true" keyProperty="id">
+	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
 		INSERT INTO DEVICE (DEVICE_NAME)
 		VALUES (#{device.deviceName})
 	</insert>
