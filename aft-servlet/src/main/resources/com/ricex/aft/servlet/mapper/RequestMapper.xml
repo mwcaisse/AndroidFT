@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.RequestMapper">
+
+	<!-- Device result map -->
+	<resultMap id="requestResultMap" type="Request">
+		<id property="requestId" column="REQUEST_ID" />		
+		<result property="requestFileLocation" column="REQUEST_FILE_LOC" />
+		<result property="requestFileId" column="REQUEST_FILE_ID" />
+		<result property="requestStatus" column="REQUEST_STATUS" />
+		<result property="requestUpdated" column="REQUEST_UPD" />
+		<association property="requestDevice" column="REQUEST_DEVICE_ID" javaType="Device" select="com.ricex.sft.servlet.mapper.DeviceMapper.getDevice" />
+
+	</resultMap>
+
+	<!-- Select all requests for a specific device -->
+	<select id="getAllRequestsForDevice" parameterType="long" resultMap="requestResultMap">
+		SELECT * FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQUEST_DEVICE_ID = DEVICE.DEVICE_ID
+		WHERE DEVICE.DEVICE_UID = #{deviceUid} 
+	</select>
+
+	
+	<!-- Update a request -->
+	<update id="updateRequest">
+		UPDATE REQUEST SET
+			REQUEST_DEVICE_ID = #{requestDevice.deviceId},
+			REQUEST_FILE_LOC = #{requestFileLocation},
+			REQUEST_FILE_ID = #{requestFileId},
+			REQUEST_STATUS = #{requestStatus}
+		WHERE REQUEST_ID = #{requestId}
+	</update>
+		
+
+	<!-- Insert a new request -->
+	<insert id="createRequest" useGeneratedKeys="true" keyProperty="requestId">
+		INSERT INTO REQUEST (REQUEST_DEVICE_ID, REQUEST_FILE_LOC, REQUEST_FILE_ID, REQUEST_STATUS)
+		VALUES (#{requestDevice.deviceId}, #{requestFileLocation}, #{requestFileId}, #{requestStatus})
+	</insert>
+	
+</mapper>

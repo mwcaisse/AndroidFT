@@ -12,6 +12,11 @@
 		<result property="deviceName" column="DEVICE_NAME"/>
 	</resultMap>
 
+	<!-- select a single device -->
+	<select id="getDevice" resultMap="deviceResultMap">
+		SELECT * FROM DEVICE WHERE DEVICE_ID = #{deviceId}
+	</select>
+
 	<!--  selects all devices -->
 	<select id="getAllDevices" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE	
@@ -24,7 +29,7 @@
 	<!-- Updates the device in the param -->
 	<update id="updateDevice">
 		UPDATE DEVICE SET
-			DEVICE_NAME = #{deviceName}
+			DEVICE_NAME = #{deviceName},
 			DEVICE_UID = #{deviceUid}
 		WHERE DEVICE_ID = #{deviceId}
 	</update>

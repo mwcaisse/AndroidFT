@@ -13,17 +13,17 @@ public class Request {
 	/** The id of this update request */
 	private long requestId;
 	
-	/** The file that this request is going to copy over */
-	private File requestFile;
+	/** The id of the file that this request will send */
+	private long requestFileId;
 	
 	/** String representing the location to save the file on the device */
-	private String fileLocation;
+	private String requestFileLocation;
 	
 	/** The status of this request */
 	private RequestStatus requestStatus;
 	
-	/** The last time that status was changed */
-	private Date requestStatusUpdated;
+	/** The last time that request was changed */
+	private Date requestUpdated;
 	
 	/** The device that this request is associated with */
 	private Device requestDevice;
@@ -45,35 +45,35 @@ public class Request {
 	}
 
 	/**
-	 * @return the requestFile
+	 * @return the requestFileId
 	 */
 	
-	public File getRequestFile() {
-		return requestFile;
+	public long getRequestFileId() {
+		return requestFileId;
 	}
 
 	/**
-	 * @param requestFile the requestFile to set
+	 * @param requestFileId the requestFileId to set
 	 */
 	
-	public void setRequestFile(File requestFile) {
-		this.requestFile = requestFile;
+	public void setRequestFileId(long requestFileId) {
+		this.requestFileId = requestFileId;
 	}
 
 	/**
-	 * @return the fileLocation
+	 * @return the requestFileLocation
 	 */
 	
-	public String getFileLocation() {
-		return fileLocation;
+	public String getRequestFileLocation() {
+		return requestFileLocation;
 	}
 
 	/**
-	 * @param fileLocation the fileLocation to set
+	 * @param requestFileLocation the requestFileLocation to set
 	 */
 	
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
+	public void setRequestFileLocation(String requestFileLocation) {
+		this.requestFileLocation = requestFileLocation;
 	}
 
 	/**
@@ -93,19 +93,19 @@ public class Request {
 	}
 
 	/**
-	 * @return the requestStatusUpdated
+	 * @return the requestUpdated
 	 */
 	
-	public Date getRequestStatusUpdated() {
-		return requestStatusUpdated;
+	public Date getRequestUpdated() {
+		return requestUpdated;
 	}
 
 	/**
-	 * @param requestStatusUpdated the requestStatusUpdated to set
+	 * @param requestUpdated the requestUpdated to set
 	 */
 	
-	public void setRequestStatusUpdated(Date requestStatusUpdated) {
-		this.requestStatusUpdated = requestStatusUpdated;
+	public void setRequestUpdated(Date requestUpdated) {
+		this.requestUpdated = requestUpdated;
 	}
 
 	/**
