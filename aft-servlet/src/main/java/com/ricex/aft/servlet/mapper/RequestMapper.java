@@ -19,6 +19,7 @@ public interface RequestMapper {
 	 * @param deviceUid The unique id of the device
 	 * @return List of requests
 	 */
+	
 	public List<Request> getRequestsForDevice(long deviceUid);
 	
 	/** Returns a list of all new requests to be processed by the device

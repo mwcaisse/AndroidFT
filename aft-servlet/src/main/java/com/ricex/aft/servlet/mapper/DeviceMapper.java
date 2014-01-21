@@ -18,6 +18,7 @@ public interface DeviceMapper {
 	 * 
 	 * @return list of devices
 	 */
+	
 	public List<Device> getAllDevices();
 	
 	/** Returns the device with the given UID

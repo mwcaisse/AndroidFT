@@ -15,6 +15,7 @@ import com.ricex.aft.servlet.mapper.DeviceMapper;
  */
 public enum DeviceManager {
 
+	/** The singleton instance */
 	INSTANCE;
 	
 	/** The device mapper that will be used to fetch data from the database */
