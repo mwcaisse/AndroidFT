@@ -29,8 +29,8 @@ public class RequestController {
 	 * 
 	 * @param deviceId The unique id of the device
 	 */
-	@RequestMapping(value="/all/{deviceId}", method= RequestMethod.GET)
-	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable long deviceId) {
+	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET)
+	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable long deviceUid) {
 		return null;
 	}
 	
@@ -39,8 +39,8 @@ public class RequestController {
 	 * @param deviceId The unique id of the device
 	 */
 	
-	@RequestMapping(value="/new/{deviceId}", method= RequestMethod.GET)
-	public @ResponseBody List<Request> getNewRequestsForDevice(long deviceId) {
+	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET)
+	public @ResponseBody List<Request> getNewRequestsForDevice(long deviceUid) {
 		return null;
 	}
 	
