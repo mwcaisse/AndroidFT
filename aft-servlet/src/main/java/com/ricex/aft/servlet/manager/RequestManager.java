@@ -44,7 +44,7 @@ public enum RequestManager {
 		
 		//print out the request status to see if they are being populated
 		for (Request request : requests) {
-			log.debug("Request Status is: " + request.getRequestStatus().name());
+			log.debug("Request Status is: " + request.getRequestStatus());
 		}
 		
 		return requests;
