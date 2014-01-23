@@ -12,16 +12,21 @@
 		<result property="requestFileId" column="REQ_FILE_ID" />
 		<result property="requestStatus" column="REQ_STATUS" />
 		<result property="requestUpdated" column="REQ_UPD" />
-		<association property="requestDevice" column="REQ_DEVICE_ID" javaType="Device" select="com.ricex.sft.servlet.mapper.DeviceMapper.getDevice" />
+		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.sft.servlet.mapper.DeviceMapper.getDevice" />
 
 	</resultMap>
 
 	<!-- Select all requests for a specific device -->
 	<select id="getAllRequestsForDevice" parameterType="long" resultMap="requestResultMap">
-		SELECT * FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
+		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
 		WHERE DEVICE.DEV_UID = #{deviceUid} 
 	</select>
 
+	<!-- Select all requests for a specific device with a specific status -->
+	<select id="getRequestsForDeviceWithStatus" resultMap="requestResultMap">
+		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
+		WHERE DEVICE.DEV_UID = #{deviceUid} AND REQUEST.REQ_STATUS = #{status}
+	</select>
 	
 	<!-- Update a request -->
 	<update id="updateRequest">
