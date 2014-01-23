@@ -5,6 +5,8 @@
 	
 <mapper namespace="com.ricex.aft.servlet.mapper.RequestMapper">
 
+	<cache/>
+
 	<!-- Device result map -->
 	<resultMap id="requestResultMap" type="Request">
 		<id property="requestId" column="REQ_ID" />		

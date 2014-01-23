@@ -1,12 +1,14 @@
 package com.ricex.aft.servlet.entity;
 
+import java.io.Serializable;
+
 /** Represents an android device
  * 
  * @author Mitchell Caisse
  *
  */
 
-public class Device {
+public class Device implements Serializable {
 	
 	/** The id of this device */
 	private long deviceId;

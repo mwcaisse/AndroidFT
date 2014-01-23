@@ -1,5 +1,6 @@
 package com.ricex.aft.servlet.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /** A request to send a given file to a specified device
@@ -8,7 +9,7 @@ import java.util.Date;
  *
  */
 
-public class Request {
+public class Request implements Serializable {
 	
 	/** The id of this update request */
 	private long requestId;

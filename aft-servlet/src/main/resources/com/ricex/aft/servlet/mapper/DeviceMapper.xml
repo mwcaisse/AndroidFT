@@ -5,6 +5,8 @@
 	
 <mapper namespace="com.ricex.aft.servlet.mapper.DeviceMapper">
 
+	<cache/>
+
 	<!-- Device result map -->
 	<resultMap id="deviceResultMap" type="Device">
 		<id property="deviceId" column="DEV_ID" />

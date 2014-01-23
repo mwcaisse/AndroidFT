@@ -3,6 +3,7 @@
  */
 package com.ricex.aft.servlet.entity;
 
+
 /**
  *  The status of a request
  * 

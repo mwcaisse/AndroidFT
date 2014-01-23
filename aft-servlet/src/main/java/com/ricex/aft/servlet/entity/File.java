@@ -3,13 +3,15 @@
  */
 package com.ricex.aft.servlet.entity;
 
+import java.io.Serializable;
+
 /** Represents a file that will be sent over to a device
  * 
  * @author Mitchell Caisse
  *
  *
  */
-public class File {
+public class File implements Serializable {
 
 	/** The id of this file */
 	private long fileId;
