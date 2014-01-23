@@ -46,7 +46,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET)
-	public @ResponseBody List<Request> getNewRequestsForDevice(long deviceUid) {
+	public @ResponseBody List<Request> getNewRequestsForDevice(@PathVariable long deviceUid) {
 		return requestManager.getNewRequestsForDevice(deviceUid);
 	}
 	

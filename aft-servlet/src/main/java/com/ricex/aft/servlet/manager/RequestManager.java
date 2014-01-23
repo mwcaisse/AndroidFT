@@ -5,6 +5,9 @@ package com.ricex.aft.servlet.manager;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ricex.aft.servlet.entity.Request;
 import com.ricex.aft.servlet.entity.RequestStatus;
 import com.ricex.aft.servlet.mapper.RequestMapper;
@@ -14,9 +17,12 @@ import com.ricex.aft.servlet.mapper.RequestMapper;
  *
  */
 public enum RequestManager {
-
+	
 	/** The singleton instance */
 	INSTANCE;
+	
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(RequestManager.class);
 	
 	/** The request mapper that will be used to fetch requests from the database */
 	private RequestMapper requestMapper;
@@ -34,7 +40,14 @@ public enum RequestManager {
 	 */
 	
 	public List<Request> getRequestsForDevice(long deviceUid) {
-		return requestMapper.getRequestsForDevice(deviceUid);
+		List<Request> requests = requestMapper.getRequestsForDevice(deviceUid);
+		
+		//print out the request status to see if they are being populated
+		for (Request request : requests) {
+			log.debug("Request Status is: " + request.getRequestStatus().name());
+		}
+		
+		return requests;
 	}
 	
 	/** Returns a list of unprocessed requests for the specified device

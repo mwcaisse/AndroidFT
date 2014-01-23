@@ -35,12 +35,25 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
+	<!-- Request Mapper -->
+	<bean id="requestMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.ricex.aft.servlet.mapper.RequestMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
 	
 	<!--  Manager Declaration, injects mappers into manager singletons -->
 	
+	<!-- Device Manager -->
 	<bean id="deviceManager" class="com.ricex.aft.servlet.manager.DeviceManager" factory-method="valueOf">
 		<constructor-arg value="INSTANCE"/>
 		<property name="deviceMapper" ref="deviceMapper" />
+	</bean>
+	
+	<!-- Request Manager -->
+	<bean id="requestManager" class="com.ricex.aft.servlet.manager.RequestManager" factory-method="valueOf">
+		<constructor-arg value="INSTANCE" />
+		<property name="requestMapper" ref="requestMapper" />
 	</bean>
 	
 </beans>

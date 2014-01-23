@@ -12,12 +12,12 @@
 		<result property="requestFileId" column="REQ_FILE_ID" />
 		<result property="requestStatus" column="REQ_STATUS" />
 		<result property="requestUpdated" column="REQ_UPD" />
-		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.sft.servlet.mapper.DeviceMapper.getDevice" />
+		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDevice" />
 
 	</resultMap>
 
 	<!-- Select all requests for a specific device -->
-	<select id="getAllRequestsForDevice" parameterType="long" resultMap="requestResultMap">
+	<select id="getRequestsForDevice" parameterType="long" resultMap="requestResultMap">
 		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
 		WHERE DEVICE.DEV_UID = #{deviceUid} 
 	</select>
@@ -25,23 +25,23 @@
 	<!-- Select all requests for a specific device with a specific status -->
 	<select id="getRequestsForDeviceWithStatus" resultMap="requestResultMap">
 		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
-		WHERE DEVICE.DEV_UID = #{deviceUid} AND REQUEST.REQ_STATUS = #{status}
+		WHERE DEVICE.DEV_UID = #{deviceUid} AND REQUEST.REQ_STAT = #{status}
 	</select>
 	
 	<!-- Update a request -->
 	<update id="updateRequest">
 		UPDATE REQUEST SET
-			REQ_DEVICE_ID = #{requestDevice.deviceId},
+			REQ_DEV_ID = #{requestDevice.deviceId},
 			REQ_FILE_LOC = #{requestFileLocation},
 			REQ_FILE_ID = #{requestFileId},
-			REQ_STATUS = #{requestStatus}
+			REQ_STAT = #{requestStatus}
 		WHERE REQ_ID = #{requestId}
 	</update>
 		
 
 	<!-- Insert a new request -->
 	<insert id="createRequest" useGeneratedKeys="true" keyProperty="requestId">
-		INSERT INTO REQUEST (REQ_DEVICE_ID, REQ_FILE_LOC, REQ_FILE_ID, REQ_STATUS)
+		INSERT INTO REQUEST (REQ_DEV_ID, REQ_FILE_LOC, REQ_FILE_ID, REQ_STAT)
 		VALUES (#{requestDevice.deviceId}, #{requestFileLocation}, #{requestFileId}, #{requestStatus})
 	</insert>
 	
