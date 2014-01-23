@@ -7,36 +7,36 @@
 
 	<!-- Device result map -->
 	<resultMap id="requestResultMap" type="Request">
-		<id property="requestId" column="REQUEST_ID" />		
-		<result property="requestFileLocation" column="REQUEST_FILE_LOC" />
-		<result property="requestFileId" column="REQUEST_FILE_ID" />
-		<result property="requestStatus" column="REQUEST_STATUS" />
-		<result property="requestUpdated" column="REQUEST_UPD" />
-		<association property="requestDevice" column="REQUEST_DEVICE_ID" javaType="Device" select="com.ricex.sft.servlet.mapper.DeviceMapper.getDevice" />
+		<id property="requestId" column="REQ_ID" />		
+		<result property="requestFileLocation" column="REQ_FILE_LOC" />
+		<result property="requestFileId" column="REQ_FILE_ID" />
+		<result property="requestStatus" column="REQ_STATUS" />
+		<result property="requestUpdated" column="REQ_UPD" />
+		<association property="requestDevice" column="REQ_DEVICE_ID" javaType="Device" select="com.ricex.sft.servlet.mapper.DeviceMapper.getDevice" />
 
 	</resultMap>
 
 	<!-- Select all requests for a specific device -->
 	<select id="getAllRequestsForDevice" parameterType="long" resultMap="requestResultMap">
-		SELECT * FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQUEST_DEVICE_ID = DEVICE.DEVICE_ID
-		WHERE DEVICE.DEVICE_UID = #{deviceUid} 
+		SELECT * FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
+		WHERE DEVICE.DEV_UID = #{deviceUid} 
 	</select>
 
 	
 	<!-- Update a request -->
 	<update id="updateRequest">
 		UPDATE REQUEST SET
-			REQUEST_DEVICE_ID = #{requestDevice.deviceId},
-			REQUEST_FILE_LOC = #{requestFileLocation},
-			REQUEST_FILE_ID = #{requestFileId},
-			REQUEST_STATUS = #{requestStatus}
-		WHERE REQUEST_ID = #{requestId}
+			REQ_DEVICE_ID = #{requestDevice.deviceId},
+			REQ_FILE_LOC = #{requestFileLocation},
+			REQ_FILE_ID = #{requestFileId},
+			REQ_STATUS = #{requestStatus}
+		WHERE REQ_ID = #{requestId}
 	</update>
 		
 
 	<!-- Insert a new request -->
 	<insert id="createRequest" useGeneratedKeys="true" keyProperty="requestId">
-		INSERT INTO REQUEST (REQUEST_DEVICE_ID, REQUEST_FILE_LOC, REQUEST_FILE_ID, REQUEST_STATUS)
+		INSERT INTO REQUEST (REQ_DEVICE_ID, REQ_FILE_LOC, REQ_FILE_ID, REQ_STATUS)
 		VALUES (#{requestDevice.deviceId}, #{requestFileLocation}, #{requestFileId}, #{requestStatus})
 	</insert>
 	

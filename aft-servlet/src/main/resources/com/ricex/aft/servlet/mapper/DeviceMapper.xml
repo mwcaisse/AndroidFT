@@ -7,14 +7,14 @@
 
 	<!-- Device result map -->
 	<resultMap id="deviceResultMap" type="Device">
-		<id property="deviceId" column="DEVICE_ID" />
-		<result property="deviceUid" column="DEVICE_UID" />
-		<result property="deviceName" column="DEVICE_NAME"/>
+		<id property="deviceId" column="DEV_ID" />
+		<result property="deviceUid" column="DEV_UID" />
+		<result property="deviceName" column="DEV_NAME"/>
 	</resultMap>
 
 	<!-- select a single device -->
 	<select id="getDevice" resultMap="deviceResultMap">
-		SELECT * FROM DEVICE WHERE DEVICE_ID = #{deviceId}
+		SELECT * FROM DEVICE WHERE DEV_ID = #{deviceId}
 	</select>
 
 	<!--  selects all devices -->
@@ -23,20 +23,20 @@
 	</select>
 	
 	<select id="getDeviceUid" parameterType="long" resultMap="deviceResultMap">
-		SELECT * FROM DEVICE WHERE DEVICE_UID = #{deviceUid}
+		SELECT * FROM DEVICE WHERE DEV_UID = #{deviceUid}
 	</select>
 	
 	<!-- Updates the device in the param -->
 	<update id="updateDevice">
 		UPDATE DEVICE SET
-			DEVICE_NAME = #{deviceName},
-			DEVICE_UID = #{deviceUid}
-		WHERE DEVICE_ID = #{deviceId}
+			DEV_NAME = #{deviceName},
+			DEV_UID = #{deviceUid}
+		WHERE DEV_ID = #{deviceId}
 	</update>
 	
 	<!-- Inserts the device in the param -->
 	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
-		INSERT INTO DEVICE (DEVICE_UID, DEVICE_NAME)
+		INSERT INTO DEVICE (DEV_UID, DEV_NAME)
 		VALUES (#{deviceUid}, #{deviceName})
 	</insert>
 	
