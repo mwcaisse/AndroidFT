@@ -6,6 +6,7 @@ package com.ricex.aft.servlet.manager;
 import java.util.List;
 
 import com.ricex.aft.servlet.entity.Request;
+import com.ricex.aft.servlet.entity.RequestStatus;
 import com.ricex.aft.servlet.mapper.RequestMapper;
 
 /**
@@ -43,7 +44,7 @@ public enum RequestManager {
 	 */
 	
 	public List<Request> getNewRequestsForDevice(long deviceUid) {
-		return requestMapper.getNewRequestsForDevice(deviceUid);
+		return requestMapper.getRequestsForDeviceWithStatus(deviceUid, RequestStatus.NEW);
 	}
 	
 	/** Saves the given request, and returns the ID of the new request
