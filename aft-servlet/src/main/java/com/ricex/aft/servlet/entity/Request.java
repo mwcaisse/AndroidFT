@@ -29,6 +29,14 @@ public class Request implements Serializable {
 	/** The device that this request is associated with */
 	private Device requestDevice;
 
+	/** Creates a new request
+	 *  Initializes the request with a request status of NEW
+	 */
+	
+	public Request() {
+		requestStatus = RequestStatus.NEW;
+	}
+	
 	/**
 	 * @return the requestId
 	 */
