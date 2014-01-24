@@ -2,12 +2,15 @@ package com.ricex.aft.servlet.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.ricex.aft.servlet.entity.Request;
 import com.ricex.aft.servlet.manager.RequestManager;
 
@@ -24,6 +27,9 @@ import com.ricex.aft.servlet.manager.RequestManager;
 @RequestMapping("/request")
 public class RequestController {
 
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(RequestController.class);
+	
 	/** The request manager to fetch and update requests */
 	private RequestManager requestManager;
 	
@@ -57,7 +63,9 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long createRequest(Request request) {
+	public @ResponseBody long createRequest(Request request) {		
+		Gson gson = new Gson();		
+		log.debug("RequestController revceived request to create request: " + gson.toJson(request));		
 		return requestManager.createRequest(request);
 	}
 	
