@@ -12,7 +12,7 @@
 		<id property="requestId" column="REQ_ID" />		
 		<result property="requestFileLocation" column="REQ_FILE_LOC" />
 		<result property="requestFileId" column="REQ_FILE_ID" />
-		<result property="requestStatus" column="REQ_STATUS" />
+		<result property="requestStatus" column="REQ_STAT" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<result property="requestUpdated" column="REQ_UPD" />
 		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDevice" />
 

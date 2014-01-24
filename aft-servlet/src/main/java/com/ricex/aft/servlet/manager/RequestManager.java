@@ -40,14 +40,7 @@ public enum RequestManager {
 	 */
 	
 	public List<Request> getRequestsForDevice(long deviceUid) {
-		List<Request> requests = requestMapper.getRequestsForDevice(deviceUid);
-		
-		//print out the request status to see if they are being populated
-		for (Request request : requests) {
-			log.debug("Request Status is: " + request.getRequestStatus());
-		}
-		
-		return requests;
+		return requestMapper.getRequestsForDevice(deviceUid);
 	}
 	
 	/** Returns a list of unprocessed requests for the specified device
