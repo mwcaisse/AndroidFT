@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.servlet.manager.FileManager;
@@ -31,22 +32,36 @@ public class FileController {
 		fileManager = FileManager.INSTANCE;
 	}
 	
-	/** Retreives the file with the given id
+	/** Retreives the contents of the file with the given id
 	 * 
 	 * @param fileId The id of the file to fetch
+	 * @return The raw bytes of the file
 	 */
-	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody byte[] getFile(@PathVariable long fileId) {
 		return fileManager.getFile(fileId).getFileContents();
 	}
 	
-	/** Uploads the given file, and assigns it an id
+	/** Retreives the name of the file with the given id
 	 * 
+	 * @param fileId The id of the file to fetch
+	 * @return The name of the file
+	 */
+	
+	@RequestMapping(value = "/name/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody String getFileName(@PathVariable long fileId) {
+		return fileManager.getFile(fileId).getFileName();
+	}
+	
+	/** Uploads the given file, and assigns it an id
+	 * * 
+	 * @param fileContents The contents of the file to upload
+	 * @param fileName The name of the file
 	 * @return The id of the uploaded file
 	 */
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long createFile(@RequestBody byte[] fileContents) {
-		return fileManager.createFile(fileContents);
+	public @ResponseBody long createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
+		return fileManager.createFile(fileContents,fileName);
 	}
 }

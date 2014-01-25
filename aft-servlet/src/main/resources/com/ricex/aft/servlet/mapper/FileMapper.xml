@@ -12,6 +12,7 @@
 	<resultMap id="fileResultMap" type="File">
 		<id property="fileId" column="FILE_ID" />
 		<result property="fileContents" column="FILE_VAL" />
+		<result property="fileName" column="FILE_NAME" />
 	</resultMap>
 	
 	<!-- Retreives the specified file from the database -->
@@ -22,8 +23,8 @@
 	
 	<!-- Inserts a new file into the database -->
 	<insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
-		INSERT INTO FILE (FILE_VAL)
-		VALUES (#{fileContents})
+		INSERT INTO FILE (FILE_VAL, FILE_NAME)
+		VALUES (#{fileContents}, #{fileName})
 	</insert>
 	
 	<!--  Deletes the file contents from the database -->

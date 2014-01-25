@@ -32,12 +32,14 @@ public enum FileManager {
 	/** Creates a new file with the specified contents
 	 * 
 	 * @param fileContents The contents of the file
+	 * @param fileName The name of the file
 	 * @return The id of the new file
 	 */
 	
-	public long createFile(byte[] fileContents) {
+	public long createFile(byte[] fileContents, String fileName) {
 		File file = new File();
 		file.setFileContents(fileContents);
+		file.setFileName(fileName);
 		fileMapper.saveFile(file);
 		return file.getFileId();
 	}

@@ -18,7 +18,10 @@ public class File implements Serializable {
 	
 	/** The file contents */
 	private byte[] fileContents;
-
+	
+	/** The name of the file */
+	private String fileName;
+	
 	/**
 	 * @return the fileId
 	 */
@@ -50,5 +53,21 @@ public class File implements Serializable {
 	public void setFileContents(byte[] fileContents) {
 		this.fileContents = fileContents;
 	}
-		
+
+	/**
+	 * @return the fileName
+	 */
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}	
+	
 }
