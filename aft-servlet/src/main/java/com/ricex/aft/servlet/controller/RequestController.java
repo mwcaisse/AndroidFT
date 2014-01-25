@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,9 +64,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long createRequest(Request request) {		
-		Gson gson = new Gson();		
-		log.debug("RequestController revceived request to create request: " + gson.toJson(request));		
+	public @ResponseBody long createRequest(@RequestBody Request request) {			
 		return requestManager.createRequest(request);
 	}
 	
@@ -77,7 +76,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
-	public @ResponseBody long updateRequest(Request request) {
+	public @ResponseBody long updateRequest(@RequestBody Request request) {
 		return requestManager.updateRequest(request);
 	}
 	
