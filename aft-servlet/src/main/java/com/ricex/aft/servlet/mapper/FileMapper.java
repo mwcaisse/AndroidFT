@@ -3,7 +3,7 @@
  */
 package com.ricex.aft.servlet.mapper;
 
-import com.ricex.aft.servlet.entity.File;
+import com.ricex.aft.common.entity.File;
 
 /** Mapper Interface for fetching files from the database
  * 

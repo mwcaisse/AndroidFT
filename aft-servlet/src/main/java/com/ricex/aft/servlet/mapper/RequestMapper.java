@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ricex.aft.servlet.entity.Request;
-import com.ricex.aft.servlet.entity.RequestStatus;
+import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.entity.RequestStatus;
 
 /** Request Mapper for fetching requests from the database
  * 

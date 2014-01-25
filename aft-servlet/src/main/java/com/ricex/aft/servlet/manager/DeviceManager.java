@@ -5,7 +5,7 @@ package com.ricex.aft.servlet.manager;
 
 import java.util.List;
 
-import com.ricex.aft.servlet.entity.Device;
+import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 
 /** Device Manager, responsible for polling the Mapper/Database for information on devices

@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.ricex.aft.servlet.entity.Request;
+import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.servlet.manager.RequestManager;
 
 /**

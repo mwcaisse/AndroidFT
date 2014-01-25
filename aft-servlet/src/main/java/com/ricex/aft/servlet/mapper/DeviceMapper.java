@@ -5,7 +5,7 @@ package com.ricex.aft.servlet.mapper;
 
 import java.util.List;
 
-import com.ricex.aft.servlet.entity.Device;
+import com.ricex.aft.common.entity.Device;
 
 /** MyBatis Mapper for devices
  * 

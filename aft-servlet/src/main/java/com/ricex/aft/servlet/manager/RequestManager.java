@@ -8,8 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ricex.aft.servlet.entity.Request;
-import com.ricex.aft.servlet.entity.RequestStatus;
+import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.servlet.mapper.RequestMapper;
 
 /**

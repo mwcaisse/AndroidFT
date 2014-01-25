@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.servlet.entity;
+package com.ricex.aft.common.entity;
 
 
 /**

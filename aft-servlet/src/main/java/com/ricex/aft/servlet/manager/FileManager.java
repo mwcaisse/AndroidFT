@@ -3,7 +3,7 @@
  */
 package com.ricex.aft.servlet.manager;
 
-import com.ricex.aft.servlet.entity.File;
+import com.ricex.aft.common.entity.File;
 import com.ricex.aft.servlet.mapper.FileMapper;
 
 /**
