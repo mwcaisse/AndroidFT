@@ -42,7 +42,7 @@ public class RequestController {
 	 * 
 	 * @param deviceId The unique id of the device
 	 */
-	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET)
+	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable long deviceUid) {
 		return requestManager.getRequestsForDevice(deviceUid);
 	}
@@ -52,7 +52,7 @@ public class RequestController {
 	 * @param deviceId The unique id of the device
 	 */
 	
-	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET)
+	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Request> getNewRequestsForDevice(@PathVariable long deviceUid) {
 		return requestManager.getNewRequestsForDevice(deviceUid);
 	}

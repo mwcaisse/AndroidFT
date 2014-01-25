@@ -35,7 +35,7 @@ public class FileController {
 	 * 
 	 * @param fileId The id of the file to fetch
 	 */
-	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody byte[] getFile(@PathVariable long fileId) {
 		return fileManager.getFile(fileId).getFileContents();
 	}
@@ -45,7 +45,7 @@ public class FileController {
 	 * @return The id of the uploaded file
 	 */
 	
-	@RequestMapping(value = "/upload/", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload/", method = RequestMethod.POST, consumes={"application/json"})
 	public long createFile(@RequestBody byte[] fileContent) {
 		return 0;
 	}
