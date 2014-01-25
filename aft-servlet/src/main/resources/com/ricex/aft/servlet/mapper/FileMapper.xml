@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.DeviceMapper">
+
+	<!-- Use cache -->
+	<cache/>
+
+	<!-- File result map -->
+	<resultMap id="fileResultMap" type="File">
+		<id property="fileId" column="FILE_ID" />
+		<result property="fileContents" column="FILE_VAL" />
+	</resultMap>
+	
+	<!-- Retreives the specified file from the database -->
+	<select id="getFile" resultMap="fileResultMap">
+		SELECT * FROM FILE
+		WHERE FILE_ID = #{fileId}
+	</select>
+	
+	<!-- Inserts a new file into the database -->
+	<insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
+		INSERT INTO FILE (FILE_VAL)
+		VALUES (#{fileContents})
+	</insert>
+	
+	<!--  Deletes the file contents from the database -->
+	<update id="deleteFile">
+		UPDATE FILE SET
+			FILE_VAL = null
+		WHERE FILE_ID = #{fileId}
+	</update>
+</mapper>

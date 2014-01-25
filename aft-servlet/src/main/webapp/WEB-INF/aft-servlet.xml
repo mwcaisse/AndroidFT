@@ -41,6 +41,12 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
+	<!-- File Mapper -->
+	<bean id="fileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.ricex.aft.servlet.mapper.FileMapper"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
 	
 	<!--  Manager Declaration, injects mappers into manager singletons -->
 	
@@ -55,5 +61,12 @@
 		<constructor-arg value="INSTANCE" />
 		<property name="requestMapper" ref="requestMapper" />
 	</bean>
+	
+	<!-- File Manager -->
+	<bean id="fileManager" class="com.ricex.aft.servlet.manager.FileManager" factory-method="valueOf">
+		<constructor-arg value="INSTANCE" />
+		<property name="fileMapper" ref="fileMapper" />
+	</bean>
+	
 	
 </beans>

@@ -10,7 +10,8 @@ import org.apache.ibatis.annotations.Param;
 import com.ricex.aft.servlet.entity.Request;
 import com.ricex.aft.servlet.entity.RequestStatus;
 
-/**
+/** Request Mapper for fetching requests from the database
+ * 
  * @author Mitchell Caisse
  *
  */

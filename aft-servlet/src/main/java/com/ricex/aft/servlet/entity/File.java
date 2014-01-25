@@ -16,9 +16,39 @@ public class File implements Serializable {
 	/** The id of this file */
 	private long fileId;
 	
-	/** The location of the file on disk,
-	 * TODO: Not sure if this will be a path, or a file itself.
+	/** The file contents */
+	private byte[] fileContents;
+
+	/**
+	 * @return the fileId
 	 */
-	private String fileLocation;
 	
+	public long getFileId() {
+		return fileId;
+	}
+
+	/**
+	 * @param fileId the fileId to set
+	 */
+	
+	public void setFileId(long fileId) {
+		this.fileId = fileId;
+	}
+
+	/**
+	 * @return the fileContents
+	 */
+	
+	public byte[] getFileContents() {
+		return fileContents;
+	}
+
+	/**
+	 * @param fileContents the fileContents to set
+	 */
+	
+	public void setFileContents(byte[] fileContents) {
+		this.fileContents = fileContents;
+	}
+		
 }
