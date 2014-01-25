@@ -45,8 +45,8 @@ public class FileController {
 	 * @return The id of the uploaded file
 	 */
 	
-	@RequestMapping(value = "/upload/", method = RequestMethod.POST, consumes={"application/json"})
-	public long createFile(@RequestBody byte[] fileContent) {
-		return 0;
+	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
+	public @ResponseBody long createFile(@RequestBody byte[] fileContents) {
+		return fileManager.createFile(fileContents);
 	}
 }
