@@ -1,6 +1,7 @@
 package com.ricex.aft.common.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /** Represents an android device
  * 
@@ -18,6 +19,9 @@ public class Device implements Serializable {
 	
 	/** The name of this device */
 	private String deviceName;
+	
+	/** The requests associated with this device */
+	private List<Request> requests;
 
 	/**
 	 * @return the deviceId
@@ -65,9 +69,21 @@ public class Device implements Serializable {
 	public void setDeviceUid(long deviceUid) {
 		this.deviceUid = deviceUid;
 	}
+
+	/**
+	 * @return the requests
+	 */
 	
+	public List<Request> getRequests() {
+		return requests;
+	}
+
+	/**
+	 * @param requests the requests to set
+	 */
 	
-	
-	
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
+	}	
 	
 }
