@@ -2,9 +2,13 @@
 	<head>
 		<title>Android File Transfer</title>
 		
+		<!-- BootStrap meta -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!--  scripts -->
-		<script src="script/backbone-1.1.0.js"></script>
-		<script src="script/jquery-2.1.0.js"></script>
+		<script src="js/jquery-2.1.0.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<!-- css -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
 	</head>
 	
 	<body>
@@ -12,7 +16,24 @@
 			<h1 style="text-align:center;">Requests</h1>
 		</div>
 		<div>
-			<h1 style="text-align:center;">New Request</h1>
+			<h1 style="">New Request</h1>
+			
+			<form id="requestForm">
+				<table border="1" >
+				
+					<tr>
+						<td>File: </td><td><input type="text" name="requestFile"></td>
+					</tr>
+					<tr>
+						<td>Location: </td><td><input type="text" name="requestLocation"></td>
+					</tr>
+						<td>Device: </td><td><input type="text" name="requestDevice"> </td>
+					<tr>
+						<td></td><td><input type="submit" value="Create"></td>
+					</tr>
+					
+				</table>
+			</form>
 		</div>
 	</body>
 </html>
