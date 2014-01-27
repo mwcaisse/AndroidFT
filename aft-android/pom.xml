@@ -49,6 +49,14 @@
 	    	<version>0.0.1-SNAPSHOT</version>
 	    </dependency>
 	    
+	    <!-- Google Play Services -->
+	    <dependency>
+		  <groupId>com.google.android.gms</groupId>
+		  <artifactId>google-play-services</artifactId>
+		  <version>14.0.0</version>
+		  <type>apklib</type>
+		</dependency>
+	    
 	</dependencies>
     
 </project>
