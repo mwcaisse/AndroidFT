@@ -36,6 +36,10 @@ public class PushFile extends Activity {
 	
 	private static final String LOG_TAG = "PushFile";
 	
+	/**
+	 *  {@inheritDoc}
+	 */
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +56,10 @@ public class PushFile extends Activity {
 		}
 	}
 	
+	/**
+	 *  {@inheritDoc}
+	 */
+	
 	protected void onResume() {
 		super.onResume();
 		//check if google play services is installed, if not quit.
@@ -60,6 +68,10 @@ public class PushFile extends Activity {
 		}
 	}
 
+	/**
+	 *  {@inheritDoc}
+	 */
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -153,6 +165,11 @@ public class PushFile extends Activity {
 			throw new RuntimeException("Could not get package name: " + e);
 		}
 	}
+	
+	/** Launchers a AsyncTask to launch the background process to register the device with Google Cloud Messaging
+	 * 
+	 * @param context The context the app is running in
+	 */
 	
 	private void registerInBackground(final Context context) {
 		new AsyncTask<Object, Object, String>() {
