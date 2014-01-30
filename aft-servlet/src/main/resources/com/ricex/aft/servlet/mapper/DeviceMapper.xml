@@ -12,6 +12,7 @@
 		<id property="deviceId" column="DEV_ID" />
 		<result property="deviceUid" column="DEV_UID" />
 		<result property="deviceName" column="DEV_NAME"/>
+		<result property="deviceRegistrationId" column="DEV_REG_ID" />
 	</resultMap>
 
 	<!-- select a single device -->
@@ -32,14 +33,15 @@
 	<update id="updateDevice">
 		UPDATE DEVICE SET
 			DEV_NAME = #{deviceName},
-			DEV_UID = #{deviceUid}
+			DEV_UID = #{deviceUid},
+			DEV_REG_ID = #{deviceRegistrationId}
 		WHERE DEV_ID = #{deviceId}
 	</update>
 	
 	<!-- Inserts the device in the param -->
 	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
-		INSERT INTO DEVICE (DEV_UID, DEV_NAME)
-		VALUES (#{deviceUid}, #{deviceName})
+		INSERT INTO DEVICE (DEV_UID, DEV_NAME, DEV_REG_ID)
+		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId})
 	</insert>
 	
 </mapper>

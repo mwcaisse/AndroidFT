@@ -60,6 +60,16 @@ public enum DeviceManager {
 		return device.getDeviceId();
 	}	
 	
+	/** Determines if a device with the specified ID exists
+	 * 
+	 * @param device The device with the ID
+	 * @return True if it exists, false if not
+	 */
+	
+	public boolean deviceExists(Device device) {
+		return deviceMapper.getDeviceUid(device.getDeviceUid()) != null;
+	}
+	
 	/** Retrieves the device mapper this manager is using
 	 * @return the deviceMapper
 	 */

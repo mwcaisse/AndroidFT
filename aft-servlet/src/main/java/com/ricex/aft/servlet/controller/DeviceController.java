@@ -58,5 +58,25 @@ public class DeviceController {
 	public @ResponseBody long createDevice(@RequestBody Device device) {
 		return deviceManager.createDevice(device);
 	}
+	
+	/** Registers a device with the given ID
+	 * 
+	 * If a device with the id exists, it will update the device
+	 * If a device with the ID does NOT exist, it will create a new device
+	 * 
+	 * @param device
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={"application/json"})
+	public @ResponseBody long registerDevice(@RequestBody Device device) {		
+		//check if the device exists, if it does update it, otherwise create it
+		if (deviceManager.deviceExists(device)) {
+			return deviceManager.updateDevice(device);
+		}
+		else {
+			return deviceManager.createDevice(device);
+		}	
+	}
 
 }
