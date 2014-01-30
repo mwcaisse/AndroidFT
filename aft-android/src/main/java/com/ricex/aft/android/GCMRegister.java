@@ -117,6 +117,12 @@ public class GCMRegister {
 		return context.getSharedPreferences(PushFile.class.getSimpleName(), Context.MODE_PRIVATE);
 	}
 	
+	/** Gets the application version of the currently running application
+	 * 
+	 * @param context The application context
+	 * @return The application version
+	 */
+	
 	public static int getAppVersion(Context context) {
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
