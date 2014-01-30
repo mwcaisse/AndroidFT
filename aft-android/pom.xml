@@ -32,7 +32,29 @@
 	    </plugins>
 	  </build>
 	  
-	 
+	<properties>
+		<robospice.version>1.4.11</robospice.version>
+		<robospice-spring-android.version>1.4.11</robospice-spring-android.version>
+		<spring-android.version>1.0.0.M2</spring-android.version>
+	</properties>
+	
+	<repositories>
+	    <!-- For testing against latest Spring snapshots -->
+	    <repository>
+	        <id>org.springframework.maven.snapshot</id>
+	        <name>Spring Maven Snapshot Repository</name>
+	        <url>http://maven.springframework.org/snapshot</url>
+	        <releases><enabled>false</enabled></releases>
+	        <snapshots><enabled>true</enabled></snapshots>
+	    </repository>
+	    <!-- For developing against latest Spring milestones -->
+	    <repository>
+	        <id>org.springframework.maven.milestone</id>
+	        <name>Spring Maven Milestone Repository</name>
+	        <url>http://maven.springframework.org/milestone</url>
+	        <snapshots><enabled>false</enabled></snapshots>
+	    </repository>
+	</repositories>
 	 
 	<dependencies>
       
@@ -62,6 +84,27 @@
 		  <artifactId>google-play-services</artifactId>
 		  <version>14.0.0</version>
 		  <type>jar</type>
+		</dependency>
+		
+	     <!-- RoboSpice -->
+	     
+	     <dependency>
+	         <groupId>com.octo.android.robospice</groupId>
+	         <artifactId>robospice</artifactId>
+	         <version>${robospice.version}</version>	         
+	     </dependency>
+	     
+	     <dependency>
+			<groupId>com.octo.android.robospice</groupId>
+			<artifactId>robospice-spring-android</artifactId>
+			<version>${robospice-spring-android.version}</version>
+		</dependency>
+		
+	     <!-- Spring Android -->
+	     <dependency>
+		    <groupId>org.springframework.android</groupId>
+		    <artifactId>spring-android-rest-template</artifactId>
+		    <version>${spring-android.version}</version>
 		</dependency>
 	    
 	</dependencies>
