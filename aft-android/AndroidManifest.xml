@@ -31,14 +31,15 @@
             </intent-filter>
         </activity>
         
-        <receiver android:name=".GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver android:name="com.ricex.aft.android.gcm.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.ricex.aft.android" />
             </intent-filter>
         </receiver>
         
-        <service android:name=".GcmIntentService" />
+        <service android:name="com.ricex.aft.android.gcm.GcmIntentServicevice" />
+        <service android:name="com.ricex.aft.android.spice.JsonSpiceService" android:exported="false" />
         
     </application>
     

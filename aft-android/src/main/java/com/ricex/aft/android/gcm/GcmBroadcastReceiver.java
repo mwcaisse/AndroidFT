@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.android;
+package com.ricex.aft.android.gcm;
 
 import android.app.Activity;
 import android.content.ComponentName;

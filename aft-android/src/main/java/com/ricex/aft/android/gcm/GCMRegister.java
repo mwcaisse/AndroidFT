@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.android;
+package com.ricex.aft.android.gcm;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.ricex.aft.android.PushFile;
 
 /** Utility class for Google Cloud Messaging registration
  * 

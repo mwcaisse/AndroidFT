@@ -1,5 +1,7 @@
 package com.ricex.aft.android;
 
+import com.ricex.aft.android.gcm.GCMRegister;
+
 import android.app.Activity;
 import android.os.Bundle;
 
