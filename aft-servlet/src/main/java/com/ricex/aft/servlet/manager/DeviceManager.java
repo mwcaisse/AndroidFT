@@ -41,12 +41,12 @@ public enum DeviceManager {
 	/** Updates the given device
 	 * 
 	 * @param device The device to update
-	 * @return 1
+	 * @return 0
 	 */
 	
 	public long updateDevice(Device device) {
 		deviceMapper.updateDevice(device);
-		return 1;
+		return 0;
 	}
 
 	/** Adds the given device to the database, and returns the ID of the new device

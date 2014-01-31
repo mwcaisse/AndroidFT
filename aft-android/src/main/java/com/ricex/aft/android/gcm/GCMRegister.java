@@ -11,12 +11,20 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.ricex.aft.android.PushFile;
+import com.ricex.aft.android.request.RegistrationRequest;
+import com.ricex.aft.android.request.listener.RegistrationRequestListener;
+import com.ricex.aft.android.spice.JsonSpiceService;
+import com.ricex.aft.common.entity.Device;
 
 /** Utility class for Google Cloud Messaging registration
  * 
@@ -40,7 +48,11 @@ public class GCMRegister {
 	/** Sender ID for GCM, project number */
 	private static final String SENDER_ID = "";
 	
+	/** The tag to use when creating log entries */
 	private static final String LOG_TAG = "GCMRegister";
+	
+	/** The sprice manager to use to send requests */
+	protected static SpiceManager spiceManager = new SpiceManager(JsonSpiceService.class);
 	
 	/** Check if the device currently has google play services installed
 	 * 
@@ -148,24 +160,47 @@ public class GCMRegister {
 				
 				try {
 					String registrationId = gcm.register(SENDER_ID);
-					msg = "Device registered, registration ID=" + registrationId;
+					msg = registrationId;
 					//send the registration ID to my server
 					
 					//persist the registrationid
 					storeRegistrationId(context, registrationId);
 				}
 				catch (IOException e) {
-					msg = "Error: " + e.getMessage();
+					msg = "";
 				}				
 				return msg;
 			}
 			
 			@Override
 			protected void onPostExecute(String msg) {
-				Log.i(LOG_TAG, "Registration results: " + msg);
+				if (!msg.isEmpty()) {
+					sendRegistrationToServer(msg);
+				}
+				else {
+					Log.i(LOG_TAG, "Registration Failed");
+				}
 			}
 			
 		}.execute(null,null,null);
+	}
+	
+	/** Sends the specified registration id to the server
+	 * 
+	 * @param registrationId The registration id of the device
+	 */
+	
+	private static void sendRegistrationToServer(String registrationId) {		
+		RegistrationRequest request = new RegistrationRequest(createDevice(registrationId));		
+		spiceManager.execute(request, new RegistrationRequestListener());
+	}
+	
+	private static Device createDevice(String registrationId) {
+		Device device = new Device();
+		device.setDeviceRegistrationId(registrationId);
+		device.setDeviceName(Build.MODEL);
+		device.setDeviceUid(Long.parseLong(Settings.Secure.ANDROID_ID, 16));	
+		return device;
 	}
 	
 	/** Stores the given registration ID to the applications {@code SharedPreferences}
