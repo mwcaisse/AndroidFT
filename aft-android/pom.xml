@@ -33,7 +33,7 @@
 	  </build>
 	  -->
 	  <build>
-	    <sourceDirectory>src</sourceDirectory>
+	    <sourceDirectory>src/main/java</sourceDirectory>
 	    <finalName>${project.artifactId}</finalName>
 	    <pluginManagement>
 	      <plugins>
