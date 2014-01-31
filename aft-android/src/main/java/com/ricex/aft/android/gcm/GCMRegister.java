@@ -216,7 +216,6 @@ public class GCMRegister {
 		SharedPreferences.Editor prefsEditor = prefs.edit();
 		prefsEditor.putString(PROPERTY_REG_ID, registrationId);
 		prefsEditor.putInt(PROPERTY_APP_VERSION, appVersion);
-		prefsEditor.commit();
-		
+		prefsEditor.commit();		
 	}
 }

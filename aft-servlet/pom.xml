@@ -34,6 +34,8 @@
       <scope>test</scope>
     </dependency>
     
+    <!-- Aft Common -->
+    
     <dependency>
     	<groupId>com.ricex.aft</groupId>
     	<artifactId>aft-common</artifactId>

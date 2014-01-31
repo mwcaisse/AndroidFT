@@ -9,7 +9,7 @@
 	 <modelVersion>4.0.0</modelVersion>
 	 <artifactId>aft-android</artifactId>
 	 <name>aft-android</name>
-  
+  <!-- 
 	 <build>
 	    <sourceDirectory>src</sourceDirectory>
 	    <resources>
@@ -27,6 +27,33 @@
 	        <configuration>
 	          <source>1.6</source>
 	          <target>1.6</target>
+	        </configuration>
+	      </plugin>
+	    </plugins>
+	  </build>
+	  -->
+	  <build>
+	    <sourceDirectory>src</sourceDirectory>
+	    <finalName>${project.artifactId}</finalName>
+	    <pluginManagement>
+	      <plugins>
+	        <plugin>
+	          <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+	          <artifactId>android-maven-plugin</artifactId>
+	          <version>3.8.2</version>
+	          <extensions>true</extensions>
+	        </plugin>
+	      </plugins>
+	    </pluginManagement>
+	    <plugins>
+	      <plugin>
+	        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+	        <artifactId>android-maven-plugin</artifactId>
+	        <configuration>
+	          <sdk>
+	                        <!-- platform as api level (api level 16 = platform 4.1)-->
+	            <platform>16</platform>
+	          </sdk>
 	        </configuration>
 	      </plugin>
 	    </plugins>
@@ -83,6 +110,7 @@
 		  <groupId>com.google.android.gms</groupId>
 		  <artifactId>google-play-services</artifactId>
 		  <version>14.0.0</version>
+		  <scope>compile</scope>
 		  <type>jar</type>
 		</dependency>
 		
@@ -91,9 +119,9 @@
 	     <dependency>
 	         <groupId>com.octo.android.robospice</groupId>
 	         <artifactId>robospice</artifactId>
-	         <version>${robospice.version}</version>	         
+	         <version>${robospice.version}</version>         
 	     </dependency>
-	     
+	         
 	     <dependency>
 			<groupId>com.octo.android.robospice</groupId>
 			<artifactId>robospice-spring-android</artifactId>

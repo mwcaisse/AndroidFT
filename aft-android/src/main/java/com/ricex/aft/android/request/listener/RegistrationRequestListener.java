@@ -20,7 +20,6 @@ public class RegistrationRequestListener implements RequestListener<Long> {
 	 * {@inheritDoc}
 	 */
 
-	@Override
 	public void onRequestFailure(SpiceException e) {
 		Log.i(LOG_TAG, "Request Failed: " + e.getMessage());
 	}
@@ -29,7 +28,6 @@ public class RegistrationRequestListener implements RequestListener<Long> {
 	 * {@inheritDoc}
 	 */
 	
-	@Override
 	public void onRequestSuccess(Long res) {
 		Log.i(LOG_TAG, "Request Success: " + res);		
 	}
