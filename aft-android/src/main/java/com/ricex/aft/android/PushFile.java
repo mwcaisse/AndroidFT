@@ -25,7 +25,7 @@ public class PushFile extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_file_transfer);
+		setContentView(R.layout.activity_push_file);
 		
 		//check if google play services is installed, if not quit.
 		if (!GCMRegister.checkGooglePlayServices(this)) {
