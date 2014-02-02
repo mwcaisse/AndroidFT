@@ -3,9 +3,13 @@
  */
 package com.ricex.aft.android.gcm;
 
+import android.R;
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -48,6 +52,7 @@ public class GcmIntentService extends IntentService {
 			}
 			else if (messageType.equals(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE)) {
 				Log.i(LOG_TAG, "We received a message, might want to do something..." + extras.toString());
+				showNotification();
 			}
 			else {
 				Log.i(LOG_TAG, "Unreconized message type...");
@@ -55,6 +60,19 @@ public class GcmIntentService extends IntentService {
 		}
 		
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
+	}
+	
+	/** Used to show a notification when we receive a GCM message
+	 * 
+	 */
+	
+	private void showNotification() {
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		builder.setSmallIcon(R.drawable.stat_sys_warning);
+		builder.setContentTitle("PushFile");
+		builder.setContentText("Received a google cloud messaging message");
+		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.notify(1, builder.build()); // note that 1 is always unique
 	}
 
 }
