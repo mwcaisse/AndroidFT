@@ -180,8 +180,18 @@ public class GCMRegister {
 	 * @param registrationId The registration id of the device
 	 */
 	
-	private static void sendRegistrationToServer(String registrationId) {		
-		DeviceRequester.INSTANCE.registerDevice(registrationId);
+	private static void sendRegistrationToServer(final String registrationId) {	
+		new AsyncTask<Object, Object, Boolean>() {
+
+			@Override
+			protected Boolean doInBackground(Object... params) {				
+				boolean res = DeviceRequester.INSTANCE.registerDevice(registrationId);
+				Log.i(LOG_TAG, "Device Registration returned: " + res);
+				return res;				
+			}
+			
+		}.execute(null,null,null);
+
 	}	
 	
 	/** Stores the given registration ID to the applications {@code SharedPreferences}
