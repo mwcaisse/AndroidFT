@@ -68,13 +68,8 @@ public enum DeviceRequester {
 	 */
 	
 	public long getDeviceUID() {
-		try {
-			return Settings.Secure.getLong(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-		} 
-		catch (SettingNotFoundException e) {
-			Log.e("DR", "ANDROID_ID NOT FOUND?!", e);			
-			return -1;
-		}	
+		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		return Long.parseLong(androidId, 16);
 	}
 
 	/**

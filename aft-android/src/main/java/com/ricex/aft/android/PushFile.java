@@ -1,10 +1,12 @@
 package com.ricex.aft.android;
 
-import com.ricex.aft.android.gcm.GCMRegister;
-import com.ricex.aft.android.requester.DeviceRequester;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
+
+import com.ricex.aft.android.gcm.GCMRegister;
+import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Main Activity for PushFile.
  *
@@ -26,10 +28,9 @@ public class PushFile extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_push_file);
-		
+		setContentView(R.layout.activity_push_file);		
 		//set the context of the device requester
-		DeviceRequester.INSTANCE.setContext(this);
+		DeviceRequester.INSTANCE.setContext(getApplicationContext());
 		
 		//check if google play services is installed, if not quit.
 		if (!GCMRegister.checkGooglePlayServices(this)) {
