@@ -48,7 +48,7 @@ public class NotifyRequests implements Runnable {
 		
 		String requestUrl = "https://android.googleapis.com/gcm/send";
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		//restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 		
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String,String>();
 		headers.add("Content-Type","application/json");

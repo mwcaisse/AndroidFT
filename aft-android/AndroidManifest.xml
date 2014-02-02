@@ -38,7 +38,7 @@
             </intent-filter>
         </receiver>
         
-        <service android:name="com.ricex.aft.android.gcm.GcmIntentServicevice" />        
+        <service android:name="com.ricex.aft.android.gcm.GcmIntentService" />        
         <meta-data android:name="com.google.android.gms.version" android:value="4132500" />
         
     </application>
