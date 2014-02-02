@@ -18,12 +18,7 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.ricex.aft.android.PushFile;
-import com.ricex.aft.android.request.RegistrationRequest;
-import com.ricex.aft.android.request.listener.RegistrationRequestListener;
-import com.ricex.aft.android.spice.JsonSpiceService;
 import com.ricex.aft.common.entity.Device;
 
 /** Utility class for Google Cloud Messaging registration
@@ -46,13 +41,10 @@ public class GCMRegister {
 	private static final String PROPERTY_APP_VERSION = "appVersion";
 	
 	/** Sender ID for GCM, project number */
-	private static final String SENDER_ID = "";
+	private static final String SENDER_ID = "439278995325";
 	
 	/** The tag to use when creating log entries */
 	private static final String LOG_TAG = "GCMRegister";
-	
-	/** The sprice manager to use to send requests */
-	protected static SpiceManager spiceManager = new SpiceManager(JsonSpiceService.class);
 	
 	/** Check if the device currently has google play services installed
 	 * 
@@ -191,8 +183,7 @@ public class GCMRegister {
 	 */
 	
 	private static void sendRegistrationToServer(String registrationId) {		
-		RegistrationRequest request = new RegistrationRequest(createDevice(registrationId));		
-		spiceManager.execute(request, new RegistrationRequestListener());
+		//TODO: Reimplement this
 	}
 	
 	private static Device createDevice(String registrationId) {

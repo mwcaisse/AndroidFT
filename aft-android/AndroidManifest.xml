@@ -38,9 +38,7 @@
             </intent-filter>
         </receiver>
         
-        <service android:name="com.ricex.aft.android.gcm.GcmIntentServicevice" />
-        <service android:name="com.ricex.aft.android.spice.JsonSpiceService" android:exported="false" />
-        
+        <service android:name="com.ricex.aft.android.gcm.GcmIntentServicevice" />        
         <meta-data android:name="com.google.android.gms.version" android:value="4132500" />
         
     </application>
