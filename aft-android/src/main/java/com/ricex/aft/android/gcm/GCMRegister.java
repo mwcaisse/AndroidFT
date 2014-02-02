@@ -11,15 +11,13 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.ricex.aft.android.PushFile;
-import com.ricex.aft.common.entity.Device;
+import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Utility class for Google Cloud Messaging registration
  * 
@@ -183,16 +181,8 @@ public class GCMRegister {
 	 */
 	
 	private static void sendRegistrationToServer(String registrationId) {		
-		//TODO: Reimplement this
-	}
-	
-	private static Device createDevice(String registrationId) {
-		Device device = new Device();
-		device.setDeviceRegistrationId(registrationId);
-		device.setDeviceName(Build.MODEL);
-		device.setDeviceUid(Long.parseLong(Settings.Secure.ANDROID_ID, 16));	
-		return device;
-	}
+		DeviceRequester.INSTANCE.registerDevice(registrationId);
+	}	
 	
 	/** Stores the given registration ID to the applications {@code SharedPreferences}
 	 * 

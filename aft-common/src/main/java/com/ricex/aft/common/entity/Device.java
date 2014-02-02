@@ -11,6 +11,11 @@ import java.util.List;
 
 public class Device implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1662169501591956853L;
+
 	/** The id of this device */
 	private long deviceId;
 	

@@ -65,7 +65,7 @@ public class DeviceController {
 	 * If a device with the ID does NOT exist, it will create a new device
 	 * 
 	 * @param device
-	 * @return
+	 * @return 0 if updated, device ID if created
 	 */
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={"application/json"})
