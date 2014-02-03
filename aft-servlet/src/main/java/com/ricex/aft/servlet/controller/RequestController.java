@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.Request;
-import com.ricex.aft.servlet.gcm.NotifyRequests;
+import com.ricex.aft.servlet.gcm.MessageExecutor;
+import com.ricex.aft.servlet.gcm.SyncMessageCommand;
 import com.ricex.aft.servlet.manager.RequestManager;
 
 /**
@@ -69,9 +70,8 @@ public class RequestController {
 		
 		if (requestId > 0) {
 			//we created the request with issue
-			NotifyRequests notify = new NotifyRequests(request.getRequestDevice().getDeviceRegistrationId());
-			Thread notifyThread = new Thread(notify);
-			notifyThread.start();
+			SyncMessageCommand notify = new SyncMessageCommand(request.getRequestDevice().getDeviceRegistrationId());
+			MessageExecutor.INSTANCE.executeNow(notify);
 		}
 		
 		return requestId;

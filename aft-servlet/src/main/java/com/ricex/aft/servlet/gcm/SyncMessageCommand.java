@@ -18,15 +18,15 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ricex.aft.servlet.gcm.entity.SyncMessage;
 
-/** Notify devices that they have requests available
+/** Command to send a SyncMessage to the GCM servers
  * @author Mitchell Caisse
  *
  */
 
-public class NotifyRequests implements Runnable {
+public class SyncMessageCommand implements Runnable {
 
 	/** Logger instance */
-	private static Logger log = LoggerFactory.getLogger(NotifyRequests.class);
+	private static Logger log = LoggerFactory.getLogger(SyncMessageCommand.class);
 	
 	/** The syn message to send */
 	private SyncMessage message;
@@ -36,7 +36,7 @@ public class NotifyRequests implements Runnable {
 	 * @param registrationId The registration id
 	 */
 	
-	public NotifyRequests(String registrationId) {
+	public SyncMessageCommand(String registrationId) {
 		message = new SyncMessage();
 		message.setCollapse_key("requests_available");
 		List<String> registrationIds = new ArrayList<String>();
@@ -82,6 +82,8 @@ public class NotifyRequests implements Runnable {
 		else if (responseCode < 600 && responseCode >= 500) {
 			int retryAfter = Integer.parseInt(response.getHeaders().get("Retry-After").get(0));
 			log.info("Internal Server error, lets try again in " + retryAfter);
+			
+			//TODO: implement a exponential backoff, before we implement a retry policy
 		}
 		else {
 			log.warn("Unhandlded response code: " + response.getStatusCode().toString());
