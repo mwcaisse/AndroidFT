@@ -10,10 +10,10 @@
 	<!-- Device result map -->
 	<resultMap id="requestResultMap" type="Request">
 		<id property="requestId" column="REQ_ID" />		
-		<result property="requestFileLocation" column="REQ_FILE_LOC" />
-		<result property="requestFileId" column="REQ_FILE_ID" />
+		<result property="requestFileLocation" column="REQ_FILE_LOC" />		
 		<result property="requestStatus" column="REQ_STAT" />
 		<result property="requestUpdated" column="REQ_UPD" />
+		<association property="requestFile" column="REQ_FILE_ID"  javaType="File" select="com.ricex.aft.servlet.mapper.RequestMapper.getFile"/>
 		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDevice" />
 
 	</resultMap>
@@ -35,7 +35,7 @@
 		UPDATE REQUEST SET
 			REQ_DEV_ID = #{requestDevice.deviceId},
 			REQ_FILE_LOC = #{requestFileLocation},
-			REQ_FILE_ID = #{requestFileId},
+			REQ_FILE_ID = #{requestFile.fileId}
 			REQ_STAT = #{requestStatus}
 		WHERE REQ_ID = #{requestId}
 	</update>
@@ -44,7 +44,7 @@
 	<!-- Insert a new request -->
 	<insert id="createRequest" useGeneratedKeys="true" keyProperty="requestId">
 		INSERT INTO REQUEST (REQ_DEV_ID, REQ_FILE_LOC, REQ_FILE_ID, REQ_STAT)
-		VALUES (#{requestDevice.deviceId}, #{requestFileLocation}, #{requestFileId}, #{requestStatus})
+		VALUES (#{requestDevice.deviceId}, #{requestFileLocation}, #{requestFile.fileId}, #{requestStatus})
 	</insert>
 	
 </mapper>
