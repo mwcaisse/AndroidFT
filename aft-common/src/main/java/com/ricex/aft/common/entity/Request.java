@@ -14,8 +14,8 @@ public class Request implements Serializable {
 	/** The id of this update request */
 	private long requestId;
 	
-	/** The id of the file that this request will send */
-	private long requestFileId;
+	/** The file that this request will send */
+	private File requestFile;
 	
 	/** String representing the location to save the file on the device */
 	private String requestFileLocation;
@@ -54,19 +54,19 @@ public class Request implements Serializable {
 	}
 
 	/**
-	 * @return the requestFileId
+	 * @return the requestFile
 	 */
 	
-	public long getRequestFileId() {
-		return requestFileId;
+	public File getRequestFile() {
+		return requestFile;
 	}
 
 	/**
-	 * @param requestFileId the requestFileId to set
+	 * @param requestFile the requestFile to set
 	 */
 	
-	public void setRequestFileId(long requestFileId) {
-		this.requestFileId = requestFileId;
+	public void setRequestFile(File requestFile) {
+		this.requestFile = requestFile;
 	}
 
 	/**
