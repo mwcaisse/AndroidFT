@@ -8,7 +8,9 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+
+import com.ricex.aft.client.view.tab.Tab;
+import com.ricex.aft.client.view.tab.TabController;
 
 /**
  *  The Launcher of the AFT Client
@@ -36,8 +38,8 @@ public class AFTClient {
 	/** The Content pane that the frame will be displaying */
 	private JPanel frameContentPane;
 	
-	/** The tabbed pane */
-	private JTabbedPane tabbedPane;
+	/** The tab controller */
+	private TabController tabController;
 	
 	/** Creates an AFT Client which initializes the JFrame + GUI
 	 * 
@@ -65,10 +67,11 @@ public class AFTClient {
 		BorderLayout contentPaneLayout = new BorderLayout();
 		frameContentPane.setLayout(contentPaneLayout);
 		
-		tabbedPane = new JTabbedPane();
-		tabbedPane.add("Devices", new JPanel());
+		tabController = TabController.INSTANCE;
+		//tabController.addTab(new Tab(), "Devices");
+		//tabController.addTab(new Tab(), "Requests");
 		
-		frameContentPane.add(tabbedPane, BorderLayout.CENTER);
+		frameContentPane.add(tabController.getTabbedPane(), BorderLayout.CENTER);
 		
 		frame.setContentPane(frameContentPane);
 	}

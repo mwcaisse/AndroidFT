@@ -94,7 +94,7 @@ public enum TabController {
 		if (index < 0 || index >= tabbedPane.getTabCount()) {
 			return; // Invalid index
 		}
-		Tab toClose = (Tab)tabbedPane.getTabComponentAt(index);
+		Tab toClose = (Tab)tabbedPane.getComponentAt(index);
 		if (toClose.onTabClose()) {
 			tabbedPane.remove(toClose);
 		}

@@ -30,6 +30,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 	private JButton butClose;
 	
 	public ClosableTabComponent(final TabController tabController) {
+		this.tabController = tabController;
 		FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, 0);
 		setLayout(layout);
 		
