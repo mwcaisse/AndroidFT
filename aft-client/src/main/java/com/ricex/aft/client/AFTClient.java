@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.ricex.aft.client.view.DeviceTableView;
+import com.ricex.aft.client.view.RequestTableView;
 import com.ricex.aft.client.view.tab.TabController;
 
 /**
@@ -44,6 +45,9 @@ public class AFTClient {
 	
 	/** The table view for devices */
 	private DeviceTableView deviceTableView;
+	
+	/** The table view for requests */
+	private RequestTableView requestTableView;
 	
 	/** Creates an AFT Client which initializes the JFrame + GUI
 	 * 
@@ -82,8 +86,10 @@ public class AFTClient {
 		tabController = TabController.INSTANCE;		
 		
 		deviceTableView = new DeviceTableView();
+		requestTableView = new RequestTableView();
 		
 		tabController.addTab(deviceTableView, "Devices");
+		tabController.addTab(requestTableView, "Requests");
 		
 		frameContentPane.add(tabController.getTabbedPane(), BorderLayout.CENTER);
 		
