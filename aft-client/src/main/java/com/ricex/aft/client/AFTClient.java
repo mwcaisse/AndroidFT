@@ -8,9 +8,12 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-import com.ricex.aft.client.view.tab.Tab;
+import com.ricex.aft.client.view.DeviceView;
 import com.ricex.aft.client.view.tab.TabController;
+import com.ricex.aft.common.entity.Device;
 
 /**
  *  The Launcher of the AFT Client
@@ -46,6 +49,14 @@ public class AFTClient {
 	 */
 	
 	public AFTClient() {
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} 
+		catch (Exception e) {
+			System.out.println("Failed to set the system look and feel");
+		}
+		
 		initializeWindow();
 		
 	}
@@ -68,6 +79,13 @@ public class AFTClient {
 		frameContentPane.setLayout(contentPaneLayout);
 		
 		tabController = TabController.INSTANCE;
+		
+		Device testDevice = new Device();
+		testDevice.setDeviceName("Droid DNA");
+		testDevice.setDeviceUid(789456);
+		testDevice.setDeviceRegistrationId("RegistrationIdTest784564afd");
+		DeviceView deviceView = new DeviceView(testDevice);
+		tabController.addTab(deviceView, "Device!");
 		//tabController.addTab(new Tab(), "Devices");
 		//tabController.addTab(new Tab(), "Requests");
 		

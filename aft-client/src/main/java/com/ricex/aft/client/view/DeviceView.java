@@ -33,10 +33,10 @@ public class DeviceView extends Tab {
 	
 	
 	/** Vertical padding constant for the SpringLayout */
-	private static final int PADDING_VERTICAL = 10;
+	private static final int PADDING_VERTICAL = 5;
 	
 	/** Vertical padding constant for related, or close, elements in the SpringLayout */
-	private static final int PADDING_VERTICAL_CLOSE = 5;
+	private static final int PADDING_VERTICAL_CLOSE = 10;
 	
 	/** Horizontal padding constant for the Spring Layout */
 	private static final int PADDING_HORIZONTAL = 10;
@@ -71,7 +71,7 @@ public class DeviceView extends Tab {
 	/** TextField for displaying the registration id of the device */
 	private JTextField txtRegistrationId;
 	
-	/** Checkbox for displaying the active status of the device */
+	/** Check box for displaying the active status of the device */
 	private JCheckBox cbxActive;
 	
 	/** Creates a new Device View that will be setup to create a new Device
@@ -80,6 +80,15 @@ public class DeviceView extends Tab {
 	
 	public DeviceView() {
 		this(new Device(), Mode.CREATE);
+	}
+	
+	/** Creates a device view for viewing the given device
+	 * 
+	 * @param device THe device to view
+	 */
+	
+	public DeviceView(Device device) {
+		this(device, Mode.VIEW);
 	}
 	
 	/** Creates a new device mode with the specified device, and the specified mode
@@ -91,13 +100,26 @@ public class DeviceView extends Tab {
 	public DeviceView(Device device, Mode mode) {
 		this.device = device;
 		this.mode = mode;
+		
+		initializeView();
+	}
+	
+	/** Initializes the whole view for the device and adds the components
+	 * 
+	 */
+	
+	protected void initializeView() {
+		initializeLabels();
+		initializeFields();
+		initializeLayout();
+		addComponents();
 	}
 	
 	/** Initializes the values of the labels
 	 * 
 	 */
 	
-	private void initializeLabels() {
+	protected void initializeLabels() {
 		lblName = new JLabel("Name: ");
 		lblUuid = new JLabel("UUID: ");
 		lblRegistrationId = new JLabel("Registration ID: ");
@@ -108,17 +130,22 @@ public class DeviceView extends Tab {
 	 * 
 	 */
 	
-	private void initializeFields() {
+	protected void initializeFields() {
 		txtName = new JTextField();
 		txtUuid = new JTextField();
 		txtRegistrationId = new JTextField();
 		cbxActive = new JCheckBox();
 		
-		if (mode != Mode.CREATE) {
+		if (mode == Mode.VIEW) {
 			txtName.setText(device.getDeviceName());
 			txtUuid.setText(device.getDeviceUid() + "");
 			txtRegistrationId.setText(device.getDeviceRegistrationId());
 			cbxActive.setSelected(true);
+			
+			txtName.setEnabled(false);
+			txtUuid.setEnabled(false);
+			txtRegistrationId.setEnabled(false);
+			cbxActive.setEnabled(false);
 		}
 	}
 	
@@ -126,20 +153,58 @@ public class DeviceView extends Tab {
 	 * 
 	 */
 	
-	private void initialize() {
+	protected void initializeLayout() {
 		SpringLayout layout = new SpringLayout();
 		JPanel panel = this;
 		
 		
-		layout.putConstraint(SpringLayout.WEST, panel, PADDING_HORIZONTAL, SpringLayout.EAST, lblName);
-		layout.putConstraint(SpringLayout.WEST, panel, PADDING_HORIZONTAL, SpringLayout.EAST, lblUuid);
-		layout.putConstraint(SpringLayout.WEST, panel, PADDING_HORIZONTAL, SpringLayout.EAST, lblRegistrationId);
-		layout.putConstraint(SpringLayout.WEST, panel, PADDING_HORIZONTAL, SpringLayout.EAST, lblActive);
+		layout.putConstraint(SpringLayout.WEST, lblName, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblUuid, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblRegistrationId, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblActive, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		
-		layout.putConstraint(SpringLayout.NORTH, panel, PADDING_VERTICAL, SpringLayout.NORTH, txtName);
-		layout.putConstraint(SpringLayout.SOUTH, txtName, PADDING_VERTICAL, SpringLayout.NORTH, txtUuid);
-		layout.putConstraint(SpringLayout.SOUTH, txtUuid, PADDING_VERTICAL, SpringLayout.NORTH, txtRegistrationId);
-		layout.putConstraint(SpringLayout.SOUTH, txtRegistrationId, PADDING_VERTICAL, SpringLayout.NORTH, cbxActive);
+		layout.putConstraint(SpringLayout.NORTH, txtName, PADDING_VERTICAL, SpringLayout.NORTH, panel);
+		layout.putConstraint(SpringLayout.NORTH, txtUuid, PADDING_VERTICAL, SpringLayout.SOUTH, txtName);
+		layout.putConstraint(SpringLayout.NORTH, txtRegistrationId, PADDING_VERTICAL, SpringLayout.SOUTH, txtUuid);
+		layout.putConstraint(SpringLayout.NORTH, cbxActive, PADDING_VERTICAL, SpringLayout.SOUTH, txtRegistrationId);
+		
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblName, 0, SpringLayout.VERTICAL_CENTER, txtName);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblUuid, 0, SpringLayout.VERTICAL_CENTER, txtUuid);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblRegistrationId, 0, SpringLayout.VERTICAL_CENTER, txtRegistrationId);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblActive, 0, SpringLayout.VERTICAL_CENTER, cbxActive);
+		
+		
+		layout.putConstraint(SpringLayout.WEST, txtRegistrationId, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, lblRegistrationId);
+		
+		layout.putConstraint(SpringLayout.WEST, txtName, 0, SpringLayout.WEST, txtRegistrationId);
+		layout.putConstraint(SpringLayout.WEST, txtUuid, 0, SpringLayout.WEST, txtRegistrationId);
+		layout.putConstraint(SpringLayout.WEST, cbxActive, 0, SpringLayout.WEST, txtRegistrationId);
+		
+		layout.putConstraint(SpringLayout.EAST, txtName, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, txtUuid, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, txtRegistrationId, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, cbxActive, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		setLayout(layout);
+		
+	}
+	
+	/** Adds the components to the view
+	 * 
+	 */
+	
+	protected void addComponents() {
+		
+		//add the labels
+		add(lblName);
+		add(lblUuid);
+		add(lblRegistrationId);
+		add(lblActive);
+		
+		//add the fields
+		add(txtName);
+		add(txtUuid);
+		add(txtRegistrationId);
+		add(cbxActive);
 		
 	}
 	
