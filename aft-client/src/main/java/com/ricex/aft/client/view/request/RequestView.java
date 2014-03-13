@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.client.view;
+package com.ricex.aft.client.view.request;
 
 /**
  *  The view for displaying a request.

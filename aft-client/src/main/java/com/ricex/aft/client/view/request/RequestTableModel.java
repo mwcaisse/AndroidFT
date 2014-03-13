@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.client.view;
+package com.ricex.aft.client.view.request;
 
 import java.util.ArrayList;
 import java.util.Date;

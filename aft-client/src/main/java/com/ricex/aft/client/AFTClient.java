@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import com.ricex.aft.client.view.DeviceTableView;
-import com.ricex.aft.client.view.RequestTableView;
+import com.ricex.aft.client.view.device.DeviceTableView;
+import com.ricex.aft.client.view.request.RequestTableView;
 import com.ricex.aft.client.view.tab.TabController;
 
 /**
