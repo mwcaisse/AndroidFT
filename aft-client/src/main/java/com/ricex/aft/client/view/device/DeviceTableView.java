@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.ricex.aft.client.cache.CacheListener;
+import com.ricex.aft.client.cache.CacheUpdateEvent;
+import com.ricex.aft.client.cache.DeviceCache;
 import com.ricex.aft.client.view.tab.Tab;
 
 /**
@@ -16,7 +19,7 @@ import com.ricex.aft.client.view.tab.Tab;
  * @author Mitchell Caisse
  *
  */
-public class DeviceTableView extends Tab {
+public class DeviceTableView extends Tab implements CacheListener {
 
 	
 	/** The JTable for displaying the devices */
@@ -40,6 +43,8 @@ public class DeviceTableView extends Tab {
 		setLayout(layout);
 		
 		add(tableScrollPane, BorderLayout.CENTER);
+		
+		DeviceCache.getInstance().addCacheListener(this);		
 	}
 	
 	/**
@@ -60,6 +65,14 @@ public class DeviceTableView extends Tab {
 	@Override	
 	public boolean isClosable() {
 		return false;
+	}
+
+	/** Updates the data in the table when the DeviceCache is updated
+	 * 
+	 */
+	
+	public void update(CacheUpdateEvent e) {
+		deviceTableModel.setDevices(DeviceCache.getInstance().getAll());
 	}
 	
 }

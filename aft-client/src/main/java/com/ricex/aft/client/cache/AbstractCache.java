@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ricex.aft.common.entity.Device;
-
 /**
  *  Base implementation of the Cache interface
  * @author Mitchell Caisse

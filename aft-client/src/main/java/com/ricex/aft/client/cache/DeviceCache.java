@@ -3,10 +3,6 @@
  */
 package com.ricex.aft.client.cache;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.ricex.aft.common.entity.Device;
 
 /**
