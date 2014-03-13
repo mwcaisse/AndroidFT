@@ -11,11 +11,26 @@ import com.ricex.aft.common.entity.Request;
  */
 public class RequestCache extends AbstractCache<Request, Long> {
 
+	/** The singleton instance */
+	private static RequestCache _instance;
+	
+	/** Returns the singleton instance of the RequestCache
+	 * 
+	 * @return The singleton instance
+	 */
+	
+	public static RequestCache getInstance() {
+		if (_instance == null) {
+			_instance = new RequestCache();
+		}
+		return _instance;
+	}
+	
 	/** Initializes the request cache for storing requests
 	 * 
 	 */
 	
-	public RequestCache() {
+	private RequestCache() {
 		
 	}
 
