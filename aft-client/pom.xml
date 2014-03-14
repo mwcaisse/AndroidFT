@@ -51,6 +51,13 @@
 		    <version>${unirest.version}</version>
 		</dependency>
 		
+		<!--  Google JSON Library -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+		
 	</dependencies>
 	
 </project>

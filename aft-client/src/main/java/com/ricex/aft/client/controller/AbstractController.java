@@ -9,6 +9,7 @@ import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.BaseRequest;
 import com.ricex.aft.client.request.IRequest;
+import com.ricex.aft.common.entity.Device;
 
 /**
  * @author Mitchell Caisse
@@ -24,14 +25,14 @@ public class AbstractController {
 	private class ControllerCallback implements Callback<JsonNode> {
 
 		/** The request that this callback is for */
-		private IRequest request;
+		private IRequest<?> request;
 		
 		/** Creates a new ControllerCallback that will notify listener of the results of the request
 		 * 
 		 * @param listener The RequestListener to notify of the results
 		 */
 		
-		private ControllerCallback(IRequest request) {
+		private ControllerCallback(IRequest<?> request) {
 			this.request = request;
 		}
 		
@@ -40,11 +41,11 @@ public class AbstractController {
 		}
 
 		public void completed(HttpResponse<JsonNode> response) {
-			request.onSucess();
+			request.processResponse(response.getRawBody(), response.getCode());
 		}
 
 		public void failed(UnirestException e) {
-			request.onFailure();
+			request.onFailure(e);
 		}
 		
 	}

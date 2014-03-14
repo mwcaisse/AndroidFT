@@ -20,7 +20,7 @@ public interface RequestListener {
 	 */
 
 	
-	public void completed(IRequest request);
+	public void onSucess(IRequest request);
 	
 	/** Called when the request was canceled
 	 * 
@@ -34,8 +34,9 @@ public interface RequestListener {
 	 * 		the request failed due to other reasons 
 	 * 
 	 * @param request The request that failed
+	 * @param e The exception that caused the request to fail
 	 */
 	
-	public void failed(IRequest request);
+	public void onFailure(IRequest request, Exception e);
 	
 }

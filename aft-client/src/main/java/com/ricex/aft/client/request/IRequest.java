@@ -3,11 +3,13 @@
  */
 package com.ricex.aft.client.request;
 
+import java.io.InputStream;
+
 /**
  * @author Mitchell Caisse
  *
  */
-public interface IRequest {
+public interface IRequest<T> {
 
 	/** Gets the ID of this request
 	 * 
@@ -16,9 +18,32 @@ public interface IRequest {
 	
 	public long getId();
 	
-	public void onSucess();
+	/** Returns the response of the Request
+	 * 
+	 * @return The response of the request
+	 */
 	
-	public void onFailure();
+	public T getResponse();
+	
+	/** Processes the response received from the request
+	 * 
+	 * @param rawResponseBody The raw response body received from the server
+	 * @param httpStatusCode The http status code of the response
+	 */
+	
+	public void processResponse(InputStream rawResponseBody, int httpStatusCode);
+	
+	/** Called when there was an error executing this request
+	 * 
+	 * @param e The exception that was thrown causing the error
+	 */
+	
+	public void onFailure(Exception e);
+	
+	/** Called when the request was cancelled
+	 * 
+	 */
 	
 	public void onCancelled();
+	
 }
