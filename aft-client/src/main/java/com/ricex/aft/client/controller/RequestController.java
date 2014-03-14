@@ -3,51 +3,58 @@
  */
 package com.ricex.aft.client.controller;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.async.Callback;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.ricex.aft.client.request.device.FetchDeviceByIdRequest;
 
 /** The controller for handling fetches for requests from the web service
  * 
  * @author Mitchell Caisse
  *
  */
-public class RequestController {
+public class RequestController extends AbstractController {
 
-	public RequestController() {
+	/** The singleton instance of this controller */
+	private static RequestController _instance;
+	
+	/** Returns the singleton instance of this class
+	 * 
+	 * @return The singleton instance
+	 */
+	
+	public static RequestController getIntance() {
+		if (_instance == null) {
+			_instance = new RequestController();
+		}
+		return _instance;
+	}
+	
+	/** Creates a new request controller
+	 * 
+	 */
+	
+	private RequestController() {
 		
 	}
 	
-	/** Fetches the request with the specifeid ID from the web service
+	/** Fetches the request with the specified ID from the web service
 	 * 
 	 * @param id The id of the request to request
+	 * @param listener The listener to notify of the results of the request
 	 */
 	
-	public void get(long id) {
-		Unirest.get("http://localhost:8080/aft-servlet/manager/request/{id}")
-			.routeParam("id", Long.toString(id)).asJsonAsync(new Callback<JsonNode>() {
-
-				@Override
-				public void cancelled() {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void completed(HttpResponse<JsonNode> response) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void failed(UnirestException e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
+	public void get(long id, RequestListener listener) {
+		FetchDeviceByIdRequest request = new FetchDeviceByIdRequest(id, listener);
+		makeAsyncRequest(request);
 	
 	}
+	
+	/** Fetches all of the requests from the web service
+	 * 
+	 * @param listener The listener to notify of the results of the request
+	 */
+	
+	public void getAll(RequestListener listener) {
+		
+	}
+
+
 }

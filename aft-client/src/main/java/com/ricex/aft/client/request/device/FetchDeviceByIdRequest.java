@@ -1,35 +1,36 @@
 /**
  * 
  */
-package com.ricex.aft.client.request;
+package com.ricex.aft.client.request.device;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.google.gson.Gson;
+import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.DeviceCache;
+import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestListener;
+import com.ricex.aft.client.request.AbstractRequest;
 import com.ricex.aft.common.entity.Device;
 
-/**
+/** Request to fetch a device by an id
  * @author Mitchell Caisse
  *
  */
-public class FetchDeviceRequest extends AbstractRequest<Device> {
+public class FetchDeviceByIdRequest extends AbstractRequest<Device> {
 
-	/** The device that was returned as a result of this request */
-	private Device response;
+	/** The id of the device to fetch */
+	private long deviceId;
 	
 	/**
-	 * @param listener
+	 * @param deviceId The id of the device to fetch
+	 * @param listener The listener to notify of the results
 	 */
 	
-	protected FetchDeviceRequest(RequestListener listener) {
+	public FetchDeviceByIdRequest(long deviceId, RequestListener listener) {
 		super(listener);
-	}
-
-	public Device getResponse() {
-		return response;
+		this.deviceId = deviceId;
 	}
 	
 	/** Parses the rawResponseBody into an Object using Gson
@@ -47,11 +48,21 @@ public class FetchDeviceRequest extends AbstractRequest<Device> {
 			Gson gson = new Gson();
 			response = gson.fromJson(new InputStreamReader(rawResponseBody), Device.class);
 			DeviceCache.getInstance().add(response);
+			RequestCache.getInstance().add(response.getRequests());
 			onSucess();			
 		}
 		else {
 			onFailure(new Exception("Server returned status code: " + httpStatusCode));
 		}
+	}
+	
+	/** Constructs the Unirest request that will be used to fetch the device from the web service
+	 * 
+	 */
+	
+	protected void constructServerRequest() {
+		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/device/{id}")
+			.routeParam("id", Long.toString(deviceId));
 	}
 
 }

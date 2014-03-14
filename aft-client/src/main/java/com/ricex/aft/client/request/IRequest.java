@@ -5,6 +5,8 @@ package com.ricex.aft.client.request;
 
 import java.io.InputStream;
 
+import com.mashape.unirest.request.BaseRequest;
+
 /**
  * @author Mitchell Caisse
  *
@@ -24,6 +26,13 @@ public interface IRequest<T> {
 	 */
 	
 	public T getResponse();
+	
+	/** Gets the Unirest request that will be executed to retrieve data from the server
+	 * 
+	 * @return The unirest request.
+	 */
+	
+	public BaseRequest getServerRequest();
 	
 	/** Processes the response received from the request
 	 * 

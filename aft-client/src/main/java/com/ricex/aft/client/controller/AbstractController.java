@@ -7,20 +7,29 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.BaseRequest;
 import com.ricex.aft.client.request.IRequest;
-import com.ricex.aft.common.entity.Device;
 
 /**
  * @author Mitchell Caisse
  *
  */
-public class AbstractController {
+public abstract class AbstractController {
 
 	
-	protected void makeAsyncRequest(BaseRequest request, RequestListener listener) {
-		
+	/** Executes the given request as an AsyncJson request
+	 * 
+	 * @param request The request to execute
+	 */
+	
+	protected void makeAsyncRequest(IRequest<?> request) {
+		request.getServerRequest().asJsonAsync(new ControllerCallback(request));
 	}
+	
+	/** Unirest Callback implementation to be used to listen for the results of the executed request
+	 * 
+	 * @author Mitchell Caisse
+	 *
+	 */
 	
 	private class ControllerCallback implements Callback<JsonNode> {
 
