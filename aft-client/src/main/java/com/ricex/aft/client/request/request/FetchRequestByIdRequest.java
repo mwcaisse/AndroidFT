@@ -66,6 +66,4 @@ public class FetchRequestByIdRequest extends AbstractRequest<Request> {
 			.routeParam("id", Long.toString(requestId));
 	}
 	
-	
-	
 }

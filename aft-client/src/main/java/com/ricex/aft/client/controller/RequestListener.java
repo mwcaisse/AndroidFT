@@ -12,7 +12,7 @@ import com.ricex.aft.client.request.IRequest;
  *
  */
 
-public interface RequestListener {
+public interface RequestListener<T> {
 
 	/** Called when the request has completed sucessfully
 	 * 
@@ -20,7 +20,7 @@ public interface RequestListener {
 	 */
 
 	
-	public void onSucess(IRequest request);
+	public void onSucess(IRequest<T> request);
 	
 	/** Called when the request was canceled
 	 * 
@@ -28,7 +28,7 @@ public interface RequestListener {
 	 */
 
 	
-	public void cancelled(IRequest request);
+	public void cancelled(IRequest<T> request);
 
 	/** Called when the request failed, when we received a response other than OK (HTTP 200) from the server, or
 	 * 		the request failed due to other reasons 
@@ -37,6 +37,6 @@ public interface RequestListener {
 	 * @param e The exception that caused the request to fail
 	 */
 	
-	public void onFailure(IRequest request, Exception e);
+	public void onFailure(IRequest<T> request, Exception e);
 	
 }

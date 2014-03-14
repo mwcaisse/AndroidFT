@@ -19,7 +19,11 @@ import com.ricex.aft.common.entity.Request;
  * @author Mitchell Caisse
  *
  */
-public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
+public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request>> {
+	
+	
+	/** The id of the request to fetch */
+	private long deviceId;	
 	
 	/** Creates a new Fetch Request By Id Request to fetch the request with the specified id
 	 * 
@@ -27,9 +31,9 @@ public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
 	 * @param listener The listener to notify when the request is completed
 	 */
 	
-	protected FetchAllRequestsRequest(RequestListener<List<Request>> listener) {
+	protected FetchRequestsByDeviceIdRequest(long deviceId, RequestListener listener) {
 		super(listener);
-
+		this.deviceId = deviceId;
 	}
 
 	/** Parses the rawResponseBody into an Object using Gson
@@ -59,6 +63,7 @@ public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/request/all");
+		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/all/{deviceId}")
+			.routeParam("deviceId", Long.toString(deviceId));
 	}
 }

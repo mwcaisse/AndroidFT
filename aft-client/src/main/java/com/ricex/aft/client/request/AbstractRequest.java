@@ -21,7 +21,7 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	private long id;
 	
 	/** The request listener for this request */
-	protected RequestListener listener;
+	protected RequestListener<T> listener;
 	
 	/** The Unirest request to be sent to the web server */
 	protected BaseRequest serverRequest;
@@ -34,7 +34,7 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	 * @param listener The request listener to notify of the results of the request
 	 */
 	
-	protected AbstractRequest(RequestListener listener) {
+	protected AbstractRequest(RequestListener<T> listener) {
 		id = UUID.randomUUID().getLeastSignificantBits();
 		this.listener = listener;
 		constructServerRequest();
