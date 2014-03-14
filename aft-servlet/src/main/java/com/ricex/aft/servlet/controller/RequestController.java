@@ -39,6 +39,16 @@ public class RequestController {
 		requestManager = RequestManager.INSTANCE;
 	}
 	
+	/** Returns a list of all new (unprocessed requests) for the specified device
+	 * 
+	 * @param deviceId The unique id of the device
+	 */
+	
+	@RequestMapping(value="/{id}", method= RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody Request getRequestById(@PathVariable long id) {
+		return requestManager.getRequestById(id);
+	}
+	
 	/** Returns a list of all requests for a specified device
 	 * 
 	 * @param deviceId The unique id of the device

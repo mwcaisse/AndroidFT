@@ -16,7 +16,14 @@ import com.ricex.aft.common.entity.RequestStatus;
  *
  */
 public interface RequestMapper {
+	
+	/** Returns the request with the given id
+	 * 
+	 * @param requestId The id of the request to fetch
+	 * @return The request with the given id
+	 */
 
+	public Request getRequestById(long requestId);
 	
 	/** Returns a list of all requests for the device with the specified deviceUid
 	 * 

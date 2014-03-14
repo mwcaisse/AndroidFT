@@ -33,6 +33,16 @@ public enum RequestManager {
 		
 	}
 	
+	/** Returns the request with the given id
+	 * 
+	 * @param id The id of the request to fetch
+	 * @return The request with the specified id, or null if it doesnt exist
+	 */
+	
+	public Request getRequestById(long id) {
+		return requestMapper.getRequestById(id);
+	}
+	
 	/** Returns a list of all the requests for the device with the specified uid
 	 * 
 	 * @param deviceUid The UID of the device
