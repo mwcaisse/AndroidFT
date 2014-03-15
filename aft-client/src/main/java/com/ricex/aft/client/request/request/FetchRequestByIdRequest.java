@@ -3,9 +3,6 @@
  */
 package com.ricex.aft.client.request.request;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import com.google.gson.Gson;
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
@@ -44,6 +41,16 @@ public class FetchRequestByIdRequest extends AbstractRequest<Request> {
 	public void onCompletion() {
 		RequestCache.getInstance().add(response);
 		onSucess();
+	}
+	
+	/** Converts the JSON string received from the server, into the correct object for this Request
+	 * 
+	 * @param jsonString The JSONString containing the object
+	 * @return The resulting java object from the JSON string
+	 */
+	
+	protected Request convertResponseFromJson(String jsonString) {
+		return new Gson().fromJson(jsonString, Request.class);
 	}
 	
 	/** Constructs the Unirest request that will be used to fetch the device from the web service

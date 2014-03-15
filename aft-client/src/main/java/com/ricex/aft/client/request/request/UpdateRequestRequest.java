@@ -53,6 +53,16 @@ public class UpdateRequestRequest extends AbstractRequest<Long> {
 		}
 	}
 
+	/** Converts the JSON string received from the server, into the correct object for this Request
+	 * 
+	 * @param jsonString The JSONString containing the object
+	 * @return The resulting java object from the JSON string
+	 */
+	
+	protected Long convertResponseFromJson(String jsonString) {
+		return new Gson().fromJson(jsonString, Long.class);
+	}
+
 	/** Constructs the Unirest request that will be used to fetch the device from the web service
 	 * 
 	 */

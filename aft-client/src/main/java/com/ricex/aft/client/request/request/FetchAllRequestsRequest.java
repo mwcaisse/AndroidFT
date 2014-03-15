@@ -3,8 +3,6 @@
  */
 package com.ricex.aft.client.request.request;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -41,6 +39,16 @@ public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
 	public void onCompletion() {
 		RequestCache.getInstance().add(response);
 		onSucess();
+	}
+	
+	/** Converts the JSON string received from the server, into the correct object for this Request
+	 * 
+	 * @param jsonString The JSONString containing the object
+	 * @return The resulting java object from the JSON string
+	 */
+	
+	protected List<Request> convertResponseFromJson(String jsonString) {
+		return new Gson().fromJson(jsonString, new TypeToken<List<Request>>() {}.getType());
 	}
 	
 	/** Constructs the Unirest request that will be used to fetch the device from the web service

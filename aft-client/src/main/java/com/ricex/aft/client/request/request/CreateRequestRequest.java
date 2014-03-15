@@ -11,6 +11,7 @@ import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.AbstractRequest;
+import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
 
 /**
@@ -49,6 +50,16 @@ public class CreateRequestRequest extends AbstractRequest<Long> {
 			RequestCache.getInstance().add(toCreate);
 			onSucess();			
 		}
+	}
+	
+	/** Converts the JSON string received from the server, into the correct object for this Request
+	 * 
+	 * @param jsonString The JSONString containing the object
+	 * @return The resulting java object from the JSON string
+	 */
+	
+	protected Long convertResponseFromJson(String jsonString) {
+		return new Gson().fromJson(jsonString, Long.class);
 	}
 
 	/** Constructs the Unirest request that will be used to fetch the device from the web service

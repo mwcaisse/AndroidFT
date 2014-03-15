@@ -40,7 +40,7 @@ public interface IRequest<T> {
 	 * @param httpStatusCode The http status code of the response
 	 */
 	
-	public void processResponse(InputStream rawResponseBody, int httpStatusCode);
+	public void processResponse(String rawResponseBody, int httpStatusCode);
 	
 	/** Called when there was an error executing this request
 	 * 

@@ -42,18 +42,23 @@ public abstract class AbstractController {
 		 */
 		
 		private ControllerCallback(IRequest<?> request) {
-			this.request = request;
+			this.request = request;			
+			System.out.println("Creating a new Controller Call back!");
+			
 		}
 		
 		public void cancelled() {
+			System.out.println("ControllerCallback cancelled!");
 			request.onCancelled();
 		}
 
 		public void completed(HttpResponse<JsonNode> response) {
-			request.processResponse(response.getRawBody(), response.getCode());
+			System.out.println("ControllerCallback completed!");		
+			request.processResponse(response.getBody().toString(), response.getCode());
 		}
 
 		public void failed(UnirestException e) {
+			System.out.println("ControllerCallback failed!");
 			request.onFailure(e);
 		}
 		

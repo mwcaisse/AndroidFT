@@ -3,12 +3,9 @@
  */
 package com.ricex.aft.client.request;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.UUID;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.request.BaseRequest;
 import com.ricex.aft.client.controller.RequestListener;
 
@@ -54,9 +51,19 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	 * 	This implementation simply calls onSucess
 	 * 
 	 */
-	public void onCompletion() {
+	protected void onCompletion() {
 		onSucess();
 	}
+	
+	/** Converts the JSON string received from the server, into the correct object for this Request
+	 * 
+	 *  It will be called by processResponse to properly parse the response
+	 * 
+	 * @param jsonString The JSONString containing the object
+	 * @return The resulting java object from the JSON string
+	 */
+	
+	protected abstract T convertResponseFromJson(String jsonString);
 	
 	/** Parses the rawResponseBody into an Object using Gson
 	 * 
@@ -68,16 +75,16 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	 * @param httpStatusCode The status code returned by the webservice
 	 */
 	
-	public void processResponse(InputStream rawResponseBody, int httpStatusCode) {
+	public void processResponse(String rawResponseBody, int httpStatusCode) {
 		if (httpStatusCode == 200) {
-			Gson gson = new Gson();
-			response = gson.fromJson(new InputStreamReader(rawResponseBody), new TypeToken<T>() {}.getType());
+			response = convertResponseFromJson(rawResponseBody);
 			onCompletion();			
 		}
 		else {
 			onFailure(new Exception("Server returned status code: " + httpStatusCode));
 		}
 	}
+
 	
 	/** Constructs the Unirest request that will be executed when this result is executed
 	 * 

@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import com.ricex.aft.client.cache.CacheListener;
 import com.ricex.aft.client.cache.CacheUpdateEvent;
 import com.ricex.aft.client.cache.DeviceCache;
+import com.ricex.aft.client.controller.DeviceController;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.view.tab.Tab;
@@ -47,8 +48,10 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 		setLayout(layout);
 		
 		add(tableScrollPane, BorderLayout.CENTER);
-		
-		DeviceCache.getInstance().addCacheListener(this);		
+
+		DeviceCache.getInstance().addCacheListener(this);			
+		//fetch all of the devices
+		DeviceController.getInstance().getAllDevices(this);
 	}
 	
 	/**
@@ -84,8 +87,6 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 	 */
 	
 	public void onSucess(IRequest<List<Device>> request) {
-		System.out.println("DeviceTableView: Device Request from server sucessful!");
-		//we shouldn't have to do anything here as the updateListener from the Device cache should update the table.
 	}
 
 	/** Called when the request to update the device table was canceled 
@@ -93,7 +94,7 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 	 */
 	
 	public void cancelled(IRequest<List<Device>> request) {
-		
+		System.out.println("DeviceTableView: Device Request from server canceled!");
 	}
 
 	/** Called when the request to update the device table failed
