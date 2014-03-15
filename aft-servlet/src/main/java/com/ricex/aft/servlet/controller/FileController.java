@@ -54,17 +54,6 @@ public class FileController {
 		return fileManager.getFile(fileId);
 	}
 	
-	/** Retrieves the name of the file with the given id
-	 * 
-	 * @param fileId The id of the file to fetch
-	 * @return The name of the file
-	 */
-	
-	@RequestMapping(value = "/name/{fileId}", method = RequestMethod.GET, produces={"application/json"})
-	public @ResponseBody String getFileName(@PathVariable long fileId) {
-		return fileManager.getFile(fileId).getFileName();
-	}
-	
 	/** Uploads the given file, and assigns it an id
 	 * * 
 	 * @param fileContents The contents of the file to upload
