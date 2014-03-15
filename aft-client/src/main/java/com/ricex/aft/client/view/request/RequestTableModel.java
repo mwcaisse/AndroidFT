@@ -3,6 +3,7 @@
  */
 package com.ricex.aft.client.view.request;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,6 @@ public class RequestTableModel implements TableModel {
 	
 	/** The name of the columns in the tables */
 	private final String[] columnNames = {"File Name", "Location", "Device Name", "Status", "Last Updated"};
-	
 	
 	/**
 	 *  Creates a new instance of Device Table Model to control the table

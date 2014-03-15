@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestController;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.IRequest;
+import com.ricex.aft.client.util.DateTableCellRenderer;
 import com.ricex.aft.client.view.tab.Tab;
 import com.ricex.aft.common.entity.Request;
 
@@ -51,6 +53,9 @@ public class RequestTableView extends Tab implements CacheListener, RequestListe
 	public RequestTableView() {
 		requestTableModel = new RequestTableModel();
 		requestTable = new JTable(requestTableModel);
+		
+		requestTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		requestTable.getColumnModel().getColumn(4).setCellRenderer(new DateTableCellRenderer("MM-dd-yyyy hh:mm:ss"));
 		
 		tableScrollPane = new JScrollPane(requestTable);
 		
