@@ -30,7 +30,7 @@ public class FetchRequestByIdRequest extends AbstractRequest<Request> {
 	 * @param listener The listener to notify when the request is completed
 	 */
 	
-	protected FetchRequestByIdRequest(long requestId, RequestListener listener) {
+	public FetchRequestByIdRequest(long requestId, RequestListener<Request> listener) {
 		super(listener);
 		this.requestId = requestId;
 	}

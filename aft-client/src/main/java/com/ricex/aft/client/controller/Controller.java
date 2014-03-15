@@ -16,13 +16,13 @@ public interface Controller<T, I> {
 	 * @param listener The request listener to notify of the results
 	 */
 	
-	public void get(I id, RequestListener listener);
+	public void get(I id, RequestListener<T> listener);
 	
 	/** Fetches all of the elements from the web service
 	 * 	@param listener The request listener to notify of the results
 	 */
 	
-	public void getAll(RequestListener listener);
+	public void getAll(RequestListener<T> listener);
 	
 	/** Creates the specified element on the web service
 	 * 
@@ -30,13 +30,13 @@ public interface Controller<T, I> {
 	 * @param listener The request listener to notify of the results
 	 */
 	
-	public void create(T toCreate, RequestListener listener);
+	public void create(T toCreate, RequestListener<T> listener);
 	
 	/** Updates the specified element on the web service
 	 * 
 	 * @param toUpdate The element to update
 	 */
 	
-	public void update(T toUpdate, RequestListener listener);
+	public void update(T toUpdate, RequestListener<T> listener);
 	
 }

@@ -3,7 +3,10 @@
  */
 package com.ricex.aft.client.controller;
 
-import com.ricex.aft.client.request.device.FetchDeviceByIdRequest;
+import java.util.List;
+
+import com.ricex.aft.client.request.request.FetchRequestByIdRequest;
+import com.ricex.aft.common.entity.Request;
 
 /** The controller for handling fetches for requests from the web service
  * 
@@ -41,8 +44,8 @@ public class RequestController extends AbstractController {
 	 * @param listener The listener to notify of the results of the request
 	 */
 	
-	public void get(long id, RequestListener listener) {
-		FetchDeviceByIdRequest request = new FetchDeviceByIdRequest(id, listener);
+	public void get(long id, RequestListener<Request> listener) {
+		FetchRequestByIdRequest request = new FetchRequestByIdRequest(id, listener);
 		makeAsyncRequest(request);
 	
 	}
@@ -52,7 +55,7 @@ public class RequestController extends AbstractController {
 	 * @param listener The listener to notify of the results of the request
 	 */
 	
-	public void getAll(RequestListener listener) {
+	public void getAll(RequestListener<List<Request>> listener) {
 		
 	}
 
