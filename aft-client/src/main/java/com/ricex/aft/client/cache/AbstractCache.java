@@ -31,23 +31,6 @@ public abstract class AbstractCache<T, I> implements Cache<T, I> {
 	}
 	
 	/**
-	 *  {@inheritDoc}
-	 */
-	
-	public void add(List<T> elements) {
-		add(elements);
-	}
-	
-	/**
-	 *  {@inheritDoc}
-	 */
-	
-	public void setElements(List<T> elements) {
-		elements.clear();
-		add(elements);
-	}
-	
-	/**
 	 * {@inheritDoc}
 	 */
 	
@@ -62,6 +45,64 @@ public abstract class AbstractCache<T, I> implements Cache<T, I> {
 	public List<T> getAll() {
 		return new ArrayList<T>(elements.values());
 	}
+	
+	/** Adds the given element to the element map without firing a change event
+	 * 
+	 * 	This allows the AbstractCache to perform all the necesary add events, and each sub class
+	 * 		only needs to implement this method and does not have to worry about creating update events
+	 * 
+	 * @param element The element to add to the Cache
+	 */
+	
+	protected abstract void addElement(T element);
+	
+	/** Adds the specified element to the cache and notifies the CacheListeners that a change has occured
+	 * 
+	 * @param element The element to add to the cache
+	 */
+	
+	public void add(T element) {
+		addElement(element);
+		fireCacheUpdateEvent(new CacheUpdateEvent(this, CacheUpdateEvent.Type.ADDED_ELEMENT));
+	}
+	
+	/** Adds the specified list of elements to the cache, and notifies the CacheListeners that a change has occured'
+	 * 
+	 * @param elements The elements to add to the cache
+	 */
+	
+	public void add(List<T> elements) {
+		for (T element : elements) {
+			addElement(element);
+		}
+		fireCacheUpdateEvent(new CacheUpdateEvent(this, CacheUpdateEvent.Type.ADDED_MULTIPLE_ELEMENTS));
+	}
+	
+	/** Sets the elements in the cache to the specified elements.
+	 * 
+	 * Removes all of the current elements and replaces then with the elements in the list, then notifies the CacheListeners
+	 * 		that an update has occurred.
+	 * 
+	 * @param elements The new elements to put into the Cache
+	 */
+	
+	public void setElements(List<T> elements) {
+		this.elements.clear();
+		for (T element : elements) {
+			addElement(element);
+		}
+		fireCacheUpdateEvent(new CacheUpdateEvent(this, CacheUpdateEvent.Type.RESET_ELEMENTS));
+	}
+	
+	/** Purges all of the elements from the cache
+	 * 
+	 */
+	
+	public void purgeCache() {
+		elements.clear();
+		fireCacheUpdateEvent(new CacheUpdateEvent(this, CacheUpdateEvent.Type.RESET_ELEMENTS));
+	}
+	
 	
 	/** Sends the specified cache update vent to all of the cache listeners
 	 * 

@@ -4,6 +4,7 @@
 package com.ricex.aft.client.view.device;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -11,7 +12,10 @@ import javax.swing.JTable;
 import com.ricex.aft.client.cache.CacheListener;
 import com.ricex.aft.client.cache.CacheUpdateEvent;
 import com.ricex.aft.client.cache.DeviceCache;
+import com.ricex.aft.client.controller.RequestListener;
+import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.view.tab.Tab;
+import com.ricex.aft.common.entity.Device;
 
 /**
  *  The table view for displaying devices
@@ -19,7 +23,7 @@ import com.ricex.aft.client.view.tab.Tab;
  * @author Mitchell Caisse
  *
  */
-public class DeviceTableView extends Tab implements CacheListener {
+public class DeviceTableView extends Tab implements CacheListener, RequestListener<List<Device>> {
 
 	
 	/** The JTable for displaying the devices */
@@ -73,6 +77,32 @@ public class DeviceTableView extends Tab implements CacheListener {
 	
 	public void update(CacheUpdateEvent e) {
 		deviceTableModel.setDevices(DeviceCache.getInstance().getAll());
+	}
+
+	/** Called when the request to update the device table has succeed
+	 * 
+	 */
+	
+	public void onSucess(IRequest<List<Device>> request) {
+		System.out.println("DeviceTableView: Device Request from server sucessful!");
+		//we shouldn't have to do anything here as the updateListener from the Device cache should update the table.
+	}
+
+	/** Called when the request to update the device table was canceled 
+	 * 
+	 */
+	
+	public void cancelled(IRequest<List<Device>> request) {
+		
+	}
+
+	/** Called when the request to update the device table failed
+	 * 
+	 */
+	
+	public void onFailure(IRequest<List<Device>> request, Exception e) {
+		System.out.println("DeviceTableView: Device Request from server failed");
+		e.printStackTrace();
 	}
 	
 }

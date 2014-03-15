@@ -38,7 +38,7 @@ public class RequestCache extends AbstractCache<Request, Long> {
 	 * {@inheritDoc}
 	 */
 	
-	public void add(Request request) {
+	public void addElement(Request request) {
 		elements.put(request.getRequestId(), request);
 	}
 }

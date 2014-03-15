@@ -34,10 +34,12 @@ public class DeviceCache extends AbstractCache<Device, Long> {
 
 	}
 
-	/** Adds the specified device to the cache
+	/** Adds the given device to the element table without firing an update event
+	 * 
 	 * @param device The device to add
 	 */
-	public void add(Device device) {		
+	
+	protected void addElement(Device device) {
 		elements.put(device.getDeviceId(), device);
 	}
 

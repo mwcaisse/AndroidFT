@@ -34,6 +34,12 @@ public interface Cache<T, I> {
 	
 	public void setElements(List<T> elements);
 	
+	/** Purges all of the elements from the cache
+	 * 
+	 */
+	
+	public void purgeCache();
+	
 	/** Gets the element in the cache with the specified id
 	 * 
 	 * @param id The id of the element to fetch
