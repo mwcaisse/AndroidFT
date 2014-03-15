@@ -31,7 +31,7 @@ public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request
 	 * @param listener The listener to notify when the request is completed
 	 */
 	
-	protected FetchRequestsByDeviceIdRequest(long deviceId, RequestListener<List<Request>> listener) {
+	public FetchRequestsByDeviceIdRequest(long deviceId, RequestListener<List<Request>> listener) {
 		super(listener);
 		this.deviceId = deviceId;
 	}

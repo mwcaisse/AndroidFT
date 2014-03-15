@@ -27,7 +27,7 @@ public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
 	 * @param listener The listener to notify when the request is completed
 	 */
 	
-	protected FetchAllRequestsRequest(RequestListener<List<Request>> listener) {
+	public FetchAllRequestsRequest(RequestListener<List<Request>> listener) {
 		super(listener);
 
 	}
