@@ -60,7 +60,7 @@ public class UpdateRequestRequest extends AbstractRequest<Long> {
 	 */
 	
 	protected Long convertResponseFromJson(String jsonString) {
-		return new Gson().fromJson(jsonString, Long.class);
+		return gson.fromJson(jsonString, Long.class);
 	}
 
 	/** Constructs the Unirest request that will be used to fetch the device from the web service
@@ -68,7 +68,6 @@ public class UpdateRequestRequest extends AbstractRequest<Long> {
 	 */
 	
 	protected void constructServerRequest() {
-		Gson gson = new Gson();
 		serverRequest = Unirest.put(baseServiceUrl + "request/update")
 				.header("Content-Type", "application/json")
 				.body(gson.toJson(toUpdate, Request.class));

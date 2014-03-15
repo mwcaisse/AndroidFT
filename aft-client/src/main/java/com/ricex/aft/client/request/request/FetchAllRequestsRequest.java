@@ -5,7 +5,6 @@ package com.ricex.aft.client.request.request;
 
 import java.util.List;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
@@ -48,7 +47,7 @@ public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
 	 */
 	
 	protected List<Request> convertResponseFromJson(String jsonString) {
-		return new Gson().fromJson(jsonString, new TypeToken<List<Request>>() {}.getType());
+		return gson.fromJson(jsonString, new TypeToken<List<Request>>() {}.getType());
 	}
 	
 	/** Constructs the Unirest request that will be used to fetch the device from the web service

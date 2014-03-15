@@ -3,11 +3,15 @@
  */
 package com.ricex.aft.client.request;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mashape.unirest.request.BaseRequest;
 import com.ricex.aft.client.controller.RequestListener;
+import com.ricex.aft.client.util.JsonDateMillisecondsEpochDeserializer;
 
 /** The base request class for IRequest
  * 
@@ -33,6 +37,9 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	/** The base service URL of the webservice */
 	protected String baseServiceUrl;
 	
+	/** Gson object to be used for converting to and from JSON */
+	protected Gson gson;
+	
 	/** Creates a new instance of Request with the specified RequestListener, and creates a UUID for the request
 	 * 
 	 * @param listener The request listener to notify of the results of the request
@@ -43,6 +50,8 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 		this.listener = listener;
 		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";
 		constructServerRequest();
+		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
+				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer()).create();
 	}	
 	
 	/** Called when the processResponse has been completed, should do any additional actions with the 

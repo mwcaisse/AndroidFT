@@ -46,7 +46,7 @@ public class FetchAllDevicesRequest extends AbstractRequest<List<Device>> {
 	 */
 	
 	protected List<Device> convertResponseFromJson(String jsonString) {
-		return new Gson().fromJson(jsonString, new TypeToken<List<Device>>() {}.getType());
+		return gson.fromJson(jsonString, new TypeToken<List<Device>>() {}.getType());
 	}
 	
 	/** Constructs the Unirest request that will be used to fetch the device from the web service

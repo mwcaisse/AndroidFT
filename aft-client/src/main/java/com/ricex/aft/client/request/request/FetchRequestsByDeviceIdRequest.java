@@ -54,7 +54,7 @@ public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request
 	 */
 	
 	protected List<Request> convertResponseFromJson(String jsonString) {
-		return new Gson().fromJson(jsonString, new TypeToken<List<Request>>() {}.getType());
+		return gson.fromJson(jsonString, new TypeToken<List<Request>>() {}.getType());
 	}
 
 	/** Constructs the Unirest request that will be used to fetch the device from the web service
