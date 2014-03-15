@@ -73,10 +73,8 @@ public abstract class AbstractCache<T, I> implements Cache<T, I> {
 	
 	public void add(List<T> elements) {
 		for (T element : elements) {
-			System.out.println("AbstractCache adding element");
 			addElement(element);
 		}
-		System.out.println("What?");
 		fireCacheUpdateEvent(new CacheUpdateEvent(this, CacheUpdateEvent.Type.ADDED_MULTIPLE_ELEMENTS));
 	}
 	

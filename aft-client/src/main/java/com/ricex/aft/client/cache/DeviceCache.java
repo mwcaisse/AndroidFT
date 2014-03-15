@@ -20,11 +20,9 @@ public class DeviceCache extends AbstractCache<Device, Long> {
 	 */
 	
 	public static DeviceCache getInstance() {
-		System.out.println("Getting device cache! ");
 		if (_instance == null) {
 			_instance = new DeviceCache();
 		}
-		System.out.println("Returning device cache! ");
 		return _instance;
 	}
 	
@@ -42,9 +40,7 @@ public class DeviceCache extends AbstractCache<Device, Long> {
 	 */
 	
 	protected void addElement(Device device) {
-		System.out.println("DeviceCache addElement");
 		elements.put(device.getDeviceId(), device);
-		System.out.println("DeviceCache addElement returning");
 	}
 
 }

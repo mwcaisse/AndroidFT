@@ -3,6 +3,9 @@
  */
 package com.ricex.aft.client.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;
@@ -33,6 +36,9 @@ public abstract class AbstractController {
 	
 	private class ControllerCallback implements Callback<JsonNode> {
 
+		/** Logger instance */
+		private Logger log = LoggerFactory.getLogger(ControllerCallback.class);
+		
 		/** The request that this callback is for */
 		private IRequest<?> request;
 		
@@ -42,24 +48,34 @@ public abstract class AbstractController {
 		 */
 		
 		private ControllerCallback(IRequest<?> request) {
-			this.request = request;			
-			System.out.println("Creating a new Controller Call back!");
-			
+			this.request = request;					
 		}
 		
 		public void cancelled() {
-			System.out.println("ControllerCallback cancelled!");
-			request.onCancelled();
+			try { //Catch any exceptions that are thrown
+				request.onCancelled();
+			}
+			catch (Throwable t) {
+				log.error("Cancelled", t);
+			}
 		}
 
-		public void completed(HttpResponse<JsonNode> response) {
-			System.out.println("ControllerCallback completed!");		
-			request.processResponse(response.getBody().toString(), response.getCode());
+		public void completed(HttpResponse<JsonNode> response) {	
+			try {
+				request.processResponse(response.getBody().toString(), response.getCode());
+			}
+			catch (Throwable t) {
+				log.error("Completed", t);
+			}
 		}
 
 		public void failed(UnirestException e) {
-			System.out.println("ControllerCallback failed!");
-			request.onFailure(e);
+			try {
+				request.onFailure(e);
+			}
+			catch (Throwable t) {
+				log.error("Failed", t);
+			}
 		}
 		
 	}
