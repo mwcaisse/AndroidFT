@@ -27,9 +27,6 @@ public class Device implements Serializable {
 	
 	/** The GCM registration id of the device */
 	private String deviceRegistrationId;
-	
-	/** The requests associated with this device */
-	private List<Request> requests;
 
 	/**
 	 * @return the deviceId
@@ -93,21 +90,5 @@ public class Device implements Serializable {
 	public void setDeviceRegistrationId(String deviceRegistrationId) {
 		this.deviceRegistrationId = deviceRegistrationId;
 	}
-
-	/**
-	 * @return the requests
-	 */
-	
-	public List<Request> getRequests() {
-		return requests;
-	}
-
-	/**
-	 * @param requests the requests to set
-	 */
-	
-	public void setRequests(List<Request> requests) {
-		this.requests = requests;
-	}	
 	
 }
