@@ -3,8 +3,12 @@
  */
 package com.ricex.aft.client.request;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.UUID;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.request.BaseRequest;
 import com.ricex.aft.client.controller.RequestListener;
 
@@ -39,6 +43,37 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 		this.listener = listener;
 		constructServerRequest();
 	}	
+	
+	/** Called when the processResponse has been completed, should do any additional actions with the 
+	 * 		response as needed.
+	 * 
+	 * 	This implementation simply calls onSucess
+	 * 
+	 */
+	public void onCompletion() {
+		onSucess();
+	}
+	
+	/** Parses the rawResponseBody into an Object using Gson
+	 * 
+	 *  If the HTTP Status code is OK (200) the raw response body is parsed into an Object from JSON using GSON
+	 *  	and the onSuccess method is called with the resulting object, Otherwise the onFailure method
+	 *  	is called. 
+	 * 
+	 * @param rawResponseBody The InputStream containing the raw body of the server's response
+	 * @param httpStatusCode The status code returned by the webservice
+	 */
+	
+	public void processResponse(InputStream rawResponseBody, int httpStatusCode) {
+		if (httpStatusCode == 200) {
+			Gson gson = new Gson();
+			response = gson.fromJson(new InputStreamReader(rawResponseBody), new TypeToken<T>() {}.getType());
+			onCompletion();			
+		}
+		else {
+			onFailure(new Exception("Server returned status code: " + httpStatusCode));
+		}
+	}
 	
 	/** Constructs the Unirest request that will be executed when this result is executed
 	 * 

@@ -34,31 +34,20 @@ public class CreateRequestRequest extends AbstractRequest<Long> {
 		this.toCreate = toCreate;
 	}
 	
-	/** Parses the rawResponseBody into an Object using Gson
+	/** Adds the fetched request to the Request Cache and then notifies the listener of
+	 * 	completion
 	 * 
-	 *  If the HTTP Status code is OK (200) the raw response body is parsed into an Object from JSON using GSON
-	 *  	and the onSuccess method is called with the resulting object, Otherwise the onFailure method
-	 *  	is called. 
-	 * 
-	 * @param rawResponseBody The InputStream containing the raw body of the server's response
-	 * @param httpStatusCode The status code returned by the webservice
 	 */
 	
-	public void processResponse(InputStream rawResponseBody, int httpStatusCode) {
-		if (httpStatusCode == 200) {
-			Gson gson = new Gson();
-			response = gson.fromJson(new InputStreamReader(rawResponseBody), Long.class);
-			if (response < 0) { //if the server returned an ID less than 0, then the creation failed
-				onFailure(new Exception("Creation failed"));
-			}
-			else {
-				toCreate.setRequestId(response);
-				RequestCache.getInstance().add(toCreate);
-				onSucess();			
-			}
+	@Override
+	public void onCompletion() {	
+		if (response < 0) { //if the server returned an ID less than 0, then the creation failed
+			onFailure(new Exception("Creation failed"));
 		}
 		else {
-			onFailure(new Exception("Server returned status code: " + httpStatusCode));
+			toCreate.setRequestId(response);
+			RequestCache.getInstance().add(toCreate);
+			onSucess();			
 		}
 	}
 

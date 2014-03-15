@@ -35,27 +35,16 @@ public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request
 		super(listener);
 		this.deviceId = deviceId;
 	}
-
-	/** Parses the rawResponseBody into an Object using Gson
+	
+	/** Adds the fetched request to the Request Cache and then notifies the listener of
+	 * 	completion
 	 * 
-	 *  If the HTTP Status code is OK (200) the raw response body is parsed into an Object from JSON using GSON
-	 *  	and the onSuccess method is called with the resulting object, Otherwise the onFailure method
-	 *  	is called. 
-	 * 
-	 * @param rawResponseBody The InputStream containing the raw body of the server's response
-	 * @param httpStatusCode The status code returned by the webservice
 	 */
 	
-	public void processResponse(InputStream rawResponseBody, int httpStatusCode) {
-		if (httpStatusCode == 200) {
-			Gson gson = new Gson();
-			response = gson.fromJson(new InputStreamReader(rawResponseBody), new TypeToken<List<Request>>() {}.getType());
-			RequestCache.getInstance().add(response);
-			onSucess();			
-		}
-		else {
-			onFailure(new Exception("Server returned status code: " + httpStatusCode));
-		}
+	@Override
+	public void onCompletion() {
+		RequestCache.getInstance().add(response);
+		onSucess();
 	}
 
 	/** Constructs the Unirest request that will be used to fetch the device from the web service
