@@ -29,6 +29,16 @@ public enum FileManager {
 		return fileMapper.getFile(fileId);
 	}
 	
+	/** Returns the contents of the file with the given id
+	 * 
+	 * @param fileId The id of the file contents to fetch
+	 * @return The raw bytes of the file
+	 */
+	
+	public byte[] getFileContents(long fileId) {
+		return fileMapper.getFileContents(fileId);
+	}
+	
 	/** Creates a new file with the specified contents
 	 * 
 	 * @param fileContents The contents of the file

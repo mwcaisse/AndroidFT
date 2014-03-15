@@ -13,12 +13,20 @@ import com.ricex.aft.common.entity.File;
 public interface FileMapper {
 	
 	
-	/** Retreives the file with the given ID from the database
+	/** Retreives the file with the given ID from the database, without the FileContents
 	 * @param fileId The id of the file
 	 * @return The file
 	 */
 	
 	public File getFile(long fileId);
+	
+	/** Retrieves the contents of the file with the specified id
+	 * 
+	 * @param fileId The id of the file to fetch the content of
+	 * @return A byte array contanining the raw file data
+	 */
+	
+	public byte[] getFileContents(long fileId);
 	
 	/** Saves the given file to the database
 	 * 

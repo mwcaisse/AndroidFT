@@ -11,7 +11,6 @@
 	<!-- File result map -->
 	<resultMap id="fileResultMap" type="File">
 		<id property="fileId" column="FILE_ID" />
-		<result property="fileContents" column="FILE_VAL" />
 		<result property="fileName" column="FILE_NAME" />
 	</resultMap>
 	
@@ -21,11 +20,24 @@
 		WHERE FILE_ID = #{fileId}
 	</select>
 	
+	<!--  Gets the contents of the specified file -->
+	<select id="getFileContents" parameterType="long" resultType="_byte[]">
+	    SELECT FILE_VAL FROM FILE
+	    WHERE FILE_ID = #{fileId}
+	</select>
+	
 	<!-- Inserts a new file into the database -->
 	<insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
 		INSERT INTO FILE (FILE_VAL, FILE_NAME)
 		VALUES (#{fileContents}, #{fileName})
 	</insert>
+	
+	<!-- Saves the contents of the file -->
+	<update id="saveFileContents">
+	    UPDATE FILE SET
+	    	FILE_VAL = #{fileContents}
+	    WHERE FILE_ID = #{fileId}	    
+	</update>
 	
 	<!--  Deletes the file contents from the database -->
 	<update id="deleteFile">

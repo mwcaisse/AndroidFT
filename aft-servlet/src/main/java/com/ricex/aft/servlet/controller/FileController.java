@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ricex.aft.common.entity.File;
 import com.ricex.aft.servlet.manager.FileManager;
 
 /**
@@ -32,17 +33,28 @@ public class FileController {
 		fileManager = FileManager.INSTANCE;
 	}
 	
-	/** Retreives the contents of the file with the given id
+	/** Retreives the information about the file with the given id
 	 * 
 	 * @param fileId The id of the file to fetch
-	 * @return The raw bytes of the file
+	 * @return The information about the file
 	 */
-	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/octet-stream"})
-	public @ResponseBody byte[] getFile(@PathVariable long fileId) {
-		return fileManager.getFile(fileId).getFileContents();
+	@RequestMapping(value = "/info/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody File getFile(@PathVariable long fileId) {
+		return fileManager.getFile(fileId);
 	}
 	
-	/** Retreives the name of the file with the given id
+	/** Returns the contents of the file with the specified id
+	 * 
+	 * @param fileId The id of the file contents to fetch
+	 * @return The raw bytes of the file
+	 */
+	
+	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/octet-stream"})
+	public @ResponseBody File getFileContents(@PathVariable long fileId) {
+		return fileManager.getFile(fileId);
+	}
+	
+	/** Retrieves the name of the file with the given id
 	 * 
 	 * @param fileId The id of the file to fetch
 	 * @return The name of the file
