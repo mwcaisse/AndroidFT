@@ -43,6 +43,14 @@ public enum RequestManager {
 		return requestMapper.getRequestById(id);
 	}
 	
+	/** Returns a list of all requests
+	 * 
+	 * @return A list of all requests
+	 */
+	
+	public List<Request> getAllRequests() {
+		return requestMapper.getAllRequests();
+	}
 	/** Returns a list of all the requests for the device with the specified uid
 	 * 
 	 * @param deviceUid The UID of the device

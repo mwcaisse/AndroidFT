@@ -23,6 +23,10 @@
 	    WHERE REQUEST.REQ_ID = #{requestId}
 	</select>
 	
+	<select id="getAllRequests" resultMap="requestResultMap">
+	    SELECT REQUEST.* FROM REQUEST	    
+	</select>
+	
 	<!-- Select all requests for a specific device -->
 	<select id="getRequestsForDevice" parameterType="long" resultMap="requestResultMap">
 		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID

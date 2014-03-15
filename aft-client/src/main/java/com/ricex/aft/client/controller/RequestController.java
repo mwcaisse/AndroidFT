@@ -27,7 +27,7 @@ public class RequestController extends AbstractController {
 	 * @return The singleton instance
 	 */
 	
-	public static RequestController getIntance() {
+	public static RequestController getInstance() {
 		if (_instance == null) {
 			_instance = new RequestController();
 		}

@@ -25,6 +25,13 @@ public interface RequestMapper {
 
 	public Request getRequestById(long requestId);
 	
+	/** Returns a list of all requests
+	 * 
+	 * @return A list of all requests
+	 */
+	
+	public List<Request> getAllRequests();
+	
 	/** Returns a list of all requests for the device with the specified deviceUid
 	 * 
 	 * @param deviceUid The unique id of the device
