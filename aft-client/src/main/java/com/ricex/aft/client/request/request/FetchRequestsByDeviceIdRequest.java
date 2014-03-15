@@ -52,7 +52,7 @@ public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/all/{deviceId}")
+		serverRequest = Unirest.get(baseServiceUrl + "request/all/{deviceId}")
 			.routeParam("deviceId", Long.toString(deviceId));
 	}
 }

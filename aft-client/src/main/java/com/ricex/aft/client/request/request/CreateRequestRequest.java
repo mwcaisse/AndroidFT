@@ -57,7 +57,7 @@ public class CreateRequestRequest extends AbstractRequest<Long> {
 	
 	protected void constructServerRequest() {
 		Gson gson = new Gson();
-		serverRequest = Unirest.post("http://localhost:8080/aft-servlet/manager/request/create")
+		serverRequest = Unirest.post(baseServiceUrl + "request/create")
 				.header("Content-Type", "application/json")
 				.body(gson.toJson(toCreate, Request.class));
 		

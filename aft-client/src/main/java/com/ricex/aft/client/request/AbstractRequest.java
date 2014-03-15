@@ -20,7 +20,7 @@ import com.ricex.aft.client.controller.RequestListener;
  *
  */
 public abstract class AbstractRequest<T> implements IRequest<T> {
-
+	
 	/** The id of this request */
 	private long id;
 	
@@ -33,6 +33,9 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	/** The response item this received from the server, if the request was successful */
 	protected T response;
 	
+	/** The base service URL of the webservice */
+	protected String baseServiceUrl;
+	
 	/** Creates a new instance of Request with the specified RequestListener, and creates a UUID for the request
 	 * 
 	 * @param listener The request listener to notify of the results of the request
@@ -41,6 +44,7 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	protected AbstractRequest(RequestListener<T> listener) {
 		id = UUID.randomUUID().getLeastSignificantBits();
 		this.listener = listener;
+		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";
 		constructServerRequest();
 	}	
 	

@@ -48,7 +48,7 @@ public class FetchAllDevicesRequest extends AbstractRequest<List<Device>> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/device/all");
+		serverRequest = Unirest.get(baseServiceUrl + "device/all");
 		
 	}
 	

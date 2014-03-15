@@ -46,7 +46,7 @@ public class FetchDeviceByIdRequest extends AbstractRequest<Device> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/device/{id}")
+		serverRequest = Unirest.get(baseServiceUrl + "device/{id}")
 			.routeParam("id", Long.toString(deviceId));
 	}
 

@@ -48,6 +48,6 @@ public class FetchAllRequestsRequest extends AbstractRequest<List<Request>> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/request/all");
+		serverRequest = Unirest.get(baseServiceUrl + "request/all");
 	}
 }

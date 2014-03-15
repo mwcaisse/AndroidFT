@@ -59,7 +59,7 @@ public class UpdateRequestRequest extends AbstractRequest<Long> {
 	
 	protected void constructServerRequest() {
 		Gson gson = new Gson();
-		serverRequest = Unirest.put("http://localhost:8080/aft-servlet/manager/request/update")
+		serverRequest = Unirest.put(baseServiceUrl + "request/update")
 				.header("Content-Type", "application/json")
 				.body(gson.toJson(toUpdate, Request.class));
 		

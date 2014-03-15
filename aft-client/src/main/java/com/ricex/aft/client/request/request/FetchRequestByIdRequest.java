@@ -51,7 +51,7 @@ public class FetchRequestByIdRequest extends AbstractRequest<Request> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get("http://localhost:8080/aft-servlet/manager/request/{id}")
+		serverRequest = Unirest.get(baseServiceUrl + "request/{id}")
 			.routeParam("id", Long.toString(requestId));
 	}
 	
