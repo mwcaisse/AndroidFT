@@ -91,7 +91,7 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 	 */
 	
 	public void update(CacheUpdateEvent e) {
-		deviceTableModel.setDevices(DeviceCache.getInstance().getAll());
+		deviceTableModel.setData(DeviceCache.getInstance().getAll());
 	}
 
 	/** Called when the request to update the device table has succeed
@@ -133,7 +133,7 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 			if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
 				//double left click, find the selected request, then create a tab for it
 				int selectedRow = deviceTable.getSelectedRow();
-				Device selectedDevice = deviceTableModel.getItemAt(selectedRow);
+				Device selectedDevice = deviceTableModel.getElementAt(selectedRow);
 				TabController.INSTANCE.addDeviceTab(selectedDevice);				
 			}
 		}

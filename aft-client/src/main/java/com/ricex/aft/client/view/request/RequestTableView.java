@@ -125,7 +125,7 @@ public class RequestTableView extends Tab implements CacheListener, RequestListe
 	 */
 
 	public void update(CacheUpdateEvent e) {
-		requestTableModel.setRequests(RequestCache.getInstance().getAll());
+		requestTableModel.setData(RequestCache.getInstance().getAll());
 	}	
 	
 	/** Responds to mouse events on the table
@@ -144,7 +144,7 @@ public class RequestTableView extends Tab implements CacheListener, RequestListe
 			if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
 				//double left click, find the selected request, then create a tab for it
 				int selectedRow = requestTable.getSelectedRow();
-				Request selectedRequest = requestTableModel.getItemAt(selectedRow);
+				Request selectedRequest = requestTableModel.getElementAt(selectedRow);
 				TabController.INSTANCE.addRequestTab(selectedRequest);				
 			}
 		}
