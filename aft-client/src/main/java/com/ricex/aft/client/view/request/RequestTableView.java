@@ -4,13 +4,7 @@
 package com.ricex.aft.client.view.request;
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,132 +15,72 @@ import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestController;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.IRequest;
-import com.ricex.aft.client.util.DateTableCellRenderer;
 import com.ricex.aft.client.view.tab.Tab;
-import com.ricex.aft.client.view.tab.TabController;
 import com.ricex.aft.common.entity.Request;
 
 /**
- *  View for displaying list of all requests
- * 
+ *  The request table view that will display a list of all requests
+ *  
  * @author Mitchell Caisse
  *
  */
-
-@SuppressWarnings("serial")
 public class RequestTableView extends Tab implements CacheListener, RequestListener<List<Request>> {
 
 	/** Logger instance */
-	private static Logger log = LoggerFactory.getLogger(RequestTableView.class);
+	private static Logger log = LoggerFactory.getLogger(RequestTable.class);
 	
-	/** The JTable for displaying the devices */
-	private JTable requestTable;
+	/** The request table view that will display all of the requests */
+	private RequestTable requestTableView;
 	
-	/** The table model for the request table */
-	private RequestTableModel requestTableModel;
-	
-	/** The scroll pane for the request table */
-	private JScrollPane tableScrollPane;
-	
-	
-	/** Creates a new Request Table View 
+	/** Creates a new RequestTableView and initializes the request table
 	 * 
 	 */
 	
 	public RequestTableView() {
-		requestTableModel = new RequestTableModel();
-		requestTable = new JTable(requestTableModel);
+		requestTableView = new RequestTable();
 		
-		requestTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		requestTable.getColumnModel().getColumn(4).setCellRenderer(new DateTableCellRenderer("MM-dd-yyyy HH:mm:ss"));
-		requestTable.addMouseListener(new TableMouseAdapter());
-		
-		tableScrollPane = new JScrollPane(requestTable);
-		
-		BorderLayout layout = new BorderLayout();
-		setLayout(layout);
-		
-		add(tableScrollPane, BorderLayout.CENTER);
-		
-		//add ourselves as a cache listener to the REquestCache
+		//add ourselves as a cache listener to RequestCache
 		RequestCache.getInstance().addCacheListener(this);
-
-		//request all of the requests from the server
-		RequestController.getInstance().getAll(this);		
-	}	
-	
-	/**
-	 * {@inheritDoc}
-	 * @return false
-	 */
 		
-	@Override
-	public boolean onTabClose() {
-		return false;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @return false
-	 */
-	
-	@Override	
-	public boolean isClosable() {
-		return false;
+		//request the list of all requests from the server
+		RequestController.getInstance().getAll(this);
+		
+		//add the table view as the view of this JPanel
+		setLayout(new BorderLayout());
+		add(requestTableView, BorderLayout.CENTER);
 	}
 
-	/** Called when the RequestAllRequests Request is successful,
-	 *  The cache update will take care of updating the TableModel though.
-	 * 
+
+	/** Called when the request to fetch all of the requests was successful,
+	 *   Does not update the table directly, lets an update to the RequestCache update the table
 	 */
 	
 	public void onSucess(IRequest<List<Request>> request) {
-		
+		//do nothing
 	}
-	
-	/** Called when the RequestAllRequest Request was canceled 
+
+	/** Called when the request to fetch all of the request was cancelled
 	 * 
 	 */
 	
 	public void cancelled(IRequest<List<Request>> request) {
-		log.info("Request to update requests was cancelled");
+		log.warn("Request to update request table view was cancelled");
 	}
-	
-	/** Called when the RequestAllRequests Request fails
-	 * 
-	 */
 
+	/** Called when the request to fetch all of the requests was canceled, log the error
+	 * TODO: implement better error handling
+	 */
+	
 	public void onFailure(IRequest<List<Request>> request, Exception e) {
-		log.error("Request to update requests failed", e);
+		log.error("Request to update request table view failed", e);
 	}
 
-	/** Called when the RequestCache has been updated. Updates the TableModel to reflect these changes
+	/** An update has occurred in the RequestTable, update the request table to reflect the change made
 	 * 
 	 */
-
+	
 	public void update(CacheUpdateEvent e) {
-		requestTableModel.setData(RequestCache.getInstance().getAll());
-	}	
-	
-	/** Responds to mouse events on the table
-	 * 
-	 * @author Mitchell Caisse
-	 *
-	 */
-	
-	private class TableMouseAdapter extends MouseAdapter {
-		
-		/** User clicked in the table, check if it is a double click, if so open the selected request
-		 * 
-		 */
-		
-		public void mouseClicked(MouseEvent e) {
-			if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
-				//double left click, find the selected request, then create a tab for it
-				int selectedRow = requestTable.getSelectedRow();
-				Request selectedRequest = requestTableModel.getElementAt(selectedRow);
-				TabController.INSTANCE.addRequestTab(selectedRequest);				
-			}
-		}
+		requestTableView.setTableData(RequestCache.getInstance().getAll());
 	}
+	
 }
