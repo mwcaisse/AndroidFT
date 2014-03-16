@@ -3,7 +3,6 @@
  */
 package com.ricex.aft.client.view.request;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,13 +107,23 @@ public class RequestTableModel implements TableModel {
 		
 	}
 	
+	/** Returns the request item at the given now
+	 * 
+	 * @param row The row to fetch the item for
+	 * @return The Request object at that row
+	 */
+	
+	public Request getItemAt(int row) {
+		return requests.get(row);
+	}
+	
 	/** Sets the data in the table model
 	 * 
 	 * @param devices The new list of devices
 	 */
 	
 	public void setRequests(List<Request> requests) {
-		this.requests = requests;
+		this.requests = new ArrayList<Request>(requests);
 		fireTableChangeEvent(new TableModelEvent(this));
 	}
 	

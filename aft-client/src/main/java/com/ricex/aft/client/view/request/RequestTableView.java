@@ -4,6 +4,8 @@
 package com.ricex.aft.client.view.request;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -21,6 +23,7 @@ import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.util.DateTableCellRenderer;
 import com.ricex.aft.client.view.tab.Tab;
+import com.ricex.aft.client.view.tab.TabController;
 import com.ricex.aft.common.entity.Request;
 
 /**
@@ -55,7 +58,8 @@ public class RequestTableView extends Tab implements CacheListener, RequestListe
 		requestTable = new JTable(requestTableModel);
 		
 		requestTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		requestTable.getColumnModel().getColumn(4).setCellRenderer(new DateTableCellRenderer("MM-dd-yyyy hh:mm:ss"));
+		requestTable.getColumnModel().getColumn(4).setCellRenderer(new DateTableCellRenderer("MM-dd-yyyy HH:mm:ss"));
+		requestTable.addMouseListener(new TableMouseAdapter());
 		
 		tableScrollPane = new JScrollPane(requestTable);
 		
@@ -123,4 +127,26 @@ public class RequestTableView extends Tab implements CacheListener, RequestListe
 	public void update(CacheUpdateEvent e) {
 		requestTableModel.setRequests(RequestCache.getInstance().getAll());
 	}	
+	
+	/** Responds to mouse events on the table
+	 * 
+	 * @author Mitchell Caisse
+	 *
+	 */
+	
+	private class TableMouseAdapter extends MouseAdapter {
+		
+		/** User clicked in the table, check if it is a double click, if so open the selected request
+		 * 
+		 */
+		
+		public void mouseClicked(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+				//double left click, find the selected request, then create a tab for it
+				int selectedRow = requestTable.getSelectedRow();
+				Request selectedRequest = requestTableModel.getItemAt(selectedRow);
+				TabController.INSTANCE.addRequestTab(selectedRequest);				
+			}
+		}
+	}
 }

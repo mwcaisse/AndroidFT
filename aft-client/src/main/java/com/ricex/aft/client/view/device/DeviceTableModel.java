@@ -103,13 +103,23 @@ public class DeviceTableModel implements TableModel {
 		
 	}
 	
+	/** Get the item that a row represents
+	 * 
+	 * @param row The row the item is in
+	 * @return The item in that row
+	 */
+	
+	public Device getItemAt(int row) {
+		return devices.get(row);
+	}
+	
 	/** Sets the data in the table model
 	 * 
 	 * @param devices The new list of devices
 	 */
 	
 	public void setDevices(List<Device> devices) {
-		this.devices = devices;
+		this.devices = new ArrayList<Device>(devices);
 		fireTableChangeEvent(new TableModelEvent(this));
 	}
 	

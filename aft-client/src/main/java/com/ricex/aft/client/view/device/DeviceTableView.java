@@ -4,10 +4,13 @@
 package com.ricex.aft.client.view.device;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import com.ricex.aft.client.controller.DeviceController;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.view.tab.Tab;
+import com.ricex.aft.client.view.tab.TabController;
 import com.ricex.aft.common.entity.Device;
 
 /**
@@ -46,6 +50,9 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 	public DeviceTableView() {
 		deviceTableModel = new DeviceTableModel();
 		deviceTable = new JTable(deviceTableModel);
+		
+		deviceTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		deviceTable.addMouseListener(new TableMouseAdapter());
 		
 		tableScrollPane = new JScrollPane(deviceTable);
 		
@@ -108,6 +115,28 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 	
 	public void onFailure(IRequest<List<Device>> request, Exception e) {
 		log.error("Request to update devices failed", e);
+	}
+	
+	/** Responds to mouse events on the table
+	 * 
+	 * @author Mitchell Caisse
+	 *
+	 */
+	
+	private class TableMouseAdapter extends MouseAdapter {
+		
+		/** User clicked in the table, check if it is a double click, if so open the selected request
+		 * 
+		 */
+		
+		public void mouseClicked(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+				//double left click, find the selected request, then create a tab for it
+				int selectedRow = deviceTable.getSelectedRow();
+				Device selectedDevice = deviceTableModel.getItemAt(selectedRow);
+				TabController.INSTANCE.addDeviceTab(selectedDevice);				
+			}
+		}
 	}
 	
 }

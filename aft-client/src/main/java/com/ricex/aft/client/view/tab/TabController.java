@@ -5,6 +5,8 @@ package com.ricex.aft.client.view.tab;
 
 import javax.swing.JTabbedPane;
 
+import com.ricex.aft.client.view.device.DeviceView;
+import com.ricex.aft.client.view.request.RequestView;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
 
@@ -43,22 +45,24 @@ public enum TabController {
 		}
 	}
 	
-	/** Convience function that adds a new tab for the specified request
+	/** Convenience function that adds a new tab for the specified request
 	 * 
 	 * @param request The request to create the tab for
 	 */
 	
 	public void addRequestTab(Request request) {
-		
+		RequestView requestView = new RequestView(request);
+		addTab(requestView, "Request: " + request.getRequestId());
 	}
 	
-	/** Convience function that adds a new tab for the specified device
+	/** Convenience function that adds a new tab for the specified device
 	 * 
 	 * @param device The device to add
 	 */
 	
 	public void addDeviceTab(Device device) {
-		
+		DeviceView deviceView = new DeviceView(device);
+		addTab(deviceView, device.getDeviceName());
 	}
 	
 	/** Adds a tab and sets its tab component to a closable component
