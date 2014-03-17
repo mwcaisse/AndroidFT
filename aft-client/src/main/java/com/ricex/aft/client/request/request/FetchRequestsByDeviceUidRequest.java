@@ -3,11 +3,11 @@
  */
 package com.ricex.aft.client.request.request;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
-import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
@@ -19,11 +19,13 @@ import com.ricex.aft.common.entity.Request;
  * @author Mitchell Caisse
  *
  */
-public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request>> {
+public class FetchRequestsByDeviceUidRequest extends AbstractRequest<List<Request>> {
 	
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(FetchRequestsByDeviceUidRequest.class);
 	
 	/** The id of the request to fetch */
-	private long deviceId;	
+	private long deviceUid;	
 	
 	/** Creates a new Fetch Request By Id Request to fetch the request with the specified id
 	 * 
@@ -31,9 +33,10 @@ public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request
 	 * @param listener The listener to notify when the request is completed
 	 */
 	
-	public FetchRequestsByDeviceIdRequest(long deviceId, RequestListener<List<Request>> listener) {
+	public FetchRequestsByDeviceUidRequest(long deviceUid, RequestListener<List<Request>> listener) {
 		super(listener);
-		this.deviceId = deviceId;
+		log.debug("Constructor deviceId: {}", deviceUid);
+		this.deviceUid = deviceUid;
 	}
 	
 	/** Adds the fetched request to the Request Cache and then notifies the listener of
@@ -62,7 +65,8 @@ public class FetchRequestsByDeviceIdRequest extends AbstractRequest<List<Request
 	 */
 	
 	protected void constructServerRequest() {
+		log.debug("ConstructServerRequest: deviceId {} deviceId.toString {}", deviceUid, Long.toString(deviceUid));
 		serverRequest = Unirest.get(baseServiceUrl + "request/all/{deviceId}")
-			.routeParam("deviceId", Long.toString(deviceId));
+			.routeParam("deviceId", Long.toString(deviceUid));
 	}
 }

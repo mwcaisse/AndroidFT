@@ -5,10 +5,13 @@ package com.ricex.aft.client.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ricex.aft.client.request.request.CreateRequestRequest;
 import com.ricex.aft.client.request.request.FetchAllRequestsRequest;
 import com.ricex.aft.client.request.request.FetchRequestByIdRequest;
-import com.ricex.aft.client.request.request.FetchRequestsByDeviceIdRequest;
+import com.ricex.aft.client.request.request.FetchRequestsByDeviceUidRequest;
 import com.ricex.aft.client.request.request.UpdateRequestRequest;
 import com.ricex.aft.common.entity.Request;
 
@@ -19,6 +22,9 @@ import com.ricex.aft.common.entity.Request;
  */
 public class RequestController extends AbstractController {
 
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(RequestController.class);
+	
 	/** The singleton instance of this controller */
 	private static RequestController _instance;
 	
@@ -50,8 +56,7 @@ public class RequestController extends AbstractController {
 	
 	public void get(long id, RequestListener<Request> listener) {
 		FetchRequestByIdRequest request = new FetchRequestByIdRequest(id, listener);
-		makeAsyncRequest(request);
-	
+		makeAsyncRequest(request);	
 	}
 	
 	/** Fetches all of the requests from the web service
@@ -66,12 +71,12 @@ public class RequestController extends AbstractController {
 	
 	/** Fetches all of the requests that belong to the specified device
 	 * 
-	 * @param deviceId The device to fetch the requests for
+	 * @param deviceId The UID of the device to fetch the requests for
 	 * @param listener The listener to notify of completion of the request
 	 */
 	
-	public void getAllForDevice(long deviceId, RequestListener<List<Request>> listener) {
-		FetchRequestsByDeviceIdRequest request = new FetchRequestsByDeviceIdRequest(deviceId, listener);
+	public void getAllForDevice(long deviceUid, RequestListener<List<Request>> listener) {
+		FetchRequestsByDeviceUidRequest request = new FetchRequestsByDeviceUidRequest(deviceUid, listener);
 		makeAsyncRequest(request);
 	}
 	

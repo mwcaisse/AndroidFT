@@ -3,14 +3,24 @@
  */
 package com.ricex.aft.client.view.device;
 
+import java.util.List;
+
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ricex.aft.client.controller.RequestController;
+import com.ricex.aft.client.controller.RequestListener;
+import com.ricex.aft.client.request.IRequest;
+import com.ricex.aft.client.view.request.RequestTable;
 import com.ricex.aft.client.view.tab.Tab;
 import com.ricex.aft.common.entity.Device;
+import com.ricex.aft.common.entity.Request;
 
 /**
  *  The view to be used for displaying a list of all the current known devices
@@ -19,8 +29,11 @@ import com.ricex.aft.common.entity.Device;
  * @author Mitchell Caisse
  *
  */
-public class DeviceView extends Tab {
+public class DeviceView extends Tab implements RequestListener<List<Request>> {
 
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(RequestTable.class);
+	
 	/** Enum representing the display mode for this tab
 	 * 		create - Create a new device
 	 * 		view - Read only view of an existing device
@@ -74,6 +87,9 @@ public class DeviceView extends Tab {
 	/** Check box for displaying the active status of the device */
 	private JCheckBox cbxActive;
 	
+	/** The request table that will show the list of requests for this device */
+	private RequestTable requestTable;
+	
 	/** Creates a new Device View that will be setup to create a new Device
 	 * 
 	 */
@@ -101,6 +117,8 @@ public class DeviceView extends Tab {
 		this.device = device;
 		this.mode = mode;
 		
+		log.debug("Creating DeviceView for Device with ID {} and Name: {}", device.getDeviceId(), device.getDeviceName());
+		
 		initializeView();
 	}
 	
@@ -111,6 +129,8 @@ public class DeviceView extends Tab {
 	protected void initializeView() {
 		initializeLabels();
 		initializeFields();
+		initializeRequestTable();
+		
 		initializeLayout();
 		addComponents();
 	}
@@ -149,6 +169,19 @@ public class DeviceView extends Tab {
 		}
 	}
 	
+	/** Initializes the request table, and makes the request to fetch the data
+	 *   for the requests
+	 */
+	
+	protected void initializeRequestTable() {
+		if (mode != Mode.CREATE) {
+			//create the request table
+			requestTable = new RequestTable();			
+			//fetch all of the requests from the server that belong to this device
+			RequestController.getInstance().getAllForDevice(device.getDeviceUid(), this);
+		}
+	}
+	
 	/** Initializes the layout for the view
 	 * 
 	 */
@@ -184,6 +217,13 @@ public class DeviceView extends Tab {
 		layout.putConstraint(SpringLayout.EAST, txtUuid, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, txtRegistrationId, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxActive, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		
+		//add the request table
+		layout.putConstraint(SpringLayout.EAST, panel, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, requestTable);
+		layout.putConstraint(SpringLayout.WEST, panel, -PADDING_HORIZONTAL_CLOSE, SpringLayout.WEST, requestTable);
+		layout.putConstraint(SpringLayout.SOUTH, panel, -PADDING_VERTICAL_CLOSE, SpringLayout.SOUTH, requestTable);
+		layout.putConstraint(SpringLayout.NORTH, requestTable, PADDING_VERTICAL, SpringLayout.SOUTH, cbxActive);
+		
 		setLayout(layout);
 		
 	}
@@ -206,6 +246,33 @@ public class DeviceView extends Tab {
 		add(txtRegistrationId);
 		add(cbxActive);
 		
+		//add the request table
+		add(requestTable);
+		
+	}
+
+	/** Called when the request to fetch all of this devices requests has returned successfully, puts the data
+	 * 		into the request table
+	 */
+	
+	public void onSucess(IRequest<List<Request>> request) {
+		requestTable.setTableData(request.getResponse());
+	}
+
+	/** Called when the request to fetch all of this devices requests has been cancelled
+	 * 
+	 */
+	
+	public void cancelled(IRequest<List<Request>> request) {
+		log.warn("Request to fetch all requests for device {} was canceled", device.getDeviceId());
+	}
+
+	/** Called when the request to fetch all of this devices requests has failed and logs the exception
+	 * 
+	 */
+	
+	public void onFailure(IRequest<List<Request>> request, Exception e) {
+		log.error("Request to fetch all requests for device {} was canceled", device.getDeviceId(), e);
 	}
 	
 	

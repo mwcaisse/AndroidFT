@@ -22,6 +22,9 @@ import com.ricex.aft.client.util.JsonDateMillisecondsEpochDeserializer;
  */
 public abstract class AbstractRequest<T> implements IRequest<T> {
 	
+	/** The request count to use for request ids */
+	private static long requestCount = 0;
+	
 	/** The id of this request */
 	private long id;
 	
@@ -34,7 +37,7 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	/** The response item this received from the server, if the request was successful */
 	protected T response;
 	
-	/** The base service URL of the webservice */
+	/** The base service URL of the web service */
 	protected String baseServiceUrl;
 	
 	/** Gson object to be used for converting to and from JSON */
@@ -46,13 +49,22 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	 */
 	
 	protected AbstractRequest(RequestListener<T> listener) {
-		id = UUID.randomUUID().getLeastSignificantBits();
 		this.listener = listener;
-		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";
-		constructServerRequest();
+		
+		id = getNextId();
+		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";		
 		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer()).create();
-	}	
+	}
+	
+	/** Gets the next id to use for a request
+	 * 
+	 * @return The next available id
+	 */
+	
+	private static long getNextId() {
+		return requestCount++;
+	}
 	
 	/** Called when the processResponse has been completed, should do any additional actions with the 
 	 * 		response as needed.
@@ -125,6 +137,9 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	 */
 	
 	public BaseRequest getServerRequest() {
+		if (serverRequest == null) {
+			constructServerRequest();	
+		}
 		return serverRequest;
 	}
 	

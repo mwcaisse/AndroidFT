@@ -49,9 +49,9 @@ public class RequestController {
 		return requestManager.getRequestById(id);
 	}
 	
-	/** Returns a list of all requests 	 * 
-
+	/** Returns a list of all requests 
 	 */
+	
 	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Request> getRequestsForDevice() {
 		return requestManager.getAllRequests();
@@ -61,6 +61,7 @@ public class RequestController {
 	 * 
 	 * @param deviceId The unique id of the device
 	 */
+	
 	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable long deviceUid) {
 		return requestManager.getRequestsForDevice(deviceUid);
