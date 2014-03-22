@@ -32,7 +32,7 @@ import com.ricex.aft.common.entity.Request;
 public class DeviceView extends Tab implements RequestListener<List<Request>> {
 
 	/** Logger instance */
-	private static Logger log = LoggerFactory.getLogger(RequestTable.class);
+	private static Logger log = LoggerFactory.getLogger(DeviceView.class);
 	
 	/** Enum representing the display mode for this tab
 	 * 		create - Create a new device
