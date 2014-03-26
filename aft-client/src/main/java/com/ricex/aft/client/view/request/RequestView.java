@@ -7,12 +7,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ricex.aft.client.view.device.DeviceView;
 import com.ricex.aft.client.view.tab.Tab;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
@@ -35,6 +36,18 @@ public class RequestView extends Tab {
 	 */
 	
 	public enum Mode { CREATE, EDIT, VIEW };
+	
+	/** Vertical padding constant for the SpringLayout */
+	private static final int PADDING_VERTICAL = 5;
+	
+	/** Vertical padding constant for related, or close, elements in the SpringLayout */
+	private static final int PADDING_VERTICAL_CLOSE = 10;
+	
+	/** Horizontal padding constant for the Spring Layout */
+	private static final int PADDING_HORIZONTAL = 10;
+	
+	/** Horizontal padding constant for related, or close, elements in the SpringLayout */
+	private static final int PADDING_HORIZONTAL_CLOSE = 5;
 	
 	/** The request that this request view will be displaying */
 	private final Request request;
@@ -115,13 +128,16 @@ public class RequestView extends Tab {
 		
 		initializeLabels();
 		initializeInputComponents();
+		initializeLayout();
+		
+		addComponents();
 	}
 	
 	/** Initializes the components used for inputting data into the request view
 	 * 
 	 */
 	
-	private void initializeInputComponents() {
+	protected void initializeInputComponents() {
 		txtLastUpdated = new JTextField();
 		txtFileName = new JTextField();
 		txtFileLocation = new JTextField();
@@ -139,12 +155,73 @@ public class RequestView extends Tab {
 	 * 
 	 */
 	
-	private void initializeLabels() {
+	protected void initializeLabels() {
 		lblDevice = new JLabel("Device: ");
 		lblStatus = new JLabel("Status: ");
 		lblLastUpdated = new JLabel("Last Updated: ");
 		lblFileName = new JLabel("File: ");
 		lblFileLocation = new JLabel("File Location: ");
+	}
+	
+	protected void initializeLayout() {
+		
+		SpringLayout layout = new SpringLayout();
+		JPanel panel = this;
+		
+		layout.putConstraint(SpringLayout.WEST, lblFileName, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblFileLocation, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblDevice, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblStatus, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblLastUpdated, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		
+		layout.putConstraint(SpringLayout.NORTH, txtFileName, PADDING_VERTICAL, SpringLayout.NORTH, panel);
+		layout.putConstraint(SpringLayout.NORTH, txtFileLocation, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileName);
+		layout.putConstraint(SpringLayout.NORTH, cbxDevice, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileLocation);
+		layout.putConstraint(SpringLayout.NORTH, cbxStatus, PADDING_VERTICAL, SpringLayout.SOUTH, cbxDevice);
+		layout.putConstraint(SpringLayout.NORTH, txtLastUpdated, PADDING_VERTICAL, SpringLayout.SOUTH, cbxStatus);
+		
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileName, 0, SpringLayout.VERTICAL_CENTER, txtFileName);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileLocation, 0, SpringLayout.VERTICAL_CENTER, txtFileLocation);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblDevice, 0, SpringLayout.VERTICAL_CENTER, cbxDevice);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblStatus, 0, SpringLayout.VERTICAL_CENTER, cbxStatus);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblLastUpdated, 0, SpringLayout.VERTICAL_CENTER, txtLastUpdated);
+		
+		layout.putConstraint(SpringLayout.WEST, txtFileLocation, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, lblFileLocation);
+		
+		layout.putConstraint(SpringLayout.WEST, txtFileName, 0, SpringLayout.WEST, txtFileLocation);
+		layout.putConstraint(SpringLayout.WEST, cbxDevice, 0, SpringLayout.WEST, txtFileLocation);
+		layout.putConstraint(SpringLayout.WEST, cbxStatus, 0, SpringLayout.WEST, txtFileLocation);
+		layout.putConstraint(SpringLayout.WEST, txtLastUpdated, 0, SpringLayout.WEST, txtFileLocation);
+		
+		layout.putConstraint(SpringLayout.EAST, txtFileName, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, txtFileLocation, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, cbxDevice, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, cbxStatus, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, txtLastUpdated, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		
+		setLayout(layout);	
+		
+		
+	}
+	
+	/** Adds the components to the view
+	 * 
+	 */
+	
+	protected void addComponents() {
+		//add the labels
+		add(lblFileName);
+		add(lblFileLocation);
+		add(lblDevice);
+		add(lblStatus);
+		add(lblLastUpdated);
+		
+		//add the input components
+		add(txtFileName);
+		add(txtFileLocation);
+		add(cbxDevice);
+		add(cbxStatus);
+		add(txtLastUpdated);
 	}
 	
 }

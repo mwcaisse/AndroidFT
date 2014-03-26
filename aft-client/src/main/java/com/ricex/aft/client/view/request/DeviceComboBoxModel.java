@@ -13,6 +13,7 @@ import javax.swing.event.ListDataListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.client.controller.DeviceController;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.common.entity.Device;
@@ -53,6 +54,15 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	public void onSucess(IRequest<List<Device>> request) {
 		this.devices = new ArrayList<Device>(request.getResponse());
 		notifyListeners(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, devices.size() - 1));
+		updateDevices();
+	}
+	
+	/** Requests a list of all devices from the web service
+	 * 
+	 */
+	
+	public void updateDevices() {
+		DeviceController.getInstance().getAllDevices(this);	
 	}
 	
 	/** Called when the request to fetch the devices has been cancelled 
