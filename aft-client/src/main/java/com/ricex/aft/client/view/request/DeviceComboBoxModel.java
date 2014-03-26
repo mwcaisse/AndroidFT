@@ -45,6 +45,8 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	public DeviceComboBoxModel() {
 		devices = new ArrayList<Device>();
 		listeners = new ArrayList<ListDataListener>();
+		log.debug("Creating device Combo Box Model");
+		DeviceController.getInstance().getAllDevices(this);
 	}
 
 	/** Called when the request to fetch the devices is successful
@@ -52,8 +54,8 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 */
 	
 	public void onSucess(IRequest<List<Device>> request) {
+		log.debug("Received an OnSuccess from the server when requesting devices");
 		this.devices = new ArrayList<Device>(request.getResponse());
-		notifyListeners(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, devices.size() - 1));
 		updateDevices();
 	}
 	
@@ -63,6 +65,7 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	
 	public void updateDevices() {
 		DeviceController.getInstance().getAllDevices(this);	
+		notifyListeners(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, devices.size() - 1));
 	}
 	
 	/** Called when the request to fetch the devices has been cancelled 
@@ -70,7 +73,7 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 */
 
 	public void cancelled(IRequest<List<Device>> request) {
-		
+		log.warn("Received an cancelled from the server when requesting devices");
 	}
 	
 	/**Called when the request to fetch the devices has failed
@@ -78,7 +81,7 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 */
 
 	public void onFailure(IRequest<List<Device>> request, Exception e) {
-		
+		log.error("Received an OnFailure from the server when requesting devices", e);
 	}
 
 

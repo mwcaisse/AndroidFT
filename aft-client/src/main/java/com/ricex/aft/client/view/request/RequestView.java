@@ -97,6 +97,9 @@ public class RequestView extends Tab {
 	/** The ComboBox model for the Status combobox */
 	private DefaultComboBoxModel cbxStatusModel;
 	
+	/** The ComboBox model for the device combobox */
+	private DeviceComboBoxModel cbxDeviceModel;
+	
 
 	
 	/** Creates a new RequestView to create a Request
@@ -142,7 +145,8 @@ public class RequestView extends Tab {
 		txtFileName = new JTextField();
 		txtFileLocation = new JTextField();
 		
-		cbxDevice = new JComboBox();
+		cbxDeviceModel = new DeviceComboBoxModel();
+		cbxDevice = new JComboBox(cbxDeviceModel);
 		
 		cbxStatusModel = new DefaultComboBoxModel(RequestStatus.values());
 		cbxStatus = new JComboBox(cbxStatusModel);
