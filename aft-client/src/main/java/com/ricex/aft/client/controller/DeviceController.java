@@ -5,6 +5,9 @@ package com.ricex.aft.client.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ricex.aft.client.request.device.FetchAllDevicesRequest;
 import com.ricex.aft.client.request.device.FetchDeviceByIdRequest;
 import com.ricex.aft.common.entity.Device;
@@ -17,6 +20,9 @@ import com.ricex.aft.common.entity.Device;
  */
 public class DeviceController extends AbstractController {
 
+	/** The logger */
+	private static Logger log = LoggerFactory.getLogger(DeviceController.class);
+	
 	/** The singleton instance of the device controller */
 	private static DeviceController _instance;
 	
@@ -57,6 +63,7 @@ public class DeviceController extends AbstractController {
 	 */
 	
 	public void getAllDevices(RequestListener<List<Device>> listener) {
+		log.info("Making a request to get all devices, listener {} ", listener);
 		FetchAllDevicesRequest request = new FetchAllDevicesRequest(listener);
 		makeAsyncRequest(request);
 	}

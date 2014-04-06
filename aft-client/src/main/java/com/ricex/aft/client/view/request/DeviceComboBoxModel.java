@@ -55,17 +55,25 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	
 	public void onSucess(IRequest<List<Device>> request) {
 		log.debug("Received an OnSuccess from the server when requesting devices");
-		this.devices = new ArrayList<Device>(request.getResponse());
-		updateDevices();
+		this.devices = new ArrayList<Device>(request.getResponse());	
 	}
+	
+	/** Sets the devices in this combo box to the devices in the given list
+	 * 
+	 * @param devices The new devices for the combo box
+	 */
+	
+	protected void setDevices(List<Device> devices) {
+		this.devices = new ArrayList<Device>(devices);
+		notifyListeners(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, devices.size() - 1));
+	}	
 	
 	/** Requests a list of all devices from the web service
 	 * 
 	 */
 	
 	public void updateDevices() {
-		DeviceController.getInstance().getAllDevices(this);	
-		notifyListeners(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, devices.size() - 1));
+		DeviceController.getInstance().getAllDevices(this);			
 	}
 	
 	/** Called when the request to fetch the devices has been cancelled 
