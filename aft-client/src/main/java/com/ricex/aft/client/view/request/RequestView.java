@@ -131,9 +131,14 @@ public class RequestView extends Tab {
 		
 		initializeLabels();
 		initializeInputComponents();
+		initializeButtons();
 		initializeLayout();
 		
 		addComponents();
+		
+		populateFields();
+		disableFields();
+	
 	}
 	
 	/** Initializes the components used for inputting data into the request view
@@ -155,6 +160,32 @@ public class RequestView extends Tab {
 		
 	}
 	
+	/** Initializes the buttons 
+	 * 
+	 */
+	
+	protected void initializeButtons() {
+		
+		butCancel = new JButton("Discard");
+		
+		switch (mode) {
+		case CREATE:			
+			butBrowseFile = new JButton("Browse");
+			butSave = new JButton("Create");			
+			break;
+		case EDIT:			
+			butBrowseFile = new JButton("Download");
+			butSave = new JButton("Save");			
+			break;
+		case VIEW:
+			butBrowseFile = new JButton("Download");
+			butSave = new JButton("Save");	
+			break;		
+		}
+		
+
+	}
+	
 	/** Initializes the labels used to label the input components
 	 * 
 	 */
@@ -166,6 +197,39 @@ public class RequestView extends Tab {
 		lblFileName = new JLabel("File: ");
 		lblFileLocation = new JLabel("File Location: ");
 	}
+	
+	/** Populates the fields based upon the current mode
+	 * 
+	 */
+	
+	protected void populateFields() {
+		if (mode == Mode.VIEW || mode == Mode.EDIT) {
+			txtFileName.setText(request.getRequestFile().getFileName());
+			txtFileLocation.setText(request.getRequestFileLocation());
+			cbxStatus.setSelectedItem(request.getRequestStatus());
+			txtLastUpdated.setText(request.getRequestUpdated().toString());	
+		}
+	}
+	
+	/** Disables fields depending on the mode
+	 * 
+	 */
+	
+	protected void disableFields() {
+		if (mode == Mode.VIEW) {
+			txtFileName.setEnabled(false);
+			txtFileLocation.setEnabled(false);
+			cbxStatus.setEnabled(false);
+			cbxDevice.setEnabled(false);
+			txtLastUpdated.setEnabled(false);
+			butSave.setEnabled(false);
+			butCancel.setEnabled(false);
+		}
+	}
+	
+	/** Initializes the layout to be used
+	 * 
+	 */
 	
 	protected void initializeLayout() {
 		
@@ -197,11 +261,22 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.WEST, cbxStatus, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, txtLastUpdated, 0, SpringLayout.WEST, txtFileLocation);
 		
-		layout.putConstraint(SpringLayout.EAST, txtFileName, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, txtFileLocation, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxDevice, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxStatus, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, txtLastUpdated, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		
+		
+		layout.putConstraint(SpringLayout.EAST, butBrowseFile, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, butBrowseFile, 0, SpringLayout.VERTICAL_CENTER, txtFileName);
+		layout.putConstraint(SpringLayout.EAST, txtFileName, - PADDING_HORIZONTAL, SpringLayout.WEST, butBrowseFile);
+		
+		
+		layout.putConstraint(SpringLayout.EAST, butCancel, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.SOUTH, butCancel, -PADDING_VERTICAL, SpringLayout.SOUTH, panel);
+		
+		layout.putConstraint(SpringLayout.EAST, butSave, -PADDING_HORIZONTAL, SpringLayout.WEST, butCancel);
+		layout.putConstraint(SpringLayout.SOUTH, butSave, -PADDING_VERTICAL, SpringLayout.SOUTH, panel);
 		
 		setLayout(layout);	
 		
@@ -226,6 +301,11 @@ public class RequestView extends Tab {
 		add(cbxDevice);
 		add(cbxStatus);
 		add(txtLastUpdated);
+		
+		//add the buttons
+		add(butBrowseFile);
+		add(butCancel);
+		add(butSave);
 	}
 	
 }

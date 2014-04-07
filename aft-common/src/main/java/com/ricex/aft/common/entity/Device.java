@@ -91,8 +91,12 @@ public class Device implements Serializable {
 		this.deviceRegistrationId = deviceRegistrationId;
 	}
 	
+	/** To string method, will return the name of this device
+	 *
+	 */
+	
 	public String toString() {
-		return "Device";
+		return getDeviceName();
 	}
 	
 }
