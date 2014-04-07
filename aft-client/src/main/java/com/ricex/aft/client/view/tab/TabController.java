@@ -65,6 +65,17 @@ public enum TabController {
 		addTab(deviceView, device.getDeviceName());
 	}
 	
+
+	/** Switches to the given tab
+	 * 
+	 * @param tab THe tab to switch to
+	 */
+	
+	public void switchToTab(Tab tab) {
+		int index = tabbedPane.indexOfComponent(tab);
+		tabbedPane.setSelectedIndex(index);
+	}
+	
 	/** Adds a tab and sets its tab component to a closable component
 	 * 
 	 * @param tab The tab to add
@@ -75,6 +86,7 @@ public enum TabController {
 		tabbedPane.addTab(title, tab);
 		int index = tabbedPane.indexOfComponent(tab);
 		tabbedPane.setTabComponentAt(index, new ClosableTabComponent(this));
+		switchToTab(tab);
 	}
 	
 	/** Adds a tab that is unclosable
@@ -85,6 +97,7 @@ public enum TabController {
 	
 	protected void addUnclosableTab(Tab tab, String title) {
 		tabbedPane.addTab(title, tab);
+		switchToTab(tab);
 	}
 	
 	
