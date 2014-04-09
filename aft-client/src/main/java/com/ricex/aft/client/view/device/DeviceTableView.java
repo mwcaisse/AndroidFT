@@ -134,7 +134,7 @@ public class DeviceTableView extends Tab implements CacheListener, RequestListen
 				//double left click, find the selected request, then create a tab for it
 				int selectedRow = deviceTable.getSelectedRow();
 				Device selectedDevice = deviceTableModel.getElementAt(selectedRow);
-				TabController.INSTANCE.addDeviceTab(selectedDevice);				
+				TabController.INSTANCE.addDeviceTab(selectedDevice, DeviceView.Mode.VIEW);				
 			}
 		}
 	}

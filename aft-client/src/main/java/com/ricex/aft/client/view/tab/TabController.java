@@ -50,8 +50,8 @@ public enum TabController {
 	 * @param request The request to create the tab for
 	 */
 	
-	public void addRequestTab(Request request) {
-		RequestView requestView = new RequestView(request);
+	public void addRequestTab(Request request, RequestView.Mode mode) {
+		RequestView requestView = new RequestView(request, mode);
 		addTab(requestView, "Request: " + request.getRequestId());
 	}
 	
@@ -60,11 +60,10 @@ public enum TabController {
 	 * @param device The device to add
 	 */
 	
-	public void addDeviceTab(Device device) {
-		DeviceView deviceView = new DeviceView(device);
+	public void addDeviceTab(Device device, DeviceView.Mode mode) {
+		DeviceView deviceView = new DeviceView(device, mode);
 		addTab(deviceView, device.getDeviceName());
 	}
-	
 
 	/** Switches to the given tab
 	 * 

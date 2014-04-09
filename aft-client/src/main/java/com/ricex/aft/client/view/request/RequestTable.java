@@ -16,8 +16,6 @@ import javax.swing.ListSelectionModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ricex.aft.client.controller.RequestController;
-import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.util.DateTableCellRenderer;
 import com.ricex.aft.client.view.tab.TabController;
 import com.ricex.aft.common.entity.Request;
@@ -91,7 +89,7 @@ public class RequestTable extends JPanel {
 				//double left click, find the selected request, then create a tab for it
 				int selectedRow = requestTable.getSelectedRow();
 				Request selectedRequest = requestTableModel.getElementAt(selectedRow);
-				TabController.INSTANCE.addRequestTab(selectedRequest);				
+				TabController.INSTANCE.addRequestTab(selectedRequest, RequestView.Mode.VIEW);				
 			}
 		}
 	}
