@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.request.request.CreateRequestRequest;
 import com.ricex.aft.client.request.request.FetchAllRequestsRequest;
 import com.ricex.aft.client.request.request.FetchRequestByIdRequest;
@@ -52,54 +53,64 @@ public class RequestController extends AbstractController {
 	 * 
 	 * @param id The id of the request to request
 	 * @param listener The listener to notify of the results of the request
+	 * @return The request that was created
 	 */
 	
-	public void get(long id, RequestListener<Request> listener) {
+	public IRequest<Request> get(long id, RequestListener<Request> listener) {
 		FetchRequestByIdRequest request = new FetchRequestByIdRequest(id, listener);
-		makeAsyncRequest(request);	
+		makeAsyncRequest(request);
+		return request;
 	}
 	
 	/** Fetches all of the requests from the web service
 	 * 
 	 * @param listener The listener to notify of the results of the request
+	 * @return The request that was created
 	 */
 	
-	public void getAll(RequestListener<List<Request>> listener) {
+	public IRequest<List<Request>> getAll(RequestListener<List<Request>> listener) {
 		FetchAllRequestsRequest request = new FetchAllRequestsRequest(listener);
 		makeAsyncRequest(request);
+		return request;
 	}
 	
 	/** Fetches all of the requests that belong to the specified device
 	 * 
 	 * @param deviceId The UID of the device to fetch the requests for
 	 * @param listener The listener to notify of completion of the request
+	 * @return The request that was created
 	 */
 	
-	public void getAllForDevice(long deviceUid, RequestListener<List<Request>> listener) {
+	public IRequest<List<Request>> getAllForDevice(long deviceUid, RequestListener<List<Request>> listener) {
 		FetchRequestsByDeviceUidRequest request = new FetchRequestsByDeviceUidRequest(deviceUid, listener);
 		makeAsyncRequest(request);
+		return request;
 	}
 	
 	/** Creates a new request
 	 * 
 	 * @param toCreate The request to create
 	 * @param listener The listener to notify of the results of the request
+	 * @return The request that was created
 	 */
 	
-	public void createRequest(Request toCreate, RequestListener<Long> listener) {
+	public IRequest<Long> createRequest(Request toCreate, RequestListener<Long> listener) {
 		CreateRequestRequest request = new CreateRequestRequest(toCreate, listener);
 		makeAsyncRequest(request);
+		return request;
 	}
 	
 	/** Updates the specified request
 	 * 
 	 * @param toUpdate The request to update
 	 * @param listener The listener to notify of the results of the request
+	 * @return The request that was created
 	 */
 	
-	public void updateRequest(Request toUpdate, RequestListener<Long> listener) {
+	public IRequest<Long> updateRequest(Request toUpdate, RequestListener<Long> listener) {
 		UpdateRequestRequest request = new UpdateRequestRequest(toUpdate, listener);
 		makeAsyncRequest(request);
+		return request;
 	}
 
 
