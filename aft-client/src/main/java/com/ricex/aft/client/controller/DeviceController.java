@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.request.device.FetchAllDevicesRequest;
 import com.ricex.aft.client.request.device.FetchDeviceByIdRequest;
 import com.ricex.aft.common.entity.Device;
@@ -50,22 +51,26 @@ public class DeviceController extends AbstractController {
 	 * 
 	 * @param deviceId The id of the device to fetch
 	 * @param listener The request listener to notify when the request completes
+	 * @return The request that was created
 	 */
 	
-	public void getDevice(long deviceId, RequestListener<Device> listener) {
+	public IRequest<Device> getDevice(long deviceId, RequestListener<Device> listener) {
 		FetchDeviceByIdRequest request = new FetchDeviceByIdRequest(deviceId, listener);
 		makeAsyncRequest(request);
+		return request;
 	}
 	
 	/** Fetches all of the devices from the web service
 	 * 
 	 * @param listener The listener to notify when the request completes
+	 * @return The request that was created
 	 */
 	
-	public void getAllDevices(RequestListener<List<Device>> listener) {
+	public IRequest<List<Device>> getAllDevices(RequestListener<List<Device>> listener) {
 		log.info("Making a request to get all devices, listener {} ", listener);
 		FetchAllDevicesRequest request = new FetchAllDevicesRequest(listener);
 		makeAsyncRequest(request);
+		return request;
 	}
 	
 }
