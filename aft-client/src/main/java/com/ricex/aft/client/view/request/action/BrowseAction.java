@@ -5,9 +5,15 @@ package com.ricex.aft.client.view.request.action;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ricex.aft.client.view.request.RequestView;
 
@@ -17,6 +23,8 @@ import com.ricex.aft.client.view.request.RequestView;
  */
 public class BrowseAction extends AbstractAction {
 
+	private static Logger log = LoggerFactory.getLogger(BrowseAction.class);
+	
 	/** The request view this browse action is for */
 	private final RequestView requestView;
 	
@@ -45,6 +53,22 @@ public class BrowseAction extends AbstractAction {
 		if (res == JFileChooser.APPROVE_OPTION) {
 			//get the file the user selected to open
 			File osFile = fileChooser.getSelectedFile();
+			byte[] fileBytes = null;
+			
+			try {
+				fileBytes = Files.readAllBytes(Paths.get(osFile.getPath()));
+			}
+			catch (IOException ex) {
+				log.error("Failed to open file {}", osFile, ex);
+			}
+			
+			if (fileBytes != null) {
+				com.ricex.aft.common.entity.File requestFile = new com.ricex.aft.common.entity.File();
+				requestFile.setFileContents(fileBytes);
+				requestFile.setFileName(osFile.getName());
+			}
+			
+	
 			
 			//we have the file. lets add it to the request
 			com.ricex.aft.common.entity.File requestFile = new com.ricex.aft.common.entity.File();
