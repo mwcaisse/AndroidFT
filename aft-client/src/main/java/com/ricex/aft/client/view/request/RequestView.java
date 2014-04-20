@@ -3,6 +3,10 @@
  */
 package com.ricex.aft.client.view.request;
 
+import java.awt.event.ActionEvent;
+import java.util.Date;
+
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -129,6 +133,7 @@ public class RequestView extends Tab {
 		this.request = request;
 		this.mode = mode;
 		
+		initializeRequest();
 		initializeLabels();
 		initializeInputComponents();
 		initializeButtons();
@@ -139,6 +144,17 @@ public class RequestView extends Tab {
 		populateFields();
 		disableFields();
 	
+	}
+	
+	/** Initializes the request that will be displayed in this view
+	 *
+	 */
+	
+	protected void initializeRequest() {
+		if (mode == Mode.CREATE) {
+			request.setRequestUpdated(new Date());
+			request.setRequestStatus(RequestStatus.NEW);
+		}
 	}
 	
 	/** Initializes the components used for inputting data into the request view
@@ -183,6 +199,7 @@ public class RequestView extends Tab {
 			break;		
 		}
 		
+		
 
 	}
 	
@@ -203,7 +220,10 @@ public class RequestView extends Tab {
 	 */
 	
 	protected void populateFields() {
-		if (mode == Mode.VIEW || mode == Mode.EDIT) {
+		if (mode == Mode.CREATE) {
+			txtLastUpdated.setText(request.getRequestUpdated().toString());
+		}
+		else if (mode == Mode.VIEW || mode == Mode.EDIT) {
 			txtFileName.setText(request.getRequestFile().getFileName());
 			txtFileLocation.setText(request.getRequestFileLocation());
 			cbxStatus.setSelectedItem(request.getRequestStatus());
@@ -224,6 +244,10 @@ public class RequestView extends Tab {
 			txtLastUpdated.setEnabled(false);
 			butSave.setEnabled(false);
 			butCancel.setEnabled(false);
+		}
+		else if (mode == Mode.CREATE) {
+			txtLastUpdated.setEnabled(false);
+			cbxStatus.setEnabled(false);
 		}
 	}
 	
@@ -306,6 +330,5 @@ public class RequestView extends Tab {
 		add(butBrowseFile);
 		add(butCancel);
 		add(butSave);
-	}
-	
+	}	
 }
