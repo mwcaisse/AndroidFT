@@ -115,6 +115,14 @@ public enum TabController {
 			tabbedPane.remove(toClose);
 		}
 	}
+	
+	/** Attempts to close the currently open tab. Will fail if the currently open tab is marked unclosable
+	 * 
+	 */
+	
+	public void closeCurrentTab() {
+		closeTab(tabbedPane.getSelectedIndex());
+	}
 
 	
 	
