@@ -19,14 +19,14 @@ public interface Controller<T, I> {
 	 * @return The request that was sent to the server
 	 */
 	
-	public IRequest get(I id, RequestListener<T> listener);
+	public IRequest<T> get(I id, RequestListener<T> listener);
 	
 	/** Fetches all of the elements from the web service
 	 * @param listener The request listener to notify of the results
 	 * @return The request that was sent to the server
 	 */
 	
-	public IRequest getAll(RequestListener<T> listener);
+	public IRequest<T> getAll(RequestListener<T> listener);
 	
 	/** Creates the specified element on the web service
 	 * 
@@ -35,7 +35,7 @@ public interface Controller<T, I> {
 	 * @return The request that was sent to the server
 	 */
 	
-	public IRequest create(T toCreate, RequestListener<T> listener);
+	public IRequest<T> create(T toCreate, RequestListener<T> listener);
 	
 	/** Updates the specified element on the web service
 	 * 
@@ -43,6 +43,6 @@ public interface Controller<T, I> {
 	 * @return The request that was sent to the server
 	 */
 	
-	public IRequest update(T toUpdate, RequestListener<T> listener);
+	public IRequest<T> update(T toUpdate, RequestListener<T> listener);
 	
 }

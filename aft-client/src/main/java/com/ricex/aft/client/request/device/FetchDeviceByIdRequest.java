@@ -3,9 +3,6 @@
  */
 package com.ricex.aft.client.request.device;
 
-import java.util.List;
-
-import com.google.gson.Gson;
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.DeviceCache;
 import com.ricex.aft.client.controller.RequestListener;

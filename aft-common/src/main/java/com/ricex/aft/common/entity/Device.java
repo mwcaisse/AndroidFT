@@ -1,7 +1,6 @@
 package com.ricex.aft.common.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 /** Represents an android device
  * 

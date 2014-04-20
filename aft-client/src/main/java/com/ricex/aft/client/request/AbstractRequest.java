@@ -5,7 +5,6 @@ package com.ricex.aft.client.request;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

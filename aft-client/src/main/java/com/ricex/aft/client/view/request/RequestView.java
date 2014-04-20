@@ -3,10 +3,8 @@
  */
 package com.ricex.aft.client.view.request;
 
-import java.awt.event.ActionEvent;
 import java.util.Date;
 
-import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,6 +16,7 @@ import javax.swing.SpringLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.client.view.request.action.BrowseAction;
 import com.ricex.aft.client.view.tab.Tab;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
@@ -187,6 +186,8 @@ public class RequestView extends Tab {
 		switch (mode) {
 		case CREATE:			
 			butBrowseFile = new JButton("Browse");
+			butBrowseFile.setAction(new BrowseAction(this));
+			butBrowseFile.setText("Browse");
 			butSave = new JButton("Create");			
 			break;
 		case EDIT:			
@@ -229,6 +230,17 @@ public class RequestView extends Tab {
 			cbxStatus.setSelectedItem(request.getRequestStatus());
 			txtLastUpdated.setText(request.getRequestUpdated().toString());	
 		}
+	}
+	
+	/** Updates the fields in the Request View
+	 * 
+	 */
+	
+	protected void updateFields() {
+		txtFileName.setText(request.getRequestFile().getFileName());
+		txtFileLocation.setText(request.getRequestFileLocation());
+		cbxStatus.setSelectedItem(request.getRequestStatus());
+		txtLastUpdated.setText(request.getRequestUpdated().toString());	
 	}
 	
 	/** Disables fields depending on the mode
@@ -331,4 +343,13 @@ public class RequestView extends Tab {
 		add(butCancel);
 		add(butSave);
 	}	
+	
+	/** Retreives the request that this request view is displaying
+	 * 
+	 * @return The request
+	 */
+	
+	public Request getRequest() {
+		return request;
+	}
 }

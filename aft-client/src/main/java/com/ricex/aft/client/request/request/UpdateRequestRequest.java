@@ -3,10 +3,6 @@
  */
 package com.ricex.aft.client.request.request;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import com.google.gson.Gson;
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestListener;

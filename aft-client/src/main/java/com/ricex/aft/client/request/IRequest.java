@@ -3,8 +3,6 @@
  */
 package com.ricex.aft.client.request;
 
-import java.io.InputStream;
-
 import com.mashape.unirest.request.BaseRequest;
 
 /**
