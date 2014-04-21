@@ -29,6 +29,16 @@ public enum FileManager {
 		return fileMapper.getFile(fileId);
 	}
 	
+	/** Returns the information about the given file. The file class without the FileContents field
+	 * 
+	 * @param fileId The id of the file to fetch
+	 * @return The file information about the specified file
+	 */
+	
+	public File getFileInfo(long fileId) {
+		return fileMapper.getFileInfo(fileId);
+	}
+	
 	/** Returns the contents of the file with the given id
 	 * 
 	 * @param fileId The id of the file contents to fetch

@@ -12,12 +12,19 @@
 	<resultMap id="fileResultMap" type="File">
 		<id property="fileId" column="FILE_ID" />
 		<result property="fileName" column="FILE_NAME" />
+		<result property="fileContents" column="FILE_VAL" javaType="_byte[]"/>
 	</resultMap>
 	
 	<!-- Retreives the specified file from the database -->
 	<select id="getFile" resultMap="fileResultMap">
 		SELECT * FROM FILE
 		WHERE FILE_ID = #{fileId}
+	</select>
+	
+	<!--  Retreives the specified file, without the contents -->
+	<select id="getFileInfo" resultMap="fileResultMap">
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME FROM FILE
+	    WHERE FILE_ID = #{fileId}	    
 	</select>
 	
 	<!--  Gets the contents of the specified file -->

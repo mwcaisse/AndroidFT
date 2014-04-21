@@ -33,13 +33,13 @@ public class FileController {
 		fileManager = FileManager.INSTANCE;
 	}
 	
-	/** Retreives the information about the file with the given id
+	/** Retrieves the information about the file with the given id
 	 * 
 	 * @param fileId The id of the file to fetch
 	 * @return The information about the file
 	 */
 	@RequestMapping(value = "/info/{fileId}", method = RequestMethod.GET, produces={"application/json"})
-	public @ResponseBody File getFile(@PathVariable long fileId) {
+	public @ResponseBody File getFileInfo(@PathVariable long fileId) {
 		return fileManager.getFile(fileId);
 	}
 	
@@ -50,7 +50,18 @@ public class FileController {
 	 */
 	
 	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/octet-stream"})
-	public @ResponseBody File getFileContents(@PathVariable long fileId) {
+	public @ResponseBody byte[] getFileContents(@PathVariable long fileId) {
+		return fileManager.getFileContents(fileId);
+	}
+	
+	/** Returns the whole file, info and contents, with the specified id
+	 * 
+	 * @param fileId The id of the file to fetch
+	 * @return The file with the given id
+	 */
+	
+	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody File getFile(@PathVariable long fileId) {
 		return fileManager.getFile(fileId);
 	}
 	
