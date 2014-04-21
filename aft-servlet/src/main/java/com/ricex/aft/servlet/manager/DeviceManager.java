@@ -56,6 +56,7 @@ public enum DeviceManager {
 	 */
 	
 	public long createDevice(Device device) {
+		device.setDeviceId(-1);
 		deviceMapper.createDevice(device);
 		return device.getDeviceId();
 	}	
