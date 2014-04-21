@@ -15,7 +15,13 @@ import com.ricex.aft.common.entity.File;
 import com.ricex.aft.servlet.manager.FileManager;
 
 /**
- *  File Controller for uploading files and retreiving files
+ *  SpringMVC Controller for fetching and creating files in the database.
+ *  
+ *  Contains functions to fetch whole files, file information, and file contents.
+ *  
+ *  A whole file is a File object that contains both the file information or meta data,
+ *  	and the file contents. Methods also exist for retrieving the file information
+ *  	and file contents separately depending on application.
  *  
  * @author Mitchell Caisse
  *
@@ -29,24 +35,34 @@ public class FileController {
 	/** The file manager that wil be used to fetch files */
 	private FileManager fileManager;
 	
+	/** Creates a new FileController and sets up the FileManager instance
+	 * 
+	 */
+	
 	public FileController() {
 		fileManager = FileManager.INSTANCE;
 	}
 	
-	/** Retrieves the information about the file with the given id
+	/** Retrieves the information (meta-data) for the file with the specified id
+	 *  
+	 *  The meta-data contains the fileName and fileId. The fileContents field will be left blank.
+	 *  This allows an application to fetch information about the file, while not fetching the 
+	 *  	potentially large file contents, saving bandwidth.
 	 * 
-	 * @param fileId The id of the file to fetch
-	 * @return The information about the file
+	 * @param fileId The id of the file
+	 * @return A file object containing the meta data
 	 */
 	@RequestMapping(value = "/info/{fileId}", method = RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody File getFileInfo(@PathVariable long fileId) {
 		return fileManager.getFile(fileId);
 	}
 	
-	/** Returns the contents of the file with the specified id
+	/** Returns the raw contents of the specified file.
 	 * 
-	 * @param fileId The id of the file contents to fetch
-	 * @return The raw bytes of the file
+	 * The file meta-data should be fetched before hand using getFileInfo.
+	 * 
+	 * @param fileId The id of the file
+	 * @return A byte array containing the raw bytes of the file
 	 */
 	
 	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/octet-stream"})
@@ -54,10 +70,14 @@ public class FileController {
 		return fileManager.getFileContents(fileId);
 	}
 	
-	/** Returns the whole file, info and contents, with the specified id
+	/** Returns the specified file.
 	 * 
-	 * @param fileId The id of the file to fetch
-	 * @return The file with the given id
+	 * 	Contains both the file meta-data and file-contents. If the file-contents are not necessary it
+	 * 		is recommended to use getFileInfo instead, the file-contents can be fetched later using
+	 * 		getFileContents if neccesary.
+	 * 
+	 * @param fileId The id of the file
+	 * @return The requested file
 	 */
 	
 	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={"application/json"})
@@ -65,11 +85,14 @@ public class FileController {
 		return fileManager.getFile(fileId);
 	}
 	
-	/** Uploads the given file, and assigns it an id
-	 * * 
-	 * @param fileContents The contents of the file to upload
-	 * @param fileName The name of the file
-	 * @return The id of the uploaded file
+	/** Creates the specified file and returns its ID.
+	 * 
+	 *  The contents of the file should be included in the body of the method as a raw byte array. The
+	 *  	name of the file is passed in as the path variable "fileName".
+	 *  
+	 * @param fileContents The byte array of the file contents to create
+	 * @param fileName The name of the file to create
+	 * @return The ID of the created file, or -1 if creation failed.
 	 */
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
