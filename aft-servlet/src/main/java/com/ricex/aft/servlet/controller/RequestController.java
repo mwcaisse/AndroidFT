@@ -79,7 +79,13 @@ public class RequestController {
 		return requestManager.getNewRequestsForDevice(deviceUid);
 	}
 	
-	/** Creates the given request
+	/** Creates the given request. 
+	 * The File for this request must be created separately from the request,
+	 * 		and must be created before the request is created. The requestFile field, must contain the fileId
+	 * 		field of the file relating to this request. Containing more information will not cause this method
+	 * 		to fail, but only the requestFile.fileId is used and is necessary.
+	 * 
+	 * 	If the file is not created before the request and does not exists, then this method will fail.
 	 * 
 	 * @param request The request to create, with an undefined id
 	 * @return The id of the newly created request
