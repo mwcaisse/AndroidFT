@@ -13,7 +13,7 @@
 		<result property="requestFileLocation" column="REQ_FILE_LOC" />		
 		<result property="requestStatus" column="REQ_STAT" />
 		<result property="requestUpdated" column="REQ_UPD" />
-		<association property="requestFile" column="REQ_FILE_ID"  javaType="File" select="com.ricex.aft.servlet.mapper.FileMapper.getFile"/>
+		<association property="requestFile" column="REQ_FILE_ID"  javaType="File" select="com.ricex.aft.servlet.mapper.FileMapper.getFileInfo"/>
 		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDevice" />
 
 	</resultMap>
