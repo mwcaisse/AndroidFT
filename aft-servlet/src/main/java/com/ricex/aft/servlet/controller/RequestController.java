@@ -17,12 +17,25 @@ import com.ricex.aft.servlet.gcm.SyncMessageCommand;
 import com.ricex.aft.servlet.manager.RequestManager;
 
 /**
- *  Request Controller, for dealing with requests having to do with requests
- *   -Creation of new requests and updating of old requests
- *   -Retrieving the list of requests for a specific device
+ *  SpringMVC Controller for Requests.
+ *  
+ *   Deals with requests having to do with requests including the creation of new requests,
+ *   	updating of old requests, and retrieving requests on an individual or by device basis.
  * 
  * @author Mitchell Caisse
  *
+ */
+
+/** Retrieves all new (unprocessed) requests for the specified device.
+ * 
+ *  A request is considered new if its status is set to RequestStatus.NEW. Each request
+ *  	returned does not include a full copy of the RequestFile, only the meta-data of
+ *  	the file is populated. This is to conserve bandwidth by not sending the
+ *  	potentially large file contents for each request. The file contents can be 
+ *  	retrieved by using FileController.getFileContents. 
+ * 
+ * @param deviceUid The unique id of the device
+ * @param 
  */
 
 @Controller
@@ -35,13 +48,23 @@ public class RequestController {
 	/** The request manager to fetch and update requests */
 	private RequestManager requestManager;
 	
+	/** Creates a new Request Controller and sets up the request manager
+	 * 
+	 */
+	
 	public RequestController() {
 		requestManager = RequestManager.INSTANCE;
 	}
 	
-	/** Returns a list of all new (unprocessed requests) for the specified device
+	/** Retrieves the request with the specified ID from the database
 	 * 
-	 * @param deviceId The unique id of the device
+	 * Each request returned does not include a full copy of the RequestFile, only the meta-data of
+	 *  	the file is populated. This is to conserve bandwidth by not sending the
+	 *  	potentially large file contents for each request. The file contents can be 
+	 *  	retrieved by using FileController.getFileContents. 
+	 *  
+	 * @param id The id of the request to fetch
+	 * @return The request with the specified id
 	 */
 	
 	@RequestMapping(value="/{id}", method= RequestMethod.GET, produces={"application/json"})
@@ -49,7 +72,14 @@ public class RequestController {
 		return requestManager.getRequestById(id);
 	}
 	
-	/** Returns a list of all requests 
+	/** Retrieves a list of all requests currently in the database
+	 * 
+	 * Each request returned does not include a full copy of the RequestFile, only the meta-data of
+	 *  	the file is populated. This is to conserve bandwidth by not sending the
+	 *  	potentially large file contents for each request. The file contents can be 
+	 *  	retrieved by using FileController.getFileContents. 
+	 *    
+	 * @return A list of all requests.
 	 */
 	
 	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
@@ -57,9 +87,18 @@ public class RequestController {
 		return requestManager.getAllRequests();
 	}
 	
-	/** Returns a list of all requests for a specified device
+	/** Returns a list of all request associated with the specified device.
 	 * 
-	 * @param deviceId The unique id of the device
+	 *  This method is designed to be able to be called from a device without the device
+	 *  	having a copy of its device object, or internally generated database id. 
+	 * 
+	 * Each request returned does not include a full copy of the RequestFile, only the meta-data of
+	 *  	the file is populated. This is to conserve bandwidth by not sending the
+	 *  	potentially large file contents for each request. The file contents can be 
+	 *  	retrieved by using FileController.getFileContents. 
+	 * 
+	 * @param deviceUid The unique id (deviceUid) of the device to fetch the requests for.
+	 * @return A list containing all of the requests for the specified device.
 	 */
 	
 	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
@@ -69,9 +108,19 @@ public class RequestController {
 	
 	
 	
-	/** Returns a list of all new (unprocessed requests) for the specified device
+	/** Returns a list of all new (unprocessed) requests associated with the specified device.
+	 * 	
+	 * 	A request is considered new (unprocessed) if its status is set to RequestStatus.NEW 
+	 *  This method is designed to be able to be called from a device without the device
+	 *  	having a copy of its device object, or internally generated database id. 
+	 *  
+	 * Each request returned does not include a full copy of the RequestFile, only the meta-data of
+	 *  	the file is populated. This is to conserve bandwidth by not sending the
+	 *  	potentially large file contents for each request. The file contents can be 
+	 *  	retrieved by using FileController.getFileContents. 
 	 * 
-	 * @param deviceId The unique id of the device
+	 * @param deviceUid The unique id (deviceUid) of the device to fetch the requests for
+	 * @return A list containing the new requests for the specified device.
 	 */
 	
 	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
@@ -104,10 +153,15 @@ public class RequestController {
 		return requestId;
 	}
 	
-	/** Updates the given request
+	/** Updated the specified request with the request given.
 	 * 
-	 * @param request The request to update
-	 * TODO: Might want to make this a status code instead..
+	 *  The data currently stored will be replaced with all of the data inside of the Request. If
+	 *  	any fields are NULL then they will be stored as NULL in the database as well. It is 
+	 *  	recommended to have an updated copy of the request object you wish to update, copy
+	 *  	the changes into it, and submit that as the request to update. This will ensure no
+	 *  	fields are improperly set / updated.
+	 * 
+	 * @param request The fully populated request to update
 	 * @return The id of the updated request
 	 */
 	
