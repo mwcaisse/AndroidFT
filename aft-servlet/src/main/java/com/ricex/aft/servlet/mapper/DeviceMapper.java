@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.ricex.aft.common.entity.Device;
 
-/** MyBatis Mapper for devices
+/** MyBatis Mapper Interface for fetching devices from the database
  * 
  * @author Mitchell Caisse
  *

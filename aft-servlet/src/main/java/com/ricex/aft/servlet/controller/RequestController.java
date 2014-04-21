@@ -26,18 +26,6 @@ import com.ricex.aft.servlet.manager.RequestManager;
  *
  */
 
-/** Retrieves all new (unprocessed) requests for the specified device.
- * 
- *  A request is considered new if its status is set to RequestStatus.NEW. Each request
- *  	returned does not include a full copy of the RequestFile, only the meta-data of
- *  	the file is populated. This is to conserve bandwidth by not sending the
- *  	potentially large file contents for each request. The file contents can be 
- *  	retrieved by using FileController.getFileContents. 
- * 
- * @param deviceUid The unique id of the device
- * @param 
- */
-
 @Controller
 @RequestMapping("/request")
 public class RequestController {

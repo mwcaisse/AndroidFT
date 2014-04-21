@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
 
-/** Request Mapper for fetching requests from the database
+/** MyBatis Mapper Interface for fetching requests from the database
  * 
  * @author Mitchell Caisse
  *

@@ -8,11 +8,13 @@ import java.util.List;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 
-/** Device Manager, responsible for polling the Mapper/Database for information on devices
+/** The Manager for the Device entity. 
+ *  Facilitates requests between the DeviceController and the database.
  * 
  * @author Mitchell Caisse
  *
  */
+
 public enum DeviceManager {
 
 	/** The singleton instance */

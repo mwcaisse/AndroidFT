@@ -5,7 +5,7 @@ package com.ricex.aft.servlet.mapper;
 
 import com.ricex.aft.common.entity.File;
 
-/** Mapper Interface for fetching files from the database
+/** MyBatis Mapper Interface for fetching files from the database
  * 
  * @author Mitchell Caisse
  *

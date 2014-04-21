@@ -36,6 +36,14 @@ public enum MessageExecutor {
 		executor.execute(command);
 	}
 	
+	/** Schedules the specified command to be executed with the specified delay.
+	 * 
+	 * @param command The command to execute
+	 * @param delay The delay in units to wait
+	 * @param unit The unit of the delay
+	 * @return The delayed result of the command
+	 */
+	
 	public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
 		return executor.schedule(command,delay,unit);
 	}	

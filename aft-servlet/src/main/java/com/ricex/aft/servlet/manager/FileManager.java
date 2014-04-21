@@ -6,7 +6,8 @@ package com.ricex.aft.servlet.manager;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.servlet.mapper.FileMapper;
 
-/**
+/**  The Manager for the File entity.
+ *   Facilitates requests between the FileController and the database.
  * @author Mitchell Caisse
  *
  */
@@ -64,15 +65,15 @@ public enum FileManager {
 		return file.getFileId();
 	}
 
-	/**
-	 * @return the fileMapper
+	/** Returns the FileMapper that this FileManager is using to interact with the data store
+	 * @return the fileMapper 
 	 */
 	
 	public FileMapper getFileMapper() {
 		return fileMapper;
 	}
 
-	/**
+	/** Sets the FileMapper that this Filemanager will use to interact with the data store
 	 * @param fileMapper the fileMapper to set
 	 */
 	

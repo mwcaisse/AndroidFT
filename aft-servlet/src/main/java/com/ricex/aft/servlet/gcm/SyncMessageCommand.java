@@ -57,7 +57,7 @@ public class SyncMessageCommand implements Runnable {
 	/** Sends the message to the GCM server
 	 * 
 	 * @param requestUrl The URL to send the message to
-	 * @param message The message to se nd
+	 * @param message The message to send
 	 * @return The response from the server
 	 */
 	
@@ -66,6 +66,11 @@ public class SyncMessageCommand implements Runnable {
 		HttpEntity<SyncMessage> entity = createHttpEntity(message);
 		return restTemplate.exchange(requestUrl, HttpMethod.POST, entity, Map.class);
 	}
+	
+	/** Parses the response received from the GCM servers
+	 * 
+	 * @param response The response object received
+	 */
 	
 	private void parseResponse(ResponseEntity<Map> response) {
 		int responseCode = response.getStatusCode().value();

@@ -12,7 +12,13 @@ import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.servlet.mapper.RequestMapper;
 
-/**
+/** The Manager for the Request entity. 
+ *  Facilitates requests between the RequestController and the database.
+ * 
+ *  Note that all of the fetch methods, retrieve the Request from the database without the
+ *  	requestFile fully populated. The file meta data exists in the requestFile but the 
+ *  	contents of the file does not. 
+ * 
  * @author Mitchell Caisse
  *
  */
@@ -51,6 +57,7 @@ public enum RequestManager {
 	public List<Request> getAllRequests() {
 		return requestMapper.getAllRequests();
 	}
+	
 	/** Returns a list of all the requests for the device with the specified uid
 	 * 
 	 * @param deviceUid The UID of the device
@@ -93,7 +100,7 @@ public enum RequestManager {
 		return 1;
 	}
 
-	/**
+	/** Retreives the RequestMppaer that this manager is using to interact with the data store
 	 * @return the requestMapper
 	 */
 	
@@ -101,7 +108,7 @@ public enum RequestManager {
 		return requestMapper;
 	}
 
-	/**
+	/** Sets the RequestMapper that this manager is using to interact with the data store
 	 * @param requestMapper the requestMapper to set
 	 */
 	
