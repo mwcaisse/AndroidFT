@@ -51,6 +51,7 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 		this.listener = listener;
 		
 		id = getNextId();
+		//TODO: Make this configurable
 		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";		
 		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer()).create();
@@ -107,7 +108,7 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 
 	
 	/** Constructs the Unirest request that will be executed when this result is executed
-	 * 
+	 * TODO: Might want to change this to return the Unirest request object, instead of setting the variable 
 	 */
 	
 	protected abstract void constructServerRequest();
@@ -131,6 +132,8 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 	}
 	
 	/** Gets the Unirest request that will be executed to retrieve data from the server
+	 * 
+	 * TODO: Use this instead of constructServerRequest
 	 * 
 	 * @return The unirest request.
 	 */
