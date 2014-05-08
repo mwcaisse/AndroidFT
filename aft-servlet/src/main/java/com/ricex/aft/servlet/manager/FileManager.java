@@ -47,7 +47,7 @@ public enum FileManager {
 	 */
 	
 	public byte[] getFileContents(long fileId) {
-		return fileMapper.getFileContents(fileId);
+		return fileMapper.getFileContents(fileId).getFileContents();
 	}
 	
 	/** Creates a new file with the specified contents

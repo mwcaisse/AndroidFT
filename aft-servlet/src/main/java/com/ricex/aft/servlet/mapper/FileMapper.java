@@ -34,7 +34,7 @@ public interface FileMapper {
 	 * @return A byte array containing the raw file data
 	 */
 	
-	public byte[] getFileContents(long fileId);
+	public File getFileContents(long fileId);
 	
 	/** Saves the given file to the database
 	 * 

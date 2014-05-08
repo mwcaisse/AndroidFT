@@ -28,7 +28,7 @@
 	</select>
 	
 	<!--  Gets the contents of the specified file -->
-	<select id="getFileContents" parameterType="long" resultType="_byte[]">
+	<select id="getFileContents" parameterType="long" resultMap="fileResultMap">
 	    SELECT FILE_VAL FROM FILE
 	    WHERE FILE_ID = #{fileId}
 	</select>
