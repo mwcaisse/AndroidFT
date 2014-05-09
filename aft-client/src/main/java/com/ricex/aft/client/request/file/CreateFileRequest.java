@@ -6,38 +6,37 @@ package com.ricex.aft.client.request.file;
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.AbstractRequest;
+import com.ricex.aft.common.entity.File;
 
 /**
  * @author Mitchell Caisse
  *
  */
-public class CreateFileRequest extends AbstractRequest<Long> {
+public class CreateFileRequest extends AbstractRequest<File> {
 
-	/** The bytes of the file to create */
-	private final byte[] fileContents;
-	
-	/** The name of the file to create */
-	private final String fileName;
+	/** The file to create */
+	private File file;
 	
 	
 	/** Creates a request to create a new file with the specified name and contents
 	 * 
-	 * @param fileName The name of the file
-	 * @param fileContents The raw contents of the file
+	 * @param file The file to create
 	 */
 	
-	public CreateFileRequest(String fileName, byte[] fileContents, RequestListener<Long> listener) {
+	public CreateFileRequest(File file, RequestListener<File> listener) {
 		super(listener);
-		this.fileContents = fileContents;
-		this.fileName = fileName;
+		this.file = file;
 	}
 	
-	/** Converts the response from the server into the long the server returns
+	/** Converts the response returned from the server into a LOng representing the FileId, 
+	 * 		adds it to the instance of the file passed in, and returns it
 	 * 
 	 */
 	
-	protected Long convertResponseFromJson(String jsonString) {
-		return gson.fromJson(jsonString, Long.class);
+	protected File convertResponseFromJson(String jsonString) {
+		long fileId = gson.fromJson(jsonString, Long.class);
+		file.setFileId(fileId);
+		return file;
 	}
 
 	/** Constructs the request to send to the server to upload the file
@@ -45,9 +44,9 @@ public class CreateFileRequest extends AbstractRequest<Long> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.post(baseServiceUrl + "file/upload?fileName=" + fileName)
+		serverRequest = Unirest.post(baseServiceUrl + "file/upload?fileName=" + file.getFileName())
 				.header("Content-Type", "application/json")
-				.body(gson.toJson(fileContents, byte[].class));		
+				.body(gson.toJson(file.getFileContents(), byte[].class));		
 	}
 	
 }

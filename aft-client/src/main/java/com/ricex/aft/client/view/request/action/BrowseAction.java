@@ -15,13 +15,16 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.client.controller.FileController;
+import com.ricex.aft.client.controller.RequestListener;
+import com.ricex.aft.client.request.IRequest;
 import com.ricex.aft.client.view.request.RequestView;
 
 /**
  * @author Mitchell Caisse
  *
  */
-public class BrowseAction extends AbstractAction {
+public class BrowseAction extends AbstractAction implements RequestListener<com.ricex.aft.common.entity.File> {
 
 	private static Logger log = LoggerFactory.getLogger(BrowseAction.class);
 	
@@ -66,14 +69,35 @@ public class BrowseAction extends AbstractAction {
 				com.ricex.aft.common.entity.File requestFile = new com.ricex.aft.common.entity.File();
 				requestFile.setFileContents(fileBytes);
 				requestFile.setFileName(osFile.getName());
-			}
-			
-	
-			
-			//we have the file. lets add it to the request
-			com.ricex.aft.common.entity.File requestFile = new com.ricex.aft.common.entity.File();
+				FileController.getInstance().createFile(requestFile, this);
+			}			
 			
 		}
+	}
+
+	/** Called when the request returns successfully
+	 * 
+	 */
+	
+	public void onSucess(IRequest<com.ricex.aft.common.entity.File> request) {
+		requestView.getRequest().setRequestFile(request.getResponse());
+		log.info("Request to create file {} completed sucessfuly", request.getResponse().getFileName());
+	}
+
+	/** Called when the request was cancelled 
+	 * 
+	 */
+	
+	public void cancelled(IRequest<com.ricex.aft.common.entity.File> request) {
+		log.info("Request to create file {} was canceled", request.getResponse().getFileName());
+	}
+
+	/** Called when the request failed
+	 * 
+	 */
+	
+	public void onFailure(IRequest<com.ricex.aft.common.entity.File> request, Exception e) {
+		log.warn("Request to create file {} failed", request.getResponse().getFileName(), e);
 	}
 	
 }

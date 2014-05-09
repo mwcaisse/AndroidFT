@@ -71,14 +71,13 @@ public class FileController extends AbstractController  {
 	
 	/** Sends a request to the server to create a new file
 	 * 
-	 * @param fileName The name of the file to create
-	 * @param fileContents The contents of the file
+	 * @param file The file to create
 	 * @param listener The listener to notify when the request is complete
 	 * @return The request used to create the file
 	 */
 	
-	public IRequest<Long> createFile(String fileName, byte[] fileContents, RequestListener<Long> listener) {
-		CreateFileRequest request = new CreateFileRequest(fileName, fileContents, listener);
+	public IRequest<File> createFile(File file, RequestListener<File> listener) {
+		CreateFileRequest request = new CreateFileRequest(file, listener);
 		makeAsyncRequest(request);
 		return request;
 	}
