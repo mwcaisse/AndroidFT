@@ -7,6 +7,7 @@ import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.AbstractRequest;
+import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 
 /**
@@ -63,10 +64,33 @@ public class UpdateRequestRequest extends AbstractRequest<Long> {
 	 * 
 	 */
 	
-	protected void constructServerRequest() {
+	protected void constructServerRequest() {				
 		serverRequest = Unirest.put(baseServiceUrl + "request/update")
 				.header("Content-Type", "application/json")
-				.body(gson.toJson(toUpdate, Request.class));
+				.body(gson.toJson(cloneRequestWithoutFileContents(toUpdate), Request.class));
 		
 	}
+	
+	/** Creates a clone of the specified reqwuest without the file contents
+	 * 
+	 * @param request The request to clone
+	 * @return
+	 */
+	
+	private Request cloneRequestWithoutFileContents(Request orig) {
+		Request dest = new Request();
+		dest.setRequestDevice(orig.getRequestDevice());
+		dest.setRequestFileLocation(orig.getRequestFileLocation());
+		dest.setRequestId(orig.getRequestId());
+		dest.setRequestStatus(orig.getRequestStatus());
+		dest.setRequestUpdated(orig.getRequestUpdated());
+		
+		File reqFile = new File();
+		reqFile.setFileId(orig.getRequestFile().getFileId());
+		reqFile.setFileName(orig.getRequestFile().getFileName());
+		dest.setRequestFile(reqFile);
+		
+		return dest;
+	}
+	
 }
