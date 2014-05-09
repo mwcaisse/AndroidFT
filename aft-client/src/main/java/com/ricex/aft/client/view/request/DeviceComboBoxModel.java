@@ -24,7 +24,7 @@ import com.ricex.aft.common.entity.Device;
  *
  */
 
-public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListener<List<Device>> {
+public class DeviceComboBoxModel implements MutableComboBoxModel<Device>, RequestListener<List<Device>> {
 
 	/** The logger */
 	private static Logger log = LoggerFactory.getLogger(DeviceComboBoxModel.class);
@@ -36,7 +36,7 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	private List<ListDataListener> listeners;
 	
 	/** The currently selected item */
-	private Object selectedItem;
+	private Device selectedItem;
 	
 	/** Creates a new DeviceComboBoxModel
 	 * 
@@ -98,14 +98,17 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 */
 	
 	public void setSelectedItem(Object anItem) {
-		selectedItem = anItem;
+		if (!(anItem instanceof Device)) {
+			return;
+		}
+		selectedItem = (Device)anItem;
 	}
 
 	/** 
 	 * {@inheritDoc}
 	 */
 	
-	public Object getSelectedItem() {
+	public Device getSelectedItem() {
 		return selectedItem;
 	}
 
@@ -121,7 +124,7 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 * {@inheritDoc}
 	 */
 	
-	public Object getElementAt(int index) {
+	public Device getElementAt(int index) {
 		return devices.get(index);
 	}
 
@@ -129,7 +132,7 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 * {@inheritDoc}
 	 */
 	
-	public void addElement(Object obj) {
+	public void addElement(Device obj) {
 		if (! (obj instanceof Device)) {
 			return; //can only add Devices
 		}
@@ -143,14 +146,10 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 * {@inheritDoc}
 	 */
 	
-	public void removeElement(Object obj) {
-		if (! (obj instanceof Device)) {
-			return; //can only add Devices
-		}
-		Device device = (Device)obj;
-		int index = devices.indexOf(device);
+	public void removeElement(Object obj) {	
+		int index = devices.indexOf(obj);
 		if (index >= 0) {
-			devices.remove(device);
+			devices.remove(obj);
 			notifyListeners(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, index, index));			
 		}
 	}
@@ -159,11 +158,8 @@ public class DeviceComboBoxModel implements MutableComboBoxModel, RequestListene
 	 * {@inheritDoc}
 	 */
 	
-	public void insertElementAt(Object obj, int index) {
-		if (! (obj instanceof Device)) {
-			return; //can only add Devices
-		}
-		devices.add(index, (Device) obj);
+	public void insertElementAt(Device obj, int index) {
+		devices.add(index, obj);
 		notifyListeners(new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, index, index));
 	}
 

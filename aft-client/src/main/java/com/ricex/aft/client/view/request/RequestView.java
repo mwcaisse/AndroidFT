@@ -17,7 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ricex.aft.client.view.request.action.BrowseAction;
+import com.ricex.aft.client.view.request.action.CreateAction;
+import com.ricex.aft.client.view.request.action.DownloadAction;
+import com.ricex.aft.client.view.request.action.SaveAction;
 import com.ricex.aft.client.view.tab.Tab;
+import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
 
@@ -27,8 +31,10 @@ import com.ricex.aft.common.entity.RequestStatus;
  * @author Mitchell Caisse
  *
  */
-public class RequestView extends Tab {
-	
+public class RequestView extends Tab {	
+
+	private static final long serialVersionUID = -872056187324454493L;
+
 	/** The logger */
 	private static Logger log = LoggerFactory.getLogger(RequestView.class);
 
@@ -36,8 +42,7 @@ public class RequestView extends Tab {
 	 * 
 	 * @author Mitchell Caisse
 	 *
-	 */
-	
+	 */	
 	public enum Mode { CREATE, EDIT, VIEW };
 	
 	/** Vertical padding constant for the SpringLayout */
@@ -59,10 +64,10 @@ public class RequestView extends Tab {
 	private final Mode mode;
 	
 	/** The combobox for the device this request belongs to */
-	private JComboBox cbxDevice;
+	private JComboBox<Device> cbxDevice;
 	
 	/** The combobox for the current status of this request */
-	private JComboBox cbxStatus;
+	private JComboBox<RequestStatus> cbxStatus;
 	
 	/** The textfield containing the last updated date */
 	private JTextField txtLastUpdated;
@@ -98,12 +103,10 @@ public class RequestView extends Tab {
 	private JLabel lblFileLocation;
 	
 	/** The ComboBox model for the Status combobox */
-	private DefaultComboBoxModel cbxStatusModel;
+	private DefaultComboBoxModel<RequestStatus> cbxStatusModel;
 	
 	/** The ComboBox model for the device combobox */
 	private DeviceComboBoxModel cbxDeviceModel;
-	
-
 	
 	/** Creates a new RequestView to create a Request
 	 * 
@@ -162,14 +165,16 @@ public class RequestView extends Tab {
 	
 	protected void initializeInputComponents() {
 		txtLastUpdated = new JTextField();
+		txtLastUpdated.setEnabled(false);
+		
 		txtFileName = new JTextField();
 		txtFileLocation = new JTextField();
 		
 		cbxDeviceModel = new DeviceComboBoxModel();
-		cbxDevice = new JComboBox(cbxDeviceModel);
+		cbxDevice = new JComboBox<Device>(cbxDeviceModel);
 		
-		cbxStatusModel = new DefaultComboBoxModel(RequestStatus.values());
-		cbxStatus = new JComboBox(cbxStatusModel);
+		cbxStatusModel = new DefaultComboBoxModel<RequestStatus>(RequestStatus.values());
+		cbxStatus = new JComboBox<RequestStatus>(cbxStatusModel);
 		
 		
 		
@@ -188,15 +193,28 @@ public class RequestView extends Tab {
 			butBrowseFile = new JButton("Browse");
 			butBrowseFile.setAction(new BrowseAction(this));
 			butBrowseFile.setText("Browse");
-			butSave = new JButton("Create");			
+			
+			butSave = new JButton("Create");		
+			butSave.setAction(new CreateAction(this));
+			butSave.setText("Create");
 			break;
 		case EDIT:			
 			butBrowseFile = new JButton("Download");
-			butSave = new JButton("Save");			
+			butBrowseFile.setAction(new DownloadAction(this));
+			butBrowseFile.setText("Download");
+			
+			butSave = new JButton("Save");	
+			butSave.setAction(new SaveAction(this));
+			butSave.setText("Save");
 			break;
 		case VIEW:
 			butBrowseFile = new JButton("Download");
+			butBrowseFile.setAction(new DownloadAction(this));
+			butBrowseFile.setText("Download");
+			
 			butSave = new JButton("Save");	
+			butSave.setAction(new SaveAction(this));
+			butSave.setText("Save");
 			break;		
 		}
 		
@@ -236,7 +254,7 @@ public class RequestView extends Tab {
 	 * 
 	 */
 	
-	protected void updateFields() {
+	public void updateFields() {
 		txtFileName.setText(request.getRequestFile().getFileName());
 		txtFileLocation.setText(request.getRequestFileLocation());
 		cbxStatus.setSelectedItem(request.getRequestStatus());
@@ -343,6 +361,16 @@ public class RequestView extends Tab {
 		add(butCancel);
 		add(butSave);
 	}	
+	
+	/** Populates the request from the fields in the RequestView
+	 * 
+	 */
+	
+	public void populateRequest() {
+		request.setRequestDevice(cbxDeviceModel.getSelectedItem());
+		request.setRequestStatus((RequestStatus)cbxStatusModel.getSelectedItem());
+		request.setRequestFileLocation(txtFileLocation.getText());
+	}
 	
 	/** Retreives the request that this request view is displaying
 	 * 
