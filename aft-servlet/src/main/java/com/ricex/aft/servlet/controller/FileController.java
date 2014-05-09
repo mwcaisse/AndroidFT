@@ -65,7 +65,7 @@ public class FileController {
 	 * @return A byte array containing the raw bytes of the file
 	 */
 	
-	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/octet-stream"})
+	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody byte[] getFileContents(@PathVariable long fileId) {
 		return fileManager.getFileContents(fileId);
 	}
