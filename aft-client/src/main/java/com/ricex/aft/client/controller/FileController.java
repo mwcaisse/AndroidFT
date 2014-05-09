@@ -4,6 +4,9 @@
 package com.ricex.aft.client.controller;
 
 import com.ricex.aft.client.request.IRequest;
+import com.ricex.aft.client.request.file.CreateFileRequest;
+import com.ricex.aft.client.request.file.FetchFileInfoRequest;
+import com.ricex.aft.client.request.file.FetchFileRequest;
 import com.ricex.aft.common.entity.File;
 
 /**
@@ -48,7 +51,9 @@ public class FileController extends AbstractController  {
 	 */
 	
 	public IRequest<File> getFile(long fileId, RequestListener<File> listener) {
-		return null;
+		FetchFileRequest request = new FetchFileRequest(fileId, listener);
+		makeAsyncRequest(request);
+		return request;
 	}
 	
 	/** Fetches the meta-data for the file with the specified id
@@ -59,17 +64,22 @@ public class FileController extends AbstractController  {
 	 */
 	
 	public IRequest<File> getFileInfo(long fileId, RequestListener<File> listener) {
-		return null;
+		FetchFileInfoRequest request = new FetchFileInfoRequest(fileId, listener);
+		makeAsyncRequest(request);
+		return request;
 	}
 	
-	/** Fetches the contents of the file with the specified id
+	/** Sends a request to the server to create a new file
 	 * 
-	 * @param fileId The id of the file contents to fetch
-	 * @param listener The request listener to notify when the request is complete
-	 * @return The request used to fetch the file contents
+	 * @param fileName The name of the file to create
+	 * @param fileContents The contents of the file
+	 * @param listener The listener to notify when the request is complete
+	 * @return The request used to create the file
 	 */
 	
-	public IRequest<File> getFileContents(long fileId, RequestListener<File> listener) {
-		return null;
+	public IRequest<Long> createFile(String fileName, byte[] fileContents, RequestListener<Long> listener) {
+		CreateFileRequest request = new CreateFileRequest(fileName, fileContents, listener);
+		makeAsyncRequest(request);
+		return request;
 	}
 }
