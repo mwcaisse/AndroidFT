@@ -81,23 +81,59 @@ public enum RequestManager {
 	/** Saves the given request, and returns the ID of the new request
 	 * 
 	 * @param request The request to save
-	 * @return The id of the request
+	 * @return The id of the request, or -1 if request was invalid
 	 */
 	
 	public long createRequest(Request request) {
-		requestMapper.createRequest(request);
-		return request.getRequestId();
+		if (isValidRequest(request)) {
+			requestMapper.createRequest(request);
+			return request.getRequestId();
+		}
+		return -1; // invalid request
 	}
 	
 	/** Updates the given request
 	 * 
 	 * @param request The request to update
-	 * @return 1
+	 * @return 1 if sucess, -1 if invalid request
 	 */
 	
 	public long updateRequest(Request request) {
-		requestMapper.updateRequest(request);
-		return 1;
+		if (isValidRequest(request)) {
+			requestMapper.updateRequest(request);
+			return 1;
+		}
+		return -1; //invalid request
+
+	}
+	
+	/** Determines if the specified request is valid or not.
+	 * 
+	 * If the request does not have a device, file, file location, or status, it is considered invalid
+	 * 
+	 * @param request The request to check for validity
+	 * @return True if valid, false otherwise
+	 */
+	
+	protected boolean isValidRequest(Request request) {
+		//check to make sure it has a device, with a valid device id
+		if (request.getRequestDevice() == null || request.getRequestDevice().getDeviceId() < 0) {
+			return false; // no device
+		}
+		//check to make sure it has a file, with a valid file id
+		if (request.getRequestFile() == null || request.getRequestFile().getFileId() < 0) {
+			return false; // no file
+		}
+		//check to make sure that the request file location is not null, and is not empty
+		if (request.getRequestFileLocation() == null || request.getRequestFileLocation().isEmpty()) {
+			return false;
+		}		
+		// check that the request status was set 
+		if (request.getRequestStatus() == null) {
+			return false; // no request status
+		}
+		
+		return true; // we made it this far we must be valid! woo
 	}
 
 	/** Retreives the RequestMppaer that this manager is using to interact with the data store

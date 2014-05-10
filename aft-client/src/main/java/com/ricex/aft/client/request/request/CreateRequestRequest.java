@@ -3,6 +3,9 @@
  */
 package com.ricex.aft.client.request.request;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestListener;
@@ -15,6 +18,9 @@ import com.ricex.aft.common.entity.Request;
  */
 public class CreateRequestRequest extends AbstractRequest<Long> {
 
+	/** The logger */
+	private static Logger log = LoggerFactory.getLogger(CreateRequestRequest.class);
+	
 	/** The request to send to the web service to create */
 	private Request toCreate;
 	
@@ -61,11 +67,11 @@ public class CreateRequestRequest extends AbstractRequest<Long> {
 	 * 
 	 */
 	
-	protected void constructServerRequest() {
+	protected void constructServerRequest() {		
+		log.info("RequestJson: |{}|", gson.toJson(toCreate, Request.class));		
 		serverRequest = Unirest.post(baseServiceUrl + "request/create")
 				.header("Content-Type", "application/json")
-				.body(gson.toJson(toCreate, Request.class));
-		
+				.body(gson.toJson(toCreate, Request.class));		
 	}
 	
 }

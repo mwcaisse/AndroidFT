@@ -41,6 +41,8 @@ public class SaveAction extends AbstractAction implements RequestListener<Long> 
 	 */
 	
 	public void actionPerformed(ActionEvent e) {
+		log.info("Saving request....");
+		System.out.println("BIg ass titties");
 		requestView.populateRequest();
 		RequestController.getInstance().updateRequest(requestView.getRequest(), this);
 	}

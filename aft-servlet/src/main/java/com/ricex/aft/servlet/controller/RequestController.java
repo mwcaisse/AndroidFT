@@ -133,7 +133,7 @@ public class RequestController {
 		long requestId = requestManager.createRequest(request);
 		
 		if (requestId > 0) {
-			//we created the request with issue
+			//we created the request without issue
 			SyncMessageCommand notify = new SyncMessageCommand(request.getRequestDevice().getDeviceRegistrationId());
 			MessageExecutor.INSTANCE.executeNow(notify);
 		}
