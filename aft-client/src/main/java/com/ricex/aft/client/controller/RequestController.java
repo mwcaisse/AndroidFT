@@ -95,6 +95,7 @@ public class RequestController extends AbstractController {
 	 */
 	
 	public IRequest<Long> createRequest(Request toCreate, RequestListener<Long> listener) {
+		log.debug("Creating the CreateRequestRequest..");
 		CreateRequestRequest request = new CreateRequestRequest(toCreate, listener);
 		makeAsyncRequest(request);
 		return request;

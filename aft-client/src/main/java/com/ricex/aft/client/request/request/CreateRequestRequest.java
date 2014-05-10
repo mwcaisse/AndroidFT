@@ -71,7 +71,8 @@ public class CreateRequestRequest extends AbstractRequest<Long> {
 		log.info("RequestJson: |{}|", gson.toJson(toCreate, Request.class));		
 		serverRequest = Unirest.post(baseServiceUrl + "request/create")
 				.header("Content-Type", "application/json")
-				.body(gson.toJson(toCreate, Request.class));		
+				.body(gson.toJson(toCreate, Request.class));
+				
 	}
 	
 }

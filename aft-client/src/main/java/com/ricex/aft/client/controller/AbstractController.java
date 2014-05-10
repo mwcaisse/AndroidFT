@@ -18,6 +18,8 @@ import com.ricex.aft.client.request.IRequest;
  */
 public abstract class AbstractController {
 
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(RequestController.class);
 	
 	/** Executes the given request as an AsyncJson request
 	 * 
@@ -25,6 +27,7 @@ public abstract class AbstractController {
 	 */
 	
 	protected void makeAsyncRequest(IRequest<?> request) {
+		log.debug("Making the Async call, and registerign the callback controller");
 		request.getServerRequest().asJsonAsync(new ControllerCallback(request));
 	}
 	
@@ -48,10 +51,13 @@ public abstract class AbstractController {
 		 */
 		
 		private ControllerCallback(IRequest<?> request) {
+			log.debug("Created a callback controller for request: {}", request);
 			this.request = request;					
 		}
 		
+		@Override
 		public void cancelled() {
+			log.debug("Request cancelled: {}", request);
 			try { //Catch any exceptions that are thrown
 				request.onCancelled();
 			}
@@ -59,8 +65,10 @@ public abstract class AbstractController {
 				log.error("Cancelled", t);
 			}
 		}
-
+		
+		@Override
 		public void completed(HttpResponse<JsonNode> response) {	
+			log.debug("Request completed: {}", request);
 			try {
 				request.processResponse(response.getBody().toString(), response.getCode());
 			}
@@ -68,8 +76,10 @@ public abstract class AbstractController {
 				log.error("Completed", t);
 			}
 		}
-
+		
+		@Override
 		public void failed(UnirestException e) {
+			log.debug("Request failed: {}", request);
 			try {
 				request.onFailure(e);
 			}
