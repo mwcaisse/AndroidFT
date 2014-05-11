@@ -131,14 +131,13 @@ public class RequestController {
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
 	public @ResponseBody LongResponse createRequest(@RequestBody Request request) {			
-		long requestId = requestManager.createRequest(request);
+		long requestId = requestManager.createRequest(request);	
 		
-		/* TODO: re-enable, for now we are disabling for debugging purposes
 		if (requestId > 0) {
 			//we created the request without issue
 			SyncMessageCommand notify = new SyncMessageCommand(request.getRequestDevice().getDeviceRegistrationId());
 			MessageExecutor.INSTANCE.executeNow(notify);
-		}*/
+		}
 		
 		return new LongResponse(requestId);
 	}
