@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.Device;
+import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.manager.DeviceManager;
 
 /** The SpringMVC Controller for handling devices.
@@ -80,8 +81,8 @@ public class DeviceController {
 	 */
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long createDevice(@RequestBody Device device) {
-		return deviceManager.createDevice(device);
+	public @ResponseBody LongResponse createDevice(@RequestBody Device device) {
+		return new LongResponse(deviceManager.createDevice(device));
 	}
 	
 	/** Registers a device with the given ID
@@ -98,13 +99,13 @@ public class DeviceController {
 	 */
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long registerDevice(@RequestBody Device device) {		
+	public @ResponseBody LongResponse registerDevice(@RequestBody Device device) {		
 		//check if the device exists, if it does update it, otherwise create it
 		if (deviceManager.deviceExists(device)) {
-			return deviceManager.updateDevice(device);
+			return new LongResponse(deviceManager.updateDevice(device));
 		}
 		else {
-			return deviceManager.createDevice(device);
+			return new LongResponse(deviceManager.createDevice(device));
 		}	
 	}
 

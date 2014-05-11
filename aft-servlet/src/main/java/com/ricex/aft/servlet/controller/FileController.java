@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.File;
+import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.manager.FileManager;
 
 /**
@@ -96,7 +97,7 @@ public class FileController {
 	 */
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return fileManager.createFile(fileContents,fileName);
+	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
+		return new LongResponse(fileManager.createFile(fileContents,fileName));
 	}
 }

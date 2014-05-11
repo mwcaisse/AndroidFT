@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.gcm.MessageExecutor;
 import com.ricex.aft.servlet.gcm.SyncMessageCommand;
 import com.ricex.aft.servlet.manager.RequestManager;
@@ -129,7 +130,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody long createRequest(@RequestBody Request request) {			
+	public @ResponseBody LongResponse createRequest(@RequestBody Request request) {			
 		long requestId = requestManager.createRequest(request);
 		
 		if (requestId > 0) {
@@ -138,7 +139,7 @@ public class RequestController {
 			MessageExecutor.INSTANCE.executeNow(notify);
 		}
 		
-		return requestId;
+		return new LongResponse(requestId);
 	}
 	
 	/** Updated the specified request with the request given.
@@ -154,8 +155,8 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
-	public @ResponseBody long updateRequest(@RequestBody Request request) {
-		return requestManager.updateRequest(request);
+	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) {
+		return new LongResponse(requestManager.updateRequest(request));
 	}
 	
 }
