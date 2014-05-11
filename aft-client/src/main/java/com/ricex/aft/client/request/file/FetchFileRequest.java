@@ -41,7 +41,7 @@ public class FetchFileRequest extends AbstractRequest<File> {
 	 */
 	
 	protected void constructServerRequest() {
-		serverRequest = Unirest.get(baseServiceUrl + "file/")
+		serverRequest = Unirest.get(baseServiceUrl + "file/{id}")
 								.routeParam("id", Long.toString(fileId));
 	}
 
