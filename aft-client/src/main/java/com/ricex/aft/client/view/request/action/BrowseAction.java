@@ -62,10 +62,14 @@ public class BrowseAction extends AbstractAction implements RequestListener<com.
 				fileBytes = Files.readAllBytes(Paths.get(osFile.getPath()));
 			}
 			catch (IOException ex) {
+				requestView.setStatusMessage("Unable to open file: " + osFile.getName());
 				log.error("Failed to open file {}", osFile, ex);
 			}
 			
+			
+			
 			if (fileBytes != null) {
+				requestView.setStatusMessage("Uploading file " + osFile.getName());
 				com.ricex.aft.common.entity.File requestFile = new com.ricex.aft.common.entity.File();
 				requestFile.setFileContents(fileBytes);
 				requestFile.setFileName(osFile.getName());
@@ -81,6 +85,8 @@ public class BrowseAction extends AbstractAction implements RequestListener<com.
 	
 	public void onSucess(IRequest<com.ricex.aft.common.entity.File> request) {
 		requestView.getRequest().setRequestFile(request.getResponse());
+		requestView.setStatusMessage("Sucessfully uploaded the file");
+		requestView.setFilePath(request.getResponse().getFileName());
 		log.info("Request to create file {} completed sucessfuly", request.getResponse().getFileName());
 	}
 

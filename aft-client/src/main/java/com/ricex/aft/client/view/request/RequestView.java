@@ -171,6 +171,8 @@ public class RequestView extends Tab {
 		txtLastUpdated.setEnabled(false);
 		
 		txtFileName = new JTextField();
+		txtFileName.setEnabled(false);
+		
 		txtFileLocation = new JTextField();
 		
 		cbxDeviceModel = new DeviceComboBoxModel();
@@ -397,7 +399,16 @@ public class RequestView extends Tab {
 		setStatusMessage("");
 	}
 	
-	/** Retreives the request that this request view is displaying
+	/** Sets the file path next to the browse field
+	 * 
+	 * @param filePath The new file path
+	 */
+	
+	public void setFilePath(String filePath) {
+		txtFileName.setText(filePath);
+	}
+	
+	/** Retrieves the request that this request view is displaying
 	 * 
 	 * @return The request
 	 */

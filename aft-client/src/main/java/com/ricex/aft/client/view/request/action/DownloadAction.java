@@ -78,9 +78,11 @@ public class DownloadAction extends AbstractAction implements RequestListener<Fi
 	protected void writeFile(java.io.File destFile, byte[] fileContents) {
 		try {
 			Files.write(Paths.get(destFile.getPath()), fileContents, StandardOpenOption.CREATE);
+			requestView.setStatusMessage("Successfully downloaded file: " + destFile.getName());
 		}
 		catch (IOException e) {
 			log.error("Failed to download file.", e);
+			requestView.setStatusMessage("Failed to write file: " + destFile.getName());
 		}
 	}
 
@@ -106,7 +108,8 @@ public class DownloadAction extends AbstractAction implements RequestListener<Fi
 	 */
 	
 	public void onFailure(IRequest<File> request, Exception e) {
-		log.error("Fetch File request failed", e);		
+		log.error("Fetch File request failed", e);	
+		requestView.setStatusMessage("Failed to download file.");
 	}
 
 }

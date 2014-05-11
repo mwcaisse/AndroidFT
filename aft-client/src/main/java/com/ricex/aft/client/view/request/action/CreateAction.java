@@ -42,7 +42,6 @@ public class CreateAction extends AbstractAction implements RequestListener<Long
 	 * 
 	 */
 	public void actionPerformed(ActionEvent e) {
-		log.info("Creating request....");
 		requestView.populateRequest();
 		RequestController.getInstance().createRequest(requestView.getRequest(), this);		
 	}
@@ -53,6 +52,7 @@ public class CreateAction extends AbstractAction implements RequestListener<Long
 	
 	public void onSucess(IRequest<Long> request) {		
 		log.info("Creating request sucessful");
+		requestView.setStatusMessage("Successfully created request.");
 	}
 
 	/** Called when the create request was cancelled
@@ -60,6 +60,7 @@ public class CreateAction extends AbstractAction implements RequestListener<Long
 	 */
 	public void cancelled(IRequest<Long> request) {
 		log.warn("Creating request was cancelled");
+		requestView.setStatusMessage("Creation of request was canceled");
 	}
 
 	/** Called when the create request failed
@@ -68,6 +69,7 @@ public class CreateAction extends AbstractAction implements RequestListener<Long
 	
 	public void onFailure(IRequest<Long> request, Exception e) {
 		log.error("Error creating request", e);
+		requestView.setStatusMessage("Unable to create request: " + e.getMessage());
 	}
 
 }
