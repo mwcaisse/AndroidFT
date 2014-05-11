@@ -102,6 +102,9 @@ public class RequestView extends Tab {
 	/** The label for the file location field */
 	private JLabel lblFileLocation;
 	
+	/** The label for displaying the status message of operations */
+	private JLabel lblStatusMessage;
+	
 	/** The ComboBox model for the Status combobox */
 	private DefaultComboBoxModel<RequestStatus> cbxStatusModel;
 	
@@ -232,6 +235,7 @@ public class RequestView extends Tab {
 		lblLastUpdated = new JLabel("Last Updated: ");
 		lblFileName = new JLabel("File: ");
 		lblFileLocation = new JLabel("File Location: ");
+		lblStatusMessage = new JLabel("");
 	}
 	
 	/** Populates the fields based upon the current mode
@@ -332,6 +336,9 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.EAST, butSave, -PADDING_HORIZONTAL, SpringLayout.WEST, butCancel);
 		layout.putConstraint(SpringLayout.SOUTH, butSave, -PADDING_VERTICAL, SpringLayout.SOUTH, panel);
 		
+		layout.putConstraint(SpringLayout.WEST, lblStatusMessage, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblStatusMessage, 0, SpringLayout.VERTICAL_CENTER, butSave);
+		
 		setLayout(layout);	
 		
 		
@@ -348,6 +355,7 @@ public class RequestView extends Tab {
 		add(lblDevice);
 		add(lblStatus);
 		add(lblLastUpdated);
+		add(lblStatusMessage);
 		
 		//add the input components
 		add(txtFileName);
@@ -370,6 +378,23 @@ public class RequestView extends Tab {
 		request.setRequestDevice(cbxDeviceModel.getSelectedItem());
 		request.setRequestStatus((RequestStatus)cbxStatusModel.getSelectedItem());
 		request.setRequestFileLocation(txtFileLocation.getText());
+	}
+	
+	/** Sets the status message displayed
+	 * 
+	 * @param msg The new status message
+	 */
+	
+	public void setStatusMessage(String msg) {
+		lblStatusMessage.setText(msg);
+	}
+	
+	/** Clears the status message displayed
+	 * 
+	 */
+	
+	public void clearStatusMessage() {
+		setStatusMessage("");
 	}
 	
 	/** Retreives the request that this request view is displaying
