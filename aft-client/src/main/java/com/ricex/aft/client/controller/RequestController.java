@@ -14,6 +14,7 @@ import com.ricex.aft.client.request.request.FetchAllRequestsRequest;
 import com.ricex.aft.client.request.request.FetchRequestByIdRequest;
 import com.ricex.aft.client.request.request.FetchRequestsByDeviceUidRequest;
 import com.ricex.aft.client.request.request.UpdateRequestRequest;
+import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 
 /** The controller for handling fetches for requests from the web service
@@ -96,7 +97,7 @@ public class RequestController extends AbstractController {
 	
 	public IRequest<Long> createRequest(Request toCreate, RequestListener<Long> listener) {
 		log.debug("Creating the CreateRequestRequest..");
-		CreateRequestRequest request = new CreateRequestRequest(toCreate, listener);
+		CreateRequestRequest request = new CreateRequestRequest(cloneRequestWithoutFileContents(toCreate), listener);
 		makeAsyncRequest(request);
 		return request;
 	}
@@ -109,9 +110,31 @@ public class RequestController extends AbstractController {
 	 */
 	
 	public IRequest<Long> updateRequest(Request toUpdate, RequestListener<Long> listener) {
-		UpdateRequestRequest request = new UpdateRequestRequest(toUpdate, listener);
+		UpdateRequestRequest request = new UpdateRequestRequest(cloneRequestWithoutFileContents(toUpdate), listener);
 		makeAsyncRequest(request);
 		return request;
+	}
+	
+	/** Creates a clone of the specified request without the file contents
+	 * 
+	 * @param request The request to clone
+	 * @return
+	 */
+	
+	private Request cloneRequestWithoutFileContents(Request orig) {
+		Request dest = new Request();
+		dest.setRequestDevice(orig.getRequestDevice());
+		dest.setRequestFileLocation(orig.getRequestFileLocation());
+		dest.setRequestId(orig.getRequestId());
+		dest.setRequestStatus(orig.getRequestStatus());
+		dest.setRequestUpdated(orig.getRequestUpdated());
+		
+		File reqFile = new File();
+		reqFile.setFileId(orig.getRequestFile().getFileId());
+		reqFile.setFileName(orig.getRequestFile().getFileName());
+		dest.setRequestFile(reqFile);
+		
+		return dest;
 	}
 
 
