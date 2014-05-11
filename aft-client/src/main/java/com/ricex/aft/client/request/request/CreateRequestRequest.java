@@ -11,6 +11,7 @@ import com.ricex.aft.client.cache.RequestCache;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.AbstractRequest;
 import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.response.LongResponse;
 
 /**
  * @author Mitchell Caisse
@@ -60,7 +61,7 @@ public class CreateRequestRequest extends AbstractRequest<Long> {
 	 */
 	
 	protected Long convertResponseFromJson(String jsonString) {
-		return gson.fromJson(jsonString, Long.class);
+		return gson.fromJson(jsonString, LongResponse.class).getValue();
 	}
 
 	/** Constructs the Unirest request that will be used to fetch the device from the web service

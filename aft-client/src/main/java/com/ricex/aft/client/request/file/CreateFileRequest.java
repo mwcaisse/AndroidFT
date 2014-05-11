@@ -7,6 +7,7 @@ import com.mashape.unirest.http.Unirest;
 import com.ricex.aft.client.controller.RequestListener;
 import com.ricex.aft.client.request.AbstractRequest;
 import com.ricex.aft.common.entity.File;
+import com.ricex.aft.common.response.LongResponse;
 
 /**
  * @author Mitchell Caisse
@@ -34,7 +35,7 @@ public class CreateFileRequest extends AbstractRequest<File> {
 	 */
 	
 	protected File convertResponseFromJson(String jsonString) {
-		long fileId = gson.fromJson(jsonString, Long.class);
+		long fileId = gson.fromJson(jsonString, LongResponse.class).getValue();
 		file.setFileId(fileId);
 		return file;
 	}
