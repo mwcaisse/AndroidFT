@@ -20,4 +20,13 @@
 		<mysql.jdbc.version>5.1.28</mysql.jdbc.version>
 		
 	</properties>
+	
+	
+	<distributionManagement>
+		<repository>
+			<id>mitchell-repo</id>
+			<url>file://srv/http/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
 </project>
