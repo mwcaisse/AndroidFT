@@ -165,7 +165,7 @@ public class GCMRegister {
 			@Override
 			protected void onPostExecute(String msg) {
 				if (!msg.isEmpty()) {
-					sendRegistrationToServer(msg);
+					sendRegistrationToServer(context, msg);
 				}
 				else {
 					Log.i(LOG_TAG, "Registration Failed");
@@ -180,12 +180,12 @@ public class GCMRegister {
 	 * @param registrationId The registration id of the device
 	 */
 	
-	private static void sendRegistrationToServer(final String registrationId) {	
+	private static void sendRegistrationToServer(final Context context, final String registrationId) {	
 		new AsyncTask<Object, Object, Boolean>() {
 
 			@Override
 			protected Boolean doInBackground(Object... params) {				
-				boolean res = DeviceRequester.INSTANCE.registerDevice(registrationId);
+				boolean res = new DeviceRequester(context).registerDevice(registrationId);
 				Log.i(LOG_TAG, "Device Registration returned: " + res);
 				return res;				
 			}

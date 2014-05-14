@@ -8,9 +8,6 @@ import org.springframework.web.client.RestTemplate;
 
 import android.content.Context;
 import android.os.Build;
-import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
-import android.util.Log;
 
 import com.ricex.aft.common.entity.Device;
 
@@ -18,24 +15,12 @@ import com.ricex.aft.common.entity.Device;
  * @author Mitchell Caisse
  *
  */
-public enum DeviceRequester {
+public class DeviceRequester extends AbstractRequestor {		
 	
-	/** The singleton instance of DeviceRequest */
-	INSTANCE;
-
-	/** The rest template to use to make requests */
-	private final RestTemplate restTemplate;
-	
-	/** The address of the server to send the requests to */
-	private final String serverAddress;
-	
-	/** The context to use to fetch Device UID */
-	private Context context;
-	
-	private DeviceRequester() {
+	public DeviceRequester(Context context) {
+		super(context);
 		restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-		serverAddress = "http://192.168.1.160:8080/aft-servlet/manager/";
 	}
 	
 	/** Registers the device with the app server
@@ -55,37 +40,11 @@ public enum DeviceRequester {
 	 * 
 	 * @return a device
 	 */
+	
 	private Device createDevice() {
 		Device device = new Device();
 		device.setDeviceName(Build.MODEL);
-		device.setDeviceUid(getDeviceUID());	
+		device.setDeviceUid(getDeviceUID());		
 		return device;
-	}
-	
-	/** Returns the UID for the device this app is running on
-	 * 
-	 * @return the UID, or -1 if failed.
-	 */
-	
-	public long getDeviceUID() {
-		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-		return Long.parseLong(androidId, 16);
-	}
-
-	/**
-	 * @return the context
-	 */
-	
-	public Context getContext() {
-		return context;
-	}
-
-	/**
-	 * @param context the context to set
-	 */
-	
-	public void setContext(Context context) {
-		this.context = context;
-	}
-		
+	}		
 }
