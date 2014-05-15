@@ -10,8 +10,8 @@
 
   <artifactId>aft-common</artifactId>
   <packaging>jar</packaging>
-
   <name>aft-common</name>
+  <version>0.1.3-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
 
   <properties>
