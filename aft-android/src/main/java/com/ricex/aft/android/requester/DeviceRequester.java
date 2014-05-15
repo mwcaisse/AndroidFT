@@ -11,6 +11,7 @@ import android.os.Build;
 
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
+import com.ricex.aft.common.response.LongResponse;
 
 /**
  * @author Mitchell Caisse
@@ -33,7 +34,7 @@ public class DeviceRequester extends AbstractRequester {
 	public boolean registerDevice(String registrationId) {
 		Device device = createDevice();
 		device.setDeviceRegistrationId(registrationId);
-		long res = restTemplate.postForObject(serverAddress + "device/register", device, Long.class);
+		long res = restTemplate.postForObject(serverAddress + "device/register", device, LongResponse.class).getValue();
 		return res >= 0;
 	}
 	
