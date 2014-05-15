@@ -87,7 +87,7 @@ public class GCMRegister {
 	 * @return The registration ID, or empty string if the device is not registered.
 	 */
 	
-	private static String getRegistrationId(Context context) {
+	public static String getRegistrationId(Context context) {
 		final SharedPreferences prefs = getGCMPreferences(context);
 		String registrationId = prefs.getString(PROPERTY_REG_ID,  "");
 		if (registrationId.isEmpty()) {

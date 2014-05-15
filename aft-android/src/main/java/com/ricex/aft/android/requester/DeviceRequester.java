@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Build;
 
 import com.ricex.aft.common.entity.Device;
+import com.ricex.aft.common.response.BooleanResponse;
 
 /**
  * @author Mitchell Caisse
@@ -42,7 +43,9 @@ public class DeviceRequester extends AbstractRequester {
 	 */
 	
 	public boolean isRegistered() {
-		return false;
+		long deviceUid = getDeviceUID();		
+		BooleanResponse res = restTemplate.getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);		
+		return res.getValue();
 	}
 	
 	/** Creates a device that represents this device

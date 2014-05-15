@@ -1,8 +1,9 @@
 package com.ricex.aft.android;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.ricex.aft.android.gcm.GCMRegister;
@@ -43,10 +44,41 @@ public class PushFile extends Activity {
 		if (!GCMRegister.checkRegistration(getApplicationContext())) {
 			// not registered, register in the background
 			GCMRegister.registerInBackground(getApplicationContext());
-		}
+		} 
+		else {
+			//we were registered with GCM, check if we are registered with the PushFile server
+			checkPushFileRegistration();			
+		}		
 		
+	}
+	
+	/** Will check if we are registered for PushFile, and register if we are not
+	 * 
+	 *  Performs the Registration + check in the background
+	 */
+	
+	public void checkPushFileRegistration() {		
+		final DeviceRequester deviceRequester = new DeviceRequester(this);
+		final Context context = this;
+		
+		new AsyncTask<Object, Object, Boolean>() {
+
+			@Override
+			protected Boolean doInBackground(Object... params) {				
+				boolean res = deviceRequester.isRegistered();
+				if (!res) {
+					Log.i(LOG_TAG, "Device is registered for GCM, but not PushFile, registering");
+					String registrationId = GCMRegister.getRegistrationId(context);
+					res = deviceRequester.registerDevice(registrationId);
+					if (!res) {
+						Log.w(LOG_TAG, "Failed to register device");
+					}
+				}
+				Log.i(LOG_TAG, "Device Registration returned: " + res);
+				return res;				
+			}
 			
-		
+		}.execute(null,null,null);
 	}
 	
 	/**
