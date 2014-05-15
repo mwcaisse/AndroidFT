@@ -5,13 +5,13 @@
 	<parent>
   		<groupId>com.ricex.aft</groupId>
   		<artifactId>aft</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>${aft.version}</version>
   	</parent>
 
   <artifactId>aft-common</artifactId>
   <packaging>jar</packaging>
   <name>aft-common</name>
-  <version>0.1.3-SNAPSHOT</version>
+  <version>${aft.common.version}</version>
   <url>http://maven.apache.org</url>
 
   <properties>

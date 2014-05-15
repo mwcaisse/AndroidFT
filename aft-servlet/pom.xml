@@ -4,7 +4,7 @@
   	<parent>
   		<groupId>com.ricex.aft</groupId>
   		<artifactId>aft</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>${aft.version}</version>
   	</parent>
   
 	<modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,7 @@
 	<packaging>war</packaging>
 	<name>aft-servlet Maven Webapp</name>
 	<url>http://maven.apache.org</url>  
-	<version>0.1.2-SNAPSHOT</version>
+	<version>${aft.servlet.version}</version>
     
   <dependencies>
       
@@ -28,7 +28,7 @@
     <dependency>
     	<groupId>com.ricex.aft</groupId>
     	<artifactId>aft-common</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>${aft.common.version}</version>
     </dependency>
     
     <!--  MyBatis -->
