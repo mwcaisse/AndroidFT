@@ -13,7 +13,7 @@ import android.provider.Settings;
  * @author Mitchell Caisse
  *
  */
-public abstract class AbstractRequestor {
+public abstract class AbstractRequester {
 
 	/** The context to use to fetch Device UID */
 	protected final Context context;
@@ -29,7 +29,7 @@ public abstract class AbstractRequestor {
 	 * @param context The context
 	 */
 	
-	public AbstractRequestor(Context context) {
+	public AbstractRequester(Context context) {
 		this.context = context;
 		this.serverAddress = "http://fourfivefire.com:8080/aft-servlet/manager/";
 		restTemplate = new RestTemplate();

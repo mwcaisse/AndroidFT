@@ -5,11 +5,16 @@ package com.ricex.aft.android.requester;
 
 import java.util.List;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+
 import android.content.Context;
 
 import com.ricex.aft.android.container.RequestContainer;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.response.LongResponse;
 
 
 /** Requester for Requests
@@ -17,7 +22,7 @@ import com.ricex.aft.common.entity.Request;
  * @author Mitchell Caisse
  *
  */
-public class RequestRequester extends AbstractRequestor {	
+public class RequestRequester extends AbstractRequester {	
 
 	/** Creates a new instance of Request Requester
 	 * 
@@ -44,7 +49,9 @@ public class RequestRequester extends AbstractRequestor {
 	
 	public long updateRequest(Request toUpdate) {
 		Request cloned = cloneRequestWithoutFileContents(toUpdate);
-		return 0;
+		HttpEntity<Request> entity = new HttpEntity<Request>(toUpdate);
+		ResponseEntity<LongResponse> res = restTemplate.exchange(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
+		return res.getBody().getValue();
 	}
 	
 	/** Creates a clone of the specified request without the file contents

@@ -15,7 +15,7 @@ import com.ricex.aft.common.entity.Device;
  * @author Mitchell Caisse
  *
  */
-public class DeviceRequester extends AbstractRequestor {		
+public class DeviceRequester extends AbstractRequester {		
 	
 	public DeviceRequester(Context context) {
 		super(context);
