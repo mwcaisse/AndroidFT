@@ -44,5 +44,7 @@ data-source.xml
 *.mf
 bin/
 gen/
+doc/
 .prefs
 .settings/
+lint.xml
