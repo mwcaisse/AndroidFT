@@ -36,6 +36,15 @@ public class DeviceRequester extends AbstractRequester {
 		return res >= 0;
 	}
 	
+	/** Checks if this device is registered
+	 * 
+	 * @return True if the device is registered, false otherwise
+	 */
+	
+	public boolean isRegistered() {
+		
+	}
+	
 	/** Creates a device that represents this device
 	 * 
 	 * @return a device

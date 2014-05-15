@@ -78,7 +78,7 @@ public class RequestProcessor {
 			return false;
 		}
 		updateRequest(RequestStatus.COMPLETED);
-		return false;
+		return true;
 	}
 	
 	/** Sends an update request to the server with the specified status

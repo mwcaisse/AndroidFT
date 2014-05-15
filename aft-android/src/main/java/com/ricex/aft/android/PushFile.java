@@ -30,15 +30,22 @@ public class PushFile extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_push_file);
 		
+		Log.i(LOG_TAG, "On Create");
+		
 		//check if google play services is installed, if not quit.
 		if (!GCMRegister.checkGooglePlayServices(this)) {
 			finish();
 		}
+		
+		//TODO: Never check if we are registered with my server... lo
+		
 		//lets see if we are registered
 		if (!GCMRegister.checkRegistration(getApplicationContext())) {
 			// not registered, register in the background
 			GCMRegister.registerInBackground(getApplicationContext());
 		}
+		
+			
 		
 	}
 	

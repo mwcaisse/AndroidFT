@@ -42,7 +42,7 @@ public class GCMRegister {
 	private static final String SENDER_ID = "439278995325";
 	
 	/** The tag to use when creating log entries */
-	private static final String LOG_TAG = "GCMRegister";
+	private static final String LOG_TAG = "PushFileGCMR";
 	
 	/** Check if the device currently has google play services installed
 	 * 
@@ -142,6 +142,7 @@ public class GCMRegister {
 	 */
 	
 	public static void registerInBackground(final Context context) {
+		Log.i(LOG_TAG, "Registering in background");
 		new AsyncTask<Object, Object, String>() {
 	
 			protected String doInBackground(Object... params) {
@@ -164,6 +165,7 @@ public class GCMRegister {
 			
 			@Override
 			protected void onPostExecute(String msg) {
+				Log.i(LOG_TAG, "About to send registration to server: " + msg);
 				if (!msg.isEmpty()) {
 					sendRegistrationToServer(context, msg);
 				}
