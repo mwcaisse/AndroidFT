@@ -12,6 +12,7 @@
 	<packaging>war</packaging>
 	<name>aft-servlet Maven Webapp</name>
 	<url>http://maven.apache.org</url>  
+	<version>0.1.2-SNAPSHOT</version>
     
   <dependencies>
       

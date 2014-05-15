@@ -42,7 +42,7 @@ public class DeviceRequester extends AbstractRequester {
 	 */
 	
 	public boolean isRegistered() {
-		
+		return false;
 	}
 	
 	/** Creates a device that represents this device

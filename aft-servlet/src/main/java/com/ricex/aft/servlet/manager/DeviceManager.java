@@ -65,12 +65,24 @@ public enum DeviceManager {
 	
 	/** Determines if a device with the specified ID exists
 	 * 
+	 * @deprecated Use the {@link #deviceExists(long) deviceExists} method instead.
+	 * 
 	 * @param device The device with the ID
 	 * @return True if it exists, false if not
 	 */
-	
+	@Deprecated
 	public boolean deviceExists(Device device) {
-		return deviceMapper.getDeviceUid(device.getDeviceUid()) != null;
+		return deviceExists(device.getDeviceUid());
+	}
+	
+	/** Determines if a device with the specified ID exists
+	 * 
+	 * @param deviceUid The device with the ID
+	 * @return True if it exists, false if not
+	 */
+	
+	public boolean deviceExists(long deviceUid) {
+		return deviceMapper.getDeviceUid(deviceUid) != null;
 	}
 	
 	/** Retrieves the device mapper this manager is using

@@ -3,12 +3,14 @@ package com.ricex.aft.servlet.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.Device;
+import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.manager.DeviceManager;
 
@@ -33,6 +35,11 @@ public class DeviceController {
 	
 	public DeviceController() {
 		deviceManager = DeviceManager.INSTANCE;
+	}
+	
+	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody BooleanResponse isDeviceRegistered(@PathVariable long deviceUid) {
+		return new BooleanResponse(deviceManager.deviceExists(deviceUid));
 	}
 	
 	/** Returns a list of all the devices currently in the database. 
@@ -101,7 +108,7 @@ public class DeviceController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={"application/json"})
 	public @ResponseBody LongResponse registerDevice(@RequestBody Device device) {		
 		//check if the device exists, if it does update it, otherwise create it
-		if (deviceManager.deviceExists(device)) {
+		if (deviceManager.deviceExists(device.getDeviceUid())) {
 			return new LongResponse(deviceManager.updateDevice(device));
 		}
 		else {
