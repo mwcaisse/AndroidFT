@@ -24,6 +24,9 @@ import com.ricex.aft.common.entity.Request;
  */
 public class MessageProcessor {
 
+	/** The log tag for this class */
+	private final String LOG_TAG = "PushFileMP";
+	
 	/** The thread that this processor is running in */
 	private Thread thread;
 	
@@ -47,15 +50,19 @@ public class MessageProcessor {
 	 */
 	
 	public void process() {
+		Log.i(LOG_TAG, "Process(): About to create the AsyncTask");
 		new AsyncTask<Object, Object, Boolean>() {
 			@Override
-			protected Boolean doInBackground(Object... params) {				
+			protected Boolean doInBackground(Object... params) {	
+				Log.i(LOG_TAG, "Process(): About to fetch the requests from the server");
 				//fetch the requets from the server
 				List<Request> newRequests = new RequestRequester(context).getNewRequestsForDevice();
+				Log.i(LOG_TAG, "Process(): Fetched the requests");
 				int failed = 0;
 				int success = 0;
 				//process each of the requests in series
 				for (Request request: newRequests) {
+					Log.i(LOG_TAG, "Process(): Processing a request");
 					boolean res = new RequestProcessor(context, request).processRequest();
 					if (res) {
 						success ++;
@@ -63,10 +70,12 @@ public class MessageProcessor {
 					else {
 						failed ++;
 					}
-					
+					Log.i(LOG_TAG, "Process(): Showing the notification");
 					showNotification(success, failed);
 				}
-				return false;
+				
+				Log.i(LOG_TAG, "Process(): We done, returning true");
+				return true;
 			}
 			
 		}.execute(null,null,null);

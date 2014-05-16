@@ -3,6 +3,8 @@
  */
 package com.ricex.aft.android.requester;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpEntity;
@@ -11,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
 
-import com.ricex.aft.android.container.RequestContainer;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.response.LongResponse;
@@ -37,8 +38,8 @@ public class RequestRequester extends AbstractRequester {
 	 */
 	
 	public List<Request> getNewRequestsForDevice() {
-		RequestContainer container = restTemplate.getForObject(serverAddress + "request/new/{deviceUid}", RequestContainer.class, getDeviceUID());
-		return container.getRequests();
+		Request[] requests = restTemplate.getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
+		return Arrays.asList(requests);
 	}
 	
 	/** Updates the specified request
