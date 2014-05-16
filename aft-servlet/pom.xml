@@ -23,6 +23,7 @@
       <scope>test</scope>
     </dependency>
     
+        
     <!-- Aft Common -->
     
     <dependency>
@@ -78,11 +79,14 @@
 	</dependency>
 	
 	<!-- Android Spring Client for GsonHttpMessageConverter -->
+	<!-- 
 	<dependency>
 	    <groupId>org.springframework.android</groupId>
 	    <artifactId>spring-android-rest-template</artifactId>
 	    <version>1.0.1.RELEASE</version>
 	</dependency>
+	-->
+
 	
 	<!--  Google JSON Library -->
 	<dependency>

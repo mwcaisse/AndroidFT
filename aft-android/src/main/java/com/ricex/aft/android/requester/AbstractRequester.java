@@ -61,7 +61,7 @@ public abstract class AbstractRequester {
 	 * @return the UID, or -1 if failed.
 	 */
 	
-	public long getDeviceUID() {
+	public long getDeviceUID() {		
 		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 		return Long.parseLong(androidId, 16);
 	}	

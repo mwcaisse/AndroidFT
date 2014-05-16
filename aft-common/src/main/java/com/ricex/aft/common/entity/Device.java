@@ -19,7 +19,7 @@ public class Device implements Serializable {
 	private long deviceId;
 	
 	/** The Unique ID of this device, provided by the device itself */
-	private long deviceUid;
+	private String deviceUid;
 	
 	/** The name of this device */
 	private String deviceName;
@@ -62,7 +62,7 @@ public class Device implements Serializable {
 	 * @return the deviceUid
 	 */
 	
-	public long getDeviceUid() {
+	public String getDeviceUid() {
 		return deviceUid;
 	}
 
@@ -70,7 +70,7 @@ public class Device implements Serializable {
 	 * @param deviceUid the deviceUid to set
 	 */
 	
-	public void setDeviceUid(long deviceUid) {
+	public void setDeviceUid(String deviceUid) {
 		this.deviceUid = deviceUid;
 	}	
 
