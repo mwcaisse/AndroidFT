@@ -83,4 +83,24 @@ public class RequestTableView extends Tab implements CacheListener, RequestListe
 		requestTableView.setTableData(RequestCache.getInstance().getAll());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @return false
+	 */
+		
+	@Override
+	public boolean onTabClose() {
+		return false;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @return false
+	 */
+	
+	@Override	
+	public boolean isClosable() {
+		return false;
+	}
+	
 }
