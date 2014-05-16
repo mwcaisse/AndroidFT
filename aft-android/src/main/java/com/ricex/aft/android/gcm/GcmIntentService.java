@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.ricex.aft.android.processor.MessageProcessor;
 
 /** 
  * @author Mitchell Caisse
@@ -52,7 +53,8 @@ public class GcmIntentService extends IntentService {
 			}
 			else if (messageType.equals(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE)) {
 				Log.i(LOG_TAG, "We received a message, might want to do something..." + extras.toString());
-				showNotification();
+				//create the message processor to process the messages
+				new MessageProcessor(this).process();
 			}
 			else {
 				Log.i(LOG_TAG, "Unreconized message type...");

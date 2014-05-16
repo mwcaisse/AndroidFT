@@ -8,8 +8,11 @@ import java.util.List;
 import android.R;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
+import com.ricex.aft.android.gcm.GCMRegister;
 import com.ricex.aft.android.requester.RequestRequester;
 import com.ricex.aft.common.entity.Request;
 
@@ -18,9 +21,8 @@ import com.ricex.aft.common.entity.Request;
  * 
  * @author Mitchell Caisse
  * 
- * TODO: Possibly create an internal class for the Runnable?
  */
-public class MessageProcessor implements Runnable {
+public class MessageProcessor {
 
 	/** The thread that this processor is running in */
 	private Thread thread;
@@ -38,31 +40,37 @@ public class MessageProcessor implements Runnable {
 	public MessageProcessor(Context context) {
 		this.context = context;
 		notificationId = (int)(Math.random() * 1000.0);
-		thread = new Thread(this);
-		thread.start();
 	}
 	
-	/** Runs the thread, creates and fetches the requests from the Server
+	/** Fetches the requests from the server and processes them. Does so in the background in an AsyncTask
 	 * 
 	 */
 	
-	public void run() {
-		//fetch the requets from the server
-		List<Request> newRequests = new RequestRequester(context).getNewRequestsForDevice();
-		int failed = 0;
-		int success = 0;
-		//process each of the requests in series
-		for (Request request: newRequests) {
-			boolean res = new RequestProcessor(context, request).processRequest();
-			if (res) {
-				success ++;
-			}
-			else {
-				failed ++;
+	public void process() {
+		new AsyncTask<Object, Object, Boolean>() {
+			@Override
+			protected Boolean doInBackground(Object... params) {				
+				//fetch the requets from the server
+				List<Request> newRequests = new RequestRequester(context).getNewRequestsForDevice();
+				int failed = 0;
+				int success = 0;
+				//process each of the requests in series
+				for (Request request: newRequests) {
+					boolean res = new RequestProcessor(context, request).processRequest();
+					if (res) {
+						success ++;
+					}
+					else {
+						failed ++;
+					}
+					
+					showNotification(success, failed);
+				}
+				return false;
 			}
 			
-			showNotification(success, failed);
-		}
+		}.execute(null,null,null);
+		
 	}
 	
 	
