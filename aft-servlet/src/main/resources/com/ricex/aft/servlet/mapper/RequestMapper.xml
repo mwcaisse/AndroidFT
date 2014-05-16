@@ -44,7 +44,7 @@
 		UPDATE REQUEST SET
 			REQ_DEV_ID = #{requestDevice.deviceId},
 			REQ_FILE_LOC = #{requestFileLocation},
-			REQ_FILE_ID = #{requestFile.fileId}
+			REQ_FILE_ID = #{requestFile.fileId},
 			REQ_STAT = #{requestStatus}
 		WHERE REQ_ID = #{requestId}
 	</update>
