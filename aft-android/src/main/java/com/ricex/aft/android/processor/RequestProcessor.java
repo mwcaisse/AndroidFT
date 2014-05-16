@@ -43,13 +43,16 @@ public class RequestProcessor {
 	
 	/** Creates a new Request Processor to process the specified request
 	 * 
+	 * @param context The context this request processor was called from
 	 * @param request The request to process
+	 * @param mediaScannerConnection The media scanner connection to use to scan for files, The connection must
+	 * 		already be opened.
 	 */
 	
-	public RequestProcessor(Context context, Request request) {
+	public RequestProcessor(Context context, MediaScannerConnection mediaScannerConnection, Request request) {
 		this.context = context;
 		this.request = request;
-		this.mediaScannerConnection = new MediaScannerConnection(context, null);
+		this.mediaScannerConnection = mediaScannerConnection;
 	}
 	
 	/** Processes the request.
@@ -84,10 +87,15 @@ public class RequestProcessor {
 			Log.e(LOG_TAG, "Error writing the file to external storage", e);
 			updateRequest(RequestStatus.FAILED);
 			return false;
+		}	
+
+		//scan the file
+		if (mediaScannerConnection.isConnected()) {
+			mediaScannerConnection.scanFile(file.getAbsolutePath(), null);
 		}
-		
-		//file was saved without issue, scan it 
-		mediaScannerConnection.scanFile(file.getAbsolutePath(), null);
+		else {
+			Log.w(LOG_TAG, "Media Scanner Connection was not connected, file copied, not updated");
+		}
 		
 		updateRequest(RequestStatus.COMPLETED);
 		return true;
