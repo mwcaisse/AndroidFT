@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.content.Context;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.util.Log;
 
@@ -34,6 +35,12 @@ public class RequestProcessor {
 	/** The request that his processor will process */
 	private final Request request;
 	
+	/** The MediaScannerConnection to scan the files after they are created so they are immediately visible.
+	 * 
+	 * See Issue #15 for more details
+	 */
+	private final MediaScannerConnection mediaScannerConnection;
+	
 	/** Creates a new Request Processor to process the specified request
 	 * 
 	 * @param request The request to process
@@ -42,13 +49,13 @@ public class RequestProcessor {
 	public RequestProcessor(Context context, Request request) {
 		this.context = context;
 		this.request = request;
+		this.mediaScannerConnection = new MediaScannerConnection(context, null);
 	}
 	
 	/** Processes the request.
 	 * 
 	 * For now this will download the file from the web service, and then save it into the downloads folder.
 	 * 
-	 * TODO: Will need a more complex request structure that supports the different types of android directories / external storage
 	 * 
 	 * @return True if completed successfully, false otherwise
 	 */
@@ -59,6 +66,7 @@ public class RequestProcessor {
 		
 		if (!isExternalStorageWritable()) {
 			//external storage was not writable *tear we cant do anything further
+			Log.i(LOG_TAG, "External storage was not writable, aborting");
 			return false;
 		}
 		
@@ -77,6 +85,10 @@ public class RequestProcessor {
 			updateRequest(RequestStatus.FAILED);
 			return false;
 		}
+		
+		//file was saved without issue, scan it 
+		mediaScannerConnection.scanFile(file.getAbsolutePath(), null);
+		
 		updateRequest(RequestStatus.COMPLETED);
 		return true;
 	}
@@ -106,6 +118,7 @@ public class RequestProcessor {
 	
 	private java.io.File getStorageFile(String fileName) {
 		java.io.File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		
 		java.io.File file = new java.io.File(downloadsDir, fileName);
 		return file;
 	}

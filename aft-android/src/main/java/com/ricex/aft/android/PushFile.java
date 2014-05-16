@@ -39,8 +39,6 @@ public class PushFile extends Activity {
 			finish();
 		}
 		
-		//TODO: Never check if we are registered with my server... lo
-		
 		//lets see if we are registered
 		if (!GCMRegister.checkRegistration(getApplicationContext())) {
 			// not registered, register in the background
