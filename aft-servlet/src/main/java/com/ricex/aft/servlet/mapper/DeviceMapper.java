@@ -27,7 +27,7 @@ public interface DeviceMapper {
 	 * @return The device with the given UID
 	 */
 	
-	public Device getDeviceUid(long deviceUid);
+	public Device getDeviceUid(String deviceUid);
 	
 	/** Updates the device
 	 * 

@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ricex.aft</groupId>
 	<artifactId>aft</artifactId>
-	<version>${aft.version}</version>
+	<version>0.1.0</version>
 	<packaging>pom</packaging>
 	<name>Android File Transfer</name>
 	

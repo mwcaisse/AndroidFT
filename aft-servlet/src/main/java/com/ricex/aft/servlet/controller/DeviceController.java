@@ -38,7 +38,7 @@ public class DeviceController {
 	}
 	
 	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={"application/json"})
-	public @ResponseBody BooleanResponse isDeviceRegistered(@PathVariable long deviceUid) {
+	public @ResponseBody BooleanResponse isDeviceRegistered(@PathVariable String deviceUid) {
 		return new BooleanResponse(deviceManager.deviceExists(deviceUid));
 	}
 	

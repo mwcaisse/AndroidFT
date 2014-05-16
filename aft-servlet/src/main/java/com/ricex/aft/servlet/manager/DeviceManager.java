@@ -81,7 +81,7 @@ public enum DeviceManager {
 	 * @return True if it exists, false if not
 	 */
 	
-	public boolean deviceExists(long deviceUid) {
+	public boolean deviceExists(String deviceUid) {
 		return deviceMapper.getDeviceUid(deviceUid) != null;
 	}
 	
