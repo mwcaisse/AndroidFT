@@ -11,7 +11,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<mysql.jdbc.version>5.1.28</mysql.jdbc.version>
 		<aft.version>0.1.0</aft.version>
-		<aft.common.version>0.1.4</aft.common.version>
+		<aft.common.version>0.1.5</aft.common.version>
 		<aft.servlet.version>0.1.3</aft.servlet.version>
 		<aft.client.version>0.1.1</aft.client.version>
 		<commons.codec.version>1.8</commons.codec.version>

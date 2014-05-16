@@ -44,7 +44,7 @@ public class DeviceRequester extends AbstractRequester {
 	 */
 	
 	public boolean isRegistered() {
-		long deviceUid = getDeviceUID();		
+		String deviceUid = getDeviceUID();		
 		BooleanResponse res = restTemplate.getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);		
 		return res.getValue();
 	}
