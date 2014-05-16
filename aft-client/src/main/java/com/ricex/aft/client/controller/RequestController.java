@@ -82,7 +82,7 @@ public class RequestController extends AbstractController {
 	 * @return The request that was created
 	 */
 	
-	public IRequest<List<Request>> getAllForDevice(long deviceUid, RequestListener<List<Request>> listener) {
+	public IRequest<List<Request>> getAllForDevice(String deviceUid, RequestListener<List<Request>> listener) {
 		FetchRequestsByDeviceUidRequest request = new FetchRequestsByDeviceUidRequest(deviceUid, listener);
 		makeAsyncRequest(request);
 		return request;

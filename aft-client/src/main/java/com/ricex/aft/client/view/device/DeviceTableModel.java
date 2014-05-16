@@ -13,7 +13,7 @@ import com.ricex.aft.common.entity.Device;
 public class DeviceTableModel extends ListTableModel<Device> {	
 	
 	/** The column types of the table entries */
-	private static final Class<?>[] columnTypes = {String.class, Long.class, Boolean.class};
+	private static final Class<?>[] columnTypes = {String.class, String.class, Boolean.class};
 	
 	/** The name of the columns in the tables */
 	private static final String[] columnNames = {"Name", "UUID", "Active"};	

@@ -25,7 +25,7 @@ public class FetchRequestsByDeviceUidRequest extends AbstractRequest<List<Reques
 	private static Logger log = LoggerFactory.getLogger(FetchRequestsByDeviceUidRequest.class);
 	
 	/** The id of the request to fetch */
-	private long deviceUid;	
+	private String deviceUid;	
 	
 	/** Creates a new Fetch Request By Id Request to fetch the request with the specified id
 	 * 
@@ -33,7 +33,7 @@ public class FetchRequestsByDeviceUidRequest extends AbstractRequest<List<Reques
 	 * @param listener The listener to notify when the request is completed
 	 */
 	
-	public FetchRequestsByDeviceUidRequest(long deviceUid, RequestListener<List<Request>> listener) {
+	public FetchRequestsByDeviceUidRequest(String deviceUid, RequestListener<List<Request>> listener) {
 		super(listener);
 		log.debug("Constructor deviceId: {}", deviceUid);
 		this.deviceUid = deviceUid;
@@ -65,8 +65,8 @@ public class FetchRequestsByDeviceUidRequest extends AbstractRequest<List<Reques
 	 */
 	
 	protected void constructServerRequest() {
-		log.debug("ConstructServerRequest: deviceId {} deviceId.toString {}", deviceUid, Long.toString(deviceUid));
+		log.debug("ConstructServerRequest: deviceId {}", deviceUid);
 		serverRequest = Unirest.get(baseServiceUrl + "request/all/{deviceId}")
-			.routeParam("deviceId", Long.toString(deviceUid));
+			.routeParam("deviceId", deviceUid);
 	}
 }
