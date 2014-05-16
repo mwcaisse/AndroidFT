@@ -1,13 +1,10 @@
 /**
  * 
  */
-package com.ricex.aft.client.util;
+package com.ricex.aft.common.util;
 
 import java.lang.reflect.Type;
 import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -22,9 +19,6 @@ import com.google.gson.JsonSerializer;
  *
  */
 public class JsonDateMillisecondsEpochDeserializer implements JsonDeserializer<Date>, JsonSerializer<Date> {
-	
-	/** The logger */
-	private static Logger log = LoggerFactory.getLogger(JsonDateMillisecondsEpochDeserializer.class);
 	
 	/** Deservializes the Date in the form of millisecconds since the epoch.
 	 * 

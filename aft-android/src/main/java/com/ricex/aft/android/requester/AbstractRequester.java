@@ -14,8 +14,8 @@ import android.provider.Settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ricex.aft.android.util.JsonByteArrayBase64Adapter;
-import com.ricex.aft.android.util.JsonDateMillisecondsEpochDeserializer;
+import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
+import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 
 /**
  * @author Mitchell Caisse

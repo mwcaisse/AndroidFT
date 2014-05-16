@@ -10,8 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mashape.unirest.request.BaseRequest;
 import com.ricex.aft.client.controller.RequestListener;
-import com.ricex.aft.client.util.JsonByteArrayBase64Adapter;
-import com.ricex.aft.client.util.JsonDateMillisecondsEpochDeserializer;
+import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
+import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 
 /** The base request class for IRequest
  * 
@@ -53,7 +53,8 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 		
 		id = getNextId();
 		//TODO: Make this configurable
-		baseServiceUrl = "http://198.211.115.192:8080/aft-servlet/manager/";		
+		//baseServiceUrl = "http://fourfivefire.com:8080/aft-servlet/manager/";
+		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";		
 		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
 				.registerTypeAdapter(byte[].class, new JsonByteArrayBase64Adapter())

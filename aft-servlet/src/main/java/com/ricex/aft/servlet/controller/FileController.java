@@ -3,6 +3,8 @@
  */
 package com.ricex.aft.servlet.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +35,11 @@ import com.ricex.aft.servlet.manager.FileManager;
 
 public class FileController {
 
-	/** The file manager that wil be used to fetch files */
+	
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(FileController.class);
+	
+	/** The file manager that will be used to fetch files */
 	private FileManager fileManager;
 	
 	/** Creates a new FileController and sets up the FileManager instance
