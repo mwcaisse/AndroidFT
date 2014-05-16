@@ -28,7 +28,7 @@
 	</select>
 	
 	<!-- Select all requests for a specific device -->
-	<select id="getRequestsForDevice" parameterType="long" resultMap="requestResultMap">
+	<select id="getRequestsForDevice" parameterType="String" resultMap="requestResultMap">
 		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID
 		WHERE DEVICE.DEV_UID = #{deviceUid} 
 	</select>

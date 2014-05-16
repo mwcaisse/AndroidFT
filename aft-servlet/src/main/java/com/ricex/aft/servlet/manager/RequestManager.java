@@ -60,21 +60,21 @@ public enum RequestManager {
 	
 	/** Returns a list of all the requests for the device with the specified uid
 	 * 
-	 * @param deviceUid The UID of the device
+	 * @param deviceUid The UID of the device in a hex string
 	 * @return The list of requests for the device
 	 */
 	
-	public List<Request> getRequestsForDevice(long deviceUid) {
+	public List<Request> getRequestsForDevice(String deviceUid) {
 		return requestMapper.getRequestsForDevice(deviceUid);
 	}
 	
 	/** Returns a list of unprocessed requests for the specified device
 	 * 
-	 * @param deviceUid The Unique id of the device
+	 * @param deviceUid The Unique id of the device in a hex string
 	 * @return The list of requests
 	 */
 	
-	public List<Request> getNewRequestsForDevice(long deviceUid) {
+	public List<Request> getNewRequestsForDevice(String deviceUid) {
 		return requestMapper.getRequestsForDeviceWithStatus(deviceUid, RequestStatus.NEW);
 	}
 	

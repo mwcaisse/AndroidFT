@@ -72,7 +72,7 @@ public class RequestController {
 	 */
 	
 	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
-	public @ResponseBody List<Request> getRequestsForDevice() {
+	public @ResponseBody List<Request> getAllRequests() {
 		return requestManager.getAllRequests();
 	}
 	
@@ -86,12 +86,13 @@ public class RequestController {
 	 *  	potentially large file contents for each request. The file contents can be 
 	 *  	retrieved by using FileController.getFileContents. 
 	 * 
-	 * @param deviceUid The unique id (deviceUid) of the device to fetch the requests for.
+	 * @param deviceUid The unique id (deviceUid) of the device to fetch the requests for. Should be in a hex string.
+	 * 	(Base 16 representation of the long)
 	 * @return A list containing all of the requests for the specified device.
 	 */
 	
 	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
-	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable long deviceUid) {
+	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable String deviceUid) {
 		return requestManager.getRequestsForDevice(deviceUid);
 	}
 	
@@ -108,12 +109,13 @@ public class RequestController {
 	 *  	potentially large file contents for each request. The file contents can be 
 	 *  	retrieved by using FileController.getFileContents. 
 	 * 
-	 * @param deviceUid The unique id (deviceUid) of the device to fetch the requests for
+	 * @param deviceUid The unique id (deviceUid) of the device to fetch the requests for. Should be in a hex string.
+	 * 	(Base 16 representation of the long)
 	 * @return A list containing the new requests for the specified device.
 	 */
 	
 	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
-	public @ResponseBody List<Request> getNewRequestsForDevice(@PathVariable long deviceUid) {
+	public @ResponseBody List<Request> getNewRequestsForDevice(@PathVariable String deviceUid) {
 		return requestManager.getNewRequestsForDevice(deviceUid);
 	}
 	

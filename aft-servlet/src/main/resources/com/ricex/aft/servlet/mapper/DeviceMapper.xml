@@ -25,7 +25,7 @@
 		SELECT * FROM DEVICE	
 	</select>
 	
-	<select id="getDeviceUid" parameterType="long" resultMap="deviceResultMap">
+	<select id="getDeviceUid" parameterType="String" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE WHERE DEV_UID = #{deviceUid}
 	</select>
 	

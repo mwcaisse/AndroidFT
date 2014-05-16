@@ -34,20 +34,20 @@ public interface RequestMapper {
 	
 	/** Returns a list of all requests for the device with the specified deviceUid
 	 * 
-	 * @param deviceUid The unique id of the device
+	 * @param deviceUid The unique id of the device in a hex string
 	 * @return List of requests
 	 */
 	
-	public List<Request> getRequestsForDevice(long deviceUid);
+	public List<Request> getRequestsForDevice(String deviceUid);
 	
 	/** Returns a list of all requests with the given status to fetch for the specified device
 	 * 
-	 * @param deviceUid The device's unique id
+	 * @param deviceUid The device's unique id in a hex string
 	 * @param status The status of the request to fetch
 	 * @return List of requests
 	 */
 	
-	public List<Request> getRequestsForDeviceWithStatus(@Param("deviceUid") long deviceUid, @Param("status") RequestStatus status);
+	public List<Request> getRequestsForDeviceWithStatus(@Param("deviceUid") String deviceUid, @Param("status") RequestStatus status);
 	
 	/** Saves the given request to the database
 	 * 
