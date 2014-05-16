@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.ricex.aft.android.gcm.GCMRegister;
+import com.ricex.aft.android.processor.MessageProcessor;
 import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Main Activity for PushFile.
@@ -48,7 +49,10 @@ public class PushFile extends Activity {
 		else {
 			//we were registered with GCM, check if we are registered with the PushFile server
 			checkPushFileRegistration();			
-		}		
+		}	
+		
+		//why don't we check for some updates right now?
+		new MessageProcessor(this).process();
 		
 	}
 	
