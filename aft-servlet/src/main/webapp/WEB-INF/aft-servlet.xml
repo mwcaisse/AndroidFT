@@ -19,7 +19,18 @@
 	<context:component-scan	base-package="com.ricex.aft.servlet.controller" />
 	
 	<!--  Annotation Driven Controllers -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven/>
+	<!-- 
+		<mvc:message-converters>		    
+		    <bean id="gsonMessageConverter" class="org.springframework.http.converter.json.GsonHttpMessageConverter" />
+		</mvc:message-converters>  
+		   
+	</mvc:annotation-driven>	-->
+		
+	
+	<bean id="gsonBean" class="com.google.gson.Gson"/> 
+	
+	
 	
 	<!--  Sql Session Factory for MyBatis-Spring -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
