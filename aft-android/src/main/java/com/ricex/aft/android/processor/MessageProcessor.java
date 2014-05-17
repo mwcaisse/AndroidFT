@@ -52,7 +52,7 @@ public class MessageProcessor {
 	 * 
 	 */
 	
-	private void process() {
+	public void process() {
 		Log.i(LOG_TAG, "Process(): About to create the AsyncTask");
 		new AsyncTask<Object, Object, Boolean>() {
 			@Override
