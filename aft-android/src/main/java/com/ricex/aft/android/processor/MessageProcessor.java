@@ -24,7 +24,7 @@ import com.ricex.aft.common.entity.Request;
  * @author Mitchell Caisse
  * 
  */
-public class MessageProcessor implements MediaScannerConnectionClient {
+public class MessageProcessor {
 
 	/** The log tag for this class */
 	private final String LOG_TAG = "PushFileMP";
@@ -38,9 +38,6 @@ public class MessageProcessor implements MediaScannerConnectionClient {
 	/** The notification ID this message processor uses */
 	private final int notificationId;
 	
-	/** The media scanner connection used to update external storage */
-	private final MediaScannerConnection mediaScannerConnection;
-	
 	/** Creates a new message processor, and a thread for it to run in, then starts the thread
 	 * 	@param context The context that this processor was launched from
 	 */
@@ -48,30 +45,14 @@ public class MessageProcessor implements MediaScannerConnectionClient {
 	public MessageProcessor(Context context) {
 		this.context = context;
 		notificationId = (int)(Math.random() * 1000.0);
-		mediaScannerConnection = new MediaScannerConnection(context, this);
+
 	}
 	
 	/** Fetches the requests from the server and processes them. Does so in the background in an AsyncTask
 	 * 
 	 */
 	
-	public void process() {
-		//connect to the media scanner, and use its callback to start the task
-		if (mediaScannerConnection.isConnected()) {
-			//media scanner is connected already. start the ASyncTask
-			startTask();
-		}
-		else {
-			//we are not connected, don't start the task
-			mediaScannerConnection.connect();
-		}
-	}
-	
-	/** Creates and executes the AsyncTask to fetch the requests
-	 * 
-	 */
-	
-	private void startTask() {
+	private void process() {
 		Log.i(LOG_TAG, "Process(): About to create the AsyncTask");
 		new AsyncTask<Object, Object, Boolean>() {
 			@Override
@@ -85,7 +66,7 @@ public class MessageProcessor implements MediaScannerConnectionClient {
 				//process each of the requests in series
 				for (Request request: newRequests) {
 					Log.i(LOG_TAG, "Process(): Processing a request");
-					boolean res = new RequestProcessor(context, mediaScannerConnection, request).processRequest();
+					boolean res = new RequestProcessor(context, request).processRequest();
 					if (res) {
 						success ++;
 					}
@@ -94,11 +75,7 @@ public class MessageProcessor implements MediaScannerConnectionClient {
 					}
 					Log.i(LOG_TAG, "Process(): Showing the notification");
 					showNotification(success, failed);
-				}
-				
-				//disconnect the media scanner
-				mediaScannerConnection.disconnect();
-				
+				}				
 				Log.i(LOG_TAG, "Process(): We done, returning true");
 				return true;
 			}
@@ -129,19 +106,6 @@ public class MessageProcessor implements MediaScannerConnectionClient {
 		
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(notificationId, builder.build()); // note that 1 is always unique
-	}
-
-	/** Called when the Media Scanner is connected. Starts the ASyncTask to fetch the requests / files
-	 * 
-	 */
-	
-	public void onMediaScannerConnected() {
-		startTask();		
-	}
-
-
-	public void onScanCompleted(String path, Uri uri) {
-		
 	}
 
 }

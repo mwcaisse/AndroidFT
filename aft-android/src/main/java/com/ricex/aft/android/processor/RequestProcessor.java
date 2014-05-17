@@ -8,7 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.content.Context;
-import android.media.MediaScannerConnection;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -35,12 +36,6 @@ public class RequestProcessor {
 	/** The request that his processor will process */
 	private final Request request;
 	
-	/** The MediaScannerConnection to scan the files after they are created so they are immediately visible.
-	 * 
-	 * See Issue #15 for more details
-	 */
-	private final MediaScannerConnection mediaScannerConnection;
-	
 	/** Creates a new Request Processor to process the specified request
 	 * 
 	 * @param context The context this request processor was called from
@@ -49,10 +44,9 @@ public class RequestProcessor {
 	 * 		already be opened.
 	 */
 	
-	public RequestProcessor(Context context, MediaScannerConnection mediaScannerConnection, Request request) {
+	public RequestProcessor(Context context, Request request) {
 		this.context = context;
 		this.request = request;
-		this.mediaScannerConnection = mediaScannerConnection;
 	}
 	
 	/** Processes the request.
@@ -90,15 +84,22 @@ public class RequestProcessor {
 		}	
 
 		//scan the file
-		if (mediaScannerConnection.isConnected()) {
-			mediaScannerConnection.scanFile(file.getAbsolutePath(), null);
-		}
-		else {
-			Log.w(LOG_TAG, "Media Scanner Connection was not connected, file copied, not updated");
-		}
+		scanFile(file);
 		
 		updateRequest(RequestStatus.COMPLETED);
 		return true;
+	}
+	
+	/** Scans the specified file with the Media Scanner by broadcasting an Event
+	 * 
+	 * @param file The file to scan
+	 */
+	
+	private void scanFile(java.io.File file) {
+		Uri contentUri = Uri.fromFile(file);
+		Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+		mediaScanIntent.setData(contentUri);
+		context.sendBroadcast(mediaScanIntent);		
 	}
 	
 	/** Sends an update request to the server with the specified status
