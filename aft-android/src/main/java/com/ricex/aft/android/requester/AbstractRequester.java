@@ -14,7 +14,7 @@ import android.provider.Settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
+import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 
 /**
@@ -45,7 +45,7 @@ public abstract class AbstractRequester {
 		//Create the gson object to decode Json messages
 		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
-				.registerTypeAdapter(byte[].class, new JsonByteArrayBase64Adapter())
+				.registerTypeAdapter(byte[].class, new AndroidJsonByteArrayBase64Adapter())
 				.create();
 		
 		//create the Gson message converter for spring, and set its Gson
