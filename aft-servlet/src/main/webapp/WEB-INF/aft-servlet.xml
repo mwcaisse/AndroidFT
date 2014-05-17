@@ -6,11 +6,12 @@
 
 	xsi:schemaLocation="
 	    http://www.springframework.org/schema/beans 
-	    http://www.springframework.org/schema/beans/spring-beans.xsd
-	    http://www.springframework.org/schema/context 
-	    http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	    http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+        
 	
 	<!-- Import the data source -->
 	<import resource="classpath:data-source.xml" />
@@ -18,19 +19,17 @@
 	<!--  Spring MVC Controllers auto search -->
 	<context:component-scan	base-package="com.ricex.aft.servlet.controller" />
 	
+	<bean id="gsonBean" class="com.google.gson.Gson" factory-bean="gsonFactory" factory-method="constructGson"/> 
+	<bean id="gsonFactory" class="com.ricex.aft.servlet.util.GsonFactory" />
+	
 	<!--  Annotation Driven Controllers -->
-	<mvc:annotation-driven/>
-	<!-- 
+	<mvc:annotation-driven>
 		<mvc:message-converters>		    
-		    <bean id="gsonMessageConverter" class="org.springframework.http.converter.json.GsonHttpMessageConverter" />
-		</mvc:message-converters>  
-		   
-	</mvc:annotation-driven>	-->
-		
-	
-	<bean id="gsonBean" class="com.google.gson.Gson"/> 
-	
-	
+		    <bean id="gsonMessageConverter" class="org.springframework.http.converter.json.GsonHttpMessageConverter" >
+		       <property name="gson" ref="gsonBean"/>
+		    </bean>
+		</mvc:message-converters> 		   
+	</mvc:annotation-driven>
 	
 	<!--  Sql Session Factory for MyBatis-Spring -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
