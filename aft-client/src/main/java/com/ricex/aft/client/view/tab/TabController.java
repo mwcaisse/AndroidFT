@@ -16,6 +16,8 @@ import com.ricex.aft.common.entity.Request;
  */
 public enum TabController {
 
+	//TODO: Possibly use a hashmap to stop adding duplicate tabs
+	
 	INSTANCE;
 	
 	/** The tabbed pane that this controller handles */

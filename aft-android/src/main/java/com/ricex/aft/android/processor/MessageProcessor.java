@@ -93,6 +93,7 @@ public class MessageProcessor {
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 		builder.setSmallIcon(R.drawable.stat_notify_sync);
 		builder.setContentTitle("PushFile Request");
+		builder.setAutoCancel(true);
 		
 		String notificationMessage = "";
 		if (successful > 0) {
@@ -105,7 +106,7 @@ public class MessageProcessor {
 		builder.setContentText(notificationMessage);
 		
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.notify(notificationId, builder.build()); // note that 1 is always unique
+		notificationManager.notify(notificationId, builder.build());
 	}
 
 }
