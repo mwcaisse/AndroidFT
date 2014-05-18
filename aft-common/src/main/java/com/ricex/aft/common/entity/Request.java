@@ -29,6 +29,9 @@ public class Request implements Serializable {
 	/** The status of this request */
 	private RequestStatus requestStatus;
 	
+	/** The message corresponding to the request status */
+	private String requestStatusMessage;
+	
 	/** The last time that request was changed */
 	private Date requestUpdated;
 	
@@ -138,6 +141,22 @@ public class Request implements Serializable {
 	
 	public void setRequestStatus(RequestStatus requestStatus) {
 		this.requestStatus = requestStatus;
+	}
+	
+	/**
+	 * @return the requestStatusMessage
+	 */
+	
+	public String getRequestStatusMessage() {
+		return requestStatusMessage;
+	}
+
+	/**
+	 * @param requestStatusMessage the requestStatusMessage to set
+	 */
+	
+	public void setRequestStatusMessage(String requestStatusMessage) {
+		this.requestStatusMessage = requestStatusMessage;
 	}
 
 	/**

@@ -72,7 +72,7 @@ public class RequestProcessor {
 		java.io.File file =  getStorageFile(request);
 		if (file == null) {
 			Log.w(LOG_TAG, "Creating storage file failed");
-			updateRequest(RequestStatus.FAILED);
+			updateRequest(RequestStatus.FAILED, "Unable to create storage file");
 			return false;
 		}
 		
@@ -84,7 +84,7 @@ public class RequestProcessor {
 		} 
 		catch (IOException e) {
 			Log.e(LOG_TAG, "Error writing the file to external storage", e);
-			updateRequest(RequestStatus.FAILED);
+			updateRequest(RequestStatus.FAILED, "Unable to write the file to disk");
 			return false;
 		}	
 
@@ -114,14 +114,26 @@ public class RequestProcessor {
 	 */
 	
 	private boolean updateRequest(RequestStatus status) {
+		return updateRequest(status, "");	
+	}
+	
+	/** Sends an update request to the server with the specified status
+	 * 
+	 * @param status The new status of the request
+	 * @param message The message associated with the status
+	 * @return True if the request updated successfully, false otherwise
+	 */
+	
+	private boolean updateRequest(RequestStatus status, String message) {
 		request.setRequestStatus(status);
+		request.setRequestStatusMessage(message);
 		long res = new RequestRequester(context).updateRequest(request);
 		if (res < 0) {
 			//TODO: In the future might want to add some sort of try again feature
 			Log.e(LOG_TAG, "Failed to send the updated request to the sever");			
 			return false;
 		}			
-		return true;		
+		return true;	
 	}
 	
 	/** Creates the file object to store the file in the given request
