@@ -20,6 +20,9 @@ public class Request implements Serializable {
 	/** String representing the location to save the file on the device */
 	private String requestFileLocation;
 	
+	/** The base directory to put this request in */
+	private RequestDirectory requestDirectory;
+	
 	/** The status of this request */
 	private RequestStatus requestStatus;
 	
@@ -35,6 +38,7 @@ public class Request implements Serializable {
 	
 	public Request() {
 		requestStatus = RequestStatus.NEW;
+		requestDirectory = RequestDirectory.ROOT;
 	}
 	
 	/**
@@ -83,6 +87,22 @@ public class Request implements Serializable {
 	
 	public void setRequestFileLocation(String requestFileLocation) {
 		this.requestFileLocation = requestFileLocation;
+	}
+
+	/**
+	 * @return the requestDirectory
+	 */
+	
+	public RequestDirectory getRequestDirectory() {
+		return requestDirectory;
+	}
+
+	/**
+	 * @param requestDirectory the requestDirectory to set
+	 */
+	
+	public void setRequestDirectory(RequestDirectory requestDirectory) {
+		this.requestDirectory = requestDirectory;
 	}
 
 	/**
