@@ -23,6 +23,7 @@ import com.ricex.aft.client.view.request.action.SaveAction;
 import com.ricex.aft.client.view.tab.Tab;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
 
 /**
@@ -69,6 +70,9 @@ public class RequestView extends Tab {
 	/** The combobox for the current status of this request */
 	private JComboBox<RequestStatus> cbxStatus;
 	
+	/** The combobox for the base directory of the request */
+	private JComboBox<RequestDirectory> cbxBaseDirectory;
+	
 	/** The textfield containing the last updated date */
 	private JTextField txtLastUpdated;
 	
@@ -102,13 +106,19 @@ public class RequestView extends Tab {
 	/** The label for the file location field */
 	private JLabel lblFileLocation;
 	
+	/** The label for the file base directory field */
+	private JLabel lblBaseDirectory;
+	
 	/** The label for displaying the status message of operations */
 	private JLabel lblStatusMessage;
 	
-	/** The ComboBox model for the Status combobox */
+	/** The ComboBox model for the Status ComboBox */
 	private DefaultComboBoxModel<RequestStatus> cbxStatusModel;
 	
-	/** The ComboBox model for the device combobox */
+	/** The ComboBox model for the Base Directory ComboBox */
+	private DefaultComboBoxModel<RequestDirectory> cbxBaseDirectoryModel;
+	
+	/** The ComboBox model for the device ComboBox */
 	private DeviceComboBoxModel cbxDeviceModel;
 	
 	/** Creates a new RequestView to create a Request
@@ -181,6 +191,9 @@ public class RequestView extends Tab {
 		cbxStatusModel = new DefaultComboBoxModel<RequestStatus>(RequestStatus.values());
 		cbxStatus = new JComboBox<RequestStatus>(cbxStatusModel);
 		
+		cbxBaseDirectoryModel = new DefaultComboBoxModel<RequestDirectory>(RequestDirectory.values());
+		cbxBaseDirectory = new JComboBox<RequestDirectory>(cbxBaseDirectoryModel);
+		
 		
 		
 	}
@@ -234,6 +247,7 @@ public class RequestView extends Tab {
 	protected void initializeLabels() {
 		lblDevice = new JLabel("Device: ");
 		lblStatus = new JLabel("Status: ");
+		lblBaseDirectory = new JLabel("Base Directory: ");
 		lblLastUpdated = new JLabel("Last Updated: ");
 		lblFileName = new JLabel("File: ");
 		lblFileLocation = new JLabel("File Location: ");
@@ -251,19 +265,24 @@ public class RequestView extends Tab {
 		else if (mode == Mode.VIEW || mode == Mode.EDIT) {
 			txtFileName.setText(request.getRequestFile().getFileName());
 			txtFileLocation.setText(request.getRequestFileLocation());
-			cbxStatus.setSelectedItem(request.getRequestStatus());
 			txtLastUpdated.setText(request.getRequestUpdated().toString());	
 		}
+		
+		//these get set to the values in the request regardless of mode
+		cbxStatus.setSelectedItem(request.getRequestStatus());
+		cbxBaseDirectory.setSelectedItem(request.getRequestDirectory());
 	}
 	
 	/** Updates the fields in the Request View
 	 * 
 	 */
-	
+
 	public void updateFields() {
 		txtFileName.setText(request.getRequestFile().getFileName());
 		txtFileLocation.setText(request.getRequestFileLocation());
 		cbxStatus.setSelectedItem(request.getRequestStatus());
+		cbxDevice.setSelectedItem(request.getRequestDevice());
+		cbxBaseDirectory.setSelectedItem(request.getRequestDirectory());
 		txtLastUpdated.setText(request.getRequestUpdated().toString());	
 	}
 	
@@ -272,8 +291,9 @@ public class RequestView extends Tab {
 	 */
 	
 	protected void disableFields() {
+		txtFileName.setEnabled(false);
 		if (mode == Mode.VIEW) {
-			txtFileName.setEnabled(false);
+			cbxBaseDirectory.setEnabled(false);
 			txtFileLocation.setEnabled(false);
 			cbxStatus.setEnabled(false);
 			cbxDevice.setEnabled(false);
@@ -297,30 +317,35 @@ public class RequestView extends Tab {
 		JPanel panel = this;
 		
 		layout.putConstraint(SpringLayout.WEST, lblFileName, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblBaseDirectory, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblFileLocation, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblDevice, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblStatus, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblLastUpdated, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		
 		layout.putConstraint(SpringLayout.NORTH, txtFileName, PADDING_VERTICAL, SpringLayout.NORTH, panel);
-		layout.putConstraint(SpringLayout.NORTH, txtFileLocation, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileName);
+		layout.putConstraint(SpringLayout.NORTH, cbxBaseDirectory, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileName);
+		layout.putConstraint(SpringLayout.NORTH, txtFileLocation, PADDING_VERTICAL, SpringLayout.SOUTH, cbxBaseDirectory);
 		layout.putConstraint(SpringLayout.NORTH, cbxDevice, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileLocation);
 		layout.putConstraint(SpringLayout.NORTH, cbxStatus, PADDING_VERTICAL, SpringLayout.SOUTH, cbxDevice);
 		layout.putConstraint(SpringLayout.NORTH, txtLastUpdated, PADDING_VERTICAL, SpringLayout.SOUTH, cbxStatus);
 		
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileName, 0, SpringLayout.VERTICAL_CENTER, txtFileName);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblBaseDirectory, 0, SpringLayout.VERTICAL_CENTER, cbxBaseDirectory);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileLocation, 0, SpringLayout.VERTICAL_CENTER, txtFileLocation);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblDevice, 0, SpringLayout.VERTICAL_CENTER, cbxDevice);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblStatus, 0, SpringLayout.VERTICAL_CENTER, cbxStatus);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblLastUpdated, 0, SpringLayout.VERTICAL_CENTER, txtLastUpdated);
 		
-		layout.putConstraint(SpringLayout.WEST, txtFileLocation, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, lblFileLocation);
+		layout.putConstraint(SpringLayout.WEST, txtFileLocation, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, lblBaseDirectory);
 		
 		layout.putConstraint(SpringLayout.WEST, txtFileName, 0, SpringLayout.WEST, txtFileLocation);
+		layout.putConstraint(SpringLayout.WEST, cbxBaseDirectory, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxDevice, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxStatus, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, txtLastUpdated, 0, SpringLayout.WEST, txtFileLocation);
 		
+		layout.putConstraint(SpringLayout.EAST, cbxBaseDirectory, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, txtFileLocation, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxDevice, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxStatus, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
@@ -353,6 +378,7 @@ public class RequestView extends Tab {
 	protected void addComponents() {
 		//add the labels
 		add(lblFileName);
+		add(lblBaseDirectory);
 		add(lblFileLocation);
 		add(lblDevice);
 		add(lblStatus);
@@ -360,6 +386,7 @@ public class RequestView extends Tab {
 		add(lblStatusMessage);
 		
 		//add the input components
+		add(cbxBaseDirectory);
 		add(txtFileName);
 		add(txtFileLocation);
 		add(cbxDevice);
@@ -379,6 +406,7 @@ public class RequestView extends Tab {
 	public void populateRequest() {
 		request.setRequestDevice(cbxDeviceModel.getSelectedItem());
 		request.setRequestStatus((RequestStatus)cbxStatusModel.getSelectedItem());
+		request.setRequestDirectory((RequestDirectory)cbxBaseDirectoryModel.getSelectedItem());
 		request.setRequestFileLocation(txtFileLocation.getText());
 	}
 	
