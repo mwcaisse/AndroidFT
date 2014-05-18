@@ -10,6 +10,7 @@
 	<!-- Device result map -->
 	<resultMap id="requestResultMap" type="Request">
 		<id property="requestId" column="REQ_ID" />		
+		<result property="requestName" column="REQ_NAME" />
 		<result property="requestFileLocation" column="REQ_FILE_LOC" />		
 		<result property="requestStatus" column="REQ_STAT" />
 		<result property="requestDirectory" column="REQ_FILE_BASE_DIR" />
@@ -44,6 +45,7 @@
 	<update id="updateRequest">
 		UPDATE REQUEST SET
 			REQ_DEV_ID = #{requestDevice.deviceId},
+			REQ_NAME = #{requestName},
 			REQ_FILE_LOC = #{requestFileLocation},
 			REQ_FILE_BASE_DIR = #{requestDirectory},
 			REQ_FILE_ID = #{requestFile.fileId},
@@ -54,8 +56,10 @@
 
 	<!-- Insert a new request -->
 	<insert id="createRequest" useGeneratedKeys="true" keyProperty="requestId">
-		INSERT INTO REQUEST (REQ_DEV_ID, REQ_FILE_LOC, REQ_FILE_BASE_DIR, REQ_FILE_ID, REQ_STAT)
-		VALUES (#{requestDevice.deviceId}, #{requestFileLocation}, #{requestDirectory}, #{requestFile.fileId}, #{requestStatus})
+		INSERT INTO REQUEST (REQ_DEV_ID, REQ_NAME, REQ_FILE_LOC, 
+			REQ_FILE_BASE_DIR, REQ_FILE_ID, REQ_STAT)
+		VALUES (#{requestDevice.deviceId}, #{requestName}, #{requestFileLocation}, 
+			#{requestDirectory}, #{requestFile.fileId}, #{requestStatus})
 	</insert>
 	
 </mapper>

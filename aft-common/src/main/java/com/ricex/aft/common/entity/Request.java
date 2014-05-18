@@ -14,6 +14,9 @@ public class Request implements Serializable {
 	/** The id of this update request */
 	private long requestId;
 	
+	/** The name of this request */
+	private String requestName;
+	
 	/** The file that this request will send */
 	private File requestFile;
 	
@@ -55,6 +58,22 @@ public class Request implements Serializable {
 	
 	public void setRequestId(long requestId) {
 		this.requestId = requestId;
+	}
+
+	/**
+	 * @return the requestName
+	 */
+	
+	public String getRequestName() {
+		return requestName;
+	}
+
+	/**
+	 * @param requestName the requestName to set
+	 */
+	
+	public void setRequestName(String requestName) {
+		this.requestName = requestName;
 	}
 
 	/**

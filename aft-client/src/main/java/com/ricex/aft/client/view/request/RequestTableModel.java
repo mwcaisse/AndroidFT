@@ -16,10 +16,10 @@ import com.ricex.aft.common.entity.RequestStatus;
 public class RequestTableModel  extends ListTableModel<Request> {
 	
 	/** The column types of the table entries */
-	private static final Class<?>[] columnTypes = {String.class, String.class, String.class, RequestStatus.class, Date.class};
+	private static final Class<?>[] columnTypes = {String.class, String.class, String.class, String.class, RequestStatus.class, Date.class};
 	
 	/** The name of the columns in the tables */
-	private static final String[] columnNames = {"File Name", "Location", "Device Name", "Status", "Last Updated"};
+	private static final String[] columnNames = {"Name", "File Name", "Location", "Device Name", "Status", "Last Updated"};
 	
 	/**
 	 *  Creates a new instance of Request Table Model to control the table
@@ -36,11 +36,12 @@ public class RequestTableModel  extends ListTableModel<Request> {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Request request = elements.get(rowIndex);
 		switch (columnIndex) {
-		case 0: return request.getRequestFile().getFileName();
-		case 1: return request.getRequestFileLocation();
-		case 2: return request.getRequestDevice().getDeviceName();
-		case 3: return request.getRequestStatus();
-		case 4: return request.getRequestUpdated();
+		case 0: return request.getRequestName(); 
+		case 1: return request.getRequestFile().getFileName();
+		case 2: return request.getRequestFileLocation();
+		case 3: return request.getRequestDevice().getDeviceName();
+		case 4: return request.getRequestStatus();
+		case 5: return request.getRequestUpdated();
 		default: return null;		
 		}
 	}	

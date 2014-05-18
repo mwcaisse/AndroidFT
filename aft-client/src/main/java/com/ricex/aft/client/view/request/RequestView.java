@@ -73,6 +73,9 @@ public class RequestView extends Tab {
 	/** The combobox for the base directory of the request */
 	private JComboBox<RequestDirectory> cbxBaseDirectory;
 	
+	/** The text field containing the name of this request */
+	private JTextField txtName;
+	
 	/** The textfield containing the last updated date */
 	private JTextField txtLastUpdated;
 	
@@ -90,6 +93,9 @@ public class RequestView extends Tab {
 	
 	/** Button to cancel any changes made to the request */
 	private JButton butCancel;
+	
+	/** The label for the name of this request */
+	private JLabel lblName;
 	
 	/** The label for the device field */
 	private JLabel lblDevice;
@@ -177,6 +183,8 @@ public class RequestView extends Tab {
 	 */
 	
 	protected void initializeInputComponents() {
+		txtName = new JTextField();
+		
 		txtLastUpdated = new JTextField();
 		txtLastUpdated.setEnabled(false);
 		
@@ -245,6 +253,7 @@ public class RequestView extends Tab {
 	 */
 	
 	protected void initializeLabels() {
+		lblName = new JLabel("Name: ");
 		lblDevice = new JLabel("Device: ");
 		lblStatus = new JLabel("Status: ");
 		lblBaseDirectory = new JLabel("Base Directory: ");
@@ -263,6 +272,7 @@ public class RequestView extends Tab {
 			txtLastUpdated.setText(request.getRequestUpdated().toString());
 		}
 		else if (mode == Mode.VIEW || mode == Mode.EDIT) {
+			txtName.setText(request.getRequestName());
 			txtFileName.setText(request.getRequestFile().getFileName());
 			txtFileLocation.setText(request.getRequestFileLocation());
 			txtLastUpdated.setText(request.getRequestUpdated().toString());	
@@ -278,6 +288,7 @@ public class RequestView extends Tab {
 	 */
 
 	public void updateFields() {
+		txtName.setText(request.getRequestName());
 		txtFileName.setText(request.getRequestFile().getFileName());
 		txtFileLocation.setText(request.getRequestFileLocation());
 		cbxStatus.setSelectedItem(request.getRequestStatus());
@@ -293,6 +304,7 @@ public class RequestView extends Tab {
 	protected void disableFields() {
 		txtFileName.setEnabled(false);
 		if (mode == Mode.VIEW) {
+			txtName.setEnabled(false);
 			cbxBaseDirectory.setEnabled(false);
 			txtFileLocation.setEnabled(false);
 			cbxStatus.setEnabled(false);
@@ -316,6 +328,7 @@ public class RequestView extends Tab {
 		SpringLayout layout = new SpringLayout();
 		JPanel panel = this;
 		
+		layout.putConstraint(SpringLayout.WEST, lblName, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblFileName, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblBaseDirectory, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblFileLocation, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
@@ -323,13 +336,15 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.WEST, lblStatus, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblLastUpdated, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		
-		layout.putConstraint(SpringLayout.NORTH, txtFileName, PADDING_VERTICAL, SpringLayout.NORTH, panel);
+		layout.putConstraint(SpringLayout.NORTH, txtName, PADDING_VERTICAL, SpringLayout.NORTH, panel);
+		layout.putConstraint(SpringLayout.NORTH, txtFileName, PADDING_VERTICAL, SpringLayout.SOUTH, txtName);
 		layout.putConstraint(SpringLayout.NORTH, cbxBaseDirectory, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileName);
 		layout.putConstraint(SpringLayout.NORTH, txtFileLocation, PADDING_VERTICAL, SpringLayout.SOUTH, cbxBaseDirectory);
 		layout.putConstraint(SpringLayout.NORTH, cbxDevice, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileLocation);
 		layout.putConstraint(SpringLayout.NORTH, cbxStatus, PADDING_VERTICAL, SpringLayout.SOUTH, cbxDevice);
 		layout.putConstraint(SpringLayout.NORTH, txtLastUpdated, PADDING_VERTICAL, SpringLayout.SOUTH, cbxStatus);
 		
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblName, 0, SpringLayout.VERTICAL_CENTER, txtName);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileName, 0, SpringLayout.VERTICAL_CENTER, txtFileName);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblBaseDirectory, 0, SpringLayout.VERTICAL_CENTER, cbxBaseDirectory);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileLocation, 0, SpringLayout.VERTICAL_CENTER, txtFileLocation);
@@ -339,12 +354,14 @@ public class RequestView extends Tab {
 		
 		layout.putConstraint(SpringLayout.WEST, txtFileLocation, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, lblBaseDirectory);
 		
+		layout.putConstraint(SpringLayout.WEST, txtName, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, txtFileName, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxBaseDirectory, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxDevice, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxStatus, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, txtLastUpdated, 0, SpringLayout.WEST, txtFileLocation);
 		
+		layout.putConstraint(SpringLayout.EAST, txtName, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxBaseDirectory, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, txtFileLocation, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxDevice, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
@@ -377,6 +394,7 @@ public class RequestView extends Tab {
 	
 	protected void addComponents() {
 		//add the labels
+		add(lblName);
 		add(lblFileName);
 		add(lblBaseDirectory);
 		add(lblFileLocation);
@@ -386,6 +404,7 @@ public class RequestView extends Tab {
 		add(lblStatusMessage);
 		
 		//add the input components
+		add(txtName);
 		add(cbxBaseDirectory);
 		add(txtFileName);
 		add(txtFileLocation);
@@ -404,6 +423,8 @@ public class RequestView extends Tab {
 	 */
 	
 	public void populateRequest() {
+		log.debug("Adding name of request to request Name: {}", txtName.getText());
+		request.setRequestName(txtName.getText());
 		request.setRequestDevice(cbxDeviceModel.getSelectedItem());
 		request.setRequestStatus((RequestStatus)cbxStatusModel.getSelectedItem());
 		request.setRequestDirectory((RequestDirectory)cbxBaseDirectoryModel.getSelectedItem());

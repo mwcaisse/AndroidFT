@@ -35,6 +35,9 @@ public abstract class ListTableModel<T> implements TableModel {
 	public ListTableModel(Class<?>[] columnTypes, String[] columnNames) {
 		this.columnTypes = columnTypes;
 		this.columnNames = columnNames;
+		if (columnNames.length != columnTypes.length) {
+			throw new IllegalArgumentException("ColumnNames + ColumnTypes must be the same length.");
+		}
 		tableModelListeners = new ArrayList<TableModelListener>();
 		elements = new ArrayList<T>();
 	}

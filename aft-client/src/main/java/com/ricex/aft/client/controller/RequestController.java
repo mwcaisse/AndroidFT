@@ -128,6 +128,8 @@ public class RequestController extends AbstractController {
 		dest.setRequestId(orig.getRequestId());
 		dest.setRequestStatus(orig.getRequestStatus());
 		dest.setRequestUpdated(orig.getRequestUpdated());
+		dest.setRequestName(orig.getRequestName());
+		dest.setRequestDirectory(orig.getRequestDirectory());
 		
 		File reqFile = new File();
 		reqFile.setFileId(orig.getRequestFile().getFileId());

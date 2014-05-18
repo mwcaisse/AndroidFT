@@ -43,6 +43,7 @@ public class CreateAction extends AbstractAction implements RequestListener<Long
 	 */
 	public void actionPerformed(ActionEvent e) {
 		requestView.populateRequest();
+		log.debug("Creating Request with Name: {}", requestView.getRequest().getRequestName());
 		RequestController.getInstance().createRequest(requestView.getRequest(), this);		
 	}
 

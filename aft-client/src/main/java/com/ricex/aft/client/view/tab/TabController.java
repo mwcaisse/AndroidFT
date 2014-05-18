@@ -54,7 +54,13 @@ public enum TabController {
 	
 	public void addRequestTab(Request request, RequestView.Mode mode) {
 		RequestView requestView = new RequestView(request, mode);
-		addTab(requestView, "Request: " + request.getRequestId());
+		
+		String tabName = "New Request";
+		if (mode != RequestView.Mode.CREATE) {
+			tabName = "Request: " + request.getRequestName();
+		}
+		
+		addTab(requestView, tabName);
 	}
 	
 	/** Convenience function that adds a new tab for the specified device
