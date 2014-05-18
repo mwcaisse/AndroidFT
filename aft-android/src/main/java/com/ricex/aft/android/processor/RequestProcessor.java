@@ -69,7 +69,12 @@ public class RequestProcessor {
 		
 		//fetch the file for this request
 		File reqFile = new FileRequester(context).getCompleteFile(request);
-		java.io.File file =  getStorageFile(reqFile.getFileName());
+		java.io.File file =  getStorageFile(request);
+		if (file == null) {
+			Log.w(LOG_TAG, "Creating storage file failed");
+			updateRequest(RequestStatus.FAILED);
+			return false;
+		}
 		
 		try {
 			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
@@ -119,17 +124,53 @@ public class RequestProcessor {
 		return true;		
 	}
 	
-	/** Creates the file object for the file in the Downloads section of External Storage
+	/** Creates the file object to store the file in the given request
 	 * 
-	 * @param fileName The name of the file to create
-	 * @return The storage file
+	 * @param request The request to create the file for
+	 * @return The storage file, or null if failed to create the file
 	 */
 	
-	private java.io.File getStorageFile(String fileName) {
-		java.io.File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+	private java.io.File getStorageFile(Request request) {
+		java.io.File baseDir = getBaseDirectory(request);
 		
-		java.io.File file = new java.io.File(downloadsDir, fileName);
-		return file;
+		String dirPath = baseDir.getAbsolutePath() + "/" + request.getRequestFileLocation();
+		
+		java.io.File path = new java.io.File(dirPath);
+		path.mkdirs();
+		
+		if (path.isDirectory()) {
+			//creating the directory was successful, return a file to the request file			
+			return new java.io.File(path, request.getRequestFile().getFileName());
+		}		
+		//failed to create the directory, return failure
+		Log.w(LOG_TAG, "Failed to create directory: " + path.getAbsolutePath());
+		return null;
+	}
+	
+	/** Returns the base directory for the request
+	 * 
+	 * @param request The request to fetch the base directory for
+	 * @return The file representing the base directory
+	 */
+	
+	private java.io.File getBaseDirectory(Request request) {
+		switch (request.getRequestDirectory()) {
+		
+		case DOCUMENTS:
+			return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+		case DOWNLOADS:
+			return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		case MOVIES:
+			return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+		case MUSIC:
+			return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+		case PICTURES:
+			return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);			
+		case ROOT:		
+		default:
+			return Environment.getExternalStorageDirectory();
+		
+		}
 	}
 	
 	/** Determines if the external storage is writable

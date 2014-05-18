@@ -15,7 +15,7 @@
     <uses-permission android:name="com.ricex.aft.android.permission.C2D_MESSAGE"/>
     
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="19"
         android:targetSdkVersion="19" />
     
     <application
