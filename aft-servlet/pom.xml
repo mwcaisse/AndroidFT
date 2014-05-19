@@ -28,7 +28,7 @@
     <dependency>
     	<groupId>com.ricex.aft</groupId>
     	<artifactId>aft-common</artifactId>
-    	<version>0.1.5</version>
+    	<version>${aft.common.version}</version>
     </dependency>
            
          

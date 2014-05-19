@@ -85,6 +85,9 @@ public class RequestView extends Tab {
 	/** The TextField containing the location to copy the file to */
 	private JTextField txtFileLocation;
 	
+	/** The TextField containing the status message of the request */
+	private JTextField txtRequestStatusMessage;
+	
 	/** Button to browse for a file to attach to a request */
 	private JButton butBrowseFile;
 	
@@ -102,6 +105,9 @@ public class RequestView extends Tab {
 	
 	/** The label for the status field */
 	private JLabel lblStatus;
+	
+	/** The label for the request status message field */
+	private JLabel lblRequestStatusMessage;
 	
 	/** The label for the last updated field */
 	private JLabel lblLastUpdated;
@@ -193,6 +199,9 @@ public class RequestView extends Tab {
 		
 		txtFileLocation = new JTextField();
 		
+		txtRequestStatusMessage = new JTextField();
+		txtRequestStatusMessage.setEnabled(false); // status message is never editable
+		
 		cbxDeviceModel = new DeviceComboBoxModel();
 		cbxDevice = new JComboBox<Device>(cbxDeviceModel);
 		
@@ -261,6 +270,7 @@ public class RequestView extends Tab {
 		lblFileName = new JLabel("File: ");
 		lblFileLocation = new JLabel("File Location: ");
 		lblStatusMessage = new JLabel("");
+		lblRequestStatusMessage = new JLabel("Status Message: ");
 	}
 	
 	/** Populates the fields based upon the current mode
@@ -276,6 +286,8 @@ public class RequestView extends Tab {
 			txtFileName.setText(request.getRequestFile().getFileName());
 			txtFileLocation.setText(request.getRequestFileLocation());
 			txtLastUpdated.setText(request.getRequestUpdated().toString());	
+			txtRequestStatusMessage.setText(request.getRequestStatusMessage());
+			cbxDevice.setSelectedItem(request.getRequestDevice());
 		}
 		
 		//these get set to the values in the request regardless of mode
@@ -334,6 +346,7 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.WEST, lblFileLocation, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblDevice, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblStatus, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.WEST, lblRequestStatusMessage, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.WEST, lblLastUpdated, PADDING_HORIZONTAL, SpringLayout.WEST, panel);
 		
 		layout.putConstraint(SpringLayout.NORTH, txtName, PADDING_VERTICAL, SpringLayout.NORTH, panel);
@@ -342,7 +355,8 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.NORTH, txtFileLocation, PADDING_VERTICAL, SpringLayout.SOUTH, cbxBaseDirectory);
 		layout.putConstraint(SpringLayout.NORTH, cbxDevice, PADDING_VERTICAL, SpringLayout.SOUTH, txtFileLocation);
 		layout.putConstraint(SpringLayout.NORTH, cbxStatus, PADDING_VERTICAL, SpringLayout.SOUTH, cbxDevice);
-		layout.putConstraint(SpringLayout.NORTH, txtLastUpdated, PADDING_VERTICAL, SpringLayout.SOUTH, cbxStatus);
+		layout.putConstraint(SpringLayout.NORTH, txtRequestStatusMessage, PADDING_VERTICAL, SpringLayout.SOUTH, cbxStatus);
+		layout.putConstraint(SpringLayout.NORTH, txtLastUpdated, PADDING_VERTICAL, SpringLayout.SOUTH, txtRequestStatusMessage);
 		
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblName, 0, SpringLayout.VERTICAL_CENTER, txtName);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileName, 0, SpringLayout.VERTICAL_CENTER, txtFileName);
@@ -350,6 +364,7 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblFileLocation, 0, SpringLayout.VERTICAL_CENTER, txtFileLocation);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblDevice, 0, SpringLayout.VERTICAL_CENTER, cbxDevice);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblStatus, 0, SpringLayout.VERTICAL_CENTER, cbxStatus);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblRequestStatusMessage, 0, SpringLayout.VERTICAL_CENTER, txtRequestStatusMessage);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblLastUpdated, 0, SpringLayout.VERTICAL_CENTER, txtLastUpdated);
 		
 		layout.putConstraint(SpringLayout.WEST, txtFileLocation, PADDING_HORIZONTAL_CLOSE, SpringLayout.EAST, lblBaseDirectory);
@@ -359,6 +374,7 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.WEST, cbxBaseDirectory, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxDevice, 0, SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, cbxStatus, 0, SpringLayout.WEST, txtFileLocation);
+		layout.putConstraint(SpringLayout.WEST, txtRequestStatusMessage, 0 ,SpringLayout.WEST, txtFileLocation);
 		layout.putConstraint(SpringLayout.WEST, txtLastUpdated, 0, SpringLayout.WEST, txtFileLocation);
 		
 		layout.putConstraint(SpringLayout.EAST, txtName, -PADDING_HORIZONTAL, SpringLayout.EAST, panel);
@@ -366,6 +382,7 @@ public class RequestView extends Tab {
 		layout.putConstraint(SpringLayout.EAST, txtFileLocation, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxDevice, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, cbxStatus, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.EAST, txtRequestStatusMessage, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.EAST, txtLastUpdated, - PADDING_HORIZONTAL, SpringLayout.EAST, panel);
 		
 		
@@ -400,6 +417,7 @@ public class RequestView extends Tab {
 		add(lblFileLocation);
 		add(lblDevice);
 		add(lblStatus);
+		add(lblRequestStatusMessage);
 		add(lblLastUpdated);
 		add(lblStatusMessage);
 		
@@ -410,6 +428,7 @@ public class RequestView extends Tab {
 		add(txtFileLocation);
 		add(cbxDevice);
 		add(cbxStatus);
+		add(txtRequestStatusMessage);
 		add(txtLastUpdated);
 		
 		//add the buttons
