@@ -98,4 +98,17 @@ public class Device implements Serializable {
 		return getDeviceName();
 	}
 	
+	/**Determines if the two Devices are equal.
+	 * 
+	 */
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Device)) {
+			return false;
+		}
+		Device dev = (Device) other;		
+		return dev.deviceId == this.deviceId;		
+	}
+	
 }

@@ -70,4 +70,13 @@ public class File implements Serializable {
 		this.fileName = fileName;
 	}	
 	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof File)) {
+			return false;
+		}
+		File file = (File) other;
+		return file.fileId == this.fileId;
+	}
+	
 }

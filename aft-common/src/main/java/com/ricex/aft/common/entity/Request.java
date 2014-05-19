@@ -191,6 +191,18 @@ public class Request implements Serializable {
 		this.requestDevice = requestDevice;
 	}
 	
+	/** Determines if two requests are equal
+	 * 
+	 */
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Request)) {
+			return false;
+		}
+		Request req = (Request) other;
+		return req.requestId == this.requestId;
+	}
 	
 	
 	
