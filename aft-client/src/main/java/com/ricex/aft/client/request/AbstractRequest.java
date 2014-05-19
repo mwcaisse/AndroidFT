@@ -53,8 +53,8 @@ public abstract class AbstractRequest<T> implements IRequest<T> {
 		
 		id = getNextId();
 		//TODO: Make this configurable
-		//baseServiceUrl = "http://fourfivefire.com:8080/aft-servlet/manager/";
-		baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";		
+		baseServiceUrl = "http://fourfivefire.com:8080/aft-servlet/manager/";
+		//baseServiceUrl = "http://localhost:8080/aft-servlet/manager/";		
 		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
 				.registerTypeAdapter(byte[].class, new JsonByteArrayBase64Adapter())
