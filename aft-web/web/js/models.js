@@ -1,4 +1,16 @@
 
+/** Parses a date in the form of milliseconds since epoch  into a locale date/time string representing the date
+ * 
+ * @param dateLong The date in milliseconds since epoch
+ * @return Locale date/time string
+ */
+
+function parseDate(dateLong) {
+	var date = new Date(dateLong);
+	return date.toLocaleString();
+}
+
+
 /** Creates a new Device Object from a data object returned from the web service
  * 
  */
@@ -13,7 +25,7 @@ function Device(data) {
 
 };
 
-/** Creates a new Request Object from a data object returend from the web service
+/** Creates a new Request Object from a data object returned from the web service
  * 
  */
 
@@ -28,7 +40,7 @@ function Request(data) {
 	self.requestDirectory = ko.observable(data.requestDirectory);
 	self.requestStatus = ko.observable(data.requestStatus);
 	self.requestStatusMessage = ko.observable(data.requestStatusMessage);
-	self.requestUpdated = ko.observable(data.requestUpdated);
+	self.requestUpdated = ko.observable(parseDate(data.requestUpdated));
 	
 	//TODO: possibly link this to an actual device object
 	self.requestDeviceName = ko.observable(data.requestDevice.deviceName);

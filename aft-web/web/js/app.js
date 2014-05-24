@@ -25,7 +25,7 @@ $(document).ready(function() {
 		requestDirectory: "ROOT",
 		requestStatus: "COMPLETED",
 		requestStatusMessage: "",
-		requestUpdated: 1400967918,
+		requestUpdated: 1400970851 * 1000,
 		requestDevice: {
 			deviceName: "HTC Droid DNA"
 		}			
