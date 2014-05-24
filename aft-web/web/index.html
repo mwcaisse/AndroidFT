@@ -1,39 +1,117 @@
 <html>
 	<head>
+		<meta charset="utf-8"/>
+	
 		<title>Android File Transfer</title>
 		
-		<!-- BootStrap meta -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!--  scripts -->
-		<script src="js/jquery-2.1.0.js"></script>
-		<script src="js/bootstrap.js"></script>
+		<!--  scripts -->	
+		
+		<!-- Prod Scripts -->	
+		<!-- 
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+		-->
+		
+		<!-- Dev Scripts -->
+		<script src="js/jquery-2.1.1.js"></script>
+		<script src="js/knockout-3.1.0.debug.js"></script>
+		
+		<!-- View and View Model scripts -->
+		<script src="js/models.js"></script>
+		<script src="js/viewmodels.js"></script>
+		<script src="js/app.js"></script>
+		
+		<!--  <script src="js/bootstrap.js"></script> -->
+		
 		<!-- css -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+		<link href="css/style.css" rel="stylesheet">
+		
 	</head>
 	
-	<body>
-		<div>
-			<h1 style="text-align:center;">Requests</h1>
-		</div>
-		<div>
-			<h1 style="">New Request</h1>
+	<body>	
+
+	 
+		<div id="deviceListDiv"> <!-- Device List Div -->
+		
+			<h3>Devices</h3>
+		
+			<table>
 			
-			<form id="requestForm">
-				<table border="1" >
+				<thead>
 				
 					<tr>
-						<td>File: </td><td><input type="text" name="requestFile"></td>
+						<th>ID</th>
+						<th>UID</th>
+						<th>Name</th>
+						<th>Registration ID</th>
+					
 					</tr>
+				
+				</thead>
+				
+				<tbody data-bind="foreach: devices">
+					
 					<tr>
-						<td>Location: </td><td><input type="text" name="requestLocation"></td>
-					</tr>
-						<td>Device: </td><td><input type="text" name="requestDevice"> </td>
-					<tr>
-						<td></td><td><input type="submit" value="Create"></td>
+					
+						<td data-bind="text: deviceId"></td>
+						<td data-bind="text: deviceUid"></td>
+						<td data-bind="text: deviceName"></td>
+						<td data-bind="text: deviceRegistrationId"></td>						
+					
 					</tr>
 					
-				</table>
-			</form>
-		</div>
+				</tbody>
+			
+			</table>
+		
+		
+		</div> <!-- End Device List Div -->		
+		
+		<div id="requestListDiv"> <!-- Request List Div -->
+		
+			<h3>Requests</h3>
+		
+			<table>
+			
+				<thead>
+					
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Device Name</th>
+						<th>File Location</th>
+						<th>File Name</th>
+						<th>Directory</th>
+						<th>Status</th>
+						<th>Status Message</th>
+						<th>Updated</th>
+					
+					</tr>
+				
+				</thead>
+				
+				<tbody data-bind="foreach: requests">
+					
+					<tr>
+						<td data-bind="text: requestId"></td>
+						<td data-bind="text: requestName"></td>
+						<td data-bind="text: requestDeviceName"></td>
+						<td data-bind="text: requestFileLocation"></td>
+						<td data-bind="text: requestFileName"></td>
+						<td data-bind="text: requestDirectory"></td>
+						<td data-bind="text: requestStatus"></td>
+						<td data-bind="text: requestStatusMessage"></td>
+						<td data-bind="text: requestUpdated"></td>
+						
+					</tr>
+					
+				</tbody>
+			
+			</table>
+		
+		
+		</div> <!-- End Request List Div -->
+
 	</body>
 </html>
