@@ -37,8 +37,8 @@ $(document).ready(function() {
         new Request(request)
     ];
 	
-	var deviceTableViewModel = new DeviceTableViewModel(devices);
-	var requestTableViewModel = new RequestTableViewModel(requests);
+	var deviceTableViewModel = new DeviceTableViewModel([]);
+	var requestTableViewModel = new RequestTableViewModel([]);
 	
 	ko.applyBindings(deviceTableViewModel, $('#deviceListDiv')[0]);
 	ko.applyBindings(requestTableViewModel, $('#requestListDiv')[0]);
