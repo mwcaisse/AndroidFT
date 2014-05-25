@@ -11,7 +11,7 @@ function DeviceTableViewModel(data) {
 	self.devices = ko.observableArray(data);
 	
 	self.fetchFromServer = function() {
-		var serverUrl = "http://localhost:8080/aft-servlet/manager/device/all";		
+		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/device/all";		
 		$.getJSON(serverUrl, function(data, statusMessage, jqXHR) {
 			self.parseServerResponse(data);			
 		}).fail( function(jqXHR, textStatus, error) {
@@ -48,7 +48,7 @@ function RequestTableViewModel(data) {
 	self.requests = ko.observableArray(data);
 	
 	self.fetchFromServer = function() {
-		var serverUrl = "http://localhost:8080/aft-servlet/manager/request/all";		
+		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/request/all";		
 		$.getJSON(serverUrl, function(data, statusMessage, jqXHR) {
 			self.parseServerResponse(data);			
 		}).fail( function(jqXHR, textStatus, error) {
