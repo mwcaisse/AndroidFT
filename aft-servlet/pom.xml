@@ -4,7 +4,7 @@
   	<parent>
   		<groupId>com.ricex.aft</groupId>
   		<artifactId>aft</artifactId>
-  		<version>0.1.0</version>
+  		<version>0.2.0</version>
 	</parent>  
   
 	<modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,6 @@
 	<packaging>war</packaging>
 	<name>aft-servlet</name>
 	<url>http://maven.apache.org</url>  
-	<version>${aft.servlet.version}</version>
     
   <dependencies>
       

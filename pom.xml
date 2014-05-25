@@ -10,17 +10,14 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<mysql.jdbc.version>5.1.28</mysql.jdbc.version>
-		<aft.version>0.1.0</aft.version>
-		<aft.common.version>0.1.9</aft.common.version>
-		<aft.servlet.version>0.1.5</aft.servlet.version>
-		<aft.client.version>0.1.2</aft.client.version>
 		<commons.codec.version>1.8</commons.codec.version>
+		<aft.common.version>0.2.0</aft.common.version>
 	</properties>
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ricex.aft</groupId>
 	<artifactId>aft</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 	<packaging>pom</packaging>
 	<name>Android File Transfer</name>
 	

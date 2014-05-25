@@ -70,3 +70,36 @@ function RequestTableViewModel(data) {
 	self.fetchFromServer();
 	
 };
+
+/** The view model for the RequestView
+ * 
+ * @param data The ID of the request to display
+ */
+
+function RequestViewViewModel(data) {
+	var self = this;
+	
+	self.request = ko.observable(null);
+	
+	self.fetchFromServer = function() {
+		var serverUrl = "http://localhost:8080/aft-servlet/manager/request/all";		
+		$.getJSON(serverUrl, function(data, statusMessage, jqXHR) {
+			self.parseServerResponse(data);			
+		}).fail( function(jqXHR, textStatus, error) {
+			alert("Failed to fetch all requests: " + textStatus + " : " + error);
+		});
+	};
+	
+	self.parseServerResponse = function(data) {
+		//remove the old elements from the list
+		self.requests.removeAll();
+		
+		//add the elements from the web service to the list
+		$.each(data, function(index, value) {
+			self.requests.push(new Request(value));
+		});	
+	};
+	
+	//fetch the elements
+	self.fetchFromServer();
+}
