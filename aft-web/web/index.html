@@ -96,14 +96,14 @@
 					<tr>
 						<td data-bind="text: requestId"></td>
 						<td data-bind="text: requestName"></td>
-						<td data-bind="text: requestDeviceName"></td>
+						<td data-bind="text: requestDevice().deviceName()"></td>
 						<td data-bind="text: requestFileLocation"></td>
-						<td data-bind="text: requestFileName"></td>
+						<td data-bind="text: requestFile().fileName()"></td>
 						<td data-bind="text: requestDirectory"></td>
 						<td data-bind="text: requestStatus"></td>
 						<td data-bind="text: requestStatusMessage"></td>
-						<td data-bind="text: requestUpdated"></td>
-						
+						<td data-bind="text: requestUpdatedString"></td>
+						<td><a href="#" data-bind="click: $parent.viewRequest">View</a>						
 					</tr>
 					
 				</tbody>
@@ -112,6 +112,49 @@
 		
 		
 		</div> <!-- End Request List Div -->
+		
+		<div id="modifyRequestDiv" data-bind="if: request"> <!-- ModifyRequest Div -->
+		
+			<h3>Request View</h3>
+			
+			<table data-bind="with: request">
+			
+				<tbody>
+					<tr>
+					<td>Name</td><td><input data-bind="value: requestName()"></input></td>
+					</tr>
+					<tr>
+					<td>Device</td><td><input data-bind="value: requestDevice().deviceName()"></input></td>
+					</tr>					
+					<tr>
+					<td>File Location</td><td><input data-bind="value: requestFileLocation()"></input></td>
+					</tr><tr>
+					<td>File Name</td><td data-bind="text: requestFile().fileName()"></td>
+					</tr><tr>
+					<td>Directory</td><td><input data-bind="value: requestDirectory()"></input></td>
+					</tr><tr>
+					<td>Status</td><td data-bind="text: requestStatus()"></td>
+					</tr><tr>
+					<td>Status Message</td><td data-bind="text: requestStatusMessage()"></td>
+					</tr><tr>
+					<td>Updated</td><td data-bind="text: requestUpdatedString()"></td>
+					</tr>
+					
+					<tr>
+					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button>Save</button></td>
+					</tr>
+					
+				</tbody>
+			
+			</table>
+		
+		</div> <!-- End ModifyRequest Div -->
+		
+		<div id="createRequestDiv"> <!-- CreateRequest Div -->
+		
+		<h3>Create Request</h3>
+		
+		</div> <!-- End CreateRequest Div -->
 
 	</body>
 </html>

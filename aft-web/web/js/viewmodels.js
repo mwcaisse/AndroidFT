@@ -4,10 +4,11 @@
  * 	@param data An array of Device models
  */
 
-function DeviceTableViewModel(data) {
+function DeviceTableViewModel(parent, data) {
 	
 	var self = this;
 	
+	self.parent = parent;
 	self.devices = ko.observableArray(data);
 	
 	self.fetchFromServer = function() {
@@ -41,10 +42,11 @@ function DeviceTableViewModel(data) {
  * 
  */
 
-function RequestTableViewModel(data) {
+function RequestTableViewModel(parent, data) {
 	
 	var self = this;
 	
+	self.parent = parent;
 	self.requests = ko.observableArray(data);
 	
 	self.fetchFromServer = function() {
@@ -66,40 +68,51 @@ function RequestTableViewModel(data) {
 		});	
 	};
 	
+	self.viewRequest = function(request) {
+		//alert("View Request!: " + request.requestId());
+		self.parent.modifyRequestViewModel.request(request);
+	};
+	
 	//fetch the elements
 	self.fetchFromServer();
 	
 };
 
-/** The view model for the RequestView
+
+/** The view for modifying / viewing a request
  * 
- * @param data The ID of the request to display
  */
 
-function RequestViewViewModel(data) {
+function ModifyRequestViewModel(parent, data) {
+	
 	var self = this;
 	
-	self.request = ko.observable(null);
+	self.parent = parent;
+	self.request = ko.observable(data);
 	
-	self.fetchFromServer = function() {
-		var serverUrl = "http://localhost:8080/aft-servlet/manager/request/all";		
-		$.getJSON(serverUrl, function(data, statusMessage, jqXHR) {
-			self.parseServerResponse(data);			
-		}).fail( function(jqXHR, textStatus, error) {
-			alert("Failed to fetch all requests: " + textStatus + " : " + error);
-		});
+	
+	self.cancel = function() {
+		self.request(null);
 	};
 	
-	self.parseServerResponse = function(data) {
-		//remove the old elements from the list
-		self.requests.removeAll();
-		
-		//add the elements from the web service to the list
-		$.each(data, function(index, value) {
-			self.requests.push(new Request(value));
-		});	
+	self.save = function() {
+		//save the request.
 	};
 	
-	//fetch the elements
-	self.fetchFromServer();
+	
+}
+
+
+/** Root view model that holds the other view modesl
+ * 
+ */
+
+function RootViewModel() {
+	var self = this;
+	
+	self.requestTableViewModel = new RequestTableViewModel(self, []);
+	self.deviceTableViewModel = new DeviceTableViewModel(self, []);
+	self.modifyRequestViewModel = new ModifyRequestViewModel(self, null);
+	
+	
 }

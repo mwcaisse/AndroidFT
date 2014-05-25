@@ -37,10 +37,10 @@ $(document).ready(function() {
         new Request(request)
     ];
 	
-	var deviceTableViewModel = new DeviceTableViewModel([]);
-	var requestTableViewModel = new RequestTableViewModel([]);
+	var rootViewModel = new RootViewModel();
 	
-	ko.applyBindings(deviceTableViewModel, $('#deviceListDiv')[0]);
-	ko.applyBindings(requestTableViewModel, $('#requestListDiv')[0]);
+	ko.applyBindings(rootViewModel.deviceTableViewModel, $('#deviceListDiv')[0]);
+	ko.applyBindings(rootViewModel.requestTableViewModel, $('#requestListDiv')[0]);
+	ko.applyBindings(rootViewModel.modifyRequestViewModel, $('#modifyRequestDiv')[0]);
 	
 });

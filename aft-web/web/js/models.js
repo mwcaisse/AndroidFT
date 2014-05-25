@@ -8,6 +8,19 @@
 function parseDate(dateLong) {
 	var date = new Date(dateLong);
 	return date.toLocaleString();
+};
+
+/** Creates a new File Object from a data object returned from the web service
+ * 
+ * @param data 
+ */
+
+function File(data) {
+	
+	var self = this;
+	
+	self.fileId = ko.observable(data.fileId);
+	self.fileName = ko.observable(data.fileName);
 }
 
 
@@ -35,14 +48,16 @@ function Request(data) {
 	
 	self.requestId = ko.observable(data.requestId);
 	self.requestName = ko.observable(data.requestName);
-	self.requestFileName = ko.observable(data.requestFile.fileName);
+	self.requestFile = ko.observable(new File(data.requestFile));
 	self.requestFileLocation = ko.observable(data.requestFileLocation);
 	self.requestDirectory = ko.observable(data.requestDirectory);
 	self.requestStatus = ko.observable(data.requestStatus);
 	self.requestStatusMessage = ko.observable(data.requestStatusMessage);
-	self.requestUpdated = ko.observable(parseDate(data.requestUpdated));
+	self.requestUpdated = ko.observable(data.requestUpdated);
+	self.requestDevice = ko.observable(new Device(data.requestDevice));
 	
-	//TODO: possibly link this to an actual device object
-	self.requestDeviceName = ko.observable(data.requestDevice.deviceName);
-	
+	/** Computed to show the request update as a string rather than a long */
+	self.requestUpdatedString = ko.computed(function() {
+		return parseDate(self.requestUpdated());
+	});
 };
