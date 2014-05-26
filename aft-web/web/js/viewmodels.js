@@ -69,7 +69,8 @@ function RequestTableViewModel(parent, data) {
 	
 	self.viewRequest = function(request) {
 		//alert("View Request!: " + request.requestId());
-		self.parent.modifyRequestViewModel.request(request);
+		//clone the request first
+		self.parent.modifyRequestViewModel.request(new Request(ko.toJS(request)));
 	};
 	
 	//fetch the elements
