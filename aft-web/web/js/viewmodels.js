@@ -97,13 +97,31 @@ function ModifyRequestViewModel(parent, data) {
 	/** List of all request directory options */
 	self.requestDirectoryOptions = requestDirectoryOptions;
 	
+	self.testRequestName = ko.observable("TestName");
+	
 	
 	self.cancel = function() {
 		self.request(null);
 	};
 	
 	self.save = function() {
-		//save the request.
+	
+		console.log("Saving request: " + ko.toJSON(self.request));
+		
+		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/request/update";		
+		
+		$.ajax( {
+			type: "PUT",
+			dataType: "json",
+			url: serverUrl,
+			data: ko.toJSON(self.request),
+			contentType: "application/json"				
+		}).done(function() {
+			console.log("Successfully saved the request");
+		}).fail(function(jqXHR, statusMessage, error) {
+			alert("Failed to save the request");
+			console.log("Failed to save the request, " + statusMessage + " : " + error);
+		});
 	};
 	
 	// populate the devices list
@@ -112,7 +130,6 @@ function ModifyRequestViewModel(parent, data) {
 		self.devices.removeAll();		
 		//add the elements from the web service to the list
 		$.each(data, function(index, value) {
-			alert("Adding device to list: " + value.deviceName);
 			self.devices.push(new Device(value));
 		});	
 	}, function(jqXHR, textStatus, error) {
