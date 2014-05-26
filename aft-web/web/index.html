@@ -120,8 +120,7 @@
 			
 			<table data-bind="with: request">
 			
-			
-				<tbody>
+				<tbody data-bind="if: $parent.isModifiable()">
 					<tr>
 					<td>Name</td><td><input data-bind="value: requestName"></input></td>
 					</tr>
@@ -134,6 +133,33 @@
 					<td>File Name</td><td data-bind="text: requestFile().fileName"></td>
 					</tr><tr>
 					<td>Base Directory</td><td><select data-bind="options: $parent.requestDirectoryOptions, value: requestDirectory"></select></td>
+					</tr><tr>
+					<td>Status</td><td data-bind="text: requestStatus"></td>
+					</tr><tr>
+					<td>Status Message</td><td data-bind="text: requestStatusMessage"></td>
+					</tr><tr>
+					<td>Updated</td><td data-bind="text: requestUpdatedString"></td>
+					</tr>
+					
+					<tr>
+					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button data-bind="click: $parent.save">Save</button></td>
+					</tr>
+					
+				</tbody>
+				
+				<tbody data-bind="ifnot: $parent.isModifiable()">
+					<tr>
+					<td>Name</td><td><input data-bind="value: requestName"></input></td>
+					</tr>
+					<tr>
+					<td>Device</td><td data-bind="text: requestDevice().deviceName"></td>
+					</tr>					
+					<tr>
+					<td>File Location</td><td data-bind="text: requestFileLocation"></td>
+					</tr><tr>
+					<td>File Name</td><td data-bind="text: requestFile().fileName"></td>
+					</tr><tr>
+					<td>Base Directory</td><td data-bind="text: requestDirectory"></td>
 					</tr><tr>
 					<td>Status</td><td data-bind="text: requestStatus"></td>
 					</tr><tr>

@@ -118,11 +118,19 @@ function ModifyRequestViewModel(parent, data) {
 			data: ko.toJSON(self.request),
 			contentType: "application/json"				
 		}).done(function() {
-			console.log("Successfully saved the request");
+			console.log("Successfully saved the request");			
+			//update the requests in the table
+			self.parent.requestTableViewModel.fetchFromServer();
 		}).fail(function(jqXHR, statusMessage, error) {
 			alert("Failed to save the request");
 			console.log("Failed to save the request, " + statusMessage + " : " + error);
 		});
+	};
+	
+	self.isModifiable = function() {
+		var res = self.request().requestStatus() != "COMPLETED" && self.request().requestStatus() != "IN_PROGRESS";
+		console.log("isModifiable returned: " + res);		
+		return res;
 	};
 	
 	// populate the devices list

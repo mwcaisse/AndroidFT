@@ -59,4 +59,5 @@ function Request(data) {
 	self.requestUpdatedString = ko.computed(function() {
 		return parseDate(self.requestUpdated());
 	});
+		
 };
