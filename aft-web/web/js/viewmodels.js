@@ -11,11 +11,10 @@ function DeviceTableViewModel(parent, data) {
 	self.parent = parent;
 	self.devices = ko.observableArray(data);
 	
-	self.fetchFromServer = function() {
-		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/device/all";		
-		$.getJSON(serverUrl, function(data, statusMessage, jqXHR) {
+	self.fetchFromServer = function() {	
+		getAllDevices(function(data, statusMessage, jqXHR) {
 			self.parseServerResponse(data);			
-		}).fail( function(jqXHR, textStatus, error) {
+		},function(jqXHR, textStatus, error) {
 			alert("Failed to fetch all devices: " + textStatus + " : " + error);
 		});
 	};
@@ -88,7 +87,15 @@ function ModifyRequestViewModel(parent, data) {
 	var self = this;
 	
 	self.parent = parent;
+	
+	/** The request object this view model is displaying */
 	self.request = ko.observable(data);
+	
+	/** List of all devices on the web service */
+	self.devices = ko.observableArray([]);
+	
+	/** List of all request directory options */
+	self.requestDirectoryOptions = requestDirectoryOptions;
 	
 	
 	self.cancel = function() {
@@ -99,6 +106,18 @@ function ModifyRequestViewModel(parent, data) {
 		//save the request.
 	};
 	
+	// populate the devices list
+	getAllDevices(function(data) {
+		//remove the old elements from the list
+		self.devices.removeAll();		
+		//add the elements from the web service to the list
+		$.each(data, function(index, value) {
+			alert("Adding device to list: " + value.deviceName);
+			self.devices.push(new Device(value));
+		});	
+	}, function(jqXHR, textStatus, error) {
+		alert("Failed to fetch all devices: " + textStatus + " : " + error);
+	});
 	
 }
 

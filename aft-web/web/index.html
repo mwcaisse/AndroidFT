@@ -17,6 +17,7 @@
 		<script src="js/knockout-3.1.0.debug.js"></script>
 		
 		<!-- View and View Model scripts -->
+		<script src="js/common.js"></script>
 		<script src="js/models.js"></script>
 		<script src="js/viewmodels.js"></script>
 		<script src="js/app.js"></script>
@@ -124,14 +125,14 @@
 					<td>Name</td><td><input data-bind="value: requestName()"></input></td>
 					</tr>
 					<tr>
-					<td>Device</td><td><input data-bind="value: requestDevice().deviceName()"></input></td>
+					<td>Device</td><td><select data-bind="options:$parent.devices(), optionsText: 'deviceName' ,value: requestDevice()"></select></td>
 					</tr>					
 					<tr>
 					<td>File Location</td><td><input data-bind="value: requestFileLocation()"></input></td>
 					</tr><tr>
 					<td>File Name</td><td data-bind="text: requestFile().fileName()"></td>
 					</tr><tr>
-					<td>Directory</td><td><input data-bind="value: requestDirectory()"></input></td>
+					<td>Base Directory</td><td><select data-bind="options: requestDirectoryOptions, value: requestDirectory()"></select></td>
 					</tr><tr>
 					<td>Status</td><td data-bind="text: requestStatus()"></td>
 					</tr><tr>

@@ -1,14 +1,13 @@
 
-/** Parses a date in the form of milliseconds since epoch  into a locale date/time string representing the date
- * 
- * @param dateLong The date in milliseconds since epoch
- * @return Locale date/time string
- */
-
-function parseDate(dateLong) {
-	var date = new Date(dateLong);
-	return date.toLocaleString();
-};
+var requestDirectoryOptions = [
+    "DOCUMENTS",
+    "DOWNLOADS",
+    "MOVIES",
+    "MUSIC",
+    "PICTURES",
+    "ROOT"
+];
+                               
 
 /** Creates a new File Object from a data object returned from the web service
  * 
