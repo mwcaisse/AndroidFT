@@ -96,10 +96,7 @@ function ModifyRequestViewModel(parent, data) {
 	self.devices = ko.observableArray([]);
 	
 	/** List of all request directory options */
-	self.requestDirectoryOptions = requestDirectoryOptions;
-	
-	self.testRequestName = ko.observable("TestName");
-	
+	self.requestDirectoryOptions = requestDirectoryOptions;	
 	
 	self.cancel = function() {
 		self.request(null);
@@ -123,6 +120,72 @@ function ModifyRequestViewModel(parent, data) {
 			self.parent.requestTableViewModel.fetchFromServer();
 		}).fail(function(jqXHR, statusMessage, error) {
 			alert("Failed to save the request");
+			console.log("Failed to save the request, " + statusMessage + " : " + error);
+		});
+	};
+	
+	self.isModifiable = function() {
+		var res = self.request().requestStatus() != "COMPLETED" && self.request().requestStatus() != "IN_PROGRESS";
+		console.log("isModifiable returned: " + res);		
+		return res;
+	};
+	
+	// populate the devices list
+	getAllDevices(function(data) {
+		//remove the old elements from the list
+		self.devices.removeAll();		
+		//add the elements from the web service to the list
+		$.each(data, function(index, value) {
+			self.devices.push(new Device(value));
+		});	
+	}, function(jqXHR, textStatus, error) {
+		alert("Failed to fetch all devices: " + textStatus + " : " + error);
+	});
+	
+};
+
+/** The view for creating a request
+ * 
+ */
+
+function CreateRequestViewModel(parent) {
+	
+	var self = this;
+	
+	self.parent = parent;
+	
+	/** The request object this view model is displaying */
+	self.request = ko.observable();
+	
+	/** List of all devices on the web service */
+	self.devices = ko.observableArray([]);
+	
+	/** List of all request directory options */
+	self.requestDirectoryOptions = requestDirectoryOptions;
+	
+	
+	self.cancel = function() {
+		self.request(null);
+	};
+	
+	self.save = function() {
+	
+		console.log("Saving request: " + ko.toJSON(self.request));
+		
+		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/request/create";		
+		
+		$.ajax( {
+			type: "POST",
+			dataType: "json",
+			url: serverUrl,
+			data: ko.toJSON(self.request),
+			contentType: "application/json"				
+		}).done(function() {
+			console.log("Successfully created the request");			
+			//update the requests in the table
+			self.parent.requestTableViewModel.fetchFromServer();
+		}).fail(function(jqXHR, statusMessage, error) {
+			alert("Failed to create the request");
 			console.log("Failed to save the request, " + statusMessage + " : " + error);
 		});
 	};
