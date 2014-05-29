@@ -118,7 +118,7 @@ public class FileController {
 	 */
 	
 	@RequestMapping(value = "/formUpload", method = RequestMethod.POST)
-	public @ResponseBody LongResponse formUploadFile(@RequestParam("name") String fileName, @RequestParam("file") MultipartFile file) {
+	public @ResponseBody LongResponse formUploadFile(@RequestParam("fileName") String fileName, @RequestParam("file") MultipartFile file) {
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();
