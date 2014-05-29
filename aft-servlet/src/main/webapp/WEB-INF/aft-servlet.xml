@@ -78,5 +78,9 @@
 		<property name="fileMapper" ref="fileMapper" />
 	</bean>
 	
+	<!-- Multipart Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</bean>
+	
 	
 </beans>

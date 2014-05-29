@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.response.LongResponse;
@@ -105,5 +106,28 @@ public class FileController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
 	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
 		return new LongResponse(fileManager.createFile(fileContents,fileName));
+	}
+	
+	/** Creates the specified file and returns its ID.
+	 * 
+	 * The contents of the file should be uploaded as a multipart file and as part of a form upload
+	 * 
+	 * @param fileName The name of the file
+	 * @param file The multipart file to upload
+	 * @return The id of the file created, or -1 if an error occurred during creation.
+	 */
+	
+	@RequestMapping(value = "/formUpload", method = RequestMethod.POST)
+	public @ResponseBody LongResponse formUploadFile(@RequestParam("name") String fileName, @RequestParam("file") MultipartFile file) {
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				return new LongResponse(fileManager.createFile(bytes, fileName));				
+			}
+			catch (Exception e) {
+				log.warn("Failed to save file {}", fileName, e);
+			}
+		}
+		return new LongResponse(-1l);
 	}
 }
