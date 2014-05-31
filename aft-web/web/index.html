@@ -15,6 +15,7 @@
 		<!-- Dev Scripts -->
 		<script src="js/jquery-2.1.1.js"></script>
 		<script src="js/knockout-3.1.0.debug.js"></script>
+		<script src="js/jquery.form.js"></script>
 		
 		<!-- View and View Model scripts -->
 		<script src="js/common.js"></script>
@@ -182,7 +183,25 @@
 		
 			<h3>Create Request</h3>
 			
-			<table data-bind="with: request">
+			<h4>File Upload</h4> 
+			
+			<div id="divFormUpload">
+			
+				<form id="fileUploadForm" action="http://localhost:8080/aft-servlet/manager/file/formUpload"
+						method="POST" enctype="multipart/form-data">
+					File Name: <input type="text" name="fileName">
+					<br/><input type="file" name="file">	
+					<input type="submit" value="Upload">
+						
+				</form>
+				
+				<div id="fileUploadProgress">
+					<div id="bar"></div>
+					<div id="percent">0%</div>
+				</div>			
+			</div>
+			
+			<table data-bind="with: request, visible: fileUploaded">
 			
 				<tbody>
 					<tr>
@@ -206,7 +225,7 @@
 					</tr>
 					
 					<tr>
-					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button data-bind="click: $parent.save">Save</button></td>
+					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button data-bind="click: $parent.create">Create</button></td>
 					</tr>
 					
 				</tbody>

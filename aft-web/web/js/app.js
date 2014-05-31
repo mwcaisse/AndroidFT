@@ -42,5 +42,6 @@ $(document).ready(function() {
 	ko.applyBindings(rootViewModel.deviceTableViewModel, $('#deviceListDiv')[0]);
 	ko.applyBindings(rootViewModel.requestTableViewModel, $('#requestListDiv')[0]);
 	ko.applyBindings(rootViewModel.modifyRequestViewModel, $('#modifyRequestDiv')[0]);
+	ko.applyBindings(rootViewModel.createRequestViewModel, $('#createRequestDiv')[0]);
 	
 });

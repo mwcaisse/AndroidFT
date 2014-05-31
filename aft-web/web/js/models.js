@@ -18,8 +18,14 @@ function File(data) {
 	
 	var self = this;
 	
-	self.fileId = ko.observable(data.fileId);
-	self.fileName = ko.observable(data.fileName);
+	self.fileId = ko.observable(0);
+	self.fileName = ko.observable("");
+	
+	if (arguments.length == 1) {
+		self.fileId(data.fileId);
+		self.fileName(data.fileName);
+	}
+
 }
 
 
@@ -30,10 +36,17 @@ function Device(data) {
 	
 	var self = this;
 	
-	self.deviceId = ko.observable(data.deviceId);
-	self.deviceUid = ko.observable(data.deviceUid);
-	self.deviceName = ko.observable(data.deviceName);
-	self.deviceRegistrationId = ko.observable(data.deviceRegistrationId);
+	self.deviceId = ko.observable(0);
+	self.deviceUid = ko.observable("");
+	self.deviceName = ko.observable("");
+	self.deviceRegistrationId = ko.observable("");
+	
+	if (arguments.length == 1) {	
+		self.deviceId(data.deviceId);
+		self.deviceUid(data.deviceUid);
+		self.deviceName(data.deviceName);
+		self.deviceRegistrationId(data.deviceRegistrationId);
+	}
 
 };
 
@@ -45,15 +58,28 @@ function Request(data) {
 	
 	var self = this;
 	
-	self.requestId = ko.observable(data.requestId);
-	self.requestName = ko.observable(data.requestName);
-	self.requestFile = ko.observable(new File(data.requestFile));
-	self.requestFileLocation = ko.observable(data.requestFileLocation);
-	self.requestDirectory = ko.observable(data.requestDirectory);
-	self.requestStatus = ko.observable(data.requestStatus);
-	self.requestStatusMessage = ko.observable(data.requestStatusMessage);
-	self.requestUpdated = ko.observable(data.requestUpdated);
-	self.requestDevice = ko.observable(new Device(data.requestDevice));
+	self.requestId = ko.observable(0);
+	self.requestName = ko.observable("");
+	self.requestFile = ko.observable(new File());
+	self.requestFileLocation = ko.observable("");
+	self.requestDirectory = ko.observable("ROOT");
+	self.requestStatus = ko.observable("NEW");
+	self.requestStatusMessage = ko.observable("");
+	self.requestUpdated = ko.observable(Date.now());
+	self.requestDevice = ko.observable(new Device());		
+	
+	
+	if (arguments.length == 1) {
+		self.requestId(data.requestId);
+		self.requestName(data.requestName);
+		self.requestFile(new File(data.requestFile));
+		self.requestFileLocation(data.requestFileLocation);
+		self.requestDirectory(data.requestDirectory);
+		self.requestStatus(data.requestStatus);
+		self.requestStatusMessage(data.requestStatusMessage);
+		self.requestUpdated(data.requestUpdated);
+		self.requestDevice(new Device(data.requestDevice));		
+	}
 	
 	/** Computed to show the request update as a string rather than a long */
 	self.requestUpdatedString = ko.computed(function() {

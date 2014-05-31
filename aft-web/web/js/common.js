@@ -1,4 +1,7 @@
 
+var host = "localhost:8080";
+//var host = "fourfivefire.com:8080";
+
 /** A set of common / helper functions
  * 
  */
@@ -21,7 +24,7 @@ function parseDate(dateLong) {
  */
 
 function getAllDevices(success, fail) {	
-	var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/device/all";		
+	var serverUrl = "http://" + host + "/aft-servlet/manager/device/all";		
 	$.getJSON(serverUrl, success).fail(fail);
 };
 

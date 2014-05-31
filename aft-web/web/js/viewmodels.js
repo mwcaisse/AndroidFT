@@ -1,4 +1,3 @@
-
 /** The view model for the device table
  * 
  * 	@param data An array of Device models
@@ -49,7 +48,7 @@ function RequestTableViewModel(parent, data) {
 	self.requests = ko.observableArray(data);
 	
 	self.fetchFromServer = function() {
-		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/request/all";		
+		var serverUrl = "http://" + host + "/aft-servlet/manager/request/all";		
 		$.getJSON(serverUrl, function(data, statusMessage, jqXHR) {
 			self.parseServerResponse(data);			
 		}).fail( function(jqXHR, textStatus, error) {
@@ -106,7 +105,7 @@ function ModifyRequestViewModel(parent, data) {
 	
 		console.log("Saving request: " + ko.toJSON(self.request));
 		
-		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/request/update";		
+		var serverUrl = "http://" + host + "/aft-servlet/manager/request/update";		
 		
 		$.ajax( {
 			type: "PUT",
@@ -155,7 +154,7 @@ function CreateRequestViewModel(parent) {
 	self.parent = parent;
 	
 	/** The request object this view model is displaying */
-	self.request = ko.observable();
+	self.request = ko.observable(new Request());
 	
 	/** List of all devices on the web service */
 	self.devices = ko.observableArray([]);
@@ -163,16 +162,41 @@ function CreateRequestViewModel(parent) {
 	/** List of all request directory options */
 	self.requestDirectoryOptions = requestDirectoryOptions;
 	
+	/** Whether or not the file has been uploaded */
+	self.fileUploaded = ko.observable(false);
+	
+	/** initialize the form upload */
+	
+	var options = {
+			uploadProgress: function(event, position, total, percentComplete) {
+				$("#bar").width(percentComplete + "%");
+				$("#percent").html(percentComplete+"%");
+			},
+			success: function() {
+				console.log("File upload completed successfully!");
+				self.fileUploaded(true);
+			},
+			complete: function(response) {
+				console.log("File ID: " + JSON.stringify(response));
+				var value = response.responseJSON.value;
+				console.log("File ID: " + value); 
+			},
+			error: function() {
+				console.log("Failed to upload file");
+			}
+	};
+	
+	$("#fileUploadForm").ajaxForm(options);
 	
 	self.cancel = function() {
 		self.request(null);
 	};
 	
-	self.save = function() {
+	self.create = function() {
 	
-		console.log("Saving request: " + ko.toJSON(self.request));
+		console.log("Creating request: " + ko.toJSON(self.request));
 		
-		var serverUrl = "http://fourfivefire.com:8080/aft-servlet/manager/request/create";		
+		var serverUrl = "http://" + host + "/aft-servlet/manager/request/create";		
 		
 		$.ajax( {
 			type: "POST",
@@ -188,13 +212,7 @@ function CreateRequestViewModel(parent) {
 			alert("Failed to create the request");
 			console.log("Failed to save the request, " + statusMessage + " : " + error);
 		});
-	};
-	
-	self.isModifiable = function() {
-		var res = self.request().requestStatus() != "COMPLETED" && self.request().requestStatus() != "IN_PROGRESS";
-		console.log("isModifiable returned: " + res);		
-		return res;
-	};
+	};	
 	
 	// populate the devices list
 	getAllDevices(function(data) {
@@ -202,6 +220,7 @@ function CreateRequestViewModel(parent) {
 		self.devices.removeAll();		
 		//add the elements from the web service to the list
 		$.each(data, function(index, value) {
+			console.log("CreateView: Adding Device");
 			self.devices.push(new Device(value));
 		});	
 	}, function(jqXHR, textStatus, error) {
@@ -221,6 +240,7 @@ function RootViewModel() {
 	self.requestTableViewModel = new RequestTableViewModel(self, []);
 	self.deviceTableViewModel = new DeviceTableViewModel(self, []);
 	self.modifyRequestViewModel = new ModifyRequestViewModel(self, null);
+	self.createRequestViewModel = new CreateRequestViewModel(self);
 	
 	
 }
