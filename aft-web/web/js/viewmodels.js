@@ -180,6 +180,11 @@ function CreateRequestViewModel(parent) {
 				console.log("File ID: " + JSON.stringify(response));
 				var value = response.responseJSON.value;
 				console.log("File ID: " + value); 
+				
+				if (value >=0) {
+					self.request().requestFile().fileId(value);
+					self.request().requestFile().fileName($("#inputFileName").text());
+				}
 			},
 			error: function() {
 				console.log("Failed to upload file");

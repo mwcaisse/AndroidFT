@@ -1,6 +1,8 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	
 		<title>Android File Transfer</title>
 		
@@ -23,10 +25,10 @@
 		<script src="js/viewmodels.js"></script>
 		<script src="js/app.js"></script>
 		
-		<!--  <script src="js/bootstrap.js"></script> -->
+		<script src="js/bootstrap.js"></script>
 		
 		<!-- css -->
-		<!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
 		
 	</head>
@@ -34,90 +36,74 @@
 	<body>	
 
 	 
-		<div id="deviceListDiv"> <!-- Device List Div -->
+		<div id="deviceListDiv" class="padded"> <!-- Device List Div -->
 		
 			<h3>Devices</h3>
 		
-			<table>
-			
-				<thead>
-				
-					<tr>
-						<th>ID</th>
-						<th>UID</th>
-						<th>Name</th>
-						<th>Registration ID</th>
-					
-					</tr>
-				
-				</thead>
-				
-				<tbody data-bind="foreach: devices">
-					
-					<tr>
-					
-						<td data-bind="text: deviceId"></td>
-						<td data-bind="text: deviceUid"></td>
-						<td data-bind="text: deviceName"></td>
-						<td data-bind="text: deviceRegistrationId"></td>						
-					
-					</tr>
-					
-				</tbody>
-			
-			</table>
-		
-		
+			<div class=table-responsive>		
+				<table class="table table-striped table-bordered">				
+					<thead>					
+						<tr>
+							<th>ID</th>
+							<th>UID</th>
+							<th>Name</th>
+							<th>Registration ID</th>						
+						</tr>					
+					</thead>					
+					<tbody data-bind="foreach: devices">						
+						<tr>						
+							<td data-bind="text: deviceId"></td>
+							<td data-bind="text: deviceUid"></td>
+							<td data-bind="text: deviceName"></td>
+							<td data-bind="text: deviceRegistrationId"></td>
+						</tr>						
+					</tbody>				
+				</table>
+			</div>
 		</div> <!-- End Device List Div -->		
 		
-		<div id="requestListDiv"> <!-- Request List Div -->
+		<div id="requestListDiv" class="padded"> <!-- Request List Div -->
 		
 			<h3>Requests</h3>
 		
-			<table>
-			
-				<thead>
-					
-					<tr>
-						<th>ID</th>
-						<th>Name</th>
-						<th>Device Name</th>
-						<th>File Location</th>
-						<th>File Name</th>
-						<th>Directory</th>
-						<th>Status</th>
-						<th>Status Message</th>
-						<th>Updated</th>
-					
-					</tr>
-				
-				</thead>
-				
-				<tbody data-bind="foreach: requests">
-					
-					<tr>
-						<td data-bind="text: requestId"></td>
-						<td data-bind="text: requestName"></td>
-						<td data-bind="text: requestDevice().deviceName()"></td>
-						<td data-bind="text: requestFileLocation"></td>
-						<td data-bind="text: requestFile().fileName()"></td>
-						<td data-bind="text: requestDirectory"></td>
-						<td data-bind="text: requestStatus"></td>
-						<td data-bind="text: requestStatusMessage"></td>
-						<td data-bind="text: requestUpdatedString"></td>
-						<td><a href="#" data-bind="click: $parent.viewRequest">View</a>						
-					</tr>
-					
-				</tbody>
-			
-			</table>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">			
+					<thead>					
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Device Name</th>
+							<th>File Location</th>
+							<th>File Name</th>
+							<th>Directory</th>
+							<th>Status</th>
+							<th>Status Message</th>
+							<th>Updated</th>					
+						</tr>				
+					</thead>				
+					<tbody data-bind="foreach: requests">					
+						<tr data-bind="click: $parent.viewRequest">
+							<td data-bind="text: requestId"></td>
+							<td data-bind="text: requestName"></td>
+							<td data-bind="text: requestDevice().deviceName()"></td>
+							<td data-bind="text: requestFileLocation"></td>
+							<td data-bind="text: requestFile().fileName()"></td>
+							<td data-bind="text: requestDirectory"></td>
+							<td data-bind="text: requestStatus"></td>
+							<td data-bind="text: requestStatusMessage"></td>
+							<td data-bind="text: requestUpdatedString"></td>			
+						</tr>					
+					</tbody>			
+				</table>
+			</div>
 		
 		
 		</div> <!-- End Request List Div -->
 		
-		<div id="modifyRequestDiv" data-bind="if: request"> <!-- ModifyRequest Div -->
+		<div id="modifyRequestDiv" class="padded" data-bind="if: request"> <!-- ModifyRequest Div -->
 		
 			<h3>Request View</h3>
+			
 			
 			<table data-bind="with: request">
 			
@@ -143,7 +129,7 @@
 					</tr>
 					
 					<tr>
-					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button data-bind="click: $parent.save">Save</button></td>
+					<td><button class="btn btn-default" data-bind="click: $parent.cancel">Cancel</button></td><td><button class="btn btn-default" data-bind="click: $parent.save">Save</button></td>
 					</tr>
 					
 				</tbody>
@@ -170,7 +156,7 @@
 					</tr>
 					
 					<tr>
-					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button data-bind="click: $parent.save">Save</button></td>
+					<td><button class="btn btn-default" data-bind="click: $parent.cancel">Cancel</button></td><td><button class="btn btn-default" data-bind="click: $parent.save">Save</button></td>
 					</tr>
 					
 				</tbody>
@@ -179,7 +165,7 @@
 		
 		</div> <!-- End ModifyRequest Div -->
 		
-		<div id="createRequestDiv"> <!-- CreateRequest Div -->
+		<div id="createRequestDiv" class="padded"> <!-- CreateRequest Div -->
 		
 			<h3>Create Request</h3>
 			
@@ -189,9 +175,9 @@
 			
 				<form id="fileUploadForm" action="http://localhost:8080/aft-servlet/manager/file/formUpload"
 						method="POST" enctype="multipart/form-data">
-					File Name: <input type="text" name="fileName">
+					File Name: <input type="text" name="fileName" data-bind="text: request().requestFile().fileName">
 					<br/><input type="file" name="file">	
-					<input type="submit" value="Upload">
+					<input class="btn btn-danger" type="submit" value="Upload">
 						
 				</form>
 				
@@ -225,7 +211,7 @@
 					</tr>
 					
 					<tr>
-					<td><button data-bind="click: $parent.cancel">Cancel</button></td><td><button data-bind="click: $parent.create">Create</button></td>
+					<td><button class="btn btn-default" data-bind="click: $parent.cancel">Cancel</button></td><td><button class="btn btn-default" data-bind="click: $parent.create">Create</button></td>
 					</tr>
 					
 				</tbody>
