@@ -2,3 +2,15 @@
 div.padded {
 	padding: 0 15px;
 }
+
+ul.navigation {
+	width: 100%
+	float: left;
+	padding 0;
+	list-style: none;	
+}
+
+li.navigation {
+	float: left;	
+	padding: 10px;
+}

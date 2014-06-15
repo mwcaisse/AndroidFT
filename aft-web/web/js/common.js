@@ -1,6 +1,6 @@
 
-//var host = "localhost:8080";
-var host = "fourfivefire.com:8080";
+var host = "localhost:8080";
+//var host = "fourfivefire.com:8080";
 
 /** A set of common / helper functions
  * 
