@@ -62,6 +62,13 @@
 		<version>${spring.version}</version>
 	</dependency>
 	
+	<!-- Spring Security -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>${spring.security.version}</version>
+	</dependency>
+	
 	<!-- MySQL JDBC Driver -->
 	<dependency>
 		<groupId>mysql</groupId>
