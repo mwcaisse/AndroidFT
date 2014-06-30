@@ -1,5 +1,7 @@
 package com.ricex.aft.servlet.config;
 
+import javax.servlet.Filter;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -17,7 +19,11 @@ public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDi
 
 	@Override
 	protected String[] getServletMappings() {
-		// TODO Auto-generated method stub
+		return new String[] { "/manager/*"};
+	}
+	
+	@Override
+	protected Filter[] getServletFilters() {
 		return null;
 	}
 
