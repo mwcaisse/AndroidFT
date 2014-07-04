@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -164,6 +165,11 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public StandardServletMultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
+	}
+	
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
 	}
 
 	
