@@ -38,7 +38,7 @@ public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDi
 	
 	protected Filter[] getServletFilters() {		
 		SimpleCORSFilter corsFilter = new SimpleCORSFilter();		
-		return new Filter[] {};
+		return new Filter[] { corsFilter };
 	}
 
 }
