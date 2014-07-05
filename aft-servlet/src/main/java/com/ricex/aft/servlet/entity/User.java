@@ -4,6 +4,7 @@
 package com.ricex.aft.servlet.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /** User representation of a user as stored in the data service
  * 
@@ -30,6 +31,9 @@ public class User {
 	
 	/** The Date that the users password expires */
 	private Date userPasswordExpirationDate;
+	
+	/** The list of Authorities for this user */
+	private List<Authority> authorities;
 	
 	/** Creates a new User
 	 * 
@@ -134,7 +138,21 @@ public class User {
 	public void setUserPasswordExpirationDate(Date userPasswordExpirationDate) {
 		this.userPasswordExpirationDate = userPasswordExpirationDate;
 	}
+
+	/**
+	 * @return the authorities
+	 */
 	
+	public List<Authority> getAuthorities() {
+		return authorities;
+	}
+
+	/**
+	 * @param authorities the authorities to set
+	 */
 	
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
 	
 }
