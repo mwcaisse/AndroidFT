@@ -26,6 +26,9 @@ public class User {
 	/** Whether or not the users account is currently active */
 	private boolean userActive;
 	
+	/** Whehtoer or not the users account is currently locked */
+	private boolean userLocked;
+	
 	/** The Date that the user's account expires */
 	private Date userExpirationDate;
 	
@@ -41,6 +44,36 @@ public class User {
 	
 	public User() {
 		
+	}
+	
+	/** Returns whether or no the users account is expired
+	 * 
+	 * @return True if the account is expired, false otherwise
+	 */
+	
+	public boolean isAccountExpired() {
+		if (userExpirationDate == null) {
+			return false; // if expiration date is null, then it never expires
+		}
+		else if (userExpirationDate.before(new Date())) {
+			return true; //the expiration date is before now, account expired
+		}		
+		return false; //account not expired
+	}
+	
+	/** Returns whether or not the users account password is expired
+	 * 
+	 * @return True if password is expired, false otherwise
+	 */
+	
+	public boolean isAccountPasswordExpired() {
+		if (userPasswordExpirationDate == null) {
+			return false; // if expiration date is null, then it never expires
+		}
+		else if (userPasswordExpirationDate.before(new Date())) {
+			return true; //the expiration date is before now, password expired
+		}
+		return false; //password not expired
 	}
 
 	/**
@@ -153,6 +186,22 @@ public class User {
 	
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
+	}
+
+	/**
+	 * @return the userLocked
+	 */
+	
+	public boolean isUserLocked() {
+		return userLocked;
+	}
+
+	/**
+	 * @param userLocked the userLocked to set
+	 */
+	
+	public void setUserLocked(boolean userLocked) {
+		this.userLocked = userLocked;
 	}
 	
 }
