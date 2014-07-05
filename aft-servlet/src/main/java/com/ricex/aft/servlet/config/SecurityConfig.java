@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 
+import com.ricex.aft.servlet.manager.UserManager;
+
 /** Java Config for Spring Security
  * 
  * @author Mitchell Caisse
@@ -23,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	protected void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		auth.userDetailsService(UserManager.INSTANCE);
 	}
 	
 	protected void configure(HttpSecurity http) throws Exception {
@@ -45,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public DigestAuthenticationEntryPoint digestAuthenticationEntryPoint() {
 		DigestAuthenticationEntryPoint entryPoint = new DigestAuthenticationEntryPoint();
 		entryPoint.setKey("ricex1055AFT");
-		entryPoint.setRealmName("AFT");
+		entryPoint.setRealmName("PushFile");
 		return entryPoint;
 	}
 }

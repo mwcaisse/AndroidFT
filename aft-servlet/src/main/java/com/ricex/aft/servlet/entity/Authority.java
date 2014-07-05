@@ -3,12 +3,14 @@
  */
 package com.ricex.aft.servlet.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+
 
 /**
  * @author Mitchell Caisse
  *
  */
-public enum Authority {
+public enum Authority implements GrantedAuthority {
 
 	
 	ROLE_ADMIN ("ROLE_ADMIN"),
@@ -50,6 +52,15 @@ public enum Authority {
 	 */
 	
 	public String toString() {
+		return name;
+	}
+
+	/** Returns the string representation of the Granted Authority this Authority represents
+	 * 
+	 */
+	
+	@Override
+	public String getAuthority() {
 		return name;
 	}
 	
