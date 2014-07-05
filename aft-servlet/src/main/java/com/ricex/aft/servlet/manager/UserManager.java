@@ -3,14 +3,10 @@
  */
 package com.ricex.aft.servlet.manager;
 
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.ricex.aft.servlet.entity.Authority;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.mapper.UserMapper;
 
@@ -38,6 +34,15 @@ public enum UserManager implements UserDetailsService {
 			throw new UsernameNotFoundException("Could not find user with the name: " + username);
 		}
 		return userToUserDetails(user);
+	}
+	
+	/** Sets the user mapper to the given user mapper
+	 * 
+	 * @param userMapper The user mapper to set
+	 */
+	
+	public void setUserMapper(UserMapper userMapper) {
+		this.userMapper = userMapper;
 	}
 	
 	/** Converts the given user object, to a user details object

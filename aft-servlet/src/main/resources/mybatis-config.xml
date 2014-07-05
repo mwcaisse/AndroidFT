@@ -9,6 +9,8 @@
 		<typeAlias alias="Device" type="com.ricex.aft.common.entity.Device"/>
 		<typeAlias alias="File" type="com.ricex.aft.common.entity.File"/>
 		<typeAlias alias="Request" type="com.ricex.aft.common.entity.Request"/>
+		<typeAlias alias="User" type="com.ricex.aft.servlet.entity.User" />
+		<typeAlias alias="Authority" type="com.ricex.aft.servlet.entity.Authority" />
 	</typeAliases>
 	
 	
@@ -16,6 +18,7 @@
 		<mapper resource="com/ricex/aft/servlet/mapper/DeviceMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/FileMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" />
+		<mapper resource="com/rivex/aft/servlet/mapper/UserMapper.xml" />
 	</mappers>
 
 </configuration>

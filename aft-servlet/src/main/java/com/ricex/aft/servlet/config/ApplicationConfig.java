@@ -19,9 +19,11 @@ import com.google.gson.Gson;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
 import com.ricex.aft.servlet.manager.RequestManager;
+import com.ricex.aft.servlet.manager.UserManager;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.FileMapper;
 import com.ricex.aft.servlet.mapper.RequestMapper;
+import com.ricex.aft.servlet.mapper.UserMapper;
 import com.ricex.aft.servlet.util.GsonFactory;
 
 @Configuration
@@ -118,10 +120,24 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		return mapperFactoryBean.getObject();
 	}
 	
+	/** The UserMapper to be used by the the Authority service and controllers
+	 * 
+	 * @return The user mapper
+	 * @throws Exception If fetching the sql session failed
+	 */
+	
+	@Bean
+	public UserMapper userMapper() throws Exception {
+		MapperFactoryBean<UserMapper> mapperFactoryBean = new MapperFactoryBean<UserMapper>();
+		mapperFactoryBean.setMapperInterface(UserMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
 	/** The bean for the device manager used by the controllers
 	 * 
 	 * @return The instance of the device manager
-	 * @throws Exception if creating the DeviceMapper failed
+	 * @throws Exception if creating the DeviceManager failed
 	 */
 	
 	@Bean
@@ -134,7 +150,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	/** The bean for the file manger used by the controllers
 	 * 
 	 * @return The instance of the file manager
-	 * @throws Exception If created the File Mapper failed
+	 * @throws Exception If created the File Manager failed
 	 */
 	
 	@Bean
@@ -147,7 +163,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	/** The bean for the request manager used by the controllers
 	 * 
 	 * @return The instance of the request manager
-	 * @throws Exception if creating the RequestMapper failed
+	 * @throws Exception if creating the RequestManager failed
 	 */
 	
 	@Bean
@@ -155,6 +171,19 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 		RequestManager requestManager = RequestManager.INSTANCE;
 		requestManager.setRequestMapper(requestMapper());
 		return requestManager;
+	}
+	
+	/** The bean for the user manager used by the controllers + security
+	 * 
+	 * @return The instance of the User Manager
+	 * @throws Exception if created the UserManager failed 
+	 */
+	
+	@Bean 
+	public UserManager userManager() throws Exception {
+		UserManager userManager = UserManager.INSTANCE;
+		userManager.setUserMapper(userMapper());
+		return userManager;
 	}
 	
 	/** The multipart resolver bean

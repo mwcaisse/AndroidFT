@@ -26,7 +26,7 @@ public class User {
 	/** Whether or not the users account is currently active */
 	private boolean userActive;
 	
-	/** Whehtoer or not the users account is currently locked */
+	/** Whether or not the users account is currently locked */
 	private boolean userLocked;
 	
 	/** The Date that the user's account expires */
