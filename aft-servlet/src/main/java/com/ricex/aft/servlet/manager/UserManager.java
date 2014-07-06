@@ -53,7 +53,7 @@ public enum UserManager implements UserDetailsService {
 	
 	private static UserDetails userToUserDetails(User user) {		
 		UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUserName(), user.getUserPassword(), user.isUserActive(),
-					!user.isAccountExpired(), !user.isAccountPasswordExpired(), user.isUserLocked(),user.getAuthorities());
+					!user.isAccountExpired(), !user.isAccountPasswordExpired(), !user.isUserLocked(),user.getAuthorities());
 		return userDetails;
 	}	
 	

@@ -28,7 +28,7 @@
     </select>
     
     <select id="fetchAuthoritiesForUser" resultType="Authority">
-        SELECT * FROM USER_AUTHORITY WHERE USER_ID = #{userId}
+        SELECT AUTHORITY FROM USER_AUTHORITY WHERE USER_ID = #{userId}
     </select>
     
 </mapper>

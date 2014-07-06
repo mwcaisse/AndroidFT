@@ -3,6 +3,7 @@
  */
 package com.ricex.aft.servlet.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  */
 
-public class User {
+public class User implements Serializable {
 
 	/** The users id */
 	private long userId;
