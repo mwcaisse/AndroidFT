@@ -24,7 +24,7 @@ import com.ricex.aft.servlet.manager.DeviceManager;
 
 @Controller
 @RequestMapping("/device")
-public class DeviceController {	
+public class DeviceController extends BaseController {	
 	
 	/** Manager for fetching device related information */
 	private DeviceManager deviceManager;

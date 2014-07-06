@@ -29,7 +29,7 @@ import com.ricex.aft.servlet.manager.RequestManager;
 
 @Controller
 @RequestMapping("/request")
-public class RequestController {
+public class RequestController extends BaseController {
 
 	/** Logger instance */
 	private static Logger log = LoggerFactory.getLogger(RequestController.class);

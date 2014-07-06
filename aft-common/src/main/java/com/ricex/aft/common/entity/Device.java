@@ -26,6 +26,9 @@ public class Device implements Serializable {
 	
 	/** The GCM registration id of the device */
 	private String deviceRegistrationId;
+	
+	/** The username of the device owner */
+	private String deviceOwnerName;
 
 	/**
 	 * @return the deviceId

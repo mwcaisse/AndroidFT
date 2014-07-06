@@ -21,6 +21,14 @@ public interface DeviceMapper {
 	
 	public List<Device> getAllDevices();
 	
+	/** Returns a list of all devices owned by the given user
+	 * 
+	 * @param username The name of the user who owns the devices
+	 * @return The list of devices owned by the user
+	 */
+	
+	public List<Device> getAllDevicesWithOwner(String username);
+	
 	/** Returns the device with the given UID
 	 * 
 	 * @param deviceUid The UID of the device to fetch
