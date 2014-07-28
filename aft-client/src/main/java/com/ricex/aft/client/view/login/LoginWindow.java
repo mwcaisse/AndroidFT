@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.client.view;
+package com.ricex.aft.client.view.login;
 
 import java.awt.Dimension;
 
@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+
+import com.ricex.aft.client.config.AFTClientConfig;
 
 /**
  *  The Login window
@@ -117,6 +119,9 @@ public class LoginWindow extends JFrame {
 		txtUsername = new JTextField();
 		txtPassword = new JPasswordField();
 		txtServerAddress = new JTextField();
+		
+		txtUsername.setText(AFTClientConfig.INSTANCE.getClientUserName());
+		txtServerAddress.setText(AFTClientConfig.INSTANCE.getServerAddress());
 	}
 	
 	/** Initializes the buttons
@@ -125,6 +130,8 @@ public class LoginWindow extends JFrame {
 	
 	private void initializeButtons() {
 		butLogin = new JButton("Login");
+		butLogin.setAction(new LoginAction(this));
+		butLogin.setText("Login");
 	}
 	
 	/** Initializes the layout for the form
@@ -183,6 +190,31 @@ public class LoginWindow extends JFrame {
 		contentPane.add(txtServerAddress);
 		
 		contentPane.add(butLogin);
+	}
+	
+	/** Returns the server address that the user has entered
+	 * 
+	 * @return The server address entered by the user
+	 */
+	
+	public String getServerAddress() {
+		return txtServerAddress.getText();
+	}
+	
+	/** Returns the username the user has entered
+	 * 
+	 * @return The username the user has entered
+	 */
+	public String getUsername() {
+		return txtUsername.getText();
+	}
+	
+	/** Returns the password the user has entered
+	 * 
+	 * @return The password the user has entered
+	 */
+	public String getUserPassword() {
+		return txtPassword.getPassword().toString();
 	}
 	
 }

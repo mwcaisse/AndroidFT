@@ -24,7 +24,7 @@ public enum AFTClientConfig {
 	
 	private AFTClientConfig() {
 		this.serverAddress="http://localhost:8080/";
-		this.clientUserName = "";
+		this.clientUserName = "mitchell";
 		this.clientPassword = "";
 	}
 
