@@ -14,3 +14,12 @@ li.navigation {
 	float: left;	
 	padding: 10px;
 }
+
+div.body  {
+	padding: 20px	
+}
+
+.banner {
+	padding: 10px;
+	font-size: 22px;
+}
