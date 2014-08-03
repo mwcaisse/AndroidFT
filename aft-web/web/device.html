@@ -20,11 +20,7 @@
 		<script src="js/jquery.form.js"></script>
 		
 		<!-- View and View Model scripts -->
-		<script src="js/common.js"></script>
-		<script src="js/models.js"></script>
-		<script src="js/viewmodels.js"></script>
-		<script src="js/app.js"></script>
-		
+		<script src="js/common.js"></script>		
 		<script src="js/bootstrap.js"></script>
 		
 		<!-- css -->
@@ -46,11 +42,12 @@
 		</ul>
 	
 	
-		<div class="body">
+		<div id="deviceBody" class="body">
 			<h3>Push File Devices!</h3>
 			
 			
-			<table>
+			<table class="table table-bordered table-striped">
+			
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -58,13 +55,25 @@
 						<th>Active</th>						
 					</tr>
 				</thead>
-				<tbody>
+				<tbody data-bind="foreach: devices">
+					<tr>
+						<td data-bind="text: deviceName"></td>
+						<td data-bind="text: deviceUid"></td>
+						<td><input type="checkbox" data-bind="checked: deviceActive"></input></td>						
+					</tr>
 				</tbody>
 			</table>
 			
 		</div>
+		
+		
+		<script src="js/ViewModels/PFDeviceViewModel.js"></script>
+		<script type="text/javascript">
 
+			var deviceViewModel = new PFDeviceViewModel();			
+			ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
 
+		</script>
 
 	</body>
 </html>
