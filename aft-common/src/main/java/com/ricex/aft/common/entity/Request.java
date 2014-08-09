@@ -2,6 +2,7 @@ package com.ricex.aft.common.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /** A request to send a given file to a specified device
  * 
@@ -17,8 +18,8 @@ public class Request implements Serializable {
 	/** The name of this request */
 	private String requestName;
 	
-	/** The file that this request will send */
-	private File requestFile;
+	/** The list of files that this request contains */
+	private List<File> requestFiles;
 	
 	/** String representing the location to save the file on the device */
 	private String requestFileLocation;
@@ -80,19 +81,19 @@ public class Request implements Serializable {
 	}
 
 	/**
-	 * @return the requestFile
+	 * @return the requestFiles
 	 */
 	
-	public File getRequestFile() {
-		return requestFile;
+	public List<File> getRequestFiles() {
+		return requestFiles;
 	}
 
 	/**
-	 * @param requestFile the requestFile to set
+	 * @param requestFiles the requestFiles to set
 	 */
 	
-	public void setRequestFile(File requestFile) {
-		this.requestFile = requestFile;
+	public void setRequestFiles(List<File> requestFiles) {
+		this.requestFiles = requestFiles;
 	}
 
 	/**

@@ -16,6 +16,9 @@ public class File implements Serializable {
 	/** The id of this file */
 	private long fileId;
 	
+	/** The request for this File */
+	private Request request;
+	
 	/** The file contents */
 	private byte[] fileContents;
 	
@@ -36,6 +39,22 @@ public class File implements Serializable {
 	
 	public void setFileId(long fileId) {
 		this.fileId = fileId;
+	}
+	
+	/**
+	 * @return the request
+	 */
+	
+	public Request getRequest() {
+		return request;
+	}
+
+	/**
+	 * @param request the request to set
+	 */
+	
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 
 	/**
