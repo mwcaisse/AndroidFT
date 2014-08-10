@@ -37,27 +37,12 @@ public enum RequestDirectory {
 	 */
 	
 	public static RequestDirectory fromString(String str) {
-		if (str.equals(ROOT.name)) {
-			return ROOT;
+		for (RequestDirectory dir : values()) {
+			if (dir.name.equalsIgnoreCase(str)) {
+				return dir;
+			}
 		}
-		else if (str.equals(DOCUMENTS.name)) {
-			return DOCUMENTS;
-		}
-		else if (str.equals(DOWNLOADS.name)) {
-			return DOWNLOADS;
-		}
-		else if (str.equals(MOVIES.name)) {
-			return MOVIES;
-		}
-		else if (str.equals(MUSIC.name)) {
-			return MUSIC;
-		}
-		else if (str.equals(PICTURES.name)) {
-			return PICTURES;
-		}
-		else {
-			return null;
-		}
+		return null;
 	}
 	
 	/** The human readable name of this Request Directory */

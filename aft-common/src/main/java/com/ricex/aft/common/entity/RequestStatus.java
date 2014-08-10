@@ -28,21 +28,12 @@ public enum RequestStatus {
 	 */
 	
 	public static RequestStatus fromString(String str) {
-		if (str.equals(NEW.name)) {
-			return NEW;
+		for (RequestStatus status : values()) {
+			if(status.name.equalsIgnoreCase(str)) {
+				return status;
+			}
 		}
-		else if (str.equals(IN_PROGRESS.name)) {
-			return IN_PROGRESS;
-		}
-		else if (str.equals(FAILED.name)) {
-			return FAILED;
-		}
-		else if (str.equals(COMPLETED.name)) {
-			return COMPLETED;
-		}
-		else {
-			return null; // this is invalid
-		}
+		return null;
 	}
 	
 	/** The human readable name of this Request Status */

@@ -1,5 +1,6 @@
 package com.ricex.aft.servlet.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.common.entity.RequestDirectory;
+import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.gcm.MessageExecutor;
 import com.ricex.aft.servlet.gcm.SyncMessageCommand;
@@ -117,6 +120,34 @@ public class RequestController {
 	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Request> getNewRequestsForDevice(@PathVariable String deviceUid) {
 		return requestManager.getNewRequestsForDevice(deviceUid);
+	}
+	
+	/** Returns the list of all possible request directories
+	 * 
+	 * @return The list of all possible request directories
+	 */
+	
+	@RequestMapping(value="/directories", method=RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody List<String> getRequestDirectories() {
+		List<String> requestDirectories = new ArrayList<String>();
+		for (RequestDirectory directory : RequestDirectory.values()) {
+			requestDirectories.add(directory.toString());
+		}
+		return requestDirectories;
+	}
+	
+	/** Returns the list of all possible request statuses
+	 * 
+	 * @return The list of all request statuses
+	 */
+	
+	@RequestMapping(value="/statuses", method=RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody List<String> getRequestStatuses() {
+		List<String> requestStatuses = new ArrayList<String>();
+		for (RequestStatus status : RequestStatus.values()) {
+			requestStatuses.add(status.toString());
+		}
+		return requestStatuses;
 	}
 	
 	/** Creates the given request. 
