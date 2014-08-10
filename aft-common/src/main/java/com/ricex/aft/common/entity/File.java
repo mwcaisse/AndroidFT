@@ -13,11 +13,15 @@ import java.io.Serializable;
  */
 public class File implements Serializable {
 
+	/**
+	 */
+	private static final long serialVersionUID = -7013774805895194303L;
+
 	/** The id of this file */
 	private long fileId;
 	
-	/** The request for this File */
-	private Request request;
+	/** The id of the request that this file belongs to */
+	private long requestId;
 	
 	/** The file contents */
 	private byte[] fileContents;
@@ -39,22 +43,22 @@ public class File implements Serializable {
 	
 	public void setFileId(long fileId) {
 		this.fileId = fileId;
-	}
-	
+	}	
+
 	/**
-	 * @return the request
+	 * @return the requestId
 	 */
 	
-	public Request getRequest() {
-		return request;
+	public long getRequestId() {
+		return requestId;
 	}
 
 	/**
-	 * @param request the request to set
+	 * @param requestId the requestId to set
 	 */
 	
-	public void setRequest(Request request) {
-		this.request = request;
+	public void setRequestId(long requestId) {
+		this.requestId = requestId;
 	}
 
 	/**

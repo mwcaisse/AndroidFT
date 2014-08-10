@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.servlet.mapper.RequestMapper;
@@ -120,9 +121,14 @@ public enum RequestManager {
 		if (request.getRequestDevice() == null || request.getRequestDevice().getDeviceId() < 0) {
 			return false; // no device
 		}
-		//check to make sure it has a file, with a valid file id
-		if (request.getRequestFile() == null || request.getRequestFile().getFileId() < 0) {
-			return false; // no file
+		//check to make sure the request has atleast one file
+		if (request.getRequestFiles().size() == 0) {
+			return false; //request must have atleast one file	
+		}
+		for (File requestFile : request.getRequestFiles()) {
+			if (requestFile.getFileId() < 0) {
+				return false; // there was an invalid file in the request
+			}
 		}
 		//check to make sure that the request file location is not null, and is not empty
 		if (request.getRequestFileLocation() == null || request.getRequestFileLocation().isEmpty()) {

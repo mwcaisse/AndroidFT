@@ -13,6 +13,7 @@
 		<id property="fileId" column="FILE_ID" />
 		<result property="fileName" column="FILE_NAME" />
 		<result property="fileContents" column="FILE_VAL" javaType="_byte[]"/>
+		<result property="requestId" column="REQ_ID" />		
 	</resultMap>
 	
 	<!-- Retreives the specified file from the database -->
@@ -23,20 +24,26 @@
 	
 	<!--  Retreives the specified file, without the contents -->
 	<select id="getFileInfo" resultMap="fileResultMap">
-	    SELECT FILE.FILE_ID, FILE.FILE_NAME FROM FILE
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.REQ_ID FROM FILE
 	    WHERE FILE_ID = #{fileId}	    
+	</select>
+	
+	<!--  Retrieves the files for the specified request, with the contents -->
+	<select id="getRequestFiles" parameterType="long" resultMap="fileResultMap">
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.REQ_ID FROM FILE
+	    WHERE REQ_ID = #{requestId}
 	</select>
 	
 	<!--  Gets the contents of the specified file -->
 	<select id="getFileContents" parameterType="long" resultMap="fileResultMap">
-	    SELECT FILE_VAL FROM FILE
+	    SELECT FILE_VAL, FILE.REQ_ID FROM FILE
 	    WHERE FILE_ID = #{fileId}
 	</select>
 	
 	<!-- Inserts a new file into the database -->
 	<insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
-		INSERT INTO FILE (FILE_VAL, FILE_NAME)
-		VALUES (#{fileContents}, #{fileName})
+		INSERT INTO FILE (FILE_VAL, FILE_NAME, REQ_ID)
+		VALUES (#{fileContents}, #{fileName}, #{requestId})
 	</insert>
 	
 	<!-- Saves the contents of the file -->
@@ -48,8 +55,7 @@
 	
 	<!--  Deletes the file contents from the database -->
 	<update id="deleteFile">
-		UPDATE FILE SET
-			FILE_VAL = null
+		DELETE FROM FILE
 		WHERE FILE_ID = #{fileId}
 	</update>
 </mapper>

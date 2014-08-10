@@ -47,8 +47,8 @@ public class RequestController {
 	
 	/** Retrieves the request with the specified ID from the database
 	 * 
-	 * Each request returned does not include a full copy of the RequestFile, only the meta-data of
-	 *  	the file is populated. This is to conserve bandwidth by not sending the
+	 * Each request returned does not include a full copy of the RequestFiles, only the meta-data of
+	 *  	the files is populated. This is to conserve bandwidth by not sending the
 	 *  	potentially large file contents for each request. The file contents can be 
 	 *  	retrieved by using FileController.getFileContents. 
 	 *  

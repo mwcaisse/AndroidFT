@@ -3,6 +3,8 @@
  */
 package com.ricex.aft.servlet.mapper;
 
+import java.util.List;
+
 import com.ricex.aft.common.entity.File;
 
 /** MyBatis Mapper Interface for fetching files from the database
@@ -27,6 +29,14 @@ public interface FileMapper {
 	 */
 	
 	public File getFileInfo(long fileId);
+	
+	/** Retrieves the information about the files for the specified request
+	 * 
+	 * @param requestId The ID of the request to fetch the file info for
+	 * @return The list of files
+	 */
+	
+	public List<File> getRequestFiles(long requestId);
 	
 	/** Retrieves the contents of the file with the specified id
 	 * 
