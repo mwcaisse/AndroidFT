@@ -5,6 +5,7 @@ package com.ricex.aft.servlet.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +61,7 @@ public class FileController {
 	 * @param fileId The id of the file
 	 * @return A file object containing the meta data
 	 */
-	@RequestMapping(value = "/info/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = "/info/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody File getFileInfo(@PathVariable long fileId) {
 		return fileManager.getFile(fileId);
 	}
@@ -73,7 +74,7 @@ public class FileController {
 	 * @return A byte array containing the raw bytes of the file
 	 */
 	
-	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody byte[] getFileContents(@PathVariable long fileId) {
 		return fileManager.getFileContents(fileId);
 	}
@@ -88,22 +89,36 @@ public class FileController {
 	 * @return The requested file
 	 */
 	
-	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody File getFile(@PathVariable long fileId) {
+		return fileManager.getFile(fileId);
+	}
+	
+	/** Downloads the file with the given file id
+	 * 
+	 * @param fileId The id of the file to download
+	 * @param fileName The name of the file, not used, for URL purposes
+	 * @return The byte stream of the file
+	 */
+	
+	@RequestMapping(value = "/download/{fileId}/{fileName}", method = RequestMethod.GET)
+	public @ResponseBody File downloadFile(@PathVariable long fileId, @PathVariable String fileName) {
 		return fileManager.getFile(fileId);
 	}
 	
 	/** Creates the specified file and returns its ID.
 	 * 
-	 *  The contents of the file should be included in the body of the method as a raw byte array. The
+	 *  The contents of the file should be included in the body of the method as a base64 encoded string. The
 	 *  	name of the file is passed in as the path variable "fileName".
+	 *  
+	 *  The file contents should be in JSON form, of a base64 encoded string
 	 *  
 	 * @param fileContents The byte array of the file contents to create
 	 * @param fileName The name of the file to create
 	 * @return The ID of the created file, or -1 if creation failed.
 	 */
 	
-	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
+	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
 		return new LongResponse(fileManager.createFile(fileContents,fileName));
 	}
@@ -113,12 +128,14 @@ public class FileController {
 	 *  The contents of the file should be included in the body of the method as a raw byte array. The
 	 *  	name of the file is passed in as the path variable "fileName".
 	 *  
+	 *  The file contents should be uploaded in raw form, as an octet-stream.
+	 *  
 	 * @param fileContents The byte array of the file contents to create
 	 * @param fileName The name of the file to create
 	 * @return The ID of the created file, or -1 if creation failed.
 	 */
 	
-	@RequestMapping(value = "/rawUpload", method = RequestMethod.POST, consumes={"application/octet-stream"})
+	@RequestMapping(value = "/rawUpload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	public @ResponseBody LongResponse createFileRaw(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
 		return new LongResponse(fileManager.createFile(fileContents,fileName));
 	}
