@@ -23,6 +23,10 @@ function RequestModel(data) {
 		self.requestStatusMessage(data.requestStatusMessage);
 		self.requestDevice(new DeviceModel(data.requestDevice));
 		
+		//add the files
+		$.each(data.requestFiles, function( index, value) {
+			self.requestFiles.push(new FileModel(value));
+		});
 	}
 	
 }
@@ -52,7 +56,7 @@ function FileModel(data) {
 }
 
 /** View model for creating a request */
-function PFCreateRequestViewModel() {
+function PFCreateRequestViewModel(fileUploadModal) {
 	
 	var self = this;
 	
@@ -67,6 +71,9 @@ function PFCreateRequestViewModel() {
 	
 	/** The list of devices */
 	self.devices = ko.observableArray([]);
+	
+	/** The file upload modal */
+	self.fileUploadModal = fileUploadModal;
 	
 	/** Fetches the available list of request statuses */
 	self.fetchRequestStatuses = function() {
@@ -104,6 +111,13 @@ function PFCreateRequestViewModel() {
 		self.fetchRequestStatuses();
 		self.fetchRequestDirectories();
 		self.fetchDevices();
+	};
+	
+	/** Shows the modal to add a request file 
+	 * 
+	 */
+	self.addRequestFile = function() {
+		self.fileUploadModal.show();
 	};
 	
 	self.fetchData();

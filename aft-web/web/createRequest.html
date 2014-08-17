@@ -51,64 +51,100 @@
 
 		<div id="requestBody" class="body">			
 
-		<table class="table table-bordered" style="width:auto" data-bind="with: request">
-		
-			<tbody>				
-				<tr>
-					<td>Request Name</td> 
-					<td><input type="text" data-bind="value: requestName" /> </td>			
-				</tr>
-				<tr>
-					<td>Base Directory</td> 
-					<td><select data-bind="value: requestDirectory, options: $root.requestDirectories"></select> </td>			
-				</tr>
-					<tr>
-					<td>File Path</td> 
-					<td><input type="text" data-bind="value: requestFileLocation" /> </td>			
-				</tr>
-				<tr>
-					<td>Status</td> 
-					<td><select data-bind="value: requestStatus, options: $root.requestStatuses"></select> </td>			
-				</tr>
-				<tr>
-					<td>Device</td> 
-					<td><select data-bind="value: requestDevice, options: $root.devices, optionsText: 'deviceName'"></select> </td>			
-				</tr>	
-					
-			</tbody>
-		</table>
-		
-		<div id="divFiles">
-			<table class="table table-bordered table-stripped" style="width: auto">
-				<thead>				
-					<tr>
-						<th>File Name</th>
-						<th>File Id</th>
-					</tr>
-				</thead>
-				
-				<tbody>				
-					<!-- ko foreach: request().requestFiles -->
-					<tr>
-						<td data-bind="text: fileName"></td>
-						<td data-bind="text: fileId"></td>
-					</tr>
-					<!-- /ko -->
-					
-					<tr>
-						<td colspan="2">Add File</td>
-					</tr>				
-				</tbody>
+			<table class="table table-bordered" style="width:auto" data-bind="with: request">
 			
+				<tbody>				
+					<tr>
+						<td>Request Name</td> 
+						<td><input type="text" data-bind="value: requestName" /> </td>			
+					</tr>
+					<tr>
+						<td>Base Directory</td> 
+						<td><select data-bind="value: requestDirectory, options: $root.requestDirectories"></select> </td>			
+					</tr>
+						<tr>
+						<td>File Path</td> 
+						<td><input type="text" data-bind="value: requestFileLocation" /> </td>			
+					</tr>
+					<tr>
+						<td>Status</td> 
+						<td><select data-bind="value: requestStatus, options: $root.requestStatuses"></select> </td>			
+					</tr>
+					<tr>
+						<td>Device</td> 
+						<td><select data-bind="value: requestDevice, options: $root.devices, optionsText: 'deviceName'"></select> </td>			
+					</tr>	
+						
+				</tbody>
 			</table>
-		</div>
+			
+			<div id="divFiles">
+				<table class="table table-bordered table-stripped" style="width: auto">
+					<thead>				
+						<tr>
+							<th>File Name</th>
+							<th>File Id</th>
+						</tr>
+					</thead>
+					
+					<tbody>				
+						<!-- ko foreach: request().requestFiles -->
+						<tr>
+							<td data-bind="text: fileName"></td>
+							<td data-bind="text: fileId"></td>
+						</tr>
+						<!-- /ko -->
+						
+						<tr>
+							<td colspan="2" data-bind="click: $root.addRequestFile">
+								<span class="glyphicon glyphicon-plus"></span> Add File
+							</td>
+						</tr>				
+					</tbody>
+				
+				</table>
+			</div>
+
 
 		</div>
+		
+		<!--  The File Upload modal -->
+		
+		<div id="divFileUploadModal" class="modal fade" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">Request File Upload</h4>
+					</div>
+					<div class="modal-body">
+						Hello World! This is a Request File Upload!
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-default" data-bind="click: hide">Upload</button> 
+					</div>
+				</div> <!-- Modal content -->
+			</div> <!-- modal dialog -->
+		</div> <!-- modal -->
+		
+		
 
+		<script src="js/ViewModels/Request/PFRequestFileUpload.js"></script>
 		<script src="js/ViewModels/Request/PFCreateRequestViewModel.js"></script>
+		
 		<script type="text/javascript">
-
-			var requestViewModel = new PFCreateRequestViewModel();			
+			
+			//initialize the modal
+			//$("#divFileUploadModal").modal();
+		
+			var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
+			var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel);		
+			
+			ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));
 			ko.applyBindings(requestViewModel, document.getElementById("requestBody"));
 
 		</script>
