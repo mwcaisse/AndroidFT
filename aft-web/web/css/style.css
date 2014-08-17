@@ -23,3 +23,7 @@ div.body  {
 	padding: 10px;
 	font-size: 22px;
 }
+
+.compactCell {
+	width: 1%;
+}

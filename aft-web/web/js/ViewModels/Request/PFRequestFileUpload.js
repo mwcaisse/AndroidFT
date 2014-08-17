@@ -7,18 +7,18 @@ function PFRequestFileUploadViewModel() {
 	
 	var self = this;
 	
-	/** The name of the file */
-	self.fileName = ko.observable("");
+	self.files = ko.observableArray([]);
 	
-	/** The id of the file */
-	self.fileId = ko.observable(-1);
-	
+	/** Removes the calling file from the list of files */
+	self.removeFile = function() {
+		self.files.remove(this);
+	};
 
 	/** Shows the File Upload pop up
 	 * 
 	 */
 	self.show = function() {
-		$("#divFileUploadModal").modal("show");
+		$("#divFileUploadModal").modal("show");		
 	};
 	
 	/** Hides the File Upload pop up
@@ -26,5 +26,11 @@ function PFRequestFileUploadViewModel() {
 	 */
 	self.hide = function() {
 		$("#divFileUploadModal").modal("hide");
-	}
+		self.files.removeAll(); //remove all of the files
+	};
+	
+	/** Shows the File selector from the file input field */
+	self.selectFiles = function() {
+		$("#fileUploadInput").click();
+	};
 }
