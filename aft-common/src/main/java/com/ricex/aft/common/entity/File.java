@@ -21,7 +21,7 @@ public class File implements Serializable {
 	private long fileId;
 	
 	/** The id of the request that this file belongs to */
-	private long requestId;
+	private Long requestId;
 	
 	/** The file contents */
 	private byte[] fileContents;
@@ -49,7 +49,7 @@ public class File implements Serializable {
 	 * @return the requestId
 	 */
 	
-	public long getRequestId() {
+	public Long getRequestId() {
 		return requestId;
 	}
 
@@ -57,7 +57,7 @@ public class File implements Serializable {
 	 * @param requestId the requestId to set
 	 */
 	
-	public void setRequestId(long requestId) {
+	public void setRequestId(Long requestId) {
 		this.requestId = requestId;
 	}
 

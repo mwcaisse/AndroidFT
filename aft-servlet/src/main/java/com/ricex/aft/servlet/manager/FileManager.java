@@ -61,6 +61,7 @@ public enum FileManager {
 		File file = new File();
 		file.setFileContents(fileContents);
 		file.setFileName(fileName);
+		file.setRequestId(null);
 		fileMapper.saveFile(file);
 		return file.getFileId();
 	}

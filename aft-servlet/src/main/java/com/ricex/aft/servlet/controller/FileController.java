@@ -110,6 +110,21 @@ public class FileController {
 	
 	/** Creates the specified file and returns its ID.
 	 * 
+	 *  The contents of the file should be included in the body of the method as a raw byte array. The
+	 *  	name of the file is passed in as the path variable "fileName".
+	 *  
+	 * @param fileContents The byte array of the file contents to create
+	 * @param fileName The name of the file to create
+	 * @return The ID of the created file, or -1 if creation failed.
+	 */
+	
+	@RequestMapping(value = "/rawUpload", method = RequestMethod.POST, consumes={"application/octet-stream"})
+	public @ResponseBody LongResponse createFileRaw(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
+		return new LongResponse(fileManager.createFile(fileContents,fileName));
+	}
+	
+	/** Creates the specified file and returns its ID.
+	 * 
 	 * The contents of the file should be uploaded as a multipart file and as part of a form upload
 	 * 
 	 * @param fileName The name of the file
