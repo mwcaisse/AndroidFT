@@ -3,6 +3,8 @@
  */
 package com.ricex.aft.servlet.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -101,9 +103,11 @@ public class FileController {
 	 * @return The byte stream of the file
 	 */
 	
-	@RequestMapping(value = "/download/{fileId}/{fileName}", method = RequestMethod.GET)
-	public @ResponseBody File downloadFile(@PathVariable long fileId, @PathVariable String fileName) {
-		return fileManager.getFile(fileId);
+	@RequestMapping(value = "/download/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_OCTET_STREAM_VALUE})
+	public @ResponseBody byte[] downloadFile(@PathVariable long fileId, HttpServletResponse response) {		
+		File file = fileManager.getFile(fileId);
+		response.setHeader("Content-Disposition", "attachment;filename=" + file.getFileName());
+		return file.getFileContents();
 	}
 	
 	/** Creates the specified file and returns its ID.

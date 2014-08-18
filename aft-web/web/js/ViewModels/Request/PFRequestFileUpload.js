@@ -29,7 +29,7 @@ function PFRequestFileUploadViewModel() {
                 	processData: false                	
                 });
             };
-            reader.readAsBinaryString(value.fileObj);
+            reader.readAsArrayBuffer(value.fileObj);
 		});
 	};
 
