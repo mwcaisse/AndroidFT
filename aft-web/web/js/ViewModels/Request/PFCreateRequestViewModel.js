@@ -113,11 +113,21 @@ function PFCreateRequestViewModel(fileUploadModal) {
 		self.fetchDevices();
 	};
 	
+	/** The callback for uploading request files */
+	self.requestFileCallback = function(newFiles) {
+		$.each(newFiles, function(index, value) {
+			self.request().requestFiles.push(new FileModel({
+				fileId: value.fileId,
+				fileName: value.name
+			}));
+		});
+	};
+	
 	/** Shows the modal to add a request file 
 	 * 
 	 */
 	self.addRequestFile = function() {
-		self.fileUploadModal.show();
+		showFileUploadModal(self.requestFileCallback);
 	};
 	
 	self.fetchData();

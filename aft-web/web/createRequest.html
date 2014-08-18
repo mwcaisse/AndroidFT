@@ -169,6 +169,11 @@
 			
 			ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));
 			ko.applyBindings(requestViewModel, document.getElementById("requestBody"));
+			
+			/** Shows the file upload modal with the given call back */
+			function showFileUploadModal(callback) {
+				fileUploadModalViewModel.show(callback);
+			}
 
 		</script>
 
