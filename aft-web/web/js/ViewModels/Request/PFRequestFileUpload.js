@@ -19,14 +19,15 @@ function PFRequestFileUploadViewModel() {
 	};
 	
 	/** Uploads the file to the server */
-	self.uploadFiles = function() {
-
-		var defereds = [];
+	self.uploadFiles = function() {		
+		//the count of the files
+		var count = 0;
 		
 		$.each(self.files(), function(index, value) {
 			var reader = new window.FileReader();
             reader.onload = function (e) {
-            	defereds[index] = $.ajax( {
+            	count ++; //increase the count
+            	$.ajax( {
                 	url: "http://" + host + "/aft-servlet/manager/file/rawUpload?fileName=" + value.name(),
                 	async: true,
                 	type: "POST",
@@ -35,22 +36,27 @@ function PFRequestFileUploadViewModel() {
                 	contentType: "application/octet-stream",
                 	processData: false                	
                 }).done( function(data) {
-                	//update the id of the file
+                	//update the id of the file                	
                 	value.fileId(data.value);
                 }).fail( function (jqXHR, textStatus, error) {
-                	alert("Failed to upload file: " + value.name() + " : " + textStatus + " : " + error);
+                	alert("Failed to upload file: " + value.name() + " : " + textStatus + " : " + error);  
+                }).complete( function() {
+                	//check if all of the files have uploaded
+                	count --;
+                	if (count <= 0) {
+                		self.uploadFinished();
+                	}
                 });
             };
             reader.readAsArrayBuffer(value.fileObj);
-		});
-		
-		//when all of the ajax requests are done
-		$.when.apply(defereds).then( function() {
-			//call the callback with the files, in plain JS
-			self.callback(ko.toJS(self.files()));
-			self.hide();	
-		});
+		});	
+	};
 	
+	/** Called when the upload of all of the files has finished
+	 */
+	self.uploadFinished = function() {
+		self.callback(ko.toJS(self.files()));
+		self.hide();
 	};
 
 	/** Shows the File Upload pop up

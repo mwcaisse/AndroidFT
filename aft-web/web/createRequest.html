@@ -83,7 +83,8 @@
 					<thead>				
 						<tr>
 							<th>File Name</th>
-							<th>File Id</th>
+							<th>Download</th>
+							<th>Remove</th>
 						</tr>
 					</thead>
 					
@@ -91,12 +92,14 @@
 						<!-- ko foreach: request().requestFiles -->
 						<tr>
 							<td data-bind="text: fileName"></td>
-							<td data-bind="text: fileId"></td>
+							<td>Download</td>
+							<td data-bind="click: $parent.removeFile"><span class="glyphicon glyphicon-minus"></span></td>
+							
 						</tr>
 						<!-- /ko -->
 						
 						<tr>
-							<td colspan="2" data-bind="click: $root.addRequestFile">
+							<td colspan="3" data-bind="click: $root.addRequestFile">
 								<span class="glyphicon glyphicon-plus"></span> Add File
 							</td>
 						</tr>				
