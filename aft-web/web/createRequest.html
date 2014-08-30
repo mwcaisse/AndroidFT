@@ -48,6 +48,20 @@
 		</ul>
 	
 	
+		<script type="text/html" id="request-status-non-modifiable">
+			<tr>
+				<td>Status</td> 
+				<td data-bind="text: requestStatus"></td>			
+			</tr>
+		</script>
+		
+		<script type="text/html" id="request-status-modifiable">
+			<tr>
+				<td>Status</td> 
+				<td><select data-bind="value: requestStatus, options: $root.requestStatuses"></select> </td>			
+			</tr>
+		</script>
+	
 
 		<div id="requestBody" class="body">			
 
@@ -56,7 +70,7 @@
 				<tbody>				
 					<tr>
 						<td>Request Name</td> 
-						<td><input type="text" data-bind="value: requestName" /> </td>			
+						<td><input type="text" data-bind="value: requestName, valueUpdate: 'afterkeydown'" /> </td>			
 					</tr>
 					<tr>
 						<td>Base Directory</td> 
@@ -64,12 +78,12 @@
 					</tr>
 						<tr>
 						<td>File Path</td> 
-						<td><input type="text" data-bind="value: requestFileLocation" /> </td>			
+						<td><input type="text" data-bind="value: requestFileLocation, valueUpdate: 'afterkeydown'" /> </td>			
 					</tr>
-					<tr>
-						<td>Status</td> 
-						<td><select data-bind="value: requestStatus, options: $root.requestStatuses"></select> </td>			
-					</tr>
+					
+					<!-- ko template: {name: statusTemplate, data: $data} -->
+					<!-- /ko -->
+					
 					<tr>
 						<td>Device</td> 
 						<td><select data-bind="value: requestDevice, options: $root.devices, optionsText: 'deviceName'"></select> </td>			
@@ -77,6 +91,12 @@
 						
 				</tbody>
 			</table>
+			
+			<!-- ko if: request().requestError -->
+			<div class="alert alert-danger" role="alert">
+				<strong>Error! </strong><span data-bind="text: request().requestErrorText"></span>
+			</div>
+			<!-- /ko -->
 			
 			<div id="divFiles">
 				<table class="table table-bordered table-stripped" style="width: auto">
@@ -92,8 +112,8 @@
 						<!-- ko foreach: request().requestFiles -->
 						<tr>
 							<td data-bind="text: fileName"></td>
-							<td>Download</td>
-							<td data-bind="click: $parent.removeFile"><span class="glyphicon glyphicon-minus"></span></td>
+							<td><a data-bind="attr: {href: downloadUrl}">Download</a></td>
+							<td data-bind="click: $root.removeRequestFile"><span class="glyphicon glyphicon-minus"></span></td>
 							
 						</tr>
 						<!-- /ko -->
@@ -107,7 +127,21 @@
 				
 				</table>
 			</div>
+			
+			<!-- ko if: request().requestFilesError -->
+			<div class="alert alert-danger" role="alert">
+				<strong>Error! </strong><span data-bind="text: request().requestFilesErrorText"></span>
+			</div>
+			<!-- /ko -->
+			
+		
 
+			<div id="controlGroup" class="btn-group">
+			
+				<button type="button" class="btn" data-bind="click: saveRequest">Save</button>
+				<button type="button" class="btn" data-bind="click: discard">Cancel</button>
+			
+			</div> <!-- ControlGroup -->
 
 		</div>
 		
