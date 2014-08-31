@@ -1,5 +1,7 @@
 package com.ricex.aft.servlet.config;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,12 +11,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
@@ -26,8 +31,9 @@ import com.ricex.aft.servlet.util.GsonFactory;
 
 @Configuration
 @ComponentScan (basePackages = {"com.ricex.aft.servlet.controller"})
-@EnableWebMvc
-public class ApplicationConfig extends WebMvcConfigurerAdapter {
+
+//@EnableWebMvc
+public class ApplicationConfig extends WebMvcConfigurationSupport  {
 
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 
@@ -170,6 +176,29 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+	}
+	
+	/** Adds the custom Jackson 2 Http Message Converter, as well as the default message converters
+	 * 	@param converters The list of add the message converters to
+	 */
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(jacksonConverter());
+		addDefaultHttpMessageConverters(converters);
+	};
+	
+	/** Creates the Jackson 2 Http Message converter to use.
+	 * 	Enables Pretty Printing of JSON, and disables the fail on unrecognized properties	
+	 * 
+	 * @return
+	 */
+	public MappingJackson2HttpMessageConverter jacksonConverter() {
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setPrettyPrint(true);
+		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		converter.setObjectMapper(om);
+		return converter;
 	}
 
 	
