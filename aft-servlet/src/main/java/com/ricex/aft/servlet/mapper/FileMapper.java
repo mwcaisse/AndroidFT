@@ -53,6 +53,12 @@ public interface FileMapper {
 	
 	public void saveFile(File file);
 	
+	/** Updates the request that the specified file belongs to
+	 * 	
+	 * @param file The file containing the file id, and new request id to update
+	 */
+	public void updateFileRequest(File file);
+	
 	
 	/** Deletes the given file from the database
 	 * 

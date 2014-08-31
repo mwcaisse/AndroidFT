@@ -53,6 +53,13 @@
 	    WHERE FILE_ID = #{fileId}	    
 	</update>
 	
+	<!-- Updates the request for the given file -->
+	<update id="updateFileRequest">
+	    UPDATE FILE SET
+	    	REQ_ID = #{requestId}
+    	WHERE FILE_ID = #{fileId}
+	</update>
+	
 	<!--  Deletes the file contents from the database -->
 	<update id="deleteFile">
 		DELETE FROM FILE

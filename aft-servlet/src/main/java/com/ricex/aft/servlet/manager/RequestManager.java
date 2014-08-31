@@ -34,10 +34,13 @@ public enum RequestManager {
 	/** The request mapper that will be used to fetch requests from the database */
 	private RequestMapper requestMapper;
 	
+	/** The FileManager to use to update request files */
+	private FileManager fileManager;
+	
 	/** Performs initialization */
 	
 	private RequestManager() {
-		
+		fileManager = FileManager.INSTANCE;
 	}
 	
 	/** Returns the request with the given id
@@ -87,7 +90,10 @@ public enum RequestManager {
 	
 	public long createRequest(Request request) {
 		if (isValidRequest(request)) {
-			requestMapper.createRequest(request);
+			//save the request to the database
+			requestMapper.createRequest(request);	
+			//update the files for the request
+			fileManager.updateFilesForRequest(request);
 			return request.getRequestId();
 		}
 		return -1; // invalid request
@@ -96,16 +102,18 @@ public enum RequestManager {
 	/** Updates the given request
 	 * 
 	 * @param request The request to update
-	 * @return 1 if sucess, -1 if invalid request
+	 * @return 1 if success, -1 if invalid request
 	 */
 	
 	public long updateRequest(Request request) {
 		if (isValidRequest(request)) {
+			//update the request in the database
 			requestMapper.updateRequest(request);
+			//update the files for the request
+			fileManager.updateFilesForRequest(request);
 			return 1;
 		}
 		return -1; //invalid request
-
 	}
 	
 	/** Determines if the specified request is valid or not.
