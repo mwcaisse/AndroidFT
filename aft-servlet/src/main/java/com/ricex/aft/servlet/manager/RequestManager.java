@@ -140,11 +140,7 @@ public enum RequestManager {
 			if (requestFile.getFileId() < 0) {
 				return false; // there was an invalid file in the request
 			}
-		}
-		//check to make sure that the request file location is not null, and is not empty
-		if (request.getRequestFileLocation() == null || request.getRequestFileLocation().isEmpty()) {
-			return false;
-		}		
+		}	
 		// check that the request status was set 
 		if (request.getRequestStatus() == null) {
 			return false; // no request status

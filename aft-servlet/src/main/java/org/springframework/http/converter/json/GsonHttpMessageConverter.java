@@ -131,7 +131,6 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<Objec
 			throws IOException, HttpMessageNotReadableException {
 		
 		Reader json = new InputStreamReader(inputMessage.getBody(), getCharset(inputMessage.getHeaders()));
-		
 		try {
 			Type typeOfT = getType();
 			if (typeOfT != null) {
