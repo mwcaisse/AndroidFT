@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -183,7 +184,8 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	 */
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(jacksonConverter());
+		//converters.add(jacksonConverter());
+		converters.add(gsonMessageConverter());
 		addDefaultHttpMessageConverters(converters);
 	};
 	
@@ -199,6 +201,14 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		converter.setObjectMapper(om);
 		return converter;
+	}
+	
+	/** Creates the GSON message converter, to use Gson rather than Jackson for JSON serialization and deseiralization
+	 * 
+	 * @return The GSON message converter
+	 */
+	public GsonHttpMessageConverter gsonMessageConverter() {
+		return new GsonHttpMessageConverter(gsonBean());
 	}
 
 	

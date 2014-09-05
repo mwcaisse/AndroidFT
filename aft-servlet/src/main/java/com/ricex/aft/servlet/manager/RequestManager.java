@@ -3,6 +3,7 @@
  */
 package com.ricex.aft.servlet.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -106,7 +107,9 @@ public enum RequestManager {
 	 */
 	
 	public long updateRequest(Request request) {
-		if (isValidRequest(request)) {
+		if (isValidRequest(request)) {			
+			//set the request to be updated now
+			request.setRequestUpdated(new Date());			
 			//update the request in the database
 			requestMapper.updateRequest(request);
 			//update the files for the request
