@@ -44,7 +44,7 @@
 		
 		<ul class="nav nav-tabs" role="tablist">	
 			<li><a href="request.html">All Requests</a></li>
-			<li class="active"><a href="#">Create Request</a></li>
+			<li class="active"><a id="liViewRequest" href="#">Create Request</a></li>
 		</ul>
 	
 	
@@ -201,8 +201,10 @@
 			//initialize the modal
 			//$("#divFileUploadModal").modal();
 		
+			var requestId = 2;
+			
 			var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
-			var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel);		
+			var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		
 			
 			ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));
 			ko.applyBindings(requestViewModel, document.getElementById("requestBody"));

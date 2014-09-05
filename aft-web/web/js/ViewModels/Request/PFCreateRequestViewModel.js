@@ -5,7 +5,7 @@ function RequestModel(data) {
 	var self = this;
 	
 	//initialize the fields
-	self.requestId = -1;
+	self.requestId = ko.observable(-1);
 	self.requestName = ko.observable("");
 	self.requestFileLocation = ko.observable("");
 	self.requestDirectory = ko.observable("");
@@ -17,9 +17,9 @@ function RequestModel(data) {
 	
 	//if there is data initialize the data..
 	if (data) {
-		self.requestId = data.requestId;
+		self.requestId(data.requestId);
 		self.requestName(data.requestName);
-		self.requestFileDirectory(data.requestDirectory);
+		self.requestDirectory(data.requestDirectory);
 		self.requestStatus(data.requestStatus);
 		self.requestStatusMessage(data.requestStatusMessage);
 		self.requestDevice(new DeviceModel(data.requestDevice));
@@ -95,8 +95,10 @@ function RequestModel(data) {
 		self.requestFiles.remove(file);
 	};
 	
+	
 	//validate the request
 	self.validate();	
+
 	
 }
 
@@ -134,12 +136,17 @@ function FileModel(data) {
 }
 
 /** View model for creating a request */
-function PFCreateRequestViewModel(fileUploadModal) {
+function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	
 	var self = this;
 	
 	/** The request */
 	self.request = ko.observable(new RequestModel());
+	
+	//check if a request id was passed in, if so set it
+	if (requestId >= 0) {
+		self.request().requestId(requestId);
+	}
 	
 	/** The list of request statuses */
 	self.requestStatuses = ko.observableArray([]);
@@ -191,12 +198,14 @@ function PFCreateRequestViewModel(fileUploadModal) {
 			self.request(new RequestModel());
 		}
 		else {
-			$.getJSON("http://" + host + "/aft-servlet/manager/request/" + self.request().requestId, function (data) {
+			$.getJSON("http://" + host + "/aft-servlet/manager/request/" + self.request().requestId(), function (data) {
 				self.request(new RequestModel(data));
 			}).fail( function (jqXHR, textStatus, error) {
-				alert("Failed to save request: " + textStatus + " : " + error);
+				alert("Failed to fetch the request: " + textStatus + " : " + error);
 			});
 		}
+		
+		
 	};
 	
 	/** Fetches all required data from the server */
@@ -204,6 +213,7 @@ function PFCreateRequestViewModel(fileUploadModal) {
 		self.fetchRequestStatuses();
 		self.fetchRequestDirectories();
 		self.fetchDevices();
+		self.fetchRequest();
 	};
 
 	
@@ -234,6 +244,9 @@ function PFCreateRequestViewModel(fileUploadModal) {
             }).done( function(data) {
             	//update the request id
             	self.request().requestId = data.requestId;
+            	
+            	//update the tab title
+            	self.updateTabTitle();            	
             }).fail( function (jqXHR, textStatus, error) {
             	alert("Failed to save the request! : " + textStatus + " : " + error);
             });
@@ -277,8 +290,26 @@ function PFCreateRequestViewModel(fileUploadModal) {
 		self.request().removeRequestFile(file);
 	};
 	
-	self.fetchData();
+	/** Updates the title of the tab to either Create / View depending on
+	 * 		the id of the request
+	 */
+	self.updateTabTitle = function() {
+		if (self.request().requestId < 0) {
+			$("#liViewRequest").text("Create Reqest");
+		}
+		else {
+			$("#liViewRequest").text("Modify Reqest");
+		}
+	};
 	
+	//subscribe to the reqest, whenever it changes, update the tab title
+	self.request.subscribe(self.updateTabTitle);
+	
+	//update the tab title
+	self.updateTabTitle();
+	
+	//fetch the data
+	self.fetchData();
 	
 }
 
