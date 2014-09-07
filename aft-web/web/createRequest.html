@@ -220,7 +220,11 @@
 			//initialize the modal
 			//$("#divFileUploadModal").modal();
 		
-			var requestId = -1;
+			//get the requestid from the url params
+			var requestId = getURLParameter("requestId")
+			if (!requestId) {
+				requestId = -1;
+			}
 			
 			var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
 			var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		

@@ -64,7 +64,7 @@ function RequestModel(data) {
 	 *
 	 */
 	self.updateDateString = ko.computed(function() {
-		return new Date(self.requestUpdated()).toUTCString();
+		return new Date(self.requestUpdated()).toLocaleString();
 	});
 	
 	

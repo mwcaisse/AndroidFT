@@ -18,6 +18,18 @@ function parseDate(dateLong) {
 	return date.toLocaleString();
 };
 
+/** Retreives the value of the URL parameter with the given name
+ * 
+ * @param name The name of the URL parameter to fetch
+ * @returns The value of the url param, or null if it wasnt found
+ */
+function getURLParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 /** Model for a file to upload
  * 
  */
