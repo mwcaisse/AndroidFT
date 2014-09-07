@@ -103,7 +103,7 @@ public enum RequestManager {
 	/** Updates the given request
 	 * 
 	 * @param request The request to update
-	 * @return 1 if success, -1 if invalid request
+	 * @return The id of the request if success, -1 if invalid request
 	 */
 	
 	public long updateRequest(Request request) {
@@ -114,7 +114,7 @@ public enum RequestManager {
 			requestMapper.updateRequest(request);
 			//update the files for the request
 			fileManager.updateFilesForRequest(request);
-			return 1;
+			return request.getRequestId();
 		}
 		return -1; //invalid request
 	}

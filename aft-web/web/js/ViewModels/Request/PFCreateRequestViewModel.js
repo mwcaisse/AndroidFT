@@ -13,7 +13,7 @@ function RequestModel(data) {
 	self.requestStatusMessage = ko.observable("");
 	self.requestDevice = ko.observable(new DeviceModel());
 	self.requestFiles = ko.observableArray([]);
-	self.requestUpdated = ko.observable(new Date());
+	self.requestUpdated = ko.observable(new Date().getTime());
 	
 	//if there is data initialize the data..
 	if (data) {
@@ -23,7 +23,7 @@ function RequestModel(data) {
 		self.requestStatus(data.requestStatus);
 		self.requestStatusMessage(data.requestStatusMessage);
 		self.requestDevice(new DeviceModel(data.requestDevice));
-		self.requestUpdated = ko.observable(new Date(self.requestUpdate));
+		self.requestUpdated = ko.observable();
 		
 		//add the files
 		$.each(data.requestFiles, function( index, value) {
@@ -33,9 +33,10 @@ function RequestModel(data) {
 	
 	/** Whether or not this request is new */
 	self.isNew = ko.computed(function() {
-		return self.requestId < 0; //if the id is less than zero, it is new
+		return self.requestId() < 0; //if the id is less than zero, it is new
 	});
 	
+	/** The template for the status field */
 	self.statusTemplate = ko.computed(function() {
 		if (self.isNew()) {
 			//if it is new status is non-modifiable
@@ -45,6 +46,25 @@ function RequestModel(data) {
 			//otherwise return modifiable
 			return "request-status-modifiable";
 		}
+	});
+	
+	/** The template for the device field */
+	self.deviceTemplate = ko.computed(function() {
+		if (self.isNew()) {
+			//if it is new device is modifiable
+			return "request-device-modifiable";
+		}
+		else {
+			//if device isn't new, it is not modifiable
+			return "request-device-non-modifiable";
+		}
+	});
+	
+	/** The date string of the Updated Date
+	 *
+	 */
+	self.updateDateString = ko.computed(function() {
+		return new Date(self.requestUpdated()).toUTCString();
 	});
 	
 	
@@ -242,11 +262,17 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
             	data: ko.toJSON(self.request()),
             	contentType: "application/json"             	
             }).done( function(data) {
-            	//update the request id
-            	self.request().requestId = data.requestId;
-            	
-            	//update the tab title
-            	self.updateTabTitle();            	
+            	//check if the request failed to save
+            	if (data.value < 0) {
+            		alert("Request was invalid. Could not save");
+            	}
+            	else {
+	            	//update the request id
+	            	self.request().requestId(data.value);
+	            	
+	            	//update the tab title
+	            	self.updateTabTitle();   
+            	}
             }).fail( function (jqXHR, textStatus, error) {
             	alert("Failed to save the request! : " + textStatus + " : " + error);
             });

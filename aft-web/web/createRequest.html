@@ -61,6 +61,20 @@
 				<td><select data-bind="value: requestStatus, options: $root.requestStatuses"></select> </td>			
 			</tr>
 		</script>
+		
+		<script type="text/html" id="request-device-non-modifiable">
+			<tr>
+				<td>Status</td> 
+				<td data-bind="text: requestDevice().deviceName"></td>			
+			</tr>
+		</script>
+		
+		<script type="text/html" id="request-device-modifiable">
+			<tr>
+				<td>Device</td> 
+				<td><select data-bind="value: requestDevice, options: $root.devices, optionsText: 'deviceName'"></select> </td>			
+			</tr>	
+		</script>
 	
 
 		<div id="requestBody" class="body">			
@@ -76,7 +90,7 @@
 						<td>Base Directory</td> 
 						<td><select data-bind="value: requestDirectory, options: $root.requestDirectories"></select> </td>			
 					</tr>
-						<tr>
+					<tr>
 						<td>File Path</td> 
 						<td><input type="text" data-bind="value: requestFileLocation, valueUpdate: 'afterkeydown'" /> </td>			
 					</tr>
@@ -84,10 +98,15 @@
 					<!-- ko template: {name: statusTemplate, data: $data} -->
 					<!-- /ko -->
 					
+					<!-- ko template: {name: deviceTemplate, data: $data} -->
+					<!-- /ko -->
+					
+					<!-- ko ifnot: isNew -->					
 					<tr>
-						<td>Device</td> 
-						<td><select data-bind="value: requestDevice, options: $root.devices, optionsText: 'deviceName'"></select> </td>			
-					</tr>	
+						<td>Last Updated</td>
+						<td data-bind="text: updateDateString"></td>
+					</tr>					
+					<!-- /ko -->
 						
 				</tbody>
 			</table>
@@ -201,7 +220,7 @@
 			//initialize the modal
 			//$("#divFileUploadModal").modal();
 		
-			var requestId = 2;
+			var requestId = -1;
 			
 			var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
 			var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		
