@@ -19,7 +19,9 @@ public enum RequestStatus {
 	/** Request has failed */
 	FAILED ("Failed"), 
 	/** Request has been completed */
-	COMPLETED ("Completed");
+	COMPLETED ("Completed"),
+	/** Request that has been cancelled */
+	CANCELLED ("Cancelled");
 	
 	/** Converts a string to its corresponding request status.
 	 * 
