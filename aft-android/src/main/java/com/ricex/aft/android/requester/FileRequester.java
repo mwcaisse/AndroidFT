@@ -52,7 +52,7 @@ public class FileRequester extends AbstractRequester {
 	 * @return The contents of the file
 	 */
 	public byte[] getFileContents(long fileId) {
-		byte[] contents = restTemplate.getForObject(serverAddress + "file/content/{fileId}", byte[].class, fileId);
+		byte[] contents = restTemplate.getForObject(serverAddress + "file/contents/{fileId}", byte[].class, fileId);
 		return contents;
 	}
 	
