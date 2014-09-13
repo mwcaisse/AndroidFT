@@ -6,7 +6,6 @@ package com.ricex.aft.android.requester;
 import android.content.Context;
 
 import com.ricex.aft.common.entity.File;
-import com.ricex.aft.common.entity.Request;
 
 /** Requestor for requesting files 
  * 
@@ -37,13 +36,24 @@ public class FileRequester extends AbstractRequester {
 		return res;
 	}
 	
-	/** Returns a complete copy of the file for the specified request
+	/** Returns the information for the specified file
 	 * 
-	 * @param request The request to fetch the file fore
-	 * @return The file in the request
+	 * @param fileId The id of the file to fetch the information for
+	 * @return The file information
 	 */
-	
-	public File getCompleteFile(Request request) {
-		return getCompleteFile(request.getRequestFile().getFileId());
+	public File getFileInfo(long fileId) {
+		File res = restTemplate.getForObject(serverAddress + "file/info/{fileId}", File.class, fileId);
+		return res;
 	}
+	
+	/** Returns the contents of the file with the given id
+	 * 
+	 * @param fileId The id of the file to fetch the contents for
+	 * @return The contents of the file
+	 */
+	public byte[] getFileContents(long fileId) {
+		byte[] contents = restTemplate.getForObject(serverAddress + "file/content/{fileId}", byte[].class, fileId);
+		return contents;
+	}
+	
 }

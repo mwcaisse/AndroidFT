@@ -67,18 +67,35 @@ public class RequestProcessor {
 			return false;
 		}
 		
-		//fetch the file for this request
-		File reqFile = new FileRequester(context).getCompleteFile(request);
-		java.io.File file =  getStorageFile(request);
-		if (file == null) {
+		//process / download each of the files
+		for(File file : request.getRequestFiles()) {
+			if (!downloadFile(file)) {
+				updateRequest(RequestStatus.FAILED, "Failed to download file: " + file.getFileId() + " : " + file.getFileName());
+			}
+		}
+		
+		updateRequest(RequestStatus.COMPLETED);
+		return true;
+	}
+	
+	/** Downloads the specified file
+	 * 
+	 * @param fileInfo The information of the file to download
+	 * @return True if successful, false otherwise
+	 */
+	
+	protected boolean downloadFile(File fileInfo) {
+		java.io.File localFile =  getStorageFile(fileInfo);
+		byte[] fileContents = new FileRequester(context).getFileContents(fileInfo.getFileId());
+		if (localFile == null) {
 			Log.w(LOG_TAG, "Creating storage file failed");
 			updateRequest(RequestStatus.FAILED, "Unable to create storage file");
 			return false;
 		}
 		
 		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-			bos.write(reqFile.getFileContents());
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(localFile));
+			bos.write(fileContents);
 			bos.flush();
 			bos.close();
 		} 
@@ -89,9 +106,8 @@ public class RequestProcessor {
 		}	
 
 		//scan the file
-		scanFile(file);
+		scanFile(localFile);
 		
-		updateRequest(RequestStatus.COMPLETED);
 		return true;
 	}
 	
@@ -136,13 +152,13 @@ public class RequestProcessor {
 		return true;	
 	}
 	
-	/** Creates the file object to store the file in the given request
+	/** Creates the file object to store the file in the given file
 	 * 
-	 * @param request The request to create the file for
+	 * @param file The request file to create the storage file for
 	 * @return The storage file, or null if failed to create the file
 	 */
 	
-	private java.io.File getStorageFile(Request request) {
+	private java.io.File getStorageFile(File file) {
 		java.io.File baseDir = getBaseDirectory(request);
 		
 		String dirPath = baseDir.getAbsolutePath() + "/" + request.getRequestFileLocation();
@@ -152,7 +168,7 @@ public class RequestProcessor {
 		
 		if (path.isDirectory()) {
 			//creating the directory was successful, return a file to the request file			
-			return new java.io.File(path, request.getRequestFile().getFileName());
+			return new java.io.File(path, file.getFileName());
 		}		
 		//failed to create the directory, return failure
 		Log.w(LOG_TAG, "Failed to create directory: " + path.getAbsolutePath());
