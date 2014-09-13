@@ -8,11 +8,12 @@ import java.lang.reflect.Type;
 import android.util.Base64;
 
 import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
-import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
+import com.google.gson.JsonSerializer;
 
 
 
@@ -20,7 +21,7 @@ import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
  * @author Mitchell Caisse
  *
  */
-public class AndroidJsonByteArrayBase64Adapter extends JsonByteArrayBase64Adapter {
+public class AndroidJsonByteArrayBase64Adapter  implements JsonSerializer<byte[]>, JsonDeserializer<byte[]>{
 
 	
 	/** Deserializes the given base64 string into a byte array

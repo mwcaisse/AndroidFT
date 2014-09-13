@@ -36,7 +36,8 @@ public class GcmIntentService extends IntentService {
 	 * @see android.app.IntentService#onHandleIntent(android.content.Intent)
 	 */
 	@Override
-	protected void onHandleIntent(Intent intent) {
+	protected void onHandleIntent(Intent intent) {		
+		showNotification();
 		Bundle extras = intent.getExtras();
 		
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
