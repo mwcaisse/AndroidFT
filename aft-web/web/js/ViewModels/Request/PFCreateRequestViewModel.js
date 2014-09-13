@@ -320,11 +320,13 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	 * 		the id of the request
 	 */
 	self.updateTabTitle = function() {
-		if (self.request().requestId < 0) {
+		if (self.request().requestId() < 0) {
 			$("#liViewRequest").text("Create Reqest");
+			$("#liCreateRequest").addClass("hidden");
 		}
 		else {
 			$("#liViewRequest").text("Modify Reqest");
+			$("#liCreateRequest").removeClass("hidden");
 		}
 	};
 	
