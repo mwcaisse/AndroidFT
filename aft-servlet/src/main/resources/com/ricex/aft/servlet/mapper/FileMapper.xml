@@ -12,15 +12,14 @@
 	<resultMap id="fileResultMap" type="File">
 		<id property="fileId" column="FILE_ID" />
 		<result property="fileName" column="FILE_NAME" />
-		<result property="fileContents" column="FILE_VAL" javaType="_byte[]"/>
 		<result property="requestId" column="REQ_ID" />		
 	</resultMap>
 	
-	<!-- Retreives the specified file from the database -->
-	<select id="getFile" resultMap="fileResultMap">
-		SELECT * FROM FILE
-		WHERE FILE_ID = #{fileId}
-	</select>
+	<!-- File Content result map -->
+	<resultMap id="fileContentResultMap" type="FileContent">
+	    <id property="fileId" column="FILE_ID" />
+	    <result property="fileContents" column="FILE_VAL" javaType="_byte[]"/>
+	</resultMap>
 	
 	<!--  Retreives the specified file, without the contents -->
 	<select id="getFileInfo" resultMap="fileResultMap">
@@ -28,26 +27,26 @@
 	    WHERE FILE_ID = #{fileId}	    
 	</select>
 	
-	<!--  Retrieves the files for the specified request, with the contents -->
+	<!--  Retrieves the files for the specified request -->
 	<select id="getRequestFiles" parameterType="long" resultMap="fileResultMap">
 	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.REQ_ID FROM FILE
 	    WHERE REQ_ID = #{requestId}
 	</select>
 	
 	<!--  Gets the contents of the specified file -->
-	<select id="getFileContents" parameterType="long" resultMap="fileResultMap">
-	    SELECT FILE_VAL, FILE.REQ_ID FROM FILE
+	<select id="getFileContents" parameterType="long" resultMap="fileContentResultMap">
+	    SELECT FILE_ID, FILE_VAL FROM FILE
 	    WHERE FILE_ID = #{fileId}
 	</select>
 	
 	<!-- Inserts a new file into the database -->
-	<insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId">
+	<insert id="createFile" useGeneratedKeys="true" keyProperty="fileInfo.fileId">
 		INSERT INTO FILE (FILE_VAL, FILE_NAME, REQ_ID)
-		VALUES (#{fileContents}, #{fileName}, #{requestId})
+		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.requestId})
 	</insert>
 	
-	<!-- Saves the contents of the file -->
-	<update id="saveFileContents">
+	<!-- Updates the contents of the file -->
+	<update id="updateFileContents">
 	    UPDATE FILE SET
 	    	FILE_VAL = #{fileContents}
 	    WHERE FILE_ID = #{fileId}	    

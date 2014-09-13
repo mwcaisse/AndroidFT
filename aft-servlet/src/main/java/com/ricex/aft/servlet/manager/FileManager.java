@@ -23,17 +23,7 @@ public enum FileManager {
 	/** The file mapper that will be used to interact with the database */
 	private FileMapper fileMapper;
 	
-	
-	/** Returns the file with the given file id
-	 * 
-	 * @param fileId The id of the file to fetch
-	 * @return The file 
-	 */
-	
-	public File getFile(long fileId) {
-		return fileMapper.getFile(fileId);
-	}
-	
+
 	/** Returns the information about the given file. The file class without the FileContents field
 	 * 
 	 * @param fileId The id of the file to fetch
@@ -71,12 +61,11 @@ public enum FileManager {
 	 */
 	
 	public long createFile(byte[] fileContents, String fileName) {
-		File file = new File();
-		file.setFileContents(fileContents);
-		file.setFileName(fileName);
-		file.setRequestId(null);
-		fileMapper.saveFile(file);
-		return file.getFileId();
+		File fileInfo = new File();
+		fileInfo.setFileName(fileName);
+		fileInfo.setRequestId(null);
+		fileMapper.createFile(fileInfo, fileContents);
+		return fileInfo.getFileId();
 	}
 	
 	/** Updates the files for the given request

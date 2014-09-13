@@ -5,7 +5,10 @@ package com.ricex.aft.servlet.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ricex.aft.common.entity.File;
+import com.ricex.aft.servlet.entity.FileContent;
 
 /** MyBatis Mapper Interface for fetching files from the database
  * 
@@ -15,22 +18,14 @@ import com.ricex.aft.common.entity.File;
 public interface FileMapper {
 	
 	
-	/** Retrieves the file with the given ID from the database
-	 * @param fileId The id of the file
-	 * @return The file
-	 */
-	
-	public File getFile(long fileId);
-	
-	/** Retreives the information about the file with the given ID from the database.
-	 * 		The file without the file contents.
+	/** Retrieves the information (meta-data) for the file with the given id
 	 * @param fileId The id of the file to fetch
 	 * @return The file without the file contents
 	 */
 	
 	public File getFileInfo(long fileId);
 	
-	/** Retrieves the information about the files for the specified request
+	/** Retrieves the information (meta-data) about the files for the specified request
 	 * 
 	 * @param requestId The ID of the request to fetch the file info for
 	 * @return The list of files
@@ -41,17 +36,20 @@ public interface FileMapper {
 	/** Retrieves the contents of the file with the specified id
 	 * 
 	 * @param fileId The id of the file to fetch the content of
-	 * @return A byte array containing the raw file data
+	 * @return The FileContent containing the raw bytes of the file
 	 */
 	
-	public File getFileContents(long fileId);
+	public FileContent getFileContents(long fileId);
 	
-	/** Saves the given file to the database
+
+	/** Creates the file with the given meta-data + Content
 	 * 
-	 * @param file The file to delete
+	 * @param fileInfo The information (meta-data) For the file
+	 * @param fileContents The contents of the file
 	 */
 	
-	public void saveFile(File file);
+	public void createFile(@Param("fileInfo") File fileInfo, 
+							@Param("fileContents") byte[] fileContents);
 	
 	/** Updates the request that the specified file belongs to
 	 * 	

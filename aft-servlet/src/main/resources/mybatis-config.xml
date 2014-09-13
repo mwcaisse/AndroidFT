@@ -9,6 +9,7 @@
 		<typeAlias alias="Device" type="com.ricex.aft.common.entity.Device"/>
 		<typeAlias alias="File" type="com.ricex.aft.common.entity.File"/>
 		<typeAlias alias="Request" type="com.ricex.aft.common.entity.Request"/>
+		<typeAlias alias="FileContent" type="com.ricex.aft.servlet.entity.FileContent" />
 	</typeAliases>
 	
 	

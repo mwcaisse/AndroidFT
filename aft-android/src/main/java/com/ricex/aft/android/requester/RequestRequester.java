@@ -49,32 +49,11 @@ public class RequestRequester extends AbstractRequester {
 	 */
 	
 	public long updateRequest(Request toUpdate) {
-		Request cloned = cloneRequestWithoutFileContents(toUpdate);
 		HttpEntity<Request> entity = new HttpEntity<Request>(toUpdate);
 		ResponseEntity<LongResponse> res = restTemplate.exchange(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
 		return res.getBody().getValue();
 	}
 	
-	/** Creates a clone of the specified request without the file contents
-	 * 
-	 * @param request The request to clone
-	 * @return
-	 */
-	
-	private Request cloneRequestWithoutFileContents(Request orig) {
-		Request dest = new Request();
-		dest.setRequestDevice(orig.getRequestDevice());
-		dest.setRequestFileLocation(orig.getRequestFileLocation());
-		dest.setRequestId(orig.getRequestId());
-		dest.setRequestStatus(orig.getRequestStatus());
-		dest.setRequestUpdated(orig.getRequestUpdated());
-		
-		File reqFile = new File();
-		reqFile.setFileId(orig.getRequestFile().getFileId());
-		reqFile.setFileName(orig.getRequestFile().getFileName());
-		dest.setRequestFile(reqFile);
-		
-		return dest;
-	}
+
 	
 }

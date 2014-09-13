@@ -5,7 +5,7 @@ package com.ricex.aft.common.entity;
 
 import java.io.Serializable;
 
-/** Represents a file that will be sent over to a device
+/** Represents the meta data of a file
  * 
  * @author Mitchell Caisse
  *
@@ -22,9 +22,6 @@ public class File implements Serializable {
 	
 	/** The id of the request that this file belongs to */
 	private Long requestId;
-	
-	/** The file contents */
-	//private byte[] fileContents;
 	
 	/** The name of the file */
 	private String fileName;

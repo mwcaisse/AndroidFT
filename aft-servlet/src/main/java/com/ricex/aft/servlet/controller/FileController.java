@@ -56,21 +56,17 @@ public class FileController {
 	
 	/** Retrieves the information (meta-data) for the file with the specified id
 	 *  
-	 *  The meta-data contains the fileName and fileId. The fileContents field will be left blank.
-	 *  This allows an application to fetch information about the file, while not fetching the 
-	 *  	potentially large file contents, saving bandwidth.
 	 * 
 	 * @param fileId The id of the file
 	 * @return A file object containing the meta data
 	 */
 	@RequestMapping(value = "/info/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody File getFileInfo(@PathVariable long fileId) {
-		return fileManager.getFile(fileId);
+		return fileManager.getFileInfo(fileId);
 	}
 	
-	/** Returns the raw contents of the specified file.
+	/** Returns the raw contents of the file with the specified id
 	 * 
-	 * The file meta-data should be fetched before hand using getFileInfo.
 	 * 
 	 * @param fileId The id of the file
 	 * @return A byte array containing the raw bytes of the file
@@ -81,22 +77,9 @@ public class FileController {
 		return fileManager.getFileContents(fileId);
 	}
 	
-	/** Returns the specified file.
+	/** Downloads the file with the given file id.
 	 * 
-	 * 	Contains both the file meta-data and file-contents. If the file-contents are not necessary it
-	 * 		is recommended to use getFileInfo instead, the file-contents can be fetched later using
-	 * 		getFileContents if neccesary.
-	 * 
-	 * @param fileId The id of the file
-	 * @return The requested file
-	 */
-	
-	@RequestMapping(value = "/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody File getFile(@PathVariable long fileId) {
-		return fileManager.getFile(fileId);
-	}
-	
-	/** Downloads the file with the given file id
+	 * Similar to getFileContents, but this adds the attachment header for use in web browsers
 	 * 
 	 * @param fileId The id of the file to download
 	 * @param fileName The name of the file, not used, for URL purposes
@@ -104,10 +87,10 @@ public class FileController {
 	 */
 	
 	@RequestMapping(value = "/download/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_OCTET_STREAM_VALUE})
-	public @ResponseBody byte[] downloadFile(@PathVariable long fileId, HttpServletResponse response) {		
-		File file = fileManager.getFile(fileId);
-		response.setHeader("Content-Disposition", "attachment;filename=" + file.getFileName());
-		return file.getFileContents();
+	public @ResponseBody byte[] downloadFile(@PathVariable long fileId, HttpServletResponse response) {
+		File file = fileManager.getFileInfo(fileId); //get the file to retrieve the file name
+		response.setHeader("Content-Disposition", "attachment;filename=" + removeSpacesFromFileName(file.getFileName()));
+		return fileManager.getFileContents(fileId);
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -166,5 +149,14 @@ public class FileController {
 			}
 		}
 		return new LongResponse(-1l);
+	}
+	
+	/** Removes the spaces from the file name and replaces them with underscores ("_")
+	 * 
+	 * @param fileName The name of the file to update
+	 * @return The file name with the spaces removed
+	 */
+	protected String removeSpacesFromFileName(String fileName) {
+		return fileName.replace(' ', '_');
 	}
 }
