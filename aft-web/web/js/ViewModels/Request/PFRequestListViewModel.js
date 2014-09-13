@@ -65,7 +65,7 @@ function PFRequestListViewModel() {
 		request = ko.toJS(request);
 		
 		//navigate to the view page
-		window.location.href = "/aft-web/createRequest.html?requestId=" + request.requestId;
+		window.location.href = "./createRequest.html?requestId=" + request.requestId;
 		
 	};
 	
