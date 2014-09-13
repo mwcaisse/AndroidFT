@@ -24,7 +24,7 @@ public class File implements Serializable {
 	private Long requestId;
 	
 	/** The file contents */
-	private byte[] fileContents;
+	//private byte[] fileContents;
 	
 	/** The name of the file */
 	private String fileName;
@@ -61,21 +61,6 @@ public class File implements Serializable {
 		this.requestId = requestId;
 	}
 
-	/**
-	 * @return the fileContents
-	 */
-	
-	public byte[] getFileContents() {
-		return fileContents;
-	}
-
-	/**
-	 * @param fileContents the fileContents to set
-	 */
-	
-	public void setFileContents(byte[] fileContents) {
-		this.fileContents = fileContents;
-	}
 
 	/**
 	 * @return the fileName
