@@ -23,7 +23,7 @@ function RequestModel(data) {
 		self.requestStatus(data.requestStatus);
 		self.requestStatusMessage(data.requestStatusMessage);
 		self.requestDevice(new DeviceModel(data.requestDevice));
-		self.requestUpdated = ko.observable();
+		self.requestUpdated = ko.observable(data.requestUpdated);
 		
 		//add the files
 		$.each(data.requestFiles, function( index, value) {
