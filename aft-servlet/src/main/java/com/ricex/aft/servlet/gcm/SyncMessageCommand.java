@@ -76,7 +76,7 @@ public class SyncMessageCommand implements Runnable {
 		int responseCode = response.getStatusCode().value();
 		
 		if (responseCode == 200) {
-			log.debug("Request sent to GCM server without issue, status 200 OK");
+			parseSuccessfulResponse(response);
 		}
 		else if (responseCode == 400) {
 			log.error("Bad Request, request was not formatted correctly");
@@ -93,6 +93,20 @@ public class SyncMessageCommand implements Runnable {
 		else {
 			log.warn("Unhandlded response code: " + response.getStatusCode().toString());
 		}	
+	}
+	
+	/** Parses a successful response from the GCM server, to ensure that all of the messages
+	 * 	were processed sucessfuly
+	 * 
+	 * @param response The server response
+	 */
+	private void parseSuccessfulResponse(ResponseEntity<Map> response) {
+		Map responseBody = response.getBody();
+
+		int numFailure = (int)responseBody.get("failure");		
+		if (numFailure != 0) {
+			log.error("Failed to send sync message to GCM: " + responseBody);
+		}
 	}
 	
 	/** Creates the HttpEntity to send the sync message to GCM

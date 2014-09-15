@@ -22,8 +22,6 @@ public class SyncMessage {
 	/** String that collapses a group of messages together when the device is offline */
 	private String collapse_key;
 	
-	/** The data payload of the message */
-	private Object data;
 
 	/**
 	 * @return the registration_ids
@@ -72,21 +70,5 @@ public class SyncMessage {
 	public void setCollapse_key(String collapse_key) {
 		this.collapse_key = collapse_key;
 	}
-
-	/**
-	 * @return the data
-	 */
-	
-	public Object getData() {
-		return data;
-	}
-
-	/**
-	 * @param data the data to set
-	 */
-	
-	public void setData(Object data) {
-		this.data = data;
-	}	
 	
 }
