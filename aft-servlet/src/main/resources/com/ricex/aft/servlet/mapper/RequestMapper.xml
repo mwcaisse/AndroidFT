@@ -16,7 +16,7 @@
 		<result property="requestStatusMessage" column="REQ_STAT_MSG" />
 		<result property="requestDirectory" column="REQ_FILE_BASE_DIR" />
 		<result property="requestUpdated" column="REQ_UPD" />
-		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDevice" />
+		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDeviceId" />
 		<collection property="requestFiles" column="REQ_ID"  ofType="File" select="com.ricex.aft.servlet.mapper.FileMapper.getRequestFiles" />
 	</resultMap>
 
