@@ -40,6 +40,15 @@ public enum DeviceManager {
 		return deviceMapper.getAllDevices();
 	}
 	
+	/** Returns the device with the given ID
+	 * 
+	 * @param deviceId The id of the device to fetch
+	 * @return The device with the given id
+	 */
+	public Device getDevice(long deviceId) {
+		return deviceMapper.getDeviceId(deviceId);
+	}
+	
 	/** Updates the given device
 	 * 
 	 * @param device The device to update
@@ -75,14 +84,23 @@ public enum DeviceManager {
 		return deviceExists(device.getDeviceUid());
 	}
 	
-	/** Determines if a device with the specified ID exists
+	/** Determines if a device with the specified UID exists
 	 * 
-	 * @param deviceUid The device with the ID
+	 * @param deviceUid The device with the UID
 	 * @return True if it exists, false if not
 	 */
 	
 	public boolean deviceExists(String deviceUid) {
 		return deviceMapper.getDeviceUid(deviceUid) != null;
+	}
+	
+	/** Determines if a device with the specified ID exists
+	 * 
+	 * @param deviceId The id of the device to check
+	 * @return True if it exists, false if not
+	 */
+	public boolean deviceExists(long deviceId) {
+		return deviceMapper.getDeviceId(deviceId) != null;
 	}
 	
 	/** Retrieves the device mapper this manager is using

@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.gcm.MessageExecutor;
 import com.ricex.aft.servlet.gcm.SyncMessageCommand;
+import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.RequestManager;
 
 /**
@@ -168,7 +170,8 @@ public class RequestController {
 		
 		if (requestId > 0) {
 			//we created the request without issue
-			SyncMessageCommand notify = new SyncMessageCommand(request.getRequestDevice().getDeviceRegistrationId());
+			Device device = DeviceManager.INSTANCE.getDevice(request.getRequestDevice().getDeviceId());
+			SyncMessageCommand notify = new SyncMessageCommand(device.getDeviceRegistrationId());
 			MessageExecutor.INSTANCE.executeNow(notify);
 		}
 		

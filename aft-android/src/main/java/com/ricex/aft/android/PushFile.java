@@ -71,6 +71,7 @@ public class PushFile extends Activity {
 				if (!res) {
 					Log.i(LOG_TAG, "Device is registered for GCM, but not PushFile, registering");
 					String registrationId = GCMRegister.getRegistrationId(context);
+					Log.d(LOG_TAG, "GCM Registration ID: " + registrationId);
 					res = deviceRequester.registerDevice(registrationId);
 					if (!res) {
 						Log.w(LOG_TAG, "Failed to register device");

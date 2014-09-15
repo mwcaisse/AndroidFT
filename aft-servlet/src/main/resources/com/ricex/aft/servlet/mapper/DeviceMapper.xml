@@ -16,7 +16,7 @@
 	</resultMap>
 
 	<!-- select a single device -->
-	<select id="getDevice" resultMap="deviceResultMap">
+	<select id="getDeviceId" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE WHERE DEV_ID = #{deviceId}
 	</select>
 

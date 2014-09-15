@@ -151,7 +151,10 @@ public class GCMRegister {
 				
 				try {
 					String registrationId = gcm.register(SENDER_ID);
-					msg = registrationId;
+					msg = registrationId;		
+					
+					Log.d(LOG_TAG, "GCM Just registered! Registration ID: " + registrationId);
+					
 					//send the registration ID to my server
 					
 					//persist the registrationid
@@ -159,7 +162,7 @@ public class GCMRegister {
 				}
 				catch (IOException e) {
 					msg = "";
-				}				
+				}	
 				return msg;
 			}
 			

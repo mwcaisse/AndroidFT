@@ -62,6 +62,7 @@ public class SyncMessageCommand implements Runnable {
 	 */
 	
 	private static ResponseEntity<Map> postMessage(String requestUrl, SyncMessage message) {
+		log.debug("Posting message to GCM, REG ID: " + message.getRegistration_ids().get(0));
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<SyncMessage> entity = createHttpEntity(message);
 		return restTemplate.exchange(requestUrl, HttpMethod.POST, entity, Map.class);

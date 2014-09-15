@@ -21,6 +21,13 @@ public interface DeviceMapper {
 	
 	public List<Device> getAllDevices();
 	
+	/** Returns the device with the given Id
+	 * 
+	 * @param deviceId The id of the device to fetch
+	 * @return The device with the given ID
+	 */
+	public Device getDeviceId(long deviceId);
+	
 	/** Returns the device with the given UID
 	 * 
 	 * @param deviceUid The UID of the device to fetch

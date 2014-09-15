@@ -129,7 +129,7 @@ public enum RequestManager {
 	
 	protected boolean isValidRequest(Request request) {
 		//check to make sure it has a device, with a valid device id
-		if (request.getRequestDevice() == null || request.getRequestDevice().getDeviceId() < 0) {
+		if (DeviceManager.INSTANCE.deviceExists(request.getRequestDevice().getDeviceId())) {
 			return false; // no device
 		}
 		//check to make sure the request has atleast one file
