@@ -30,10 +30,37 @@ public class PushFile extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_push_file);
-		
+		setContentView(R.layout.activity_push_file);		
 		Log.i(LOG_TAG, "On Create");
 		
+		initializeProperties();
+		checkRegistration();
+		checkForRequests();		
+	}
+	
+	/**
+	 *  {@inheritDoc}
+	 */
+	
+	protected void onResume() {
+		super.onResume();
+		//check if google play services is installed, if not quit.
+		if (!GCMRegister.checkGooglePlayServices(this)) {
+			finish();
+		}
+	}
+	
+	/** Initializes the properties to use this as a context
+	 * 
+	 */
+	private void initializeProperties() {
+		AFTProperties.getInstance().setContext(this);
+	}	
+	
+	/** Checks if we are registered for GCM + PushFile
+	 * 
+	 */
+	private void checkRegistration() {
 		//check if google play services is installed, if not quit.
 		if (!GCMRegister.checkGooglePlayServices(this)) {
 			finish();
@@ -48,10 +75,15 @@ public class PushFile extends Activity {
 			//we were registered with GCM, check if we are registered with the PushFile server
 			checkPushFileRegistration();			
 		}	
-		
+	}
+	
+	/** Checks if there are any pending requests for this device
+	 * 
+	 */
+	private void checkForRequests() {
 		//why don't we check for some updates right now?
+		//TODO: Refactor this, has to be a better way to check for updates
 		new MessageProcessor(this).process();
-		
 	}
 	
 	/** Will check if we are registered for PushFile, and register if we are not
@@ -59,7 +91,7 @@ public class PushFile extends Activity {
 	 *  Performs the Registration + check in the background
 	 */
 	
-	public void checkPushFileRegistration() {		
+	private void checkPushFileRegistration() {		
 		final DeviceRequester deviceRequester = new DeviceRequester(this);
 		final Context context = this;
 		
@@ -83,16 +115,5 @@ public class PushFile extends Activity {
 			
 		}.execute(null,null,null);
 	}
-	
-	/**
-	 *  {@inheritDoc}
-	 */
-	
-	protected void onResume() {
-		super.onResume();
-		//check if google play services is installed, if not quit.
-		if (!GCMRegister.checkGooglePlayServices(this)) {
-			finish();
-		}
-	}
+
 }

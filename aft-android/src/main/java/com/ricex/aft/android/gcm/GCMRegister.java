@@ -142,6 +142,7 @@ public class GCMRegister {
 	 */
 	
 	public static void registerInBackground(final Context context) {
+		
 		Log.i(LOG_TAG, "Registering in background");
 		new AsyncTask<Object, Object, String>() {
 	
