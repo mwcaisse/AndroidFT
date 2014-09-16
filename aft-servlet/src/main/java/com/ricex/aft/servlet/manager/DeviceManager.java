@@ -65,12 +65,15 @@ public enum DeviceManager {
 	/** Updates the given device
 	 * 
 	 * @param device The device to update
-	 * @return 0
+	 * @return 0 if successful, -1 if failed
 	 */
 	
 	public long updateDevice(Device device) {
-		deviceMapper.updateDevice(device);
-		return 0;
+		if (deviceKeyEquals(device.getDeviceId(), device.getDeviceKey())) {
+			deviceMapper.updateDevice(device);
+			return 0;
+		}
+		return -1;
 	}
 
 	/** Adds the given device to the database, and returns the ID of the new device

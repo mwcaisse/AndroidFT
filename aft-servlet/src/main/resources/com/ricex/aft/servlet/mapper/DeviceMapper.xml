@@ -41,14 +41,15 @@
 		UPDATE DEVICE SET
 			DEV_NAME = #{deviceName},
 			DEV_UID = #{deviceUid},
-			DEV_REG_ID = #{deviceRegistrationId}
+			DEV_REG_ID = #{deviceRegistrationId},
+			DEV_UPLOAD_KEY = #{deviceKey}
 		WHERE DEV_ID = #{deviceId}
 	</update>
 	
 	<!-- Inserts the device in the param -->
 	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
-		INSERT INTO DEVICE (DEV_UID, DEV_NAME, DEV_REG_ID)
-		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId})
+		INSERT INTO DEVICE (DEV_UID, DEV_NAME, DEV_REG_ID, DEV_UPLOAD_KEY)
+		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId}, #{deviceUploadKey})
 	</insert>
 	
 </mapper>
