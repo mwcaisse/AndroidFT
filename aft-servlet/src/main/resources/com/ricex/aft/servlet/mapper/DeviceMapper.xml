@@ -15,6 +15,7 @@
 		<result property="deviceRegistrationId" column="DEV_REG_ID" />
 	</resultMap>
 
+	
 	<!-- select a single device -->
 	<select id="getDeviceId" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE WHERE DEV_ID = #{deviceId}
@@ -27,6 +28,12 @@
 	
 	<select id="getDeviceUid" parameterType="String" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE WHERE DEV_UID = #{deviceUid}
+	</select>
+	
+	<!-- Gets the device upload key for the specified device -->
+	<select id="getDeviceKey" parameterType="Long" resultType="String">
+	    SELECT DEV_UPLOAD_KEY FROM DEVICE
+	    WHERE DEV_ID = #{deviceId}
 	</select>
 	
 	<!-- Updates the device in the param -->

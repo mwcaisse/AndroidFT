@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
@@ -129,8 +130,13 @@ public enum RequestManager {
 	
 	protected boolean isValidRequest(Request request) {
 		//check to make sure it has a device, with a valid device id
-		if (!DeviceManager.INSTANCE.deviceExists(request.getRequestDevice().getDeviceId())) {
+		Device requestDevice = request.getRequestDevice();
+		if (!DeviceManager.INSTANCE.deviceExists(requestDevice.getDeviceId())) {
 			return false; // no device
+		}
+		
+		if (!DeviceManager.INSTANCE.deviceKeyEquals(requestDevice.getDeviceId(), requestDevice.getDeviceKey())) {
+			return false; //invalid device request keys
 		}
 		//check to make sure the request has atleast one file
 		if (request.getRequestFiles().size() == 0) {

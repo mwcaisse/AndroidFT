@@ -9,11 +9,6 @@ import java.io.Serializable;
  */
 
 public class Device implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1662169501591956853L;
 
 	/** The id of this device */
 	private long deviceId;
@@ -26,6 +21,9 @@ public class Device implements Serializable {
 	
 	/** The GCM registration id of the device */
 	private String deviceRegistrationId;
+	
+	/** The secret key / passphrase to use when creating requests for this device */
+	private String deviceKey;
 
 	/**
 	 * @return the deviceId
@@ -98,6 +96,22 @@ public class Device implements Serializable {
 		return getDeviceName();
 	}
 	
+	/**
+	 * @return the deviceKey
+	 */
+	
+	public String getDeviceKey() {
+		return deviceKey;
+	}
+
+	/**
+	 * @param deviceKey the deviceKey to set
+	 */
+	
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
+	}
+
 	/**Determines if the two Devices are equal.
 	 * 
 	 */
