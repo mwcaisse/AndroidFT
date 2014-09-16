@@ -14,6 +14,7 @@ function RequestModel(data) {
 	self.requestDevice = ko.observable(new DeviceModel());
 	self.requestFiles = ko.observableArray([]);
 	self.requestUpdated = ko.observable(new Date().getTime());
+	self.requestDeviceKey = ko.observable("");
 	
 	//if there is data initialize the data..
 	if (data) {
@@ -65,8 +66,7 @@ function RequestModel(data) {
 	 */
 	self.updateDateString = ko.computed(function() {
 		return new Date(self.requestUpdated()).toLocaleString();
-	});
-	
+	});	
 	
 	/** The error for the request */
 	self.requestError = ko.observable(false);
@@ -128,7 +128,8 @@ function DeviceModel(data) {
 	var self = this;
 	
 	self.deviceId = -1;
-	self.deviceName = ko.observable("");;
+	self.deviceName = ko.observable("");
+	self.deviceKey = ko.observable("");	
 	
 	if (data) {
 		self.deviceId = data.deviceId;
@@ -175,7 +176,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	self.requestDirectories = ko.observableArray([]);
 	
 	/** The list of devices */
-	self.devices = ko.observableArray([]);
+	self.devices = ko.observableArray([new DeviceModel()]);
 	
 	/** The file upload modal */
 	self.fileUploadModal = fileUploadModal;
@@ -255,7 +256,9 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 			else {
 				url = "http://" + host + "/aft-servlet/manager/request/update";
 				type =  "PUT";
-			}			
+			}
+			//update the device key in the device
+			self.request().requestDevice().deviceKey(self.request().requestDeviceKey());
 			$.ajax( {
             	url: url,
             	type: type,
