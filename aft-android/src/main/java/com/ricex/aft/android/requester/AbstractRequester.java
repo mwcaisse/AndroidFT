@@ -14,6 +14,7 @@ import android.provider.Settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ricex.aft.android.AFTProperties;
 import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 
@@ -66,5 +67,19 @@ public abstract class AbstractRequester {
 		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 		return androidId;
 	}	
+	
+	/** Fetches or generates an upload key for this device if one does not exist
+	 * 
+	 * @return The upload key
+	 */
+	protected String getOrGenerateUploadKey() {
+		String uploadKey = AFTProperties.getInstance().getValue(AFTProperties.KEY_DEVICE_UPLOAD_KEY);
+		//check if the upload key exists, and if not create one
+		if (uploadKey.isEmpty()) { 
+			uploadKey = "uploadKey" + (int)(Math.random() * 10000);
+			AFTProperties.getInstance().setValue(AFTProperties.KEY_DEVICE_UPLOAD_KEY, uploadKey);
+		}
+		return uploadKey;
+	}
 	
 }

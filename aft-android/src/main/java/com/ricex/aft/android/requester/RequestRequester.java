@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
 
+import com.ricex.aft.android.AFTProperties;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.response.LongResponse;
@@ -49,11 +50,17 @@ public class RequestRequester extends AbstractRequester {
 	 */
 	
 	public long updateRequest(Request toUpdate) {
+		addDeviceUploadKey(toUpdate);
 		HttpEntity<Request> entity = new HttpEntity<Request>(toUpdate);
 		ResponseEntity<LongResponse> res = restTemplate.exchange(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
 		return res.getBody().getValue();
 	}
 	
-
-	
+	/** Adds the device upload key to the specified request to upload
+	 * 
+	 * @param request The request to add the key to
+	 */
+	private void addDeviceUploadKey(Request request) {
+		request.getRequestDevice().setDeviceKey(getOrGenerateUploadKey());
+	}	
 }

@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import android.content.Context;
 import android.os.Build;
 
+import com.ricex.aft.android.AFTProperties;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
@@ -32,8 +33,7 @@ public class DeviceRequester extends AbstractRequester {
 	 */
 	
 	public boolean registerDevice(String registrationId) {
-		Device device = createDevice();
-		device.setDeviceRegistrationId(registrationId);
+		Device device = createDevice(registrationId);
 		long res = restTemplate.postForObject(serverAddress + "device/register", device, LongResponse.class).getValue();
 		return res >= 0;
 	}
@@ -51,13 +51,17 @@ public class DeviceRequester extends AbstractRequester {
 	
 	/** Creates a device that represents this device
 	 * 
+	 * @param registrationId The GCM Registration ID of this device
 	 * @return a device
 	 */
 	
-	private Device createDevice() {
+	private Device createDevice(String registrationId) {
 		Device device = new Device();
 		device.setDeviceName(Build.MODEL);
-		device.setDeviceUid(getDeviceUID());		
+		device.setDeviceUid(getDeviceUID());	
+		device.setDeviceKey(getOrGenerateUploadKey());
+		device.setDeviceRegistrationId(registrationId);
 		return device;
-	}		
+	}	
+
 }
