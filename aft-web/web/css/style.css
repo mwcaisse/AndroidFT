@@ -31,3 +31,7 @@ div.body  {
 input, select {
 	width: 500px;
 }
+
+.compactCell {
+	width: 1%;
+}
