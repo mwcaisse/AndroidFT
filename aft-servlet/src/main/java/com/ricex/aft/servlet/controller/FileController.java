@@ -37,7 +37,7 @@ import com.ricex.aft.servlet.manager.FileManager;
 @Controller
 @RequestMapping("/file")
 
-public class FileController {
+public class FileController extends BaseController {
 
 	
 	/** Logger instance */

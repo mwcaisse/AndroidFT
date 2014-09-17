@@ -13,6 +13,7 @@ import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
+import com.ricex.aft.servlet.entity.ValidationException;
 import com.ricex.aft.servlet.mapper.RequestMapper;
 
 /** The Manager for the Request entity. 
@@ -88,9 +89,10 @@ public enum RequestManager {
 	 * 
 	 * @param request The request to save
 	 * @return The id of the request, or -1 if request was invalid
+	 * @throws ValidationException if the request is invalid
 	 */
 	
-	public long createRequest(Request request) {
+	public long createRequest(Request request) throws ValidationException {
 		if (isValidRequest(request)) {
 			//save the request to the database
 			requestMapper.createRequest(request);	
@@ -105,9 +107,10 @@ public enum RequestManager {
 	 * 
 	 * @param request The request to update
 	 * @return The id of the request if success, -1 if invalid request
+	 * @throws ValidationException if the request is invalid
 	 */
 	
-	public long updateRequest(Request request) {
+	public long updateRequest(Request request) throws ValidationException {
 		if (isValidRequest(request)) {			
 			//set the request to be updated now
 			request.setRequestUpdated(new Date());			
@@ -122,34 +125,35 @@ public enum RequestManager {
 	
 	/** Determines if the specified request is valid or not.
 	 * 
-	 * If the request does not have a device, file, file location, or status, it is considered invalid
+	 * If the request does not have a device, file, or status, it is considered invalid
 	 * 
 	 * @param request The request to check for validity
-	 * @return True if valid, false otherwise
+	 * @return True if valid
+	 * @throws ValidationException if the request is invalid
 	 */
 	
-	protected boolean isValidRequest(Request request) {
+	protected boolean isValidRequest(Request request) throws ValidationException {
 		//check to make sure it has a device, with a valid device id
 		Device requestDevice = request.getRequestDevice();
 		if (!DeviceManager.INSTANCE.deviceExists(requestDevice.getDeviceId())) {
-			return false; // no device
+			throw new ValidationException("The specified device does not exist");
 		}
 		
 		if (!DeviceManager.INSTANCE.deviceKeyEquals(requestDevice.getDeviceId(), requestDevice.getDeviceKey())) {
-			return false; //invalid device request keys
+			throw new ValidationException("The given device upload key does not match");
 		}
 		//check to make sure the request has atleast one file
 		if (request.getRequestFiles().size() == 0) {
-			return false; //request must have atleast one file	
+			throw new ValidationException("A request must contain atleast one file");
 		}
 		for (File requestFile : request.getRequestFiles()) {
 			if (requestFile.getFileId() < 0) {
-				return false; // there was an invalid file in the request
+				throw new ValidationException("Invalid file");
 			}
 		}	
 		// check that the request status was set 
 		if (request.getRequestStatus() == null) {
-			return false; // no request status
+			throw new ValidationException("The request must have a status");
 		}
 		
 		return true; // we made it this far we must be valid! woo

@@ -277,7 +277,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	            	self.updateTabTitle();   
             	}
             }).fail( function (jqXHR, textStatus, error) {
-            	alert("Failed to save the request! : " + textStatus + " : " + error);
+            	alert("Failed to save the request! : " + error + " : " + jqXHR.responseText);
             });
 		}
 		else {

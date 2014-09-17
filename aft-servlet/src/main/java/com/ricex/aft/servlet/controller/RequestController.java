@@ -3,20 +3,26 @@ package com.ricex.aft.servlet.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.common.response.LongResponse;
+import com.ricex.aft.servlet.entity.ValidationException;
 import com.ricex.aft.servlet.gcm.MessageExecutor;
 import com.ricex.aft.servlet.gcm.SyncMessageCommand;
 import com.ricex.aft.servlet.manager.DeviceManager;
@@ -34,7 +40,7 @@ import com.ricex.aft.servlet.manager.RequestManager;
 
 @Controller
 @RequestMapping("/request")
-public class RequestController {
+public class RequestController extends BaseController {
 
 	/** Logger instance */
 	private static Logger log = LoggerFactory.getLogger(RequestController.class);
@@ -162,10 +168,11 @@ public class RequestController {
 	 * 
 	 * @param request The request to create, with an undefined id
 	 * @return The id of the newly created request
+	 * @throws ValidationException when the request passed in is invalid
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody LongResponse createRequest(@RequestBody Request request) {			
+	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws ValidationException {			
 		long requestId = requestManager.createRequest(request);	
 		
 		if (requestId > 0) {
@@ -188,10 +195,11 @@ public class RequestController {
 	 * 
 	 * @param request The fully populated request to update
 	 * @return The id of the updated request
+	 * @throws ValidationException when the request passed in is invalid
 	 */
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
-	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) {
+	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws ValidationException {
 		return new LongResponse(requestManager.updateRequest(request));
 	}
 	
