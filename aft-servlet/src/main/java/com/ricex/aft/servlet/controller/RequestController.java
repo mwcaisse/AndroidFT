@@ -3,19 +3,14 @@ package com.ricex.aft.servlet.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.Request;
@@ -23,10 +18,10 @@ import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.entity.ValidationException;
-import com.ricex.aft.servlet.gcm.MessageExecutor;
-import com.ricex.aft.servlet.gcm.SyncMessageCommand;
+import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.RequestManager;
+import com.ricex.aft.servlet.notifier.DeviceNotifier;
 
 /**
  *  SpringMVC Controller for Requests.
@@ -48,12 +43,16 @@ public class RequestController extends BaseController {
 	/** The request manager to fetch and update requests */
 	private RequestManager requestManager;
 	
+	/** The device notifier to use to notify a device it has pending request */
+	private DeviceNotifier deviceNotifier;
+	
 	/** Creates a new Request Controller and sets up the request manager
 	 * 
 	 */
 	
 	public RequestController() {
 		requestManager = RequestManager.INSTANCE;
+		deviceNotifier = new GCMDeviceNotifier();
 	}
 	
 	/** Retrieves the request with the specified ID from the database
@@ -175,11 +174,9 @@ public class RequestController extends BaseController {
 	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws ValidationException {			
 		long requestId = requestManager.createRequest(request);	
 		
+		//if the request saved properly, notify the device it has a new request
 		if (requestId > 0) {
-			//we created the request without issue
-			Device device = DeviceManager.INSTANCE.getDevice(request.getRequestDevice().getDeviceId());
-			SyncMessageCommand notify = new SyncMessageCommand(device.getDeviceRegistrationId());
-			MessageExecutor.INSTANCE.executeNow(notify);
+			notifyDeviceOfRequest(request);
 		}
 		
 		return new LongResponse(requestId);
@@ -202,5 +199,32 @@ public class RequestController extends BaseController {
 	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws ValidationException {
 		return new LongResponse(requestManager.updateRequest(request));
 	}
+	
+	/** Notifies the device associated with the given request, about the pending request
+	 * 
+	 * @param request The request to notify about
+	 */
+	private void notifyDeviceOfRequest(Request request) {
+		Device device = DeviceManager.INSTANCE.getDevice(request.getRequestDevice().getDeviceId());
+		deviceNotifier.notifyDevice(device);
+	}
+
+	/**
+	 * @return the deviceNotifier
+	 */
+	
+	public DeviceNotifier getDeviceNotifier() {
+		return deviceNotifier;
+	}
+
+	/**
+	 * @param deviceNotifier the deviceNotifier to set
+	 */
+	
+	public void setDeviceNotifier(DeviceNotifier deviceNotifier) {
+		this.deviceNotifier = deviceNotifier;
+	}
+	
+	
 	
 }

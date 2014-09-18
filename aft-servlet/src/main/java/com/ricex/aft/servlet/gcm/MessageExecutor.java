@@ -23,7 +23,7 @@ public enum MessageExecutor {
 	
 	private MessageExecutor() {
 		//default executor
-		executor = new ScheduledThreadPoolExecutor(4);
+		executor = new ScheduledThreadPoolExecutor(1);
 	}
 	
 	

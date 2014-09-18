@@ -31,26 +31,26 @@ public class SyncMessageCommand implements Runnable {
 	/** The syn message to send */
 	private SyncMessage message;
 	
+	/** The request url to send the sync message to */
+	private String requestUrl;
+	
 	/** Notifies the device with the given registration id that there are request available
 	 * 
 	 * @param registrationId The registration id
+	 * @param requestUrl The URL to send the sync message to
 	 */
 	
-	public SyncMessageCommand(String registrationId) {
-		message = new SyncMessage();
-		message.setCollapse_key("requests_available");
-		List<String> registrationIds = new ArrayList<String>();
-		registrationIds.add(registrationId);
-		message.setRegistration_ids(registrationIds);
+	public SyncMessageCommand(String registrationId, String requestUrl) {
+		this.requestUrl = requestUrl;
+		createSyncMessage(registrationId);
 	}
-
+	
 	/** Will send the request to the server 
 	 * 
 	 */
 	
 	public void run() {		
-		String requestUrl = "https://android.googleapis.com/gcm/send";
-		ResponseEntity<Map> response = postMessage(requestUrl, message);      
+		ResponseEntity<Map> response = postMessage(message, requestUrl);      
 		parseResponse(response);
 	}
 	
@@ -61,11 +61,24 @@ public class SyncMessageCommand implements Runnable {
 	 * @return The response from the server
 	 */
 	
-	private static ResponseEntity<Map> postMessage(String requestUrl, SyncMessage message) {
+	private static ResponseEntity<Map> postMessage(SyncMessage message, String requestUrl) {
 		log.debug("Posting message to GCM, REG ID: " + message.getRegistration_ids().get(0));
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<SyncMessage> entity = createHttpEntity(message);
 		return restTemplate.exchange(requestUrl, HttpMethod.POST, entity, Map.class);
+	}
+	
+	/** Creates the HttpEntity to send the sync message to GCM
+	 * 
+	 * @param message The SyncMessage to send
+	 * @return The HttpEntity created
+	 */
+	
+	private static HttpEntity<SyncMessage> createHttpEntity(SyncMessage message) {
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String,String>();
+		headers.add("Content-Type","application/json");
+		headers.add("Authorization","key=AIzaSyD0ZBXFhwOc_I1ig50mweBPWpeQiCkmnlw");
+		return new HttpEntity<SyncMessage>(message, headers);
 	}
 	
 	/** Parses the response received from the GCM servers
@@ -88,8 +101,6 @@ public class SyncMessageCommand implements Runnable {
 		else if (responseCode < 600 && responseCode >= 500) {
 			int retryAfter = Integer.parseInt(response.getHeaders().get("Retry-After").get(0));
 			log.info("Internal Server error, lets try again in " + retryAfter);
-			
-			//TODO: implement a exponential backoff, before we implement a retry policy
 		}
 		else {
 			log.warn("Unhandlded response code: " + response.getStatusCode().toString());
@@ -97,7 +108,7 @@ public class SyncMessageCommand implements Runnable {
 	}
 	
 	/** Parses a successful response from the GCM server, to ensure that all of the messages
-	 * 	were processed sucessfuly
+	 * 	were processed successfully
 	 * 
 	 * @param response The server response
 	 */
@@ -110,17 +121,19 @@ public class SyncMessageCommand implements Runnable {
 		}
 	}
 	
-	/** Creates the HttpEntity to send the sync message to GCM
+	/** Creates a new SyncMessage for the device with the given registration id
 	 * 
-	 * @param message The SyncMessage to send
-	 * @return The HttpEntity created
+	 * TODO: Consider moving this into a SyncMessage factory
+	 * 
+	 * @param registrationId The registration id to add to the sync message
 	 */
-	
-	private static HttpEntity<SyncMessage> createHttpEntity(SyncMessage message) {
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String,String>();
-		headers.add("Content-Type","application/json");
-		headers.add("Authorization","key=AIzaSyD0ZBXFhwOc_I1ig50mweBPWpeQiCkmnlw");
-		return new HttpEntity<SyncMessage>(message, headers);
+	private void createSyncMessage(String registrationId) {
+		message = new SyncMessage();
+		message.setCollapse_key("requests_available");
+		List<String> registrationIds = new ArrayList<String>();
+		registrationIds.add(registrationId);
+		message.setRegistration_ids(registrationIds);
 	}
+
 	
 }
