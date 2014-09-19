@@ -32,7 +32,7 @@ public class GCMDeviceNotifier implements DeviceNotifier {
 	 */
 	@Override
 	public void notifyDevice(Device device) {
-		SyncMessageCommand command = new SyncMessageCommand(device.getDeviceRegistrationId(), GCM_REQUEST_URL);
+		GCMSyncMessageCommand command = new GCMSyncMessageCommand(device.getDeviceRegistrationId(), GCM_REQUEST_URL);
 		messageExecutor.executeNow(command);		
 	}
 

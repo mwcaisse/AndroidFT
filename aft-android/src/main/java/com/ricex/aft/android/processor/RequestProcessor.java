@@ -145,7 +145,6 @@ public class RequestProcessor {
 		request.setRequestStatusMessage(message);
 		long res = new RequestRequester(context).updateRequest(request);
 		if (res < 0) {
-			//TODO: In the future might want to add some sort of try again feature
 			Log.e(LOG_TAG, "Failed to send the updated request to the sever");			
 			return false;
 		}			

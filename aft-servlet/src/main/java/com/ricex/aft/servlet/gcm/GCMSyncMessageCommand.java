@@ -23,10 +23,13 @@ import com.ricex.aft.servlet.gcm.entity.SyncMessage;
  *
  */
 
-public class SyncMessageCommand implements Runnable {
+public class GCMSyncMessageCommand implements Runnable {
 
 	/** Logger instance */
-	private static Logger log = LoggerFactory.getLogger(SyncMessageCommand.class);
+	private static Logger log = LoggerFactory.getLogger(GCMSyncMessageCommand.class);
+	
+	/** The API / AUthorization key to use when sending the message to the server */
+	private static final String API_KEY = "AIzaSyD0ZBXFhwOc_I1ig50mweBPWpeQiCkmnlw";
 	
 	/** The syn message to send */
 	private SyncMessage message;
@@ -40,7 +43,7 @@ public class SyncMessageCommand implements Runnable {
 	 * @param requestUrl The URL to send the sync message to
 	 */
 	
-	public SyncMessageCommand(String registrationId, String requestUrl) {
+	public GCMSyncMessageCommand(String registrationId, String requestUrl) {
 		this.requestUrl = requestUrl;
 		createSyncMessage(registrationId);
 	}
@@ -77,7 +80,7 @@ public class SyncMessageCommand implements Runnable {
 	private static HttpEntity<SyncMessage> createHttpEntity(SyncMessage message) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String,String>();
 		headers.add("Content-Type","application/json");
-		headers.add("Authorization","key=AIzaSyD0ZBXFhwOc_I1ig50mweBPWpeQiCkmnlw");
+		headers.add("Authorization","key=" + API_KEY);
 		return new HttpEntity<SyncMessage>(message, headers);
 	}
 	
