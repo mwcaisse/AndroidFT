@@ -35,7 +35,7 @@ public class DeviceController extends BaseController {
 	 */
 	
 	public DeviceController() {
-		//deviceManager = DeviceManager.INSTANCE;
+
 	}
 	
 	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={"application/json"})

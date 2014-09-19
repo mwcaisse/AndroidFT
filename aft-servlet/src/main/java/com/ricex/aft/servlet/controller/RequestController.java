@@ -55,9 +55,7 @@ public class RequestController extends BaseController {
 	 */
 	
 	public RequestController() {
-		//requestManager = RequestManager.INSTANCE;
-		//deviceManager = DeviceManager.INSTANCE;
-		deviceNotifier = new GCMDeviceNotifier();
+
 	}
 	
 	/** Retrieves the request with the specified ID from the database

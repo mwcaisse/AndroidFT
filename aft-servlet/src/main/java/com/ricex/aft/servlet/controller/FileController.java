@@ -52,7 +52,7 @@ public class FileController extends BaseController {
 	 */
 	
 	public FileController() {
-		//fileManager = FileManager.INSTANCE;
+
 	}
 	
 	/** Retrieves the information (meta-data) for the file with the specified id
