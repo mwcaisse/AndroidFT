@@ -40,10 +40,12 @@ public enum RequestManager {
 	/** The FileManager to use to update request files */
 	private FileManager fileManager;
 	
+	/** The DeviceManager to use to update request files */
+	private DeviceManager deviceManager;
+	
 	/** Performs initialization */
 	
 	private RequestManager() {
-		fileManager = FileManager.INSTANCE;
 	}
 	
 	/** Returns the request with the given id
@@ -135,11 +137,11 @@ public enum RequestManager {
 	protected boolean isValidRequest(Request request) throws ValidationException {
 		//check to make sure it has a device, with a valid device id
 		Device requestDevice = request.getRequestDevice();
-		if (!DeviceManager.INSTANCE.deviceExists(requestDevice.getDeviceId())) {
+		if (!deviceManager.deviceExists(requestDevice.getDeviceId())) {
 			throw new ValidationException("The specified device does not exist");
 		}
 		
-		if (!DeviceManager.INSTANCE.deviceKeyEquals(requestDevice.getDeviceId(), requestDevice.getDeviceKey())) {
+		if (!deviceManager.deviceKeyEquals(requestDevice.getDeviceId(), requestDevice.getDeviceKey())) {
 			throw new ValidationException("The given device upload key does not match");
 		}
 		//check to make sure the request has atleast one file
@@ -174,6 +176,39 @@ public enum RequestManager {
 	public void setRequestMapper(RequestMapper requestMapper) {
 		this.requestMapper = requestMapper;
 	}
+
+	/**
+	 * @return the fileManager
+	 */
+	
+	public FileManager getFileManager() {
+		return fileManager;
+	}
+
+	/**
+	 * @param fileManager the fileManager to set
+	 */
+	
+	public void setFileManager(FileManager fileManager) {
+		this.fileManager = fileManager;
+	}
+
+	/**
+	 * @return the deviceManager
+	 */
+	
+	public DeviceManager getDeviceManager() {
+		return deviceManager;
+	}
+
+	/**
+	 * @param deviceManager the deviceManager to set
+	 */
+	
+	public void setDeviceManager(DeviceManager deviceManager) {
+		this.deviceManager = deviceManager;
+	}
+	
 	
 	
 }

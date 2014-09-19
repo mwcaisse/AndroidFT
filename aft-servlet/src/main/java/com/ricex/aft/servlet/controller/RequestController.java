@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,15 +44,19 @@ public class RequestController extends BaseController {
 	/** The request manager to fetch and update requests */
 	private RequestManager requestManager;
 	
+	/** The Device Manager to use to perform operations on device */
+	private DeviceManager deviceManager;
+	
 	/** The device notifier to use to notify a device it has pending request */
 	private DeviceNotifier deviceNotifier;
 	
-	/** Creates a new Request Controller and sets up the request manager
+	/** Creates a new Request Controller
 	 * 
 	 */
 	
 	public RequestController() {
-		requestManager = RequestManager.INSTANCE;
+		//requestManager = RequestManager.INSTANCE;
+		//deviceManager = DeviceManager.INSTANCE;
 		deviceNotifier = new GCMDeviceNotifier();
 	}
 	
@@ -205,7 +210,7 @@ public class RequestController extends BaseController {
 	 * @param request The request to notify about
 	 */
 	private void notifyDeviceOfRequest(Request request) {
-		Device device = DeviceManager.INSTANCE.getDevice(request.getRequestDevice().getDeviceId());
+		Device device = deviceManager.getDevice(request.getRequestDevice().getDeviceId());
 		deviceNotifier.notifyDevice(device);
 	}
 
@@ -224,6 +229,40 @@ public class RequestController extends BaseController {
 	public void setDeviceNotifier(DeviceNotifier deviceNotifier) {
 		this.deviceNotifier = deviceNotifier;
 	}
+
+	/**
+	 * @return the requestManager
+	 */
+	
+	public RequestManager getRequestManager() {
+		return requestManager;
+	}
+
+	/**
+	 * @param requestManager the requestManager to set
+	 */
+	
+	public void setRequestManager(RequestManager requestManager) {
+		this.requestManager = requestManager;
+	}
+
+	/**
+	 * @return the deviceManager
+	 */
+	
+	public DeviceManager getDeviceManager() {
+		return deviceManager;
+	}
+
+	/**
+	 * @param deviceManager the deviceManager to set
+	 */
+	
+	public void setDeviceManager(DeviceManager deviceManager) {
+		this.deviceManager = deviceManager;
+	}
+	
+	
 	
 	
 	

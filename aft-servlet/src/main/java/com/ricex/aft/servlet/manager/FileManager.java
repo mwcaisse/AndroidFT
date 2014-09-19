@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
+import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.FileMapper;
 
 /**  The Manager for the File entity.

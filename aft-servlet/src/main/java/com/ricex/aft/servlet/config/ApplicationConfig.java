@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -22,6 +21,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.ricex.aft.servlet.controller.DeviceController;
+import com.ricex.aft.servlet.controller.FileController;
+import com.ricex.aft.servlet.controller.RequestController;
+import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
 import com.ricex.aft.servlet.manager.RequestManager;
@@ -31,11 +34,32 @@ import com.ricex.aft.servlet.mapper.RequestMapper;
 import com.ricex.aft.servlet.util.GsonFactory;
 
 @Configuration
-@ComponentScan (basePackages = {"com.ricex.aft.servlet.controller"})
-
-//@EnableWebMvc
+//@ComponentScan (basePackages = {"com.ricex.aft.servlet.controller"})
 public class ApplicationConfig extends WebMvcConfigurationSupport  {
 
+	
+	@Bean
+	public DeviceController deviceController() throws Exception {
+		DeviceController deviceController = new DeviceController();
+		deviceController.setDeviceManager(deviceManager());
+		return deviceController;
+	}
+	
+	@Bean
+	public RequestController requestController() throws Exception {
+		RequestController requestController = new RequestController();
+		requestController.setDeviceManager(deviceManager());
+		requestController.setRequestManager(requestManager());
+		requestController.setDeviceNotifier(gcmDeviceNotifier());
+		return requestController;
+	}
+	
+	@Bean
+	public FileController fileController() throws Exception{
+		FileController fileController = new FileController();
+		fileController.setFileManager(fileManager());
+		return new FileController();
+	}
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 
 	 * @return The gson factory bean
@@ -161,7 +185,14 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public RequestManager requestManager() throws Exception {
 		RequestManager requestManager = RequestManager.INSTANCE;
 		requestManager.setRequestMapper(requestMapper());
+		requestManager.setDeviceManager(deviceManager());
+		requestManager.setFileManager(fileManager());
 		return requestManager;
+	}
+	
+	@Bean
+	public GCMDeviceNotifier gcmDeviceNotifier() {
+		return new GCMDeviceNotifier();
 	}
 	
 	/** The multipart resolver bean

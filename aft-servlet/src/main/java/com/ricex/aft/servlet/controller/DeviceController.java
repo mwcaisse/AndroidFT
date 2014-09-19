@@ -2,6 +2,7 @@ package com.ricex.aft.servlet.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ public class DeviceController extends BaseController {
 	 */
 	
 	public DeviceController() {
-		deviceManager = DeviceManager.INSTANCE;
+		//deviceManager = DeviceManager.INSTANCE;
 	}
 	
 	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={"application/json"})
@@ -115,5 +116,23 @@ public class DeviceController extends BaseController {
 			return new LongResponse(deviceManager.createDevice(device));
 		}	
 	}
+
+	/**
+	 * @return the deviceManager
+	 */
+	
+	public DeviceManager getDeviceManager() {
+		return deviceManager;
+	}
+
+	/**
+	 * @param deviceManager the deviceManager to set
+	 */
+	
+	public void setDeviceManager(DeviceManager deviceManager) {
+		this.deviceManager = deviceManager;
+	}
+	
+	
 
 }

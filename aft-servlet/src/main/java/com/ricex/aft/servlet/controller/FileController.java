@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,7 +52,7 @@ public class FileController extends BaseController {
 	 */
 	
 	public FileController() {
-		fileManager = FileManager.INSTANCE;
+		//fileManager = FileManager.INSTANCE;
 	}
 	
 	/** Retrieves the information (meta-data) for the file with the specified id
@@ -159,4 +160,23 @@ public class FileController extends BaseController {
 	protected String removeSpacesFromFileName(String fileName) {
 		return fileName.replace(' ', '_');
 	}
+
+	/**
+	 * @return the fileManager
+	 */
+	
+	public FileManager getFileManager() {
+		return fileManager;
+	}
+
+	/**
+	 * @param fileManager the fileManager to set
+	 */
+	
+	public void setFileManager(FileManager fileManager) {
+		this.fileManager = fileManager;
+	}
+	
+	
+	
 }
