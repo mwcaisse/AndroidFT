@@ -128,7 +128,7 @@ public class TestDeviceManager {
 		
 		deviceMapper.createDevice(dev);
 		
-		assertEquals(dev, deviceMapper.getDeviceId(0));
+		assertEquals(dev, deviceManager.getDevice(0));
 	}
 	
 	@Test
