@@ -3,7 +3,6 @@
  */
 package com.ricex.aft.android.requester;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
 
-import com.ricex.aft.android.AFTProperties;
-import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.response.LongResponse;
 

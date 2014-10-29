@@ -58,7 +58,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public FileController fileController() throws Exception{
 		FileController fileController = new FileController();
 		fileController.setFileManager(fileManager());
-		return new FileController();
+		return fileController;
 	}
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 

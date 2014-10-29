@@ -24,7 +24,7 @@ import com.google.gson.JsonSerializer;
 public class AndroidJsonByteArrayBase64Adapter  implements JsonSerializer<byte[]>, JsonDeserializer<byte[]>{
 
 	
-	/** Deserializes the given base64 string into a byte array
+	/** Disrealizes the given base64 string into a byte array
 	 * 
 	 */
 	
