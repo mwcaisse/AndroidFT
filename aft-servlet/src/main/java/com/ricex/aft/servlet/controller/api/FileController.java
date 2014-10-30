@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.servlet.controller;
+package com.ricex.aft.servlet.controller.api;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,9 +35,8 @@ import com.ricex.aft.servlet.manager.FileManager;
  */
 
 @Controller
-@RequestMapping("/file")
-
-public class FileController extends BaseController {
+@RequestMapping("/api/file")
+public class FileController extends ApiController {
 
 	
 	/** Logger instance */

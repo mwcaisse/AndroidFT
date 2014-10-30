@@ -1,4 +1,4 @@
-package com.ricex.aft.servlet.controller;
+package com.ricex.aft.servlet.controller.api;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ import com.ricex.aft.servlet.manager.DeviceManager;
  */
 
 @Controller
-@RequestMapping("/device")
-public class DeviceController extends BaseController {	
+@RequestMapping("/api/device")
+public class DeviceController extends ApiController {	
 	
 	/** Manager for fetching device related information */
 	private DeviceManager deviceManager;

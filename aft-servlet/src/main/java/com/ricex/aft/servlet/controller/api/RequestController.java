@@ -1,4 +1,4 @@
-package com.ricex.aft.servlet.controller;
+package com.ricex.aft.servlet.controller.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,8 @@ import com.ricex.aft.servlet.notifier.DeviceNotifier;
  */
 
 @Controller
-@RequestMapping("/request")
-public class RequestController extends BaseController {
+@RequestMapping("/api/request")
+public class RequestController extends ApiController {
 
 	/** Logger instance */
 	private static Logger log = LoggerFactory.getLogger(RequestController.class);

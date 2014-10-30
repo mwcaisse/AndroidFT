@@ -29,7 +29,7 @@ public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDi
 	 */
 	
 	protected String[] getServletMappings() {
-		return new String[] { "/manager/*"};
+		return new String[] { "/*"};
 	}
 	
 	/** Creates the Filters for the Servlet

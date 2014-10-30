@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.servlet.controller;
+package com.ricex.aft.servlet.controller.api;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,12 +17,12 @@ import com.ricex.aft.servlet.entity.ValidationException;
  * @author Mitchell Caisse
  *
  */
-public abstract class BaseController {
+public abstract class ApiController {
 
 	/** Creates a new Base Controller
 	 * 
 	 */
-	public BaseController() {
+	public ApiController() {
 		
 	}
 	

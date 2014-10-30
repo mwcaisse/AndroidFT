@@ -21,9 +21,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.ricex.aft.servlet.controller.DeviceController;
-import com.ricex.aft.servlet.controller.FileController;
-import com.ricex.aft.servlet.controller.RequestController;
+import com.ricex.aft.servlet.controller.api.DeviceController;
+import com.ricex.aft.servlet.controller.api.FileController;
+import com.ricex.aft.servlet.controller.api.RequestController;
+import com.ricex.aft.servlet.controller.view.HomeController;
 import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
@@ -59,6 +60,15 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		FileController fileController = new FileController();
 		fileController.setFileManager(fileManager());
 		return fileController;
+	}
+	
+	/** Creates the Home Controller
+	 * 
+	 * @return The home controller
+	 */
+	@Bean
+	public HomeController homeController() {
+		return new HomeController();
 	}
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 
