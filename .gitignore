@@ -41,6 +41,8 @@ data-source.xml
 
 # Misc stuff #
 ##############
+.project
+.classpath
 *.mf
 bin/
 gen/
