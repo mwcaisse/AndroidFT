@@ -21,7 +21,7 @@ function PFDeviceViewModel() {
 	
 	self.fetchDevices = function() {
 		
-		$.getJSON("http://" + host + "/aft-servlet/manager/device/all", function (data) {
+		$.getJSON(requestRoot + "api/device/all", function (data) {
 			
 			//remove all of the old devices
 			self.devices.removeAll();

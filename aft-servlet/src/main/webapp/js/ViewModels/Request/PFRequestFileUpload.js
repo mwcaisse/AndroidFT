@@ -28,7 +28,7 @@ function PFRequestFileUploadViewModel() {
             reader.onload = function (e) {
             	count ++; //increase the count
             	$.ajax( {
-                	url: "http://" + host + "/aft-servlet/manager/file/rawUpload?fileName=" + value.name(),
+                	url: requestRoot + "api/file/rawUpload?fileName=" + value.name(),
                 	async: true,
                 	type: "POST",
                 	data: e.target.result,

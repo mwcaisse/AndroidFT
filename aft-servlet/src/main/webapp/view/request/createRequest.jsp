@@ -1,13 +1,13 @@
 <html>
 	<head>
-		<jsp:include page="common/header.jsp" />	
+		<jsp:include page="${pageContext.request.contextPath}/common/header.jsp" />	
 		
 		<title>Push File</title>		
 	</head>
 	
 	<body>	
 	
-		<jsp:include page="common/navbar.jsp" />
+		<jsp:include page="${pageContext.request.contextPath}/common/navbar.jsp" />
 		
 		<ul class="nav nav-tabs" role="tablist">	
 			<li><a href="${pageContext.request.contextPath}/request/">All Requests</a></li>
@@ -185,8 +185,8 @@
 		
 		
 
-		<script src="js/ViewModels/Request/PFRequestFileUpload.js"></script>
-		<script src="js/ViewModels/Request/PFCreateRequestViewModel.js"></script>
+		<script src="${pageContext.request.contextPath}/js/ViewModels/Request/PFRequestFileUpload.js"></script>
+		<script src="${pageContext.request.contextPath}/js/ViewModels/Request/PFCreateRequestViewModel.js"></script>
 		
 		<script type="text/javascript">
 			

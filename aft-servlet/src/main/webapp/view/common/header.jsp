@@ -11,15 +11,15 @@
 -->
 
 <!-- Dev Scripts -->
-<script src="js/jquery-2.1.1.js"></script>
-<script src="js/knockout-3.1.0.debug.js"></script>
-<script src="js/jquery.form.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
+<script src="${pageContext.request.contextPath}/js/knockout-3.1.0.debug.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
 
 <!-- View and View Model scripts -->
-<script src="js/common.js"></script>
+<script src="${pageContext.request.contextPath}/js/common.js"></script>
 
-<script src="js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 
 <!-- css -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">

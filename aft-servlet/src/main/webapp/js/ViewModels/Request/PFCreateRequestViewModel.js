@@ -151,7 +151,7 @@ function FileModel(data) {
 		if (self.fileId < 0) {
 			return "#"; //no id, can't download
 		}
-		return "http://" + host + "/aft-servlet/manager/file/download/" + self.fileId;
+		return requestRoot + "api/file/download/" + self.fileId;
 	});
 	
 }
@@ -183,7 +183,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	
 	/** Fetches the available list of request statuses */
 	self.fetchRequestStatuses = function() {
-		$.getJSON("http://" + host + "/aft-servlet/manager/request/statuses", function (data) {
+		$.getJSON(requestRoot + "api/request/statuses", function (data) {
 			self.requestStatuses(data);
 		}).fail( function (jqXHR, textStatus, error) {
 			alert("Failed to fetch the request statuses " + textStatus + " : " + error);
@@ -192,7 +192,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	
 	/** Fetches the list of all request directories */
 	self.fetchRequestDirectories = function() {
-		$.getJSON("http://" + host + "/aft-servlet/manager/request/directories", function (data) {
+		$.getJSON(requestRoot + "api/request/directories", function (data) {
 			self.requestDirectories(data);
 		}).fail( function (jqXHR, textStatus, error) {
 			alert("Failed to fetch the request directories " + textStatus + " : " + error);
@@ -201,7 +201,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	
 	/** Fetches the list of all devices */
 	self.fetchDevices = function() {
-		$.getJSON("http://" + host + "/aft-servlet/manager/device/all", function (data) {
+		$.getJSON(requestRoot + "api/device/all", function (data) {
 			self.devices.removeAll();
 			
 			$.each(data, function(index, value) {				
@@ -219,7 +219,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 			self.request(new RequestModel());
 		}
 		else {
-			$.getJSON("http://" + host + "/aft-servlet/manager/request/" + self.request().requestId(), function (data) {
+			$.getJSON(requestRoot + "api/request/" + self.request().requestId(), function (data) {
 				self.request(new RequestModel(data));
 			}).fail( function (jqXHR, textStatus, error) {
 				alert("Failed to fetch the request: " + textStatus + " : " + error);
@@ -250,11 +250,11 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 			
 			//set the url and type depending on whether it is a creation or update
 			if (self.request().isNew()) {
-				url = "http://" + host + "/aft-servlet/manager/request/create";
+				url = requestRoot + "api/request/create";
 				type =  "POST";
 			}
 			else {
-				url = "http://" + host + "/aft-servlet/manager/request/update";
+				url = requestRoot + "api/request/update";
 				type =  "PUT";
 			}
 			//update the device key in the device

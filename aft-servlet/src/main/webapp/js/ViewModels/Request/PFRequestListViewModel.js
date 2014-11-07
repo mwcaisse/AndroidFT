@@ -38,14 +38,14 @@ function PFRequestListViewModel() {
 	
 	/** Fetches the requests from the server */
 	self.fetchRequests = function() {
-		$.getJSON("http://" + host + "/aft-servlet/manager/request/all", function(data) {	
+		$.getJSON(requestRoot + "api/request/all", function(data) {	
 			//remove the old requests, and add the new requests
 			self.Requests.removeAll();			
 			$.each(data, function(index, value) {
 				self.Requests.push(new RequestModel(value));
 			});			
 		}).fail( function(jqXHR, textStatus, error) {
-			alert("Error fethcing requests! " + textStatus + " : " + error);
+			alert("Error fefetching requests! " + textStatus + " : " + error);
 		});		
 	};
 	
@@ -65,7 +65,7 @@ function PFRequestListViewModel() {
 		request = ko.toJS(request);
 		
 		//navigate to the view page
-		window.location.href = "./createRequest.html?requestId=" + request.requestId;
+		window.location.href = "./create?requestId=" + request.requestId;
 		
 	};
 	

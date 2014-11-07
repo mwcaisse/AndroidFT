@@ -1,12 +1,12 @@
 <html>
 	<head>
-		<jsp:include page="common/header.jsp" />	
+		<jsp:include page="${pageContext.request.contextPath}/common/header.jsp" />	
 		<title>Push File</title>		
 	</head>
 	
 	<body>	
 	
-		<jsp:include page="common/navbar.jsp" />
+		<jsp:include page="${pageContext.request.contextPath}/common/navbar.jsp" />
 		
 		<ul class="nav nav-tabs" role="tablist">	
 			<li class="active"><a href="#">All Requests</a></li>
@@ -40,7 +40,7 @@
 			</table>
 		</div>
 
-		<script src="js/ViewModels/Request/PFRequestListViewModel.js"></script>
+		<script src="${pageContext.request.contextPath}/js/ViewModels/Request/PFRequestListViewModel.js"></script>
 		<script type="text/javascript">
 
 			var requestListViewModel = new PFRequestListViewModel();			

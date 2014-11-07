@@ -30,7 +30,7 @@
 		</div>
 		
 		
-		<script src="js/ViewModels/PFDeviceViewModel.js"></script>
+		<script src="${pageContext.request.contextPath}/js/ViewModels/PFDeviceViewModel.js"></script>
 		<script type="text/javascript">
 
 			var deviceViewModel = new PFDeviceViewModel();			
