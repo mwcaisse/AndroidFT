@@ -1,13 +1,13 @@
 <html>
 	<head>
-		<jsp:include page="${pageContext.request.contextPath}/common/header.jsp" />	
+		<jsp:include page="../common/header.jsp" />	
 		
 		<title>Push File</title>		
 	</head>
 	
 	<body>	
 	
-		<jsp:include page="${pageContext.request.contextPath}/common/navbar.jsp" />
+		<jsp:include page="../common/navbar.jsp" />
 		
 		<ul class="nav nav-tabs" role="tablist">	
 			<li><a href="${pageContext.request.contextPath}/request/">All Requests</a></li>
