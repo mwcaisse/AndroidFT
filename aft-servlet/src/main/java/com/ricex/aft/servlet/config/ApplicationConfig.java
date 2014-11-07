@@ -26,7 +26,9 @@ import com.google.gson.Gson;
 import com.ricex.aft.servlet.controller.api.DeviceController;
 import com.ricex.aft.servlet.controller.api.FileController;
 import com.ricex.aft.servlet.controller.api.RequestController;
+import com.ricex.aft.servlet.controller.view.DeviceViewController;
 import com.ricex.aft.servlet.controller.view.HomeController;
+import com.ricex.aft.servlet.controller.view.RequestViewController;
 import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
@@ -80,6 +82,24 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	@Bean
 	public HomeController homeController() {
 		return new HomeController();
+	}
+	
+	/** Creates the Device View Controller
+	 * 
+	 * @return The device view controller
+	 */
+	@Bean
+	public DeviceViewController deviceViewController() {
+		return new DeviceViewController();
+	}
+	
+	/** Creates the Request View Controller
+	 * 
+	 * @return the request view controller
+	 */
+	@Bean
+	public RequestViewController requestViewController() {
+		return new RequestViewController();
 	}
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 
