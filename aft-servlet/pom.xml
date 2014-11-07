@@ -105,6 +105,13 @@
 	    <scope>provided</scope>
 	</dependency>
 	
+	<!-- JSTL Api -->
+	<dependency>
+		<groupId>jstl</groupId>
+		<artifactId>jstl</artifactId>
+		<version>1.2</version>
+	</dependency>
+	
     <!-- Logging -->
     
     <dependency>

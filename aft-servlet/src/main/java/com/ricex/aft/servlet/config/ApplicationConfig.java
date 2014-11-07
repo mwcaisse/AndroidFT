@@ -17,6 +17,8 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,6 +62,15 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		FileController fileController = new FileController();
 		fileController.setFileManager(fileManager());
 		return fileController;
+	}
+	
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/view/");
+		viewResolver.setSuffix(".jsp");
+		return viewResolver;
 	}
 	
 	/** Creates the Home Controller

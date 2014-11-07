@@ -24,6 +24,8 @@ public class HomeController extends ViewController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView homePage() {
-		return new ModelAndView("view/home.jsp");
+		ModelAndView model = new ModelAndView();
+		model.setViewName("home");
+		return model;
 	}
 }
