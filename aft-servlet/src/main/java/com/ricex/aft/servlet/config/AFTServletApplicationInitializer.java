@@ -4,8 +4,6 @@ import javax.servlet.Filter;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.ricex.aft.servlet.util.SimpleCORSFilter;
-
 public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	/** Defines the root spring config classes
@@ -13,7 +11,7 @@ public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDi
 	 */
 	
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { ApplicationConfig.class};
+		return new Class[] { ApplicationConfig.class, SecurityConfig.class };
 	}
 
 	/** Defines the web config classes
@@ -33,12 +31,11 @@ public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDi
 	}
 	
 	/** Creates the Filters for the Servlet
-	 * 		Specificialy a SimpleCORSFilter
+	 * 
 	 */
 	
-	protected Filter[] getServletFilters() {		
-		SimpleCORSFilter corsFilter = new SimpleCORSFilter();		
-		return new Filter[] { corsFilter };
+	protected Filter[] getServletFilters() {
+		return new Filter[] {};
 	}
 
 }
