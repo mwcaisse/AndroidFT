@@ -190,20 +190,22 @@
 		
 		<script type="text/javascript">
 			
-			//initialize the modal
-			//$("#divFileUploadModal").modal();
+			$(document).ready(function() {
 		
-			//get the requestid from the url params
-			var requestId = getURLParameter("requestId")
-			if (!requestId) {
-				requestId = -1;
-			}
-			
-			var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
-			var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		
-			
-			ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));
-			ko.applyBindings(requestViewModel, document.getElementById("requestBody"));
+				$("navRequests").toggleClass("active");
+				
+				//get the requestid from the url params			
+				var requestId = getURLParameter("requestId")
+				if (!requestId) {
+					requestId = -1;
+				}
+				
+				var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
+				var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		
+				
+				ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));
+				ko.applyBindings(requestViewModel, document.getElementById("requestBody"));
+			});
 			
 			/** Shows the file upload modal with the given call back */
 			function showFileUploadModal(callback) {
@@ -212,6 +214,17 @@
 
 		</script>
 
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+			
+				$("#navRequests").toggleClass("active");
+			
+				var deviceViewModel = new PFDeviceViewModel();			
+				ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+			});
+
+		</script>
 
 	</body>
 </html>

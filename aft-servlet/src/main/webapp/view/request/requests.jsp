@@ -42,9 +42,12 @@
 
 		<script src="${pageContext.request.contextPath}/js/ViewModels/Request/PFRequestListViewModel.js"></script>
 		<script type="text/javascript">
-
-			var requestListViewModel = new PFRequestListViewModel();			
-			ko.applyBindings(requestListViewModel, document.getElementById("requestBody"));
+			
+			$(document).ready(function() {			
+				$("#navRequests").toggleClass("active");
+				var requestListViewModel = new PFRequestListViewModel();			
+				ko.applyBindings(requestListViewModel, document.getElementById("requestBody"));
+			});
 
 		</script>
 

@@ -4,8 +4,8 @@
 	</div>
 
 	<ul class="nav nav-tabs" role="tablist">		
-		<li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
-		<li><a href="${pageContext.request.contextPath}/device/">Devices</a></li>
-		<li><a href="${pageContext.request.contextPath}/request/">Requests</a></li>	
+		<li id="navHome"><a href="${pageContext.request.contextPath}/">Home</a></li>
+		<li id="navDevices"><a href="${pageContext.request.contextPath}/device/">Devices</a></li>
+		<li id="navRequests"><a href="${pageContext.request.contextPath}/request/">Requests</a></li>	
 	</ul>
 </div>

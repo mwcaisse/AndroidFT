@@ -33,8 +33,13 @@
 		<script src="${pageContext.request.contextPath}/js/ViewModels/PFDeviceViewModel.js"></script>
 		<script type="text/javascript">
 
-			var deviceViewModel = new PFDeviceViewModel();			
-			ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+			$(document).ready(function() {
+			
+				$("#navDevices").toggleClass("active");
+			
+				var deviceViewModel = new PFDeviceViewModel();			
+				ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+			});
 
 		</script>
 

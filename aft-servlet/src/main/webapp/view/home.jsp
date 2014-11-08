@@ -19,6 +19,14 @@
 		</div>
 
 
+		<script type="text/javascript">
+
+			$(document).ready(function() {			
+				$("#navHome").toggleClass("active");			
+			});
+
+		</script>
+
 
 	</body>
 </html>
