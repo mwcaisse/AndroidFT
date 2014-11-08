@@ -38,6 +38,9 @@ public class Request implements Serializable {
 	
 	/** The device that this request is associated with */
 	private Device requestDevice;
+	
+	/** The owner of this request */
+	private UserDetails requestOwner;
 
 	/** Creates a new request
 	 *  Initializes the request with a request status of NEW
@@ -192,6 +195,21 @@ public class Request implements Serializable {
 		this.requestDevice = requestDevice;
 	}
 	
+	
+	/**
+	 * @return the requestOwner
+	 */
+	public UserDetails getRequestOwner() {
+		return requestOwner;
+	}
+	
+	/**
+	 * @param requestOwner the requestOwner to set
+	 */
+	public void setRequestOwner(UserDetails requestOwner) {
+		this.requestOwner = requestOwner;
+	}
+
 	/** Determines if two requests are equal
 	 * 
 	 */

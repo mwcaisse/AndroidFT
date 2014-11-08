@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.UserMapper">
+
+	<cache />
+	
+	<!-- User result map -->
+	<resultMap id="userResultMap" type="User">
+		<id property="userId" column="USER_ID" />
+		<result property="username" column="USER_USERNAME" />
+		<result property="password" column="USER_PASSWORD" />
+		<result property="emailAddress" column="USER_EMAIL" />
+		<result property="active" column="USER_ACTIVE" />
+		<result property="locked" column="USER_LOCKED" />
+		<result property="expirationDate" column="USER_EXP_DATE" />
+		<result property="passwordExpirationDate" column="USER_PASSWORD_EXP_DATE" />
+		<collection property="roles" ofType="UserRole" javaType="ArrayList" column="USER_ID" select="getRolesForUser"/>
+	</resultMap>
+	
+	<!-- UserDetails result map -->
+	<resultMap id="userDetailsResultMap" type="UserDetails">
+		<id property="userId" column="USER_ID" />
+		<result property="username" column="USER_USERNAME" />
+		<result property="name" column="USER_USERNAME" />
+	</resultMap>
+	
+	<!-- Selects a User by thier Id -->
+	<select id="getUserById" parameterType="long" resultType="User">
+		SELECT * FROM USER
+		WHERE USER_ID = #{id}
+	</select>
+	
+	<!-- Selects a User by thier username -->
+	<select id="getUserByUsername" parameterType="String" resultType="User">
+		SELECT * FROM USER
+		WHERE USER_USERNAME = #{username}
+	</select>
+
+	<!-- Fetches the list of roles for the given user -->
+	<select id="getRolesForUser" parameterType="long" resultType="UserRole">
+		SELECT USER_ROLE FROM USER_ROLE_ASSIGNMENT 
+		WHERE USER_ID = #{id}		
+	</select>
+	
+	<!-- Fetches the User Details for a given user -->
+	<select id="getUserDetailsById" parameterType="long" resultType="UserDetails">
+		SELECT USER_ID, USER_USERNAME FROM USER
+		WHERE USER_ID = #{id}
+	</select>
+
+</mapper>

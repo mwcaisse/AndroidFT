@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.ricex.aft.common.entity.Device;
 
-/** MyBatis Mapper Interface for fetching devices from the database
+/** Device Mapper for fetching device data
  * 
  * @author Mitchell Caisse
  *
@@ -20,6 +20,13 @@ public interface DeviceMapper {
 	 */
 	
 	public List<Device> getAllDevices();
+	
+	/** Returns a list of all devices that belong to the given user
+	 * 
+	 * @param userId The ID of the user
+	 * @return The list of devices this user owns
+	 */
+	public List<Device> getAllDevicesByUser(long userId);
 	
 	/** Returns the device with the given Id
 	 * 

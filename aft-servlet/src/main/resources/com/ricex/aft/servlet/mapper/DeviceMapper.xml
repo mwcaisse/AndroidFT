@@ -13,17 +13,24 @@
 		<result property="deviceUid" column="DEV_UID" />
 		<result property="deviceName" column="DEV_NAME"/>
 		<result property="deviceRegistrationId" column="DEV_REG_ID" />
+		<association property="deviceOwner" column="DEV_OWNER" javaType="UserDetails" select="com.ricex.aft.servlet.mapper.UserMapper.getUserDetailsById" />
 	</resultMap>
 
 	
 	<!-- select a single device -->
-	<select id="getDeviceId" resultMap="deviceResultMap">
+	<select id="getDeviceId" parameterType="long" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE WHERE DEV_ID = #{deviceId}
 	</select>
 
 	<!--  selects all devices -->
 	<select id="getAllDevices" resultMap="deviceResultMap">
 		SELECT * FROM DEVICE	
+	</select>
+	
+	<!-- Selects all devices for the given user -->
+	<select id="getAllDevicesByUser" parameterType="long" resultMap="deviceResultMap">
+		SELECT * FROM DEVICE 
+		WHERE DEV_OWNER = #{userId}
 	</select>
 	
 	<select id="getDeviceUid" parameterType="String" resultMap="deviceResultMap">

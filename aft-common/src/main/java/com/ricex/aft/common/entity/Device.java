@@ -24,6 +24,9 @@ public class Device implements Serializable {
 	
 	/** The secret key / passphrase to use when creating requests for this device */
 	private String deviceKey;
+	
+	/** The owner of this device */
+	private UserDetails deviceOwner;
 
 	/**
 	 * @return the deviceId
@@ -110,6 +113,21 @@ public class Device implements Serializable {
 	
 	public void setDeviceKey(String deviceKey) {
 		this.deviceKey = deviceKey;
+	}
+	
+	/**
+	 * @return the deviceOwner
+	 */
+	public UserDetails getDeviceOwner() {
+		return deviceOwner;
+	}
+
+	
+	/**
+	 * @param deviceOwner the deviceOwner to set
+	 */
+	public void setDeviceOwner(UserDetails deviceOwner) {
+		this.deviceOwner = deviceOwner;
 	}
 
 	/**Determines if the two Devices are equal.

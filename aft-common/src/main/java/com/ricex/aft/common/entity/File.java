@@ -26,6 +26,9 @@ public class File implements Serializable {
 	/** The name of the file */
 	private String fileName;
 	
+	/** The Owner of this file */
+	private UserDetails fileOwner;
+	
 	/**
 	 * @return the fileId
 	 */
@@ -73,8 +76,23 @@ public class File implements Serializable {
 	
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}	
+	}		
 	
+	/**
+	 * @return the fileOwner
+	 */
+	public UserDetails getFileOwner() {
+		return fileOwner;
+	}
+
+	
+	/**
+	 * @param fileOwner the fileOwner to set
+	 */
+	public void setFileOwner(UserDetails fileOwner) {
+		this.fileOwner = fileOwner;
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (!(other instanceof File)) {

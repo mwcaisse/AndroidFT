@@ -35,6 +35,12 @@ public class MockDeviceMapper implements DeviceMapper {
 	public List<Device> getAllDevices() {
 		return new ArrayList<Device>(devices.values());
 	}
+	
+	@Override
+	public List<Device> getAllDevicesByUser(long userId) {
+		//TODO: Implement
+		return new ArrayList<Device>();
+	}
 
 	@Override
 	public Device getDeviceId(long deviceId) {

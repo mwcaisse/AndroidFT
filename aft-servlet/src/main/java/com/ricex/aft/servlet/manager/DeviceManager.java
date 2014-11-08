@@ -40,6 +40,15 @@ public enum DeviceManager {
 		return deviceMapper.getAllDevices();
 	}
 	
+	/** Returns a list of all devices the specified user owns
+	 * 
+	 * @param userId The id of the user
+	 * @return The  list of all devices the user owns
+	 */
+	public List<Device> getAllDevicesByUser(long userId) {
+		return deviceMapper.getAllDevicesByUser(userId);
+	}
+	
 	/** Returns the device with the given ID
 	 * 
 	 * @param deviceId The id of the device to fetch

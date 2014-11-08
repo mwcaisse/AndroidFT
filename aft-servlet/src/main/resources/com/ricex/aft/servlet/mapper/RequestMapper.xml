@@ -17,16 +17,25 @@
 		<result property="requestDirectory" column="REQ_FILE_BASE_DIR" />
 		<result property="requestUpdated" column="REQ_UPD" />
 		<association property="requestDevice" column="REQ_DEV_ID" javaType="Device" select="com.ricex.aft.servlet.mapper.DeviceMapper.getDeviceId" />
+		<association property="requestOwner" column="REQ_OWNER" javaType="UserDetails" select="com.ricex.aft.servlet.mapper.UserMapper.getUserDetailsById" />
 		<collection property="requestFiles" column="REQ_ID"  ofType="File" select="com.ricex.aft.servlet.mapper.FileMapper.getRequestFiles" />
 	</resultMap>
 
+	<!-- Selects the request with the given id -->
 	<select id="getRequestById" parameterType="long" resultMap="requestResultMap">
 	    SELECT REQUEST.* FROM REQUEST
 	    WHERE REQUEST.REQ_ID = #{requestId}
 	</select>
 	
+	<!-- Selects all requests -->
 	<select id="getAllRequests" resultMap="requestResultMap">
 	    SELECT REQUEST.* FROM REQUEST	    
+	</select>
+	
+	<!-- Selects all requests for a given user -->
+	<select id="getAllRequestsByUser" parameterType="long" resultMap="requestResultMap">
+		SELECT REQUEST.* FROM REQUEST
+		WHERE REQ_OWNER = #{userId}
 	</select>
 	
 	<!-- Select all requests for a specific device -->

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.servlet.entity.FileContent;
 
-/** MyBatis Mapper Interface for fetching files from the database
+/** File Mapper for fetching file data
  * 
  * @author Mitchell Caisse
  *

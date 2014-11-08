@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
 
-/** MyBatis Mapper Interface for fetching requests from the database
+/** Request Mapper for fetching request data
  * 
  * @author Mitchell Caisse
  *
@@ -31,6 +31,13 @@ public interface RequestMapper {
 	 */
 	
 	public List<Request> getAllRequests();
+	
+	/** Returns a list of all requests owned by the given user
+	 * 
+	 * @param userId The id of the user
+	 * @return A list of all the requests owned by the user
+	 */
+	public List<Request> getAllRequestsByUser(long userId);
 	
 	/** Returns a list of all requests for the device with the specified deviceUid
 	 * 

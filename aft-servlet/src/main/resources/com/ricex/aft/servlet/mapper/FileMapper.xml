@@ -12,7 +12,8 @@
 	<resultMap id="fileResultMap" type="File">
 		<id property="fileId" column="FILE_ID" />
 		<result property="fileName" column="FILE_NAME" />
-		<result property="requestId" column="REQ_ID" />		
+		<result property="requestId" column="REQ_ID" />
+		<association property="fileOwner" column="FILE_OWNER" javaType="UserDetails" select="com.ricex.aft.servlet.mapper.UserMapper.getUserDetailsById" />		
 	</resultMap>
 	
 	<!-- File Content result map -->
