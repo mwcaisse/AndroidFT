@@ -139,8 +139,9 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	 * 
 	 * @return The data source
 	 */
-	
+	/*
 	@Bean(destroyMethod="")
+	*/
 	public DataSource dataSource() {
 		final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
 		dsLookup.setResourceRef(true);
