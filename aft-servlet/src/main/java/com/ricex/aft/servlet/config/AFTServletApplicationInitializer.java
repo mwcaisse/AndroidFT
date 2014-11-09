@@ -11,7 +11,7 @@ public class AFTServletApplicationInitializer extends AbstractAnnotationConfigDi
 	 */
 	
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { ApplicationConfig.class, SecurityConfig.class };
+		return new Class[] { ApplicationConfig.class, ThymeleafConfig.class, SecurityConfig.class };
 	}
 
 	/** Defines the web config classes

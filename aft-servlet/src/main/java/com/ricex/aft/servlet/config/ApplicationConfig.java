@@ -16,9 +16,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,6 +65,8 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		return fileController;
 	}
 	
+	
+	/* Old JSP View Resolver
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -73,7 +74,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		viewResolver.setPrefix("/view/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
-	}
+	}*/
 	
 	/** Creates the Home Controller
 	 * 
@@ -281,6 +282,17 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	 */
 	public GsonHttpMessageConverter gsonMessageConverter() {
 		return new GsonHttpMessageConverter(gsonBean());
+	}
+	
+	/** Add the resource handlers for js, css, etc
+	 * 
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry  registry) {
+		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+		registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
+		registry.addResourceHandler("/img/**").addResourceLocations("/img/");
+		registry.addResourceHandler("/js/**").addResourceLocations("/js/");
 	}
 
 	
