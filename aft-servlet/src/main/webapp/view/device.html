@@ -4,25 +4,31 @@
 	</head>
 	
 	<body>			
-		<div layout:fragment="content">	
+		<div layout:fragment="content" >	
+		
+			<!-- The nav bar -->
+			<div th:replace="common/navbar"></div>
 			
-			<table class="table table-bordered table-striped table-hover">
+			<div class="body">
+				<table class="table table-bordered table-striped table-hover">
+				
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Uid</th>
+							<th class="compactCell">Active</th>						
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: devices">
+						<tr>
+							<td data-bind="text: deviceName"></td>
+							<td data-bind="text: deviceUid"></td>
+							<td class="compactCell"><input style="width: auto" type="checkbox" data-bind="checked: deviceActive"></input></td>						
+						</tr>
+					</tbody>
+				</table>	
 			
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Uid</th>
-						<th class="compactCell">Active</th>						
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: devices">
-					<tr>
-						<td data-bind="text: deviceName"></td>
-						<td data-bind="text: deviceUid"></td>
-						<td class="compactCell"><input style="width: auto" type="checkbox" data-bind="checked: deviceActive"></input></td>						
-					</tr>
-				</tbody>
-			</table>		
+			</div>	
 		
 		
 			<script th:src="@{/js/ViewModels/PFDeviceViewModel.js}"></script>

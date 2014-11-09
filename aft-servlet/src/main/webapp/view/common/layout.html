@@ -34,13 +34,14 @@
 	
 	<body>	
 		
-		<!-- import the nav bar -->
-		<div th:replace="common/navbar"></div>
-
-		<div class="body">
-			<div layout:fragment="content">
-			</div>
-		</div>
+		<!--import the page header -->
+		<div th:replace="common/header"></div>
+		
+		<!-- the body of the page -->
+		<div layout:fragment="content"></div>
+		
+		<!-- import the page footer -->
+		<div th:replace="common/footer"></div>
 
 
 	</body>

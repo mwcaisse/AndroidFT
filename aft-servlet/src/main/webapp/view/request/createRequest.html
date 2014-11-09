@@ -7,6 +7,9 @@
 	<body>	
 		<div layout:fragment="content">	
 		
+			<!-- The nav bar -->
+			<div th:replace="common/navbar"></div>
+		
 			<ul class="nav nav-tabs" role="tablist">	
 				<li><a th:href="@{/request/}">All Requests</a></li>
 				<li class="active"><a id="liViewRequest" href="#">Create Request</a></li>
