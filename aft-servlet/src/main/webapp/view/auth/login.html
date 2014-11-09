@@ -11,6 +11,9 @@
 				
 				<form name="f" th:action="@{/login}" method="post" class="form-horizontal">
 					<fieldset>
+						<!-- CSRF tokens -->
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+						
 						<legend>Please Login</legend>
 						<!-- If there was an error logging in, show an error alert -->
 						<div th:if="${param.error}" class="alert alert-danger">
@@ -42,7 +45,6 @@
 						
 					</fieldset>
 					
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					
 				</form>
 				

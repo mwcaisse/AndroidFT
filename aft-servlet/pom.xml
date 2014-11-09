@@ -88,6 +88,14 @@
 	  <version>${thymeleaf.layout.version}</version>
 	</dependency>
 	
+	<!-- Thymeleaf Spring Security -->
+	<dependency>
+		<groupId>org.thymeleaf.extras</groupId>
+		<artifactId>thymeleaf-extras-springsecurity3</artifactId>
+		<version>${thymeleaf.security.version}</version>
+	</dependency>
+	
+	
 	<!-- MySQL JDBC Driver -->
 	<dependency>
 		<groupId>mysql</groupId>
