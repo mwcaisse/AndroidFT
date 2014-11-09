@@ -25,6 +25,8 @@ public class ThymeleafConfig {
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode("HTML5");
 		templateResolver.setOrder(1);
+		//DISABLE caching for now
+		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
 	

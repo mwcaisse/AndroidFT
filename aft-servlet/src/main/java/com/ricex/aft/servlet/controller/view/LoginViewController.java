@@ -25,4 +25,15 @@ public class LoginViewController extends ViewController {
 		model.setViewName("auth/login");
 		return model;
 	}
+	
+	/** View to allow a new user to register
+	 * 
+	 * @return The view for registration
+	 */
+	@RequestMapping(value = "register", method = RequestMethod.GET)
+	public ModelAndView register() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("auth/register");
+		return model;
+	}
 }

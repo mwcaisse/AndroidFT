@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.ricex.aft.servlet.controller.api.DeviceController;
 import com.ricex.aft.servlet.controller.api.FileController;
 import com.ricex.aft.servlet.controller.api.RequestController;
+import com.ricex.aft.servlet.controller.api.UserController;
 import com.ricex.aft.servlet.controller.view.DeviceViewController;
 import com.ricex.aft.servlet.controller.view.HomeController;
 import com.ricex.aft.servlet.controller.view.LoginViewController;
@@ -33,9 +34,11 @@ import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
 import com.ricex.aft.servlet.manager.RequestManager;
+import com.ricex.aft.servlet.manager.UserManager;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.FileMapper;
 import com.ricex.aft.servlet.mapper.RequestMapper;
+import com.ricex.aft.servlet.mapper.UserMapper;
 import com.ricex.aft.servlet.util.GsonFactory;
 
 @Configuration
@@ -64,6 +67,13 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		FileController fileController = new FileController();
 		fileController.setFileManager(fileManager());
 		return fileController;
+	}
+	
+	@Bean 
+	public UserController userController() throws Exception {
+		UserController userController = new UserController();
+		userController.setUserManager(userManager());
+		return userController;
 	}
 	
 	
@@ -159,7 +169,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		return dataSource;
 	}
 	
-	/** The Device mapper to be used by the controllers
+	/** The Device mapper to be used by the managers
 	 * 
 	 * @return THe device mapper
 	 * @throws Exception If fetching the sql session factory failed
@@ -173,7 +183,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		return mapperFactoryBean.getObject();
 	}
 	
-	/** The File mapper to be used by the controllers
+	/** The File mapper to be used by the managers
 	 * 
 	 * @return The file mapper
 	 * @throws Exception If fetching the sql session factory failed
@@ -183,6 +193,19 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public FileMapper fileMapper() throws Exception {
 		MapperFactoryBean<FileMapper> mapperFactoryBean = new MapperFactoryBean<FileMapper>();
 		mapperFactoryBean.setMapperInterface(FileMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
+	/** The User mapper to be used by the managers
+	 * 
+	 * @return The user mapper
+	 * @throws Exception If fetching the sql session factory failed
+	 */
+	@Bean
+	public UserMapper userMapper() throws Exception {
+		MapperFactoryBean<UserMapper> mapperFactoryBean = new MapperFactoryBean<UserMapper>();
+		mapperFactoryBean.setMapperInterface(UserMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}
@@ -225,6 +248,13 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		FileManager fileManager = FileManager.INSTANCE;
 		fileManager.setFileMapper(fileMapper());
 		return fileManager;
+	}
+	
+	@Bean
+	public UserManager userManager() throws Exception {
+		UserManager userManager = UserManager.INSTANCE;
+		userManager.setUserMapper(userMapper());
+		return userManager;
 	}
 	
 	/** The bean for the request manager used by the controllers
