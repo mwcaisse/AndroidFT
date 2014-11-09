@@ -1,13 +1,10 @@
-<html>
-	<head>
-		<jsp:include page="common/header.jsp" />		
+<html layout:decorator="common/layout">
+	<head>	
 		<title>Push File</title>		
 	</head>
 	
-	<body>		
-		<jsp:include page="common/navbar.jsp" />	
-	
-		<div id="deviceBody" class="body">			
+	<body>			
+		<div layout:fragment="content">	
 			
 			<table class="table table-bordered table-striped table-hover">
 			
@@ -25,23 +22,23 @@
 						<td class="compactCell"><input style="width: auto" type="checkbox" data-bind="checked: deviceActive"></input></td>						
 					</tr>
 				</tbody>
-			</table>
+			</table>		
+		
+		
+			<script th:src="@{/js/ViewModels/PFDeviceViewModel.js}"></script>
+			<script type="text/javascript">
+	
+				$(document).ready(function() {
+				
+					$("#navDevices").toggleClass("active");
+				
+					var deviceViewModel = new PFDeviceViewModel();			
+					ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+				});
+	
+			</script>
 			
 		</div>
-		
-		
-		<script src="${pageContext.request.contextPath}/js/ViewModels/PFDeviceViewModel.js"></script>
-		<script type="text/javascript">
-
-			$(document).ready(function() {
-			
-				$("#navDevices").toggleClass("active");
-			
-				var deviceViewModel = new PFDeviceViewModel();			
-				ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
-			});
-
-		</script>
 
 	</body>
 </html>
