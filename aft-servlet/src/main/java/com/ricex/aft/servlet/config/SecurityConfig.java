@@ -25,6 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				//permit access to the static resources, css, js, and images
 				.antMatchers("/css/**", "/js/**", "/img/**").permitAll()
+				//permit access to login, and register pages
+				.antMatchers("/login", "/register").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()

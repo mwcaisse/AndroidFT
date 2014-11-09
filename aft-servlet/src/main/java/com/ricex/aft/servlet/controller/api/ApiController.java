@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.ricex.aft.servlet.controller.BaseController;
 import com.ricex.aft.servlet.entity.ValidationException;
 
 /** Base Controller for common functionality between all controllers
@@ -17,7 +18,7 @@ import com.ricex.aft.servlet.entity.ValidationException;
  * @author Mitchell Caisse
  *
  */
-public abstract class ApiController {
+public abstract class ApiController extends BaseController {
 
 	/** Creates a new Base Controller
 	 * 

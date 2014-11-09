@@ -21,9 +21,10 @@ public class LoginViewController extends ViewController {
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public ModelAndView login() {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("auth/login");
-		return model;
+		if (isAuthenticated()) {
+			return new ModelAndView("redirect:/");
+		}
+		return new ModelAndView("auth/login");
 	}
 	
 	/** View to allow a new user to register
@@ -32,8 +33,9 @@ public class LoginViewController extends ViewController {
 	 */
 	@RequestMapping(value = "register", method = RequestMethod.GET)
 	public ModelAndView register() {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("auth/register");
-		return model;
+		if (isAuthenticated()) {
+			return new ModelAndView("redirect:/");
+		}
+		return new ModelAndView("auth/register");
 	}
 }
