@@ -27,6 +27,7 @@ import com.ricex.aft.servlet.controller.api.FileController;
 import com.ricex.aft.servlet.controller.api.RequestController;
 import com.ricex.aft.servlet.controller.view.DeviceViewController;
 import com.ricex.aft.servlet.controller.view.HomeController;
+import com.ricex.aft.servlet.controller.view.LoginViewController;
 import com.ricex.aft.servlet.controller.view.RequestViewController;
 import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
@@ -101,6 +102,15 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	@Bean
 	public RequestViewController requestViewController() {
 		return new RequestViewController();
+	}
+	
+	/** Creates the Login View Controller
+	 * 
+	 * @return the login view controller
+	 */
+	@Bean
+	public LoginViewController loginViewController() {
+		return new LoginViewController();
 	}
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 
