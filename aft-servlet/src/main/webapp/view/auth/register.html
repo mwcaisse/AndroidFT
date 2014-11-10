@@ -1,14 +1,51 @@
 
 <html layout:decorator="common/layout" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 	<head>
-		<title>Push File Login</title>
+		<title>Push File Registration</title>
 	</head>
 	
 	<body>	
 		<div layout:fragment="content">
 
 			<div id="divRegister" class="container" style="width:500px">			
-				Account Registration
+				
+				<form id="formRegistration" class="form-horizontal">
+					<fieldset>
+						<legend>Create your Push File Account!</legend>
+						<div class="control-group">
+							<label class="control-label" for="inputUsername">Username</label>
+							<input type="text" class="form-control" id="inputUsername" name="username" />
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label" for="inputPassword">Password</label>
+							<input type="password" class="form-control" id="inputPassword" name="password" />
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label" for="inputPasswordConfirm">Confirm Password</label>
+							<input type="password" class="form-control" id="inputPasswordConfirm" name="passwordConfirm" />
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label" for="inputEmail">Email</label>
+							<input type="text" class="form-control" id="inputEmail" name="email" />
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label" for="inputEmailConfirm">Confirm Email</label>
+							<input type="text" class="form-control" id="inputEmailConfirm" name="email" />
+						</div>
+						
+					</fieldset>	
+					
+					<div class="pull-right" style="padding-top: 15px">
+						<button type="button" class="btn btn-primary">Register</button>
+						<button type="button" class="btn btn-default">Cancel</button>
+					</div>
+									
+				</form>
+				
 			</div>
 			
 		</div>
