@@ -28,13 +28,13 @@
 	</resultMap>
 	
 	<!-- Selects a User by thier Id -->
-	<select id="getUserById" parameterType="long" resultType="User">
+	<select id="getUserById" parameterType="long" resultMap="userResultMap">
 		SELECT * FROM USER
 		WHERE USER_ID = #{id}
 	</select>
 	
 	<!-- Selects a User by thier username -->
-	<select id="getUserByUsername" parameterType="String" resultType="User">
+	<select id="getUserByUsername" parameterType="String" resultMap="userResultMap">
 		SELECT * FROM USER
 		WHERE UPPER(USER_USERNAME) = UPPER(#{username})
 	</select>
@@ -46,7 +46,7 @@
 	</select>
 	
 	<!-- Fetches the User Details for a given user -->
-	<select id="getUserDetailsById" parameterType="long" resultType="UserDetails">
+	<select id="getUserDetailsById" parameterType="long" resultMap="userDetailsResultMap">
 		SELECT USER_ID, USER_USERNAME FROM USER
 		WHERE USER_ID = #{id}
 	</select>
