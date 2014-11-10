@@ -36,7 +36,7 @@
 	<!-- Selects a User by thier username -->
 	<select id="getUserByUsername" parameterType="String" resultType="User">
 		SELECT * FROM USER
-		WHERE USER_USERNAME = #{username}
+		WHERE UPPER(USER_USERNAME) = UPPER(#{username})
 	</select>
 
 	<!-- Fetches the list of roles for the given user -->

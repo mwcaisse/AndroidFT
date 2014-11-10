@@ -4,7 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.servlet.manager.UserManager;
 
 
@@ -29,6 +33,16 @@ public class UserController extends ApiController {
 	 */
 	public UserController() {
 		
+	}
+	
+	/** Checks if the specified username is available or not
+	 * 
+	 * @param username The username to check
+	 * @return True if the username is available, false otherwise
+	 */
+	@RequestMapping(value="/isAvailable", method= RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody BooleanResponse isUsernameAvailable(@RequestParam String username) {
+		return new BooleanResponse(userManager.isUsernameAvailable(username));
 	}
 	
 	/**

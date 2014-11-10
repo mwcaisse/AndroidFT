@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/css/**", "/js/**", "/img/**").permitAll()
 				//permit access to login, and register pages
 				.antMatchers("/login", "/register").permitAll()
+				//permit access to the registration functions
+				.antMatchers("/user/isAvailable/*").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()

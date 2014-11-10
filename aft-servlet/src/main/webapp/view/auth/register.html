@@ -10,43 +10,88 @@
 			<div id="divRegister" class="container" style="width:500px">			
 				
 				<form id="formRegistration" class="form-horizontal">
-					<fieldset>
+					<fieldset data-bind="with: user">
 						<legend>Create your Push File Account!</legend>
 						<div class="control-group">
 							<label class="control-label" for="inputUsername">Username</label>
-							<input type="text" class="form-control" id="inputUsername" name="username" />
+							<input type="text" class="form-control" id="inputUsername" name="username" data-bind="value: username" />
 						</div>
+						
+						<!-- ko if: usernameError -->
+						
+						<!-- some padding between the elements -->
+						<div style="padding-top:10px"></div>
+						
+						<!-- Error message for passwords that don't match -->
+						<div class="alert alert-danger" role="alert">
+							<strong>Error! </strong><span data-bind="text: usernameErrorText"></span>
+						</div>
+						
+						<!-- /ko -->
 						
 						<div class="control-group">
 							<label class="control-label" for="inputPassword">Password</label>
-							<input type="password" class="form-control" id="inputPassword" name="password" />
+							<input type="password" class="form-control" id="inputPassword" name="password" data-bind="value: password" />
 						</div>
 						
 						<div class="control-group">
 							<label class="control-label" for="inputPasswordConfirm">Confirm Password</label>
-							<input type="password" class="form-control" id="inputPasswordConfirm" name="passwordConfirm" />
+							<input type="password" class="form-control" id="inputPasswordConfirm" name="passwordConfirm" data-bind="value: passwordConfirm" />
 						</div>
+						
+						<!-- ko if: passwordError -->
+						
+						<!-- some padding between the elements -->
+						<div style="padding-top:10px"></div>
+						
+						<!-- Error message for passwords that don't match -->
+						<div class="alert alert-danger" role="alert">
+							<strong>Error! </strong><span data-bind="text: passwordErrorText"></span>
+						</div>
+						
+						<!-- /ko -->
 						
 						<div class="control-group">
 							<label class="control-label" for="inputEmail">Email</label>
-							<input type="text" class="form-control" id="inputEmail" name="email" />
+							<input type="text" class="form-control" id="inputEmail" name="email" data-bind="value: emailAddress"/>
 						</div>
 						
 						<div class="control-group">
 							<label class="control-label" for="inputEmailConfirm">Confirm Email</label>
-							<input type="text" class="form-control" id="inputEmailConfirm" name="email" />
+							<input type="text" class="form-control" id="inputEmailConfirm" name="email" data-bind="value: emailAddressConfirm" />
 						</div>
+						
+						<!-- ko if: emailAddressError -->
+						
+						<!-- some padding between the elements -->
+						<div style="padding-top:10px"></div>
+						<!-- Error message for emails not matching -->
+						<div class="alert alert-danger" role="alert">
+							<strong>Error! </strong><span data-bind="text: emailAddressErrorText"></span>
+						</div>
+						
+						<!-- /ko -->
 						
 					</fieldset>	
 					
 					<div class="pull-right" style="padding-top: 15px">
-						<button type="button" class="btn btn-primary">Register</button>
-						<button type="button" class="btn btn-default">Cancel</button>
+						<button type="button" class="btn btn-primary" data-bind="click: register">Register</button>
+						<button type="button" class="btn btn-default" data-bind="click: cancel">Cancel</button>
 					</div>
 									
 				</form>
 				
 			</div>
+			
+			<script th:src="@{/js/ViewModels/auth/RegisterViewModel.js}"></script>
+			<script type="text/javascript">
+	
+				$(document).ready(function() {		
+					var registerViewModel = new RegisterViewModel();			
+					ko.applyBindings(registerViewModel, document.getElementById("divRegister"));
+				});
+	
+			</script>
 			
 		</div>
 	</body>
