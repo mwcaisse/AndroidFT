@@ -134,8 +134,8 @@ function RegisterViewModel() {
 	self.registerUser = function() {
 		
 		var headers = {};
-		var csrfHeaderName = $("meta[name='_csrf']").attr("content");
-		var csrfHeaderValue = $("meta[name='_csrf_header']").attr("content");
+		var csrfHeaderName = $("#input_csrf").attr("name");
+		var csrfHeaderValue = $("#input_csrf").attr("value");
 		
 		headers[csrfHeaderName] = csrfHeaderValue;
 		
