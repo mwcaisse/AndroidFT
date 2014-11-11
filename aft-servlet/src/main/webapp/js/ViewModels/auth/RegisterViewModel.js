@@ -121,10 +121,34 @@ function RegisterViewModel() {
 	/** Handles when the user presses the register button */
 	self.register = function() {
 		if (self.user().isValid()) {
-			alert("Registering.. ish");
+			self.registerUser();
 		}
 		else {
 			alert("Please fix errors before proceding!");
 		}
-	}
+	};
+	
+	/** Sends the registration request to the server
+	 * 
+	 */
+	self.registerUser = function() {
+		
+		var headers = {};
+		var csrfHeaderName = $("meta[name='_csrf']").attr("content");
+		var csrfHeaderValue = $("meta[name='_csrf_header']").attr("content");
+		
+		headers[csrfHeaderName] = csrfHeaderValue;
+		
+		$.ajax( {
+			url: requestRoot + "api/user/register",
+			type: "POST",
+			data: ko.toJSON(self.user()),
+			contentType: "application/json",
+			headers: headers
+		}).done (function (data) {
+			alert("Registered successfully!");
+		}).fail( function (jqXHR, textStatus, error) {
+			alert("Failed to register: " + error + " : " + jqXHR.responseText);
+		});
+	};	 
 }
