@@ -51,10 +51,56 @@ function UserModel() {
 		});
 	};
 	
+	/** Verifies that the passwords the user entered match
+	 * 
+	 */
+	self.verifyPasswordsMatch = function() {
+		if (self.password() && self.passwordConfirm()) {
+			if (self.password() != self.passwordConfirm()) {
+				self.passwordError(true);
+				self.passwordErrorText("Passwords do not match!");
+			}
+			else {
+				self.passwordError(false);
+			}
+		}
+	};
+	
+	/** Verifies that the email addresses the user entered match
+	 * 
+	 */
+	self.verifyEmailAddressesMatch = function() {
+		if (self.emailAddress() && self.emailAddressConfirm()) {
+			if (self.emailAddress() != self.emailAddressConfirm()) {
+				self.emailAddressError(true);
+				self.emailAddressErrorText("Email Addresses do not match!");
+			}
+			else {
+				self.emailAddressError(false);
+			}
+		}
+	};
+	
 	/** Subscribes to the username observable, and checks if it is valid */
 	self.username.subscribe(function (newValue) {
 		self.verifyUserNameAvailable();
 	});
+	
+	/** Subscribe to the password fields */
+	self.password.subscribe(self.verifyPasswordsMatch);
+	self.passwordConfirm.subscribe(self.verifyPasswordsMatch);
+	
+	/** Subscribe to the email fields */
+	self.emailAddress.subscribe(self.verifyEmailAddressesMatch);
+	self.emailAddressConfirm.subscribe(self.verifyEmailAddressesMatch);
+	
+	/** Determines if this model is valid or not
+	 * 
+	 */
+	
+	self.isValid = function() {
+		return !self.usernameError() && !self.passwordError() && !self.emailAddressError();
+	}
 
 };
 
@@ -65,7 +111,7 @@ function RegisterViewModel() {
 	var self = this;
 	
 	/** The user model */
-	self.user = new UserModel();
+	self.user = ko.observable(new UserModel());
 	
 	/** Handles when the user presses cancel */
 	self.cancel = function() {
@@ -74,6 +120,11 @@ function RegisterViewModel() {
 	
 	/** Handles when the user presses the register button */
 	self.register = function() {
-		alert("You clicked register!");
+		if (self.user().isValid()) {
+			alert("Registering.. ish");
+		}
+		else {
+			alert("Please fix errors before proceding!");
+		}
 	}
 }

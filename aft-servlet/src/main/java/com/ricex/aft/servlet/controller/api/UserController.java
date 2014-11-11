@@ -3,12 +3,15 @@ package com.ricex.aft.servlet.controller.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.response.BooleanResponse;
+import com.ricex.aft.servlet.entity.User;
+import com.ricex.aft.servlet.entity.ValidationException;
 import com.ricex.aft.servlet.manager.UserManager;
 
 
@@ -43,6 +46,17 @@ public class UserController extends ApiController {
 	@RequestMapping(value="/isAvailable", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody BooleanResponse isUsernameAvailable(@RequestParam String username) {
 		return new BooleanResponse(userManager.isUsernameAvailable(username));
+	}
+	
+	/** Creates the given user account, and gives them a basic role of USER
+	 * 
+	 * @param user The user object representing the user to create
+	 * @return True if creation was successful, false otherwise
+	 * @throws ValidationException If the User is invalid
+	 */
+	@RequestMapping(value="/register", method = RequestMethod.POST, produces={"application/json"})
+	public @ResponseBody BooleanResponse registerUser(@RequestBody User user) throws ValidationException {
+		return new BooleanResponse(userManager.createUser(user));
 	}
 	
 	/**
