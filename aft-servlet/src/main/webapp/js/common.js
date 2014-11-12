@@ -29,6 +29,53 @@ function getURLParameter(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+/** Makes an ajax call with the given options, automatically injecting the CSRF header
+ * 
+ * @param options The options object to send
+ * @return The jquery future object
+ */
+function ajaxCSRF(options) {
+	//create the CSRF header 
+	var headers = {};
+	var csrfHeaderName = $("#input_csrf").attr("name");
+	var csrfHeaderValue = $("#input_csrf").attr("value");	
+	headers[csrfHeaderName] = csrfHeaderValue;
+	
+	//add the header to the options
+	//check if the options already contains headers, as to not replace custom headerss
+	if (options.headers) {
+		options.headers[csrfHeaderName] = csrfHeaderValue;
+	}
+	else {
+		options.headers = headers;
+	}
+	
+	//return the ajax call
+	return $.ajax(options);	
+}
+
+/** Posts the given data using ajax, to the specified url
+ * 
+ * @param url The url to post the content to, the requestRoot will be appended to the begining
+ * @param data The data to post
+ * @return The jquery future to add done, fail, etc methods to
+ */
+
+function ajaxCSRFPost(url, data) {
+	var headers = {};
+	var csrfHeaderName = $("#input_csrf").attr("name");
+	var csrfHeaderValue = $("#input_csrf").attr("value");
+	
+	headers[csrfHeaderName] = csrfHeaderValue;
+	
+	return ajaxCSRF( {
+		url: requestRoot + url,
+		type: "POST",
+		data: data,
+		contentType: "application/json"
+	});
+}
+
 /** Model for a file to upload
  * 
  */

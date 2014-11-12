@@ -131,22 +131,11 @@ function RegisterViewModel() {
 	/** Sends the registration request to the server
 	 * 
 	 */
-	self.registerUser = function() {
-		
-		var headers = {};
-		var csrfHeaderName = $("#input_csrf").attr("name");
-		var csrfHeaderValue = $("#input_csrf").attr("value");
-		
-		headers[csrfHeaderName] = csrfHeaderValue;
-		
-		$.ajax( {
-			url: requestRoot + "api/user/register",
-			type: "POST",
-			data: ko.toJSON(self.user()),
-			contentType: "application/json",
-			headers: headers
-		}).done (function (data) {
+	self.registerUser = function() {		
+		//post the user registration
+		ajaxCSRFPost("api/user/register", ko.toJSON(self.user())).done (function (data) {
 			alert("Registered successfully!");
+			window.location.href = requestRoot + "login";
 		}).fail( function (jqXHR, textStatus, error) {
 			alert("Failed to register: " + error + " : " + jqXHR.responseText);
 		});
