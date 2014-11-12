@@ -27,7 +27,7 @@ function PFRequestFileUploadViewModel() {
 			var reader = new window.FileReader();
             reader.onload = function (e) {
             	count ++; //increase the count
-            	$.ajax( {
+            	ajaxCSRF( {
                 	url: requestRoot + "api/file/rawUpload?fileName=" + value.name(),
                 	async: true,
                 	type: "POST",

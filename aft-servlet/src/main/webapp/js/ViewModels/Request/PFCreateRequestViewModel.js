@@ -259,7 +259,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 			}
 			//update the device key in the device
 			self.request().requestDevice().deviceKey(self.request().requestDeviceKey());
-			$.ajax( {
+			ajaxCSRF({
             	url: url,
             	type: type,
             	data: ko.toJSON(self.request()),
