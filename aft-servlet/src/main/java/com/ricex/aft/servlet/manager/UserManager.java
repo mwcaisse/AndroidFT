@@ -57,7 +57,7 @@ public enum UserManager {
 		if (isUserValid(user)) {
 			userMapper.createUser(user);
 			//asign the user role to the user
-			assignRoleToUser(user.getUserId(), UserRole.USER);
+			assignRoleToUser(user.getUserId(), UserRole.ROLE_USER);
 			return true;
 		}
 		return false;

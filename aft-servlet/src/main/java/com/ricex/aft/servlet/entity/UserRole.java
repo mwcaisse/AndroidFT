@@ -9,9 +9,9 @@ package com.ricex.aft.servlet.entity;
 public enum UserRole {
 	
 	/** The default User role */
-	USER ("ROLE_USER"),
+	ROLE_USER ("User"),
 	/** The Admin role */
-	ADMIN ("ROLE_ADMIN");	
+	ROLE_ADMIN ("Admin");	
 	
 	/** Converts the given string into its corresponding User Role
 	 * 
