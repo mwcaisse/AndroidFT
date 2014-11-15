@@ -1,17 +1,19 @@
 package com.ricex.aft.servlet.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+
 
 /** A user role
  * 
  * @author Mitchell Caisse
  *
  */
-public enum UserRole {
+public enum UserRole implements GrantedAuthority {
 	
 	/** The default User role */
-	ROLE_USER ("User"),
+	ROLE_USER ("ROLE_USER"),
 	/** The Admin role */
-	ROLE_ADMIN ("Admin");	
+	ROLE_ADMIN ("ROLE_ADMIN");	
 	
 	/** Converts the given string into its corresponding User Role
 	 * 
@@ -42,6 +44,14 @@ public enum UserRole {
 	 * 
 	 */
 	public String toString() {
+		return name;
+	}
+
+	/** Returns the name of this Authority
+	 * 
+	 */
+	@Override
+	public String getAuthority() {
 		return name;
 	}
 }

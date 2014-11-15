@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -14,6 +15,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -43,9 +46,7 @@ import com.ricex.aft.servlet.util.GsonFactory;
 
 @Configuration
 //@ComponentScan (basePackages = {"com.ricex.aft.servlet.controller"})
-public class ApplicationConfig extends WebMvcConfigurationSupport  {
-
-	
+public class ApplicationConfig extends WebMvcConfigurationSupport  {	
 	@Bean
 	public DeviceController deviceController() throws Exception {
 		DeviceController deviceController = new DeviceController();
@@ -254,6 +255,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public UserManager userManager() throws Exception {
 		UserManager userManager = UserManager.INSTANCE;
 		userManager.setUserMapper(userMapper());
+		userManager.setPasswordEncoder(passwordEncoder());
 		return userManager;
 	}
 	
@@ -333,6 +335,15 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
 		registry.addResourceHandler("/img/**").addResourceLocations("/img/");
 		registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+	}
+	
+	/** Creates the password encoder to use for Spring Security
+	 * 
+	 * @return The password encoder
+	 */
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	

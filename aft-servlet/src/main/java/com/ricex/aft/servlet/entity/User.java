@@ -1,15 +1,19 @@
 package com.ricex.aft.servlet.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /** Represents a user
  * 
  * @author Mitchell Caisse
  *
  */
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
 	/** The id of the user */
 	private long userId;
@@ -212,6 +216,44 @@ public class User implements Serializable {
 	public void setRoles(List<UserRole> roles) {
 		this.roles = roles;
 	}
-	
+
+	/** Returns the list of Authorities for this user
+	 * 
+	 */
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles;
+	}
+	/** Returns whether the account is not expired or not
+	 * 
+	 */
+	@Override
+	public boolean isAccountNonExpired() {
+		return !isAccountExpired();
+	}
+
+	/** Returns whether the account is not locked or not
+	 * 
+	 */
+	@Override
+	public boolean isAccountNonLocked() {
+		return !isLocked();
+	}
+
+	/** Returns whether the credentials are not expired or expired
+	 * 
+	 */
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return !isPasswordExpired();
+	}
+
+	/** Returns whether the account is enabled or not
+	 * 
+	 */
+	@Override
+	public boolean isEnabled() {
+		return isActive();
+	}	
 	
 }

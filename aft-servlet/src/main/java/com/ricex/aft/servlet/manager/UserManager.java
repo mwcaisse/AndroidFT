@@ -1,5 +1,10 @@
 package com.ricex.aft.servlet.manager;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.ValidationException;
@@ -10,7 +15,7 @@ import com.ricex.aft.servlet.mapper.UserMapper;
  * @author Mitchell Caisse
  *
  */
-public enum UserManager {
+public enum UserManager implements UserDetailsService {
 
 	/** The singleton instance of the User Manager
 	 * 
@@ -19,6 +24,9 @@ public enum UserManager {
 	
 	/** The user mapper to use for accessing the data store	 */
 	private UserMapper userMapper;
+	
+	/** The Password Encoder to use when creating / saving users and passwords */
+	private PasswordEncoder passwordEncoder;
 	
 	/** Creates a new User Manager
 	 * 
@@ -35,6 +43,24 @@ public enum UserManager {
 	public User getUserById(long userId) {
 		return userMapper.getUserById(userId);
 	}
+	
+	/** Fetches the user with the given username
+	 * 
+	 * @param username The username of the user
+	 * @return The user with the specified username
+	 */
+	public User getUserByUsername(String username) {
+		return userMapper.getUserByUsername(username);
+	}
+	
+	/** Fetches the user with the given username,
+	 * 	The same as getUserByUsername, but this is implemented by UserDetailsService
+	 */
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return getUserByUsername(username);
+	}	
+	
 	
 	/** Determines if the given username is available
 	 * 
@@ -55,12 +81,26 @@ public enum UserManager {
 	public boolean createUser(User user) throws ValidationException {
 		//check to make sure that the user is valid
 		if (isUserValid(user)) {
+			//hash password, and initialize active and locked fields
+			hashUserPassword(user);
+			user.setActive(true);
+			user.setLocked(false);
+			//create the user
 			userMapper.createUser(user);
 			//asign the user role to the user
 			assignRoleToUser(user.getUserId(), UserRole.ROLE_USER);
 			return true;
 		}
 		return false;
+	}
+	
+	/** Hashes the password for the specified user
+	 * 
+	 * @param user The user to hash the password for
+	 */
+	private void hashUserPassword(User user) {
+		String hashedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(hashedPassword);
 	}
 	
 	/** Assigns the given role to the given user
@@ -119,7 +159,25 @@ public enum UserManager {
 	 */
 	public void setUserMapper(UserMapper userMapper) {
 		this.userMapper = userMapper;
-	}	
+	}
+
+	
+	/**
+	 * @return the passwordEncoder
+	 */
+	public PasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
+
+	
+	/**
+	 * @param passwordEncoder the passwordEncoder to set
+	 */
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+	
+	
 	
 }
 
