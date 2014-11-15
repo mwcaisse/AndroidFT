@@ -1,6 +1,6 @@
 <div class="banner">
 	<img th:src="@{/img/logo.png}" height="60" width="80" /> Push File
 	<div class="pull-right" sec:authorize="isAuthenticated()">
-		<h4>Welcome to Push File <span sec:authentication="name"></span>!</h4>
+		<h4>Welcome to Push File <span sec:authentication="name"></span>! <a th:href="@{/logout}">Logout</a></h4>
 	</div>
 </div>
