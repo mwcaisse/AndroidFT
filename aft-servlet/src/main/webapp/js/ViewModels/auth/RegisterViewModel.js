@@ -134,8 +134,7 @@ function RegisterViewModel() {
 	self.registerUser = function() {		
 		//post the user registration
 		ajaxCSRFPost("api/user/register", ko.toJSON(self.user())).done (function (data) {
-			alert("Registered successfully!");
-			window.location.href = requestRoot + "login";
+			window.location.href = requestRoot + "login?registered";
 		}).fail( function (jqXHR, textStatus, error) {
 			alert("Failed to register: " + error + " : " + jqXHR.responseText);
 		});

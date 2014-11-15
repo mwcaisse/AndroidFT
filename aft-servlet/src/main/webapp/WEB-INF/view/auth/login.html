@@ -25,6 +25,11 @@
 							You have been logged out!
 						</div>
 						
+						<!-- Show a message if you have registered successfully -->
+						<div th:if="${param.registered}" class="alert alert-success">
+							Registered Successfully! You can now log in!
+						</div>
+						
 						
 						<!-- username input -->
 						<div class="control-group">
