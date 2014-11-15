@@ -51,7 +51,7 @@ public class DeviceController extends ApiController {
 	 *
 	 * @return List of all available devices
 	 */
-	
+
 	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Device> getAllDevices() {
 		return deviceManager.getAllDevices();

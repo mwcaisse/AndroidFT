@@ -3,7 +3,8 @@ package com.ricex.aft.servlet.controller;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+
+import com.ricex.aft.servlet.entity.User;
 
 /** Base Controller for all controllers
  * 
