@@ -8,12 +8,14 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ricex.aft.common.entity.UserInfo;
+
 /** Represents a user
  * 
  * @author Mitchell Caisse
  *
  */
-public class User implements Serializable, UserDetails {
+public class User implements Serializable, UserDetails, UserInfo {
 
 	/** The id of the user */
 	private long userId;
@@ -72,6 +74,29 @@ public class User implements Serializable, UserDetails {
 		//if the expiration date is in the past, then the password has expired
 		return expirationDate.before(new Date());
 	}
+	
+	/** Determines if the user has the specified role
+	 * 
+	 * @param role The role to check
+	 * @return True if the user has the role, false otherwise
+	 */	
+	public boolean userHasRole(UserRole role) {
+		return roles.contains(role);
+	}
+	
+	/** Determines if the user has atleast one of the roles specified
+	 * 
+	 * @param roles The roles to check
+	 * @return True if the user has one of the roles, false otherwise
+	 */
+	public boolean userHasOneOfRoles(UserRole... roles) {
+		for (UserRole role : roles) {
+			if (userHasRole(role)) {
+				return true;
+			}
+		}
+		return false;		
+	}
 
 	
 	/**
@@ -103,6 +128,13 @@ public class User implements Serializable, UserDetails {
 	 */
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	/** Returns the name of this user
+	 * 
+	 */
+	public String getName() {
+		return username;
 	}
 
 	
@@ -254,6 +286,18 @@ public class User implements Serializable, UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return isActive();
+	}
+	
+	/** Determines if the specified object is equal to this object
+	 * 
+	 */
+	public boolean equals(Object other) {
+		if (!(other instanceof UserInfo)) {
+			return false;
+		}
+		UserInfo info = (UserInfo)other;
+		//the othere is a UserInfo, return true if the ids are equal
+		return info.getUserId() == getUserId();
 	}
 	
 }

@@ -5,7 +5,7 @@ package com.ricex.aft.common.entity;
  * @author Mitchell Caisse
  *
  */
-public class UserDetails {
+public class UserInfoImpl implements UserInfo {
 
 	/** The id of this user */
 	private long userId;
@@ -17,7 +17,7 @@ public class UserDetails {
 	private String name;
 	
 	/** Creates a new User Details */
-	public UserDetails() {
+	public UserInfoImpl() {
 		
 	}
 
@@ -69,19 +69,15 @@ public class UserDetails {
 		this.name = name;
 	}
 	
-	/** Determines if two UserDetails are equal
+	/** Determines if the specified object is equal to this object
 	 * 
 	 */
-	
-	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof UserDetails)) {
+		if (!(other instanceof UserInfo)) {
 			return false;
 		}
-		UserDetails req = (UserDetails) other;
-		return req.userId == this.userId;
+		UserInfo info = (UserInfo)other;
+		//the othere is a UserInfo, return true if the ids are equal
+		return info.getUserId() == getUserId();
 	}
-	
-	
-	
 }

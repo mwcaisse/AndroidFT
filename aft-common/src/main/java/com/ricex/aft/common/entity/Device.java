@@ -26,7 +26,7 @@ public class Device implements Serializable {
 	private String deviceKey;
 	
 	/** The owner of this device */
-	private UserDetails deviceOwner;
+	private UserInfoImpl deviceOwner;
 
 	/**
 	 * @return the deviceId
@@ -118,7 +118,7 @@ public class Device implements Serializable {
 	/**
 	 * @return the deviceOwner
 	 */
-	public UserDetails getDeviceOwner() {
+	public UserInfoImpl getDeviceOwner() {
 		return deviceOwner;
 	}
 
@@ -126,7 +126,7 @@ public class Device implements Serializable {
 	/**
 	 * @param deviceOwner the deviceOwner to set
 	 */
-	public void setDeviceOwner(UserDetails deviceOwner) {
+	public void setDeviceOwner(UserInfoImpl deviceOwner) {
 		this.deviceOwner = deviceOwner;
 	}
 

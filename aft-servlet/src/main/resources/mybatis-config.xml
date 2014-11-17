@@ -12,7 +12,7 @@
 		<typeAlias alias="FileContent" type="com.ricex.aft.servlet.entity.FileContent" />
 		<typeAlias alias="User" type="com.ricex.aft.servlet.entity.User" />
 		<typeAlias alias="UserRole" type="com.ricex.aft.servlet.entity.UserRole" />
-		<typeAlias alias="UserDetails" type="com.ricex.aft.common.entity.UserDetails" /> 
+		<typeAlias alias="UserDetails" type="com.ricex.aft.common.entity.UserDetailsImpl" /> 
 	</typeAliases>
 	
 	

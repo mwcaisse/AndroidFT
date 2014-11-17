@@ -27,7 +27,7 @@ public class File implements Serializable {
 	private String fileName;
 	
 	/** The Owner of this file */
-	private UserDetails fileOwner;
+	private UserInfoImpl fileOwner;
 	
 	/**
 	 * @return the fileId
@@ -81,7 +81,7 @@ public class File implements Serializable {
 	/**
 	 * @return the fileOwner
 	 */
-	public UserDetails getFileOwner() {
+	public UserInfoImpl getFileOwner() {
 		return fileOwner;
 	}
 
@@ -89,7 +89,7 @@ public class File implements Serializable {
 	/**
 	 * @param fileOwner the fileOwner to set
 	 */
-	public void setFileOwner(UserDetails fileOwner) {
+	public void setFileOwner(UserInfoImpl fileOwner) {
 		this.fileOwner = fileOwner;
 	}
 

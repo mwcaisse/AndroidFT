@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
+import com.ricex.aft.servlet.entity.User;
+import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.UserManager;
 
@@ -137,6 +139,22 @@ public class DeviceController extends ApiController {
 	
 	public void setDeviceManager(DeviceManager deviceManager) {
 		this.deviceManager = deviceManager;
+	}
+	
+	/** Determines if the specified user can modify the device with the given id
+	 * 
+	 * @param deviceId The id of the device
+	 * @param user The user to check
+	 * @return True if the user can modify the device, false otherwise
+	 */
+	protected boolean canUserModifyDevice(long deviceId, User user) {
+		if (user.userHasRole(UserRole.ROLE_ADMIN)) {
+			return true;
+		}
+		//get the device from the database
+		Device device = deviceManager.getDevice(deviceId);
+		//user can modify the device if it was found, and they are the owner
+		return device != null && user.equals(device.getDeviceOwner());
 	}
 	
 	

@@ -40,7 +40,7 @@ public class Request implements Serializable {
 	private Device requestDevice;
 	
 	/** The owner of this request */
-	private UserDetails requestOwner;
+	private UserInfoImpl requestOwner;
 
 	/** Creates a new request
 	 *  Initializes the request with a request status of NEW
@@ -199,14 +199,14 @@ public class Request implements Serializable {
 	/**
 	 * @return the requestOwner
 	 */
-	public UserDetails getRequestOwner() {
+	public UserInfoImpl getRequestOwner() {
 		return requestOwner;
 	}
 	
 	/**
 	 * @param requestOwner the requestOwner to set
 	 */
-	public void setRequestOwner(UserDetails requestOwner) {
+	public void setRequestOwner(UserInfoImpl requestOwner) {
 		this.requestOwner = requestOwner;
 	}
 
