@@ -17,7 +17,7 @@ import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.common.response.LongResponse;
-import com.ricex.aft.servlet.entity.ValidationException;
+import com.ricex.aft.servlet.entity.exception.ValidationException;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.RequestManager;
 import com.ricex.aft.servlet.notifier.DeviceNotifier;

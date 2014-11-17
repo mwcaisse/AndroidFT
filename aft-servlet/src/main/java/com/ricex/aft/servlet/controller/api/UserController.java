@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.servlet.entity.User;
-import com.ricex.aft.servlet.entity.ValidationException;
+import com.ricex.aft.servlet.entity.exception.ValidationException;
 import com.ricex.aft.servlet.manager.UserManager;
 
 

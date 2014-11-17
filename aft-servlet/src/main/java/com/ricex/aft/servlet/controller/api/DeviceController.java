@@ -14,6 +14,7 @@ import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
+import com.ricex.aft.servlet.entity.exception.AuthorizationException;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.UserManager;
 
@@ -78,8 +79,13 @@ public class DeviceController extends ApiController {
 	
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes={"application/json"})
-	public void updateDevice(@RequestBody Device device) {
-		deviceManager.updateDevice(device);
+	public void updateDevice(@RequestBody Device device) throws AuthorizationException {
+		if (canUserModifyDevice(device.getDeviceId(), getCurrentUser())) {
+			deviceManager.updateDevice(device);
+		}
+		else {
+			throw new AuthorizationException("You are not Authorized to make changes to this Device. You must be the Device owner to modify a device");
+		}
 	}
 	
 	/** Creates a new device on the database.
@@ -115,10 +121,16 @@ public class DeviceController extends ApiController {
 	 */
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody LongResponse registerDevice(@RequestBody Device device) {		
+	public @ResponseBody LongResponse registerDevice(@RequestBody Device device) throws AuthorizationException {		
 		//check if the device exists, if it does update it, otherwise create it
 		if (deviceManager.deviceExists(device.getDeviceUid())) {
-			return new LongResponse(deviceManager.updateDevice(device));
+			//check if the user can modify the device
+			if (canUserModifyDevice(device.getDeviceId(), getCurrentUser())) {
+				return new LongResponse(deviceManager.updateDevice(device));
+			}
+			else {
+				throw new AuthorizationException("You are not authorized to change the registration details for this Device");
+			}
 		}
 		else {
 			return new LongResponse(deviceManager.createDevice(device));

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.ricex.aft.servlet.controller.BaseController;
-import com.ricex.aft.servlet.entity.ValidationException;
+import com.ricex.aft.servlet.entity.exception.AuthorizationException;
+import com.ricex.aft.servlet.entity.exception.ValidationException;
 
 /** Base Controller for common functionality between all controllers
  * 
@@ -39,5 +40,17 @@ public abstract class ApiController extends BaseController {
 	public @ResponseBody String handleValidationException(ValidationException e, HttpServletResponse resp) {
 		return e.getMessage();
 	}	
+	
+	/** Handles Authorization Exceptions and returns the proper message
+	 * 
+	 * @param e The Authorization exception that occurred
+	 * @param resp The http response
+	 * @return The message to return
+	 */
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(AuthorizationException.class)
+	public @ResponseBody String handleAuthorizationException(AuthorizationException e, HttpServletResponse resp) {
+		return e.getMessage();
+	}
 	
 }

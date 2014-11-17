@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ricex.aft.servlet.entity;
+package com.ricex.aft.servlet.entity.exception;
 
 
 /** Validation Exception that is thrown by a controller when there is an issue

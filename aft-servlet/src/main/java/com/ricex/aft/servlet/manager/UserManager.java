@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.ricex.aft.common.entity.UserInfoImpl;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
-import com.ricex.aft.servlet.entity.ValidationException;
+import com.ricex.aft.servlet.entity.exception.ValidationException;
 import com.ricex.aft.servlet.mapper.UserMapper;
 
 /** The user manager for manipulating users

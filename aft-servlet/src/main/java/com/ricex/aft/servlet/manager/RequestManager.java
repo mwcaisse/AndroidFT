@@ -13,7 +13,7 @@ import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
-import com.ricex.aft.servlet.entity.ValidationException;
+import com.ricex.aft.servlet.entity.exception.ValidationException;
 import com.ricex.aft.servlet.mapper.RequestMapper;
 
 /** The Manager for the Request entity. 
