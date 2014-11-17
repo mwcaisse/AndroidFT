@@ -17,6 +17,9 @@ import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
 import com.ricex.aft.common.response.LongResponse;
+import com.ricex.aft.servlet.entity.User;
+import com.ricex.aft.servlet.entity.UserRole;
+import com.ricex.aft.servlet.entity.exception.AuthorizationException;
 import com.ricex.aft.servlet.entity.exception.ValidationException;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.RequestManager;
@@ -197,8 +200,13 @@ public class RequestController extends ApiController {
 	 */
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
-	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws ValidationException {
-		return new LongResponse(requestManager.updateRequest(request));
+	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws ValidationException, AuthorizationException {
+		if (canUserModifyRequest(request.getRequestId(), getCurrentUser())) {
+			return new LongResponse(requestManager.updateRequest(request));
+		}
+		else {
+			throw new AuthorizationException("You are not authorized to make changes to this request. Only the owner can make changes");
+		}
 	}
 	
 	/** Notifies the device associated with the given request, about the pending request
@@ -208,6 +216,22 @@ public class RequestController extends ApiController {
 	private void notifyDeviceOfRequest(Request request) {
 		Device device = deviceManager.getDevice(request.getRequestDevice().getDeviceId());
 		deviceNotifier.notifyDevice(device);
+	}
+	
+	/** Determines if the specified user can modify the device with the given id
+	 * 
+	 * @param deviceId The id of the device
+	 * @param user The user to check
+	 * @return True if the user can modify the device, false otherwise
+	 */
+	protected boolean canUserModifyRequest(long requestId, User user) {
+		if (user.userHasRole(UserRole.ROLE_ADMIN)) {
+			return true;
+		}
+		//get the request from the database
+		Request request = requestManager.getRequestById(requestId);
+		//user can modify the request if it was found, and they are the owner
+		return request != null && user.equals(request.getRequestOwner());
 	}
 
 	/**
