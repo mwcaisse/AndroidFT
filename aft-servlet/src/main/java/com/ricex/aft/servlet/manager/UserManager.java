@@ -1,10 +1,10 @@
 package com.ricex.aft.servlet.manager;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.ricex.aft.common.entity.UserDetails;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.ValidationException;
@@ -57,7 +57,7 @@ public enum UserManager implements UserDetailsService {
 	 * 	The same as getUserByUsername, but this is implemented by UserDetailsService
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
 		return getUserByUsername(username);
 	}	
 	
@@ -175,6 +175,19 @@ public enum UserManager implements UserDetailsService {
 	 */
 	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
+	}
+	
+	/** Converts the given User to a UserDetails object
+	 * 
+	 * @param user The user to convert
+	 * @return The resulting UserDetails object
+	 */
+	public static UserDetails userToUserDetails(User user) {
+		UserDetails userDetails = new UserDetails();
+		userDetails.setUserId(user.getUserId());
+		userDetails.setName(user.getUsername());
+		userDetails.setUsername(user.getUsername());
+		return userDetails;
 	}
 	
 	

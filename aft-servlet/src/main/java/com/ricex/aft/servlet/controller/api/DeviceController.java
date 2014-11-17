@@ -13,6 +13,7 @@ import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.manager.DeviceManager;
+import com.ricex.aft.servlet.manager.UserManager;
 
 /** The SpringMVC Controller for handling devices.
  * 
@@ -43,11 +44,6 @@ public class DeviceController extends ApiController {
 	}
 	
 	/** Returns a list of all the devices currently in the database. 
-	 *  Will query the database for all of the devices, and return all of the fields associated
-	 *  	with each device.
-	 *  
-	 *  This is intended for use by a program that will display the requests for a specific device
-	 *   	or all devices. Not to be used on the device for assisting in registering.
 	 *
 	 * @return List of all available devices
 	 */
@@ -55,6 +51,15 @@ public class DeviceController extends ApiController {
 	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Device> getAllDevices() {
 		return deviceManager.getAllDevices();
+	}
+	
+	/** Returns a list of all the devices that belong to the requesting user
+	 * 
+	 * @return List of all devices belonging to the requesting user
+	 */
+	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody List<Device> getMyDevices() {
+		return deviceManager.getAllDevicesByUser(getCurrentUser().getUserId());
 	}
 	
 	/** Updates the device that currently exists on the database with the specified device.
@@ -89,6 +94,8 @@ public class DeviceController extends ApiController {
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
 	public @ResponseBody LongResponse createDevice(@RequestBody Device device) {
+		//set the current user as the device owner
+		device.setDeviceOwner(UserManager.userToUserDetails(getCurrentUser()));
 		return new LongResponse(deviceManager.createDevice(device));
 	}
 	

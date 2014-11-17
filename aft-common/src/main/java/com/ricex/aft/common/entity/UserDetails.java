@@ -69,6 +69,19 @@ public class UserDetails {
 		this.name = name;
 	}
 	
+	/** Determines if two UserDetails are equal
+	 * 
+	 */
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof UserDetails)) {
+			return false;
+		}
+		UserDetails req = (UserDetails) other;
+		return req.userId == this.userId;
+	}
+	
 	
 	
 }
