@@ -13,7 +13,7 @@
 		<result property="deviceUid" column="DEV_UID" />
 		<result property="deviceName" column="DEV_NAME"/>
 		<result property="deviceRegistrationId" column="DEV_REG_ID" />
-		<association property="deviceOwner" column="DEV_OWNER" javaType="UserDetails" select="com.ricex.aft.servlet.mapper.UserMapper.getUserDetailsById" />
+		<association property="deviceOwner" column="DEV_OWNER" javaType="UserInfo" select="com.ricex.aft.servlet.mapper.UserMapper.getUserDetailsById" />
 	</resultMap>
 
 	

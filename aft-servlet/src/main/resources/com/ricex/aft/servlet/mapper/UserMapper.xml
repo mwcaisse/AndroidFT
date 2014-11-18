@@ -20,8 +20,8 @@
 		<collection property="roles" ofType="UserRole" javaType="ArrayList" column="USER_ID" select="getRolesForUser"/>
 	</resultMap>
 	
-	<!-- UserDetails result map -->
-	<resultMap id="userDetailsResultMap" type="UserDetails">
+	<!-- UserInfo result map -->
+	<resultMap id="userInfoResultMap" type="UserInfo">
 		<id property="userId" column="USER_ID" />
 		<result property="username" column="USER_USERNAME" />
 		<result property="name" column="USER_USERNAME" />
@@ -46,7 +46,7 @@
 	</select>
 	
 	<!-- Fetches the User Details for a given user -->
-	<select id="getUserDetailsById" parameterType="long" resultMap="userDetailsResultMap">
+	<select id="getUserDetailsById" parameterType="long" resultMap="userInfoResultMap">
 		SELECT USER_ID, USER_USERNAME FROM USER
 		WHERE USER_ID = #{userId}
 	</select>
