@@ -26,6 +26,12 @@
 	<packaging>pom</packaging>
 	<name>Android File Transfer</name>
 	
+	<scm>
+		<connection>scm:git:git@github.com:mwcaisse/AndroidFT.git</connection>
+		<developerConnection>scm:git:git@github.com:mwcaisse/AndroidFT.git</developerConnection>
+		<url>https://github.com/mwcaisse/AndroidFT</url>
+	</scm>
+	
 	<dependencies>
       
 		<dependency>
@@ -37,11 +43,6 @@
 	
 	</dependencies>
 	
-	<distributionManagement>
-		<repository>
-			<id>mitchell-repo</id>
-			<url>file://srv/http/maven2/</url>
-		</repository>
-	</distributionManagement>
+	
 	
 </project>
