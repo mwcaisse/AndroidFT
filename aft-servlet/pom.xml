@@ -1,197 +1,209 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
-  
-  	<parent>
-  		<groupId>com.ricex.aft</groupId>
-  		<artifactId>aft</artifactId>
-  		<version>0.3.2-SNAPSHOT</version>
-	</parent>  
-  
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>com.ricex.aft</groupId>
+		<artifactId>aft</artifactId>
+		<version>0.3.2-SNAPSHOT</version>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>aft-servlet</artifactId>
 	<packaging>war</packaging>
 	<name>aft-servlet</name>
-	<url>http://maven.apache.org</url>  
-    
-  <dependencies>     
-    
-    <!-- Aft Common -->
-	    
-    <dependency>
-    	<groupId>com.ricex.aft</groupId>
-    	<artifactId>aft-common</artifactId>
-    	<version>${aft.common.version}</version>
-    </dependency>
-           
-         
-   <!--  MyBatis -->
-    
-    <dependency>
-		<groupId>org.mybatis</groupId>
-		<artifactId>mybatis</artifactId>
-		<version>${mybatis.version}</version>
-	</dependency>
-	
-	<!--  MyBatis Spring -->
-	
-	<dependency>
-		<groupId>org.mybatis</groupId>
-		<artifactId>mybatis-spring</artifactId>
-		<version>${mybatis-spring.version}</version>
-	</dependency>
-            
-	
-    <!-- Spring -->
-    
-    <dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-webmvc</artifactId>
-		<version>${spring.version}</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-jdbc</artifactId>
-		<version>${spring.version}</version>
-	</dependency>
-	
-	<!-- Spring Security -->
-	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-web</artifactId>
-	    <version>${spring.security.version}</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-config</artifactId>
-		<version>${spring.security.version}</version>
-	</dependency>
-	
-	<!-- Spring Security OAuth -->	
-	<dependency>
-        <groupId>org.springframework.security.oauth</groupId>
-        <artifactId>spring-security-oauth2</artifactId>
-        <version>${spring.security.oauth.version}</version>
-    </dependency>
-	
-	<!-- Thymeleaf -->
-	<dependency>
-		<groupId>org.thymeleaf</groupId>
-		<artifactId>thymeleaf</artifactId>
-		<version>${thymeleaf.version}</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.thymeleaf</groupId>
-		<artifactId>thymeleaf-spring4</artifactId>
-		<version>${thymeleaf.version}</version>
-	</dependency>
-	
-	<!-- Thymeleaf layout dialet -->
-	<dependency>
-	  <groupId>nz.net.ultraq.thymeleaf</groupId>
-	  <artifactId>thymeleaf-layout-dialect</artifactId>
-	  <version>${thymeleaf.layout.version}</version>
-	</dependency>
-	
-	<!-- Thymeleaf Spring Security -->
-	<dependency>
-		<groupId>org.thymeleaf.extras</groupId>
-		<artifactId>thymeleaf-extras-springsecurity3</artifactId>
-		<version>${thymeleaf.security.version}</version>
-	</dependency>
-	
-	
-	<!-- MySQL JDBC Driver -->
-	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>${mysql.jdbc.version}</version>
-	</dependency>
-	
-	<!-- Jackson JSON Mapper for Spring -->
-	
-	<dependency>
-		<groupId>org.codehaus.jackson</groupId>
-		<artifactId>jackson-mapper-asl</artifactId>
-		<version>${jackson.version}</version>
-	</dependency>
-	
-	<!--  Google JSON Library -->
-	<dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-		<version>${gson.version}</version>
-	</dependency>
-	
-	<!-- Jackson DataBind  -->
-	<dependency>
-		<groupId>com.fasterxml.jackson.core</groupId>
-		<artifactId>jackson-databind</artifactId>
-		<version>2.4.2</version>
-	</dependency>
-	
-	<!-- Servlet API -->
-	<dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>servlet-api</artifactId>
-	    <version>2.5</version>
-	    <scope>provided</scope>
-	</dependency>
-	
-	<!-- JSTL Api -->
-	<dependency>
-		<groupId>jstl</groupId>
-		<artifactId>jstl</artifactId>
-		<version>1.2</version>
-	</dependency>
-	
-    <!-- Logging -->
-    
-    <dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-log4j12</artifactId>
-		<version>${slf4j.version}</version>
-	</dependency>
-	
-    <dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-api</artifactId>
-		<version>${slf4j.version}</version>
-	</dependency>
-	
-    <dependency>
-		<groupId>log4j</groupId>
-		<artifactId>log4j</artifactId>
-		<version>${log4j.version}</version>
-	</dependency>          
-    
-  </dependencies>
-  <build>
-    <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-compiler-plugin</artifactId>
-	      <version>3.1</version>
-	      <configuration>
-              <source>1.7</source>
-              <target>1.7</target>
-          </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-           <warName>aft-servlet</warName>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-      <plugin>      
-      	<groupId>org.apache.maven.plugins</groupId>
-      	<artifactId>maven-release-plugin</artifactId>
-      	<version>2.5.1</version>   
-      </plugin>
-    </plugins>
-  </build>
+	<url>http://maven.apache.org</url>
+
+	<dependencies>
+
+		<!-- Aft Common -->
+
+		<dependency>
+			<groupId>com.ricex.aft</groupId>
+			<artifactId>aft-common</artifactId>
+			<version>${aft.common.version}</version>
+		</dependency>
+
+
+		<!-- MyBatis -->
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+
+		<!-- MyBatis Spring -->
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+
+
+		<!-- Spring -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<!-- Spring Security OAuth -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${spring.security.oauth.version}</version>
+		</dependency>
+
+		<!-- Thymeleaf -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>${thymeleaf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>${thymeleaf.version}</version>
+		</dependency>
+
+		<!-- Thymeleaf layout dialet -->
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>${thymeleaf.layout.version}</version>
+		</dependency>
+
+		<!-- Thymeleaf Spring Security -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity3</artifactId>
+			<version>${thymeleaf.security.version}</version>
+		</dependency>
+
+
+		<!-- MySQL JDBC Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.jdbc.version}</version>
+		</dependency>
+
+		<!-- Jackson JSON Mapper for Spring -->
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Google JSON Library -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<!-- Jackson DataBind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+
+		<!-- Servlet API -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSTL Api -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- Logging -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>aft-servlet</warName>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-api</artifactId>
+						<version>1.8.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe</artifactId>
+						<version>1.8.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 </project>
