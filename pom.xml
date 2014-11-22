@@ -16,6 +16,7 @@
 		<mysql.jdbc.version>5.1.33</mysql.jdbc.version>
 		<commons.codec.version>1.8</commons.codec.version>
 		<aft.common.version>0.3.5-SNAPSHOT</aft.common.version>
+		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -82,10 +83,6 @@
 		</dependency>
 
 	</dependencies>
-
-	<properties>
-		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-	</properties>
 	
 	<build>
 		<plugins>
