@@ -32,6 +32,39 @@
 		<url>https://github.com/mwcaisse/AndroidFT</url>
 	</scm>
 	
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+		        <updatePolicy>always</updatePolicy>
+		        <checksumPolicy>warn</checksumPolicy>
+	        </releases>
+	        <snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			
+			<id>localNexusRepo</id>
+			<name>Local Nexus Repo</name>
+			<url>http://arch-server.mwc.com:8081/nexus/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	
+	<distributionManagement>
+		<repository>
+			<id>deployment</id>
+			<name>Releases</name>
+			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		
+		<snapshotRepository>
+			<id>deployment</id>
+			<name>Snapshots</name>
+			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	
 	<dependencies>
       
 		<dependency>
