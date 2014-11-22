@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ricex.aft</groupId>
 		<artifactId>aft</artifactId>
-		<version>0.3.5-SNAPSHOT</version>
+		<version>0.3.7-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -14,15 +14,6 @@
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
-
-		<!-- Aft Common -->
-
-		<dependency>
-			<groupId>com.ricex.aft</groupId>
-			<artifactId>aft-common</artifactId>
-			<version>${aft.common.version}</version>
-		</dependency>
-
 
 		<!-- MyBatis -->
 
