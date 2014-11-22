@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
-   	<!--  Version Properties -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!-- Version Properties -->
 	<properties>
 		<spring.version>4.0.0.RELEASE</spring.version>
 		<spring.security.version>3.2.4.RELEASE</spring.security.version>
@@ -15,76 +16,81 @@
 		<log4j.version>1.2.17</log4j.version>
 		<mysql.jdbc.version>5.1.33</mysql.jdbc.version>
 		<commons.codec.version>1.8</commons.codec.version>
-		<aft.common.version>0.3.2-SNAPSHOT</aft.common.version>
+		<aft.common.version>0.3.5-SNAPSHOT</aft.common.version>
 	</properties>
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ricex.aft</groupId>
 	<artifactId>aft</artifactId>
 	<version>0.3.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Android File Transfer</name>
-	
+
 	<scm>
 		<connection>scm:git:git@github.com:mwcaisse/AndroidFT.git</connection>
 		<developerConnection>scm:git:git@github.com:mwcaisse/AndroidFT.git</developerConnection>
 		<url>https://github.com/mwcaisse/AndroidFT</url>
-	  <tag>HEAD</tag>
-  </scm>
-	
+		<tag>HEAD</tag>
+	</scm>
+
+	<modules>
+		<module>aft-common</module>
+		<module>aft-servlet</module>
+	</modules>
+
 	<repositories>
 		<repository>
 			<releases>
 				<enabled>false</enabled>
-		        <updatePolicy>always</updatePolicy>
-		        <checksumPolicy>warn</checksumPolicy>
-	        </releases>
-	        <snapshots>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
-			
+
 			<id>nexus</id>
 			<name>Local Nexus Repo</name>
 			<url>http://arch-server.mwc.com:8081/nexus/</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>nexus-release</id>
 			<name>Releases</name>
 			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/releases/</url>
 		</repository>
-		
+
 		<snapshotRepository>
 			<id>nexus-snapshot</id>
 			<name>Snapshots</name>
 			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
-		
+
 	</distributionManagement>
-	
+
 	<dependencies>
-      
+
 		<dependency>
-		  <groupId>junit</groupId>
-		  <artifactId>junit</artifactId>
-		  <version>4.11</version>
-		  <scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
-	
-	</dependencies>	
-	
+
+	</dependencies>
+
 	<build>
-		<plugins>		
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.1</version>
-				<dependencies>		
+				<dependencies>
 					<dependency>
 						<groupId>org.apache.maven.scm</groupId>
 						<artifactId>maven-scm-provider-gitexe</artifactId>
@@ -94,5 +100,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>
