@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value= "/device/")
-public class DeviceViewController {
+public class DeviceViewController extends ViewController {
 
 	/** Returns the index view for the device
 	 * 

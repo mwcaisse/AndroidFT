@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping(value= "/request/")
-public class RequestViewController {
+public class RequestViewController extends ViewController {
 
 	
 	/** Returns the index view for the request
