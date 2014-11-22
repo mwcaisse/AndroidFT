@@ -15,14 +15,13 @@
 		<log4j.version>1.2.17</log4j.version>
 		<mysql.jdbc.version>5.1.33</mysql.jdbc.version>
 		<commons.codec.version>1.8</commons.codec.version>
-		<aft.common.version>0.3.5-SNAPSHOT</aft.common.version>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ricex.aft</groupId>
 	<artifactId>aft</artifactId>
-	<version>0.3.12-SNAPSHOT</version>
+	<version>0.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Android File Transfer</name>
 
@@ -85,6 +84,12 @@
 	</dependencies>
 	
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

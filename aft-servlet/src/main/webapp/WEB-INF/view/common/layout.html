@@ -36,13 +36,13 @@
 	<body>	
 		
 		<!--import the page header -->
-		<div th:replace="common/header"></div>
+		<header th:replace="common/header"></header>
 		
 		<!-- the body of the page -->
 		<div layout:fragment="content"></div>
 		
 		<!-- import the page footer -->
-		<div th:replace="common/footer"></div>
+		<footer th:replace="@{common/footer}"></footer>
 		
 		<!-- Hidden div for the CSRF token + header name -->
 		<div id="divHiddenForm" style="display:none">

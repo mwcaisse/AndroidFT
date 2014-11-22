@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -123,6 +122,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public LoginViewController loginViewController() {
 		return new LoginViewController();
 	}
+		
 	/** Bean for the GSON Factory, to create the GSON Bean
 	 * 
 	 * @return The gson factory bean
