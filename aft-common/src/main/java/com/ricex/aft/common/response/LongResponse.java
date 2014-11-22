@@ -35,7 +35,7 @@ public class LongResponse {
 	}
 
 	/**
-	 * @param data the data to set
+	 * @param value the data to set
 	 */
 	
 	public void setValue(Long value) {
