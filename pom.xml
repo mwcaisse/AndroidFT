@@ -17,7 +17,6 @@
 		<commons.codec.version>1.8</commons.codec.version>
 		<aft.common.version>0.3.5-SNAPSHOT</aft.common.version>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>

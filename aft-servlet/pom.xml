@@ -15,6 +15,12 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>com.ricex.aft</groupId>
+			<artifactId>aft-common</artifactId>
+			<version>0.3.7-SNAPSHOT</version>
+		</dependency>
+
 		<!-- MyBatis -->
 
 		<dependency>
