@@ -64,6 +64,8 @@
 			<name>Snapshots</name>
 			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
+		
+	</distributionManagement>
 	
 	<dependencies>
       
