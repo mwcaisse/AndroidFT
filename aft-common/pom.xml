@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ricex.aft</groupId>
 		<artifactId>aft</artifactId>
-		<version>0.4.0-SNAPSHOT</version>
+		<version>0.4.0</version>
 	</parent>
 
 	<artifactId>aft-common</artifactId>
