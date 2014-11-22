@@ -34,8 +34,7 @@
 	</scm>
 
 	<modules>
-		<module>aft-common</module>
-		<module>aft-servlet</module>
+		<module>aft-common</module>		
 	</modules>
 
 	<repositories>
