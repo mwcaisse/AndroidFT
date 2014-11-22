@@ -20,7 +20,7 @@ public abstract class ViewController extends BaseController {
 	 */
 	protected ViewController() {
 		
-	}
+	} 
 	
 	/** The version attribute
 	 * 
