@@ -45,7 +45,7 @@
 				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
 			
-			<id>localNexusRepo</id>
+			<id>nexus</id>
 			<name>Local Nexus Repo</name>
 			<url>http://arch-server.mwc.com:8081/nexus/</url>
 			<layout>default</layout>
@@ -54,13 +54,13 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>deployment</id>
+			<id>nexus-release</id>
 			<name>Releases</name>
 			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/releases/</url>
 		</repository>
 		
 		<snapshotRepository>
-			<id>deployment</id>
+			<id>nexus-snapshot</id>
 			<name>Snapshots</name>
 			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
