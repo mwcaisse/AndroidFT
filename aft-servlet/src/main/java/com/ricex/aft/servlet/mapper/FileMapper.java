@@ -33,6 +33,14 @@ public interface FileMapper {
 	
 	public List<File> getRequestFiles(long requestId);
 	
+	/** Retrieves the information (meta-data) about the files for the specified user
+	 * 
+	 * @param userId The id of the user to fetch the file info for
+	 * @return The list of files
+	 */
+	
+	public List<File> getFilesForUser(long userId);
+	
 	/** Retrieves the contents of the file with the specified id
 	 * 
 	 * @param fileId The id of the file to fetch the content of

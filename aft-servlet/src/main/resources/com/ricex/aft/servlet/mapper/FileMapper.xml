@@ -25,14 +25,20 @@
 	
 	<!--  Retreives the specified file, without the contents -->
 	<select id="getFileInfo" resultMap="fileResultMap">
-	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID FROM FILE
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID FROM, FILE.FILE_OWNER FILE
 	    WHERE FILE_ID = #{fileId}	    
 	</select>
 	
 	<!--  Retrieves the files for the specified request -->
 	<select id="getRequestFiles" parameterType="long" resultMap="fileResultMap">
-	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID FROM FILE
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID, FILE.FILE_OWNER FROM FILE
 	    WHERE REQ_ID = #{requestId}
+	</select>	
+
+	<!--  Retrieves the files for the specified user -->
+	<select id="getFilesForUser" parameterType="long" resultMap="fileResultMap">
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID, FILE.FILE_OWNER FROM FILE
+	    WHERE REQ_OWNER = #{userId}
 	</select>
 	
 	<!--  Gets the contents of the specified file -->
@@ -43,8 +49,8 @@
 	
 	<!-- Inserts a new file into the database -->
 	<insert id="createFile" useGeneratedKeys="true" keyProperty="fileInfo.fileId">
-		INSERT INTO FILE (FILE_VAL, FILE_NAME, FILE_SIZE, REQ_ID)
-		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.fileSize}, #{fileInfo.requestId})
+		INSERT INTO FILE (FILE_VAL, FILE_NAME, FILE_SIZE, REQ_ID, FILE_OWNER)
+		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.fileSize}, #{fileInfo.requestId}, #{fileInfo.fileOwner.userId})
 	</insert>
 	
 	<!-- Updates the contents of the file -->

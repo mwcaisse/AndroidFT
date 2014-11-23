@@ -54,6 +54,15 @@ public enum FileManager {
 		return fileMapper.getRequestFiles(requestId);
 	}
 	
+	/** Returns the file information for all of the files the given user owns
+	 * 
+	 * @param userId The id of the user
+	 * @return The list of files
+	 */
+	public List<File> getUserFiles(long userId) {
+		return fileMapper.getFilesForUser(userId);
+	}
+	
 	/** Creates a new file with the specified contents
 	 * 
 	 * @param fileContents The contents of the file

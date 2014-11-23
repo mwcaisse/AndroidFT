@@ -3,6 +3,8 @@
  */
 package com.ricex.aft.servlet.controller.api;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -74,6 +76,16 @@ public class FileController extends ApiController {
 	@RequestMapping(value = "/contents/{fileId}", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody byte[] getFileContents(@PathVariable long fileId) {
 		return fileManager.getFileContents(fileId);
+	}
+	
+	/** Returns the meta data for all of the files owned by the requesting user
+	 * 
+	 * @return The list of files owned by the requesting user
+	 */
+	
+	@RequestMapping(value = "/info/mine", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody List<File> getMyFiles() {
+		return fileManager.getUserFiles(getCurrentUser().getUserId());
 	}
 	
 	/** Downloads the file with the given file id.
