@@ -58,11 +58,6 @@ public class MockDeviceMapper implements DeviceMapper {
 		}
 		return withUid;
 	}
-	
-	@Override
-	public String getDeviceKey(long deviceId) {
-		return getDeviceId(deviceId).getDeviceKey();
-	}
 
 	@Override
 	public void updateDevice(Device device) {

@@ -43,13 +43,6 @@ public interface DeviceMapper {
 	
 	public Device getDeviceUid(String deviceUid);
 	
-	/** Returns the device upload key of the device with the given id
-	 * 
-	 * @param deviceId The ID of the device
-	 * @return The device upload key
-	 */
-	public String getDeviceKey(long deviceId);
-	
 	/** Updates the device
 	 * 
 	 * @param device The device to update, uses the unique id to update

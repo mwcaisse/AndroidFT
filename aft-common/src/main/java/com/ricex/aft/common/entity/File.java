@@ -26,8 +26,11 @@ public class File implements Serializable {
 	/** The name of the file */
 	private String fileName;
 	
+	/** The size of the file in bytes */
+	private long fileSize;
+	
 	/** The Owner of this file */
-	private UserInfoImpl fileOwner;
+	private UserInfo fileOwner;
 	
 	/**
 	 * @return the fileId
@@ -78,10 +81,26 @@ public class File implements Serializable {
 		this.fileName = fileName;
 	}		
 	
+	
+	/**
+	 * @return the fileSize
+	 */
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	
+	/**
+	 * @param fileSize the fileSize to set
+	 */
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+
 	/**
 	 * @return the fileOwner
 	 */
-	public UserInfoImpl getFileOwner() {
+	public UserInfo getFileOwner() {
 		return fileOwner;
 	}
 
@@ -89,7 +108,7 @@ public class File implements Serializable {
 	/**
 	 * @param fileOwner the fileOwner to set
 	 */
-	public void setFileOwner(UserInfoImpl fileOwner) {
+	public void setFileOwner(UserInfo fileOwner) {
 		this.fileOwner = fileOwner;
 	}
 

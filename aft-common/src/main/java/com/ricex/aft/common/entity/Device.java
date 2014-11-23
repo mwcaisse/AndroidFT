@@ -22,11 +22,8 @@ public class Device implements Serializable {
 	/** The GCM registration id of the device */
 	private String deviceRegistrationId;
 	
-	/** The secret key / passphrase to use when creating requests for this device */
-	private String deviceKey;
-	
 	/** The owner of this device */
-	private UserInfoImpl deviceOwner;
+	private UserInfo deviceOwner;
 
 	/**
 	 * @return the deviceId
@@ -100,25 +97,9 @@ public class Device implements Serializable {
 	}
 	
 	/**
-	 * @return the deviceKey
-	 */
-	
-	public String getDeviceKey() {
-		return deviceKey;
-	}
-
-	/**
-	 * @param deviceKey the deviceKey to set
-	 */
-	
-	public void setDeviceKey(String deviceKey) {
-		this.deviceKey = deviceKey;
-	}
-	
-	/**
 	 * @return the deviceOwner
 	 */
-	public UserInfoImpl getDeviceOwner() {
+	public UserInfo getDeviceOwner() {
 		return deviceOwner;
 	}
 
@@ -126,7 +107,7 @@ public class Device implements Serializable {
 	/**
 	 * @param deviceOwner the deviceOwner to set
 	 */
-	public void setDeviceOwner(UserInfoImpl deviceOwner) {
+	public void setDeviceOwner(UserInfo deviceOwner) {
 		this.deviceOwner = deviceOwner;
 	}
 

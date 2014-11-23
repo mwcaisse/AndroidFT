@@ -175,14 +175,14 @@ public class RequestController extends ApiController {
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws ValidationException {			
-		long requestId = requestManager.createRequest(request);	
-		
+	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws ValidationException {		
+		//set the owner of the request
+		request.setRequestOwner(getCurrentUser());
+		long requestId = requestManager.createRequest(request);			
 		//if the request saved properly, notify the device it has a new request
 		if (requestId > 0) {
 			notifyDeviceOfRequest(request);
-		}
-		
+		}		
 		return new LongResponse(requestId);
 	}
 	

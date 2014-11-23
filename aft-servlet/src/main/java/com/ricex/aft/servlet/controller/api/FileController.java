@@ -106,7 +106,7 @@ public class FileController extends ApiController {
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return new LongResponse(fileManager.createFile(fileContents,fileName));
+		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser()));
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -123,7 +123,7 @@ public class FileController extends ApiController {
 	
 	@RequestMapping(value = "/rawUpload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	public @ResponseBody LongResponse createFileRaw(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return new LongResponse(fileManager.createFile(fileContents,fileName));
+		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser()));
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -141,7 +141,7 @@ public class FileController extends ApiController {
 			try {
 				byte[] bytes = file.getBytes();
 				
-				return new LongResponse(fileManager.createFile(bytes, fileName));				
+				return new LongResponse(fileManager.createFile(bytes, fileName, getCurrentUser()));				
 			}
 			catch (Exception e) {
 				log.warn("Failed to save file {}", fileName, e);

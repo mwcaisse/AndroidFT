@@ -12,6 +12,7 @@
 	<resultMap id="fileResultMap" type="File">
 		<id property="fileId" column="FILE_ID" />
 		<result property="fileName" column="FILE_NAME" />
+		<result property="fileSize" column="FILE_SIZE" />
 		<result property="requestId" column="REQ_ID" />
 		<association property="fileOwner" column="FILE_OWNER" javaType="UserInfo" select="com.ricex.aft.servlet.mapper.UserMapper.getUserDetailsById" />		
 	</resultMap>
@@ -24,13 +25,13 @@
 	
 	<!--  Retreives the specified file, without the contents -->
 	<select id="getFileInfo" resultMap="fileResultMap">
-	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.REQ_ID FROM FILE
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID FROM FILE
 	    WHERE FILE_ID = #{fileId}	    
 	</select>
 	
 	<!--  Retrieves the files for the specified request -->
 	<select id="getRequestFiles" parameterType="long" resultMap="fileResultMap">
-	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.REQ_ID FROM FILE
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID FROM FILE
 	    WHERE REQ_ID = #{requestId}
 	</select>
 	
@@ -42,8 +43,8 @@
 	
 	<!-- Inserts a new file into the database -->
 	<insert id="createFile" useGeneratedKeys="true" keyProperty="fileInfo.fileId">
-		INSERT INTO FILE (FILE_VAL, FILE_NAME, REQ_ID)
-		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.requestId})
+		INSERT INTO FILE (FILE_VAL, FILE_NAME, FILE_SIZE, REQ_ID)
+		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.fileSize}, #{fileInfo.requestId})
 	</insert>
 	
 	<!-- Updates the contents of the file -->

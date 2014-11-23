@@ -58,17 +58,17 @@
 			REQ_FILE_LOC = #{requestFileLocation},
 			REQ_FILE_BASE_DIR = #{requestDirectory},
 			REQ_STAT = #{requestStatus},
-			REQ_STAT_MSG = #{requestStatusMessage}
+			REQ_STAT_MSG = #{requestStatusMessage},
+			REQ_OWNER = #{requestOwner.userId}
 		WHERE REQ_ID = #{requestId}
-	</update>
-		
+	</update>		
 
 	<!-- Insert a new request -->
 	<insert id="createRequest" useGeneratedKeys="true" keyProperty="requestId">
 		INSERT INTO REQUEST (REQ_DEV_ID, REQ_NAME, REQ_FILE_LOC, 
-			REQ_FILE_BASE_DIR, REQ_STAT, REQ_STAT_MSG)
+			REQ_FILE_BASE_DIR, REQ_STAT, REQ_STAT_MSG, REQ_OWNER)
 		VALUES (#{requestDevice.deviceId}, #{requestName}, #{requestFileLocation}, 
-			#{requestDirectory}, #{requestStatus}, #{requestStatusMessage})
+			#{requestDirectory}, #{requestStatus}, #{requestStatusMessage}, #{requestOwner.userId})
 	</insert>
 	
 </mapper>

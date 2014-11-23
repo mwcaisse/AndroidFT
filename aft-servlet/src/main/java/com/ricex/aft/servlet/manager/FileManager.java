@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
-import com.ricex.aft.servlet.mapper.DeviceMapper;
+import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.servlet.mapper.FileMapper;
 
 /**  The Manager for the File entity.
@@ -58,13 +58,16 @@ public enum FileManager {
 	 * 
 	 * @param fileContents The contents of the file
 	 * @param fileName The name of the file
+	 * @param owner The owner of the file
 	 * @return The id of the new file
 	 */
 	
-	public long createFile(byte[] fileContents, String fileName) {
+	public long createFile(byte[] fileContents, String fileName, UserInfo owner) {
 		File fileInfo = new File();
 		fileInfo.setFileName(fileName);
 		fileInfo.setRequestId(null);
+		fileInfo.setFileSize(fileContents.length);
+		fileInfo.setFileOwner(owner);
 		fileMapper.createFile(fileInfo, fileContents);
 		return fileInfo.getFileId();
 	}

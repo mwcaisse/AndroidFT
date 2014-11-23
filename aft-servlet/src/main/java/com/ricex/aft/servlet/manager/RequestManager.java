@@ -149,10 +149,6 @@ public enum RequestManager {
 		if (!deviceManager.deviceExists(requestDevice.getDeviceId())) {
 			throw new ValidationException("The specified device does not exist");
 		}
-		
-		if (!deviceManager.deviceKeyEquals(requestDevice.getDeviceId(), requestDevice.getDeviceKey())) {
-			throw new ValidationException("The given device upload key does not match");
-		}
 		//check to make sure the request has atleast one file
 		if (request.getRequestFiles().size() == 0) {
 			throw new ValidationException("A request must contain atleast one file");

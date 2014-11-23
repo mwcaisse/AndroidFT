@@ -58,19 +58,6 @@ public enum DeviceManager {
 		return deviceMapper.getDeviceId(deviceId);
 	}
 	
-	/** Checks if the given device key matches the device key defined for the given device.
-	 * 
-	 * If the device key of the specified device is null, then it is considered matching.
-	 * 
-	 * @param deviceId The id of the device to check
-	 * @param deviceKey The string to test
-	 * @return True if the device keys match, or the key of the specified device is null
-	 */
-	public boolean deviceKeyEquals(long deviceId, String deviceKey) {
-		String dk = deviceMapper.getDeviceKey(deviceId);
-		return (dk == null) || (dk.equals(deviceKey));
-	}
-	
 	/** Updates the given device
 	 * 
 	 * @param device The device to update
@@ -78,11 +65,8 @@ public enum DeviceManager {
 	 */
 	
 	public long updateDevice(Device device) {
-		if (deviceKeyEquals(device.getDeviceId(), device.getDeviceKey())) {
-			deviceMapper.updateDevice(device);
-			return 0;
-		}
-		return -1;
+		deviceMapper.updateDevice(device);
+		return 0;
 	}
 
 	/** Adds the given device to the database, and returns the ID of the new device

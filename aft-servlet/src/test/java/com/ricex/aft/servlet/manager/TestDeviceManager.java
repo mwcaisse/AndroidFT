@@ -70,23 +70,9 @@ public class TestDeviceManager {
 	}
 	
 	@Test
-	public void TestUpdateDeviceShouldFailWithInvalidKey() {
-		Device dev = createTestDevice();
-		dev.setDeviceKey("myAwesomeUploadKey");	
-		
-		deviceMapper.createDevice(dev);
-		Device updatedDev = createTestDevice();
-		updatedDev.setDeviceId(dev.getDeviceId());
-		updatedDev.setDeviceKey("t");
-		
-		assertEquals(-1, deviceManager.updateDevice(updatedDev));
-	}
-	
-	@Test
 	public void TestUpdateDeviceShouldChangeDevice() {
 		Device origDev = createTestDevice();
 		Device updatedDev = createTestDevice();
-		updatedDev.setDeviceKey(origDev.getDeviceKey());
 		
 		deviceMapper.createDevice(origDev);
 		updatedDev.setDeviceId(origDev.getDeviceId());
@@ -94,32 +80,9 @@ public class TestDeviceManager {
 		assertEquals(0, deviceManager.updateDevice(updatedDev));
 		
 		Device modifiedDevice = deviceMapper.getDeviceId(updatedDev.getDeviceId());
-		assertEquals(updatedDev.getDeviceKey(), modifiedDevice.getDeviceKey());
 		assertEquals(updatedDev.getDeviceName(), modifiedDevice.getDeviceName());
 		assertEquals(updatedDev.getDeviceRegistrationId(), modifiedDevice.getDeviceRegistrationId());
 		assertEquals(updatedDev.getDeviceUid(), modifiedDevice.getDeviceUid());
-	}
-	
-	@Test
-	public void TestDeviceKeyEquals() {
-		Device dev = createTestDevice();
-		dev.setDeviceKey("test");
-		
-		deviceMapper.createDevice(dev);
-		
-		assertTrue(deviceManager.deviceKeyEquals(0, "test"));
-		assertFalse(deviceManager.deviceKeyEquals(0, "test2"));
-	}
-	
-	@Test
-	public void TestDeviceKeyEqualsShouldBeTrueIfNull() {
-		Device dev = createTestDevice();
-		dev.setDeviceKey(null);
-		
-		deviceMapper.createDevice(dev);
-		
-		assertTrue(deviceManager.deviceKeyEquals(0, "test"));
-		assertTrue(deviceManager.deviceKeyEquals(0, "another key"));
 	}
 	
 	@Test
@@ -149,7 +112,6 @@ public class TestDeviceManager {
 	 */
 	public Device createTestDevice() {
 		Device device = new Device();
-		device.setDeviceKey(createRandomString());
 		device.setDeviceName(createRandomString());
 		device.setDeviceRegistrationId(createRandomString());
 		device.setDeviceUid(createRandomString());
