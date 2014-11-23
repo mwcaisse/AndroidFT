@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ricex.aft.common.data.FileQuota;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.response.LongResponse;
+import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.manager.FileManager;
 
 /**
@@ -129,8 +130,9 @@ public class FileController extends ApiController {
 	 */
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser().toUserInfo()));
+	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName)
+			throws EntityException {
+		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser()));
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -146,8 +148,9 @@ public class FileController extends ApiController {
 	 */
 	
 	@RequestMapping(value = "/rawUpload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_OCTET_STREAM_VALUE})
-	public @ResponseBody LongResponse createFileRaw(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser().toUserInfo()));
+	public @ResponseBody LongResponse createFileRaw(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName)
+			throws EntityException {
+		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser()));
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -160,12 +163,13 @@ public class FileController extends ApiController {
 	 */
 	
 	@RequestMapping(value = "/formUpload", method = RequestMethod.POST)
-	public @ResponseBody LongResponse formUploadFile(@RequestParam("fileName") String fileName, @RequestParam("file") MultipartFile file) {
+	public @ResponseBody LongResponse formUploadFile(@RequestParam("fileName") String fileName, @RequestParam("file") MultipartFile file) 
+			throws EntityException{
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();
 				
-				return new LongResponse(fileManager.createFile(bytes, fileName, getCurrentUser().toUserInfo()));				
+				return new LongResponse(fileManager.createFile(bytes, fileName, getCurrentUser()));				
 			}
 			catch (Exception e) {
 				log.warn("Failed to save file {}", fileName, e);

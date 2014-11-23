@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.ricex.aft.common.entity.UserInfoImpl;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
-import com.ricex.aft.servlet.entity.exception.ValidationException;
+import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.mapper.UserMapper;
 
 /** The user manager for manipulating users
@@ -76,9 +76,9 @@ public enum UserManager implements UserDetailsService {
 	 * 
 	 * @param user The user to create
 	 * @return True if creation successful, false otherwise
-	 * @throws ValidationException If the given user was not valid, sets the message to the reason
+	 * @throws EntityException If the given user was not valid, sets the message to the reason
 	 */
-	public boolean createUser(User user) throws ValidationException {
+	public boolean createUser(User user) throws EntityException {
 		//check to make sure that the user is valid
 		if (isUserValid(user)) {
 			//hash password, and initialize active and locked fields
@@ -138,11 +138,11 @@ public enum UserManager implements UserDetailsService {
 	 * 
 	 * @param user The user to check
 	 * @return True if the user is valid, false otherwise
-	 * @throws ValidationException If the user is not valid, sets the message as to the reason
+	 * @throws EntityException If the user is not valid, sets the message as to the reason
 	 */
-	protected boolean isUserValid(User user) throws ValidationException{
+	protected boolean isUserValid(User user) throws EntityException{
 		if (!isUsernameAvailable(user.getUsername())) {
-			throw new ValidationException("The username is not valid!");
+			throw new EntityException("The username is not valid!");
 		}		
 		return true;
 	}

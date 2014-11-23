@@ -20,7 +20,7 @@ import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.exception.AuthorizationException;
-import com.ricex.aft.servlet.entity.exception.ValidationException;
+import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.RequestManager;
 import com.ricex.aft.servlet.notifier.DeviceNotifier;
@@ -171,11 +171,11 @@ public class RequestController extends ApiController {
 	 * 
 	 * @param request The request to create, with an undefined id
 	 * @return The id of the newly created request
-	 * @throws ValidationException when the request passed in is invalid
+	 * @throws EntityException when the request passed in is invalid
 	 */
 	
 	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
-	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws ValidationException {		
+	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws EntityException {		
 		//set the owner of the request
 		request.setRequestOwner(getCurrentUser().toUserInfo());
 		long requestId = requestManager.createRequest(request);			
@@ -196,11 +196,11 @@ public class RequestController extends ApiController {
 	 * 
 	 * @param request The fully populated request to update
 	 * @return The id of the updated request
-	 * @throws ValidationException when the request passed in is invalid
+	 * @throws EntityException when the request passed in is invalid
 	 */
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
-	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws ValidationException, AuthorizationException {
+	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws EntityException, AuthorizationException {
 		if (canUserModifyRequest(request.getRequestId(), getCurrentUser())) {
 			return new LongResponse(requestManager.updateRequest(request));
 		}

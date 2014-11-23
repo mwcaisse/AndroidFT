@@ -10,8 +10,8 @@ import java.util.List;
 import com.ricex.aft.common.data.FileQuota;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
-import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.servlet.entity.User;
+import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.mapper.FileMapper;
 
 /**  The Manager for the File entity.
@@ -117,14 +117,32 @@ public enum FileManager {
 	 * @return The id of the new file
 	 */
 	
-	public long createFile(byte[] fileContents, String fileName, UserInfo owner) {
-		File fileInfo = new File();
-		fileInfo.setFileName(fileName);
-		fileInfo.setRequestId(null);
-		fileInfo.setFileSize(fileContents.length);
-		fileInfo.setFileOwner(owner);
-		fileMapper.createFile(fileInfo, fileContents);
-		return fileInfo.getFileId();
+	public long createFile(byte[] fileContents, String fileName, User owner) throws EntityException {
+		if (canUserCreateFile(fileContents.length, fileName, owner)) {
+			File fileInfo = new File();
+			fileInfo.setFileName(fileName);
+			fileInfo.setRequestId(null);
+			fileInfo.setFileSize(fileContents.length);
+			fileInfo.setFileOwner(owner.toUserInfo());
+			fileMapper.createFile(fileInfo, fileContents);
+			return fileInfo.getFileId();
+		}
+		throw new EntityException("Unable to create file!");
+	}
+	
+	/** Determines if a user can create a file
+	 * 
+	 * @param fileSize The size of the file they want to create
+	 * @param fileName The name of the file
+	 * @param user The user to create the file for
+	 * @return True if the user can create the file, otherwise throw an exception
+	 * @throws EntityException If the user can not create the file, The message is set to the reason
+	 */
+	public boolean canUserCreateFile(long fileSize, String fileName, User user) throws EntityException {
+		if (fileSize > calculateStorageRemaining(user.getUserId())) {
+			throw new EntityException("Not enough space remaining to upload file");
+		}		
+		return true;
 	}
 	
 	/** Updates the files for the given request

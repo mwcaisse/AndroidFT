@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.ricex.aft.servlet.controller.BaseController;
 import com.ricex.aft.servlet.entity.exception.AuthorizationException;
-import com.ricex.aft.servlet.entity.exception.ValidationException;
+import com.ricex.aft.servlet.entity.exception.EntityException;
 
 /** Base Controller for common functionality between all controllers
  * 
@@ -36,8 +36,8 @@ public abstract class ApiController extends BaseController {
 	 */
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(ValidationException.class)
-	public @ResponseBody String handleValidationException(ValidationException e, HttpServletResponse resp) {
+	@ExceptionHandler(EntityException.class)
+	public @ResponseBody String handleValidationException(EntityException e, HttpServletResponse resp) {
 		return e.getMessage();
 	}	
 	
