@@ -14,7 +14,6 @@ function RequestModel(data) {
 	self.requestDevice = ko.observable(new DeviceModel());
 	self.requestFiles = ko.observableArray([]);
 	self.requestUpdated = ko.observable(new Date().getTime());
-	self.requestDeviceKey = ko.observable("");
 	
 	//if there is data initialize the data..
 	if (data) {
@@ -257,8 +256,6 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 				url = requestRoot + "api/request/update";
 				type =  "PUT";
 			}
-			//update the device key in the device
-			self.request().requestDevice().deviceKey(self.request().requestDeviceKey());
 			ajaxCSRF({
             	url: url,
             	type: type,
