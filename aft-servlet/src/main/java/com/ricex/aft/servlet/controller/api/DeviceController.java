@@ -103,7 +103,7 @@ public class DeviceController extends ApiController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
 	public @ResponseBody LongResponse createDevice(@RequestBody Device device) {
 		//set the current user as the device owner
-		device.setDeviceOwner(getCurrentUser());
+		device.setDeviceOwner(getCurrentUser().toUserInfo());
 		return new LongResponse(deviceManager.createDevice(device));
 	}
 	

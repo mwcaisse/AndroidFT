@@ -4,11 +4,14 @@
 package com.ricex.aft.servlet.manager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import com.ricex.aft.common.data.FileQuota;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.UserInfo;
+import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.mapper.FileMapper;
 
 /**  The Manager for the File entity.
@@ -16,10 +19,13 @@ import com.ricex.aft.servlet.mapper.FileMapper;
  * @author Mitchell Caisse
  *
  */
-public enum FileManager {
-
+public enum FileManager {	
+	
 	/** The singleton instance of the FileManager */
 	INSTANCE;
+	
+	/** The maximum file storage allowed for users */
+	public static final long MAX_FILE_STORAGE = 246579200l;
 	
 	/** The file mapper that will be used to interact with the database */
 	private FileMapper fileMapper;
@@ -61,6 +67,46 @@ public enum FileManager {
 	 */
 	public List<File> getUserFiles(long userId) {
 		return fileMapper.getFilesForUser(userId);
+	}
+	
+	/** Returns the file quota for the given user
+	 * 
+	 * @param user The user to get the file quota for
+	 * @return The file quota
+	 */
+	public FileQuota getFileQuotaForUser(User user) {
+		FileQuota quota = new FileQuota();
+		Collection<File> userFiles = getUserFiles(user.getUserId());	
+		quota.setUser(user.toUserInfo());
+		quota.setFileCount(userFiles.size());
+		quota.setFileStorage(MAX_FILE_STORAGE);
+		quota.setFileStorageUsed(calculateStorageUsed(user.getUserId()));		
+		return quota;
+	}
+	
+	/** Calculates the amount of storage the given user has used
+	 * 
+	 * @param user The user to check
+	 * @return The amount of storage the user has remaining in bytes
+	 */
+	protected long calculateStorageUsed(long userId) {
+		Collection<File> userFiles = getUserFiles(userId);	
+		long usedStorage = 0;
+		for(File file : userFiles) {
+			usedStorage += file.getFileSize();
+		}
+		return usedStorage;
+	}
+	
+	/** Calculates how much storage that the user has remaining
+	 * 
+	 * @param user The user to calculate it for
+	 * @return The amount of storage they have remaining in bytes
+	 */
+	
+	protected long calculateStorageRemaining(long userId){
+		long userMaxStorage = MAX_FILE_STORAGE;
+		return MAX_FILE_STORAGE - calculateStorageRemaining(userId);
 	}
 	
 	/** Creates a new file with the specified contents

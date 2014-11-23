@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ricex.aft.common.data.FileQuota;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.manager.FileManager;
@@ -88,6 +89,17 @@ public class FileController extends ApiController {
 		return fileManager.getUserFiles(getCurrentUser().getUserId());
 	}
 	
+	/** Retreives information about the requesting users file storage, how many files they have, how much
+	 * 		storage they have, and how much storage they have used.
+	 * 
+	 * @return The file quota for the requesting user
+	 */
+	
+	@RequestMapping(value = "/quota/mine", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody FileQuota getMyFileQuota() {
+		return fileManager.getFileQuotaForUser(getCurrentUser());
+	}
+	
 	/** Downloads the file with the given file id.
 	 * 
 	 * Similar to getFileContents, but this adds the attachment header for use in web browsers
@@ -118,7 +130,7 @@ public class FileController extends ApiController {
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse createFile(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser()));
+		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser().toUserInfo()));
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -135,7 +147,7 @@ public class FileController extends ApiController {
 	
 	@RequestMapping(value = "/rawUpload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	public @ResponseBody LongResponse createFileRaw(@RequestBody byte[] fileContents, @RequestParam(value="fileName", required = true) String fileName) {
-		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser()));
+		return new LongResponse(fileManager.createFile(fileContents,fileName, getCurrentUser().toUserInfo()));
 	}
 	
 	/** Creates the specified file and returns its ID.
@@ -153,7 +165,7 @@ public class FileController extends ApiController {
 			try {
 				byte[] bytes = file.getBytes();
 				
-				return new LongResponse(fileManager.createFile(bytes, fileName, getCurrentUser()));				
+				return new LongResponse(fileManager.createFile(bytes, fileName, getCurrentUser().toUserInfo()));				
 			}
 			catch (Exception e) {
 				log.warn("Failed to save file {}", fileName, e);
@@ -186,7 +198,5 @@ public class FileController extends ApiController {
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
 	}
-	
-	
 	
 }

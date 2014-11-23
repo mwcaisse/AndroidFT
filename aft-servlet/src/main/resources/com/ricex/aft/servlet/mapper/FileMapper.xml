@@ -38,7 +38,7 @@
 	<!--  Retrieves the files for the specified user -->
 	<select id="getFilesForUser" parameterType="long" resultMap="fileResultMap">
 	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID, FILE.FILE_OWNER FROM FILE
-	    WHERE REQ_OWNER = #{userId}
+	    WHERE FILE_OWNER = #{userId}
 	</select>
 	
 	<!--  Gets the contents of the specified file -->

@@ -9,13 +9,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ricex.aft.common.entity.UserInfo;
+import com.ricex.aft.common.entity.UserInfoImpl;
 
 /** Represents a user
  * 
  * @author Mitchell Caisse
  *
  */
-public class User implements Serializable, UserDetails, UserInfo {
+public class User implements Serializable, UserDetails {
 
 	/** The id of the user */
 	private long userId;
@@ -129,14 +130,6 @@ public class User implements Serializable, UserDetails, UserInfo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	/** Returns the name of this user
-	 * 
-	 */
-	public String getName() {
-		return username;
-	}
-
 	
 	/**
 	 * @return the password
@@ -286,6 +279,27 @@ public class User implements Serializable, UserDetails, UserInfo {
 	@Override
 	public boolean isEnabled() {
 		return isActive();
+	}
+	
+	/** Converts this user into a UserInfo
+	 * 
+	 * @return The resulting user info, with sensitive fields removed
+	 */
+	public UserInfo toUserInfo() {
+		return convertToUserInfo(this);
+	}
+	
+	/** Converts the specified User into a User Info, removing sensitive fields
+	 * 
+	 * @param user The user to convert
+	 * @return The resulting User Info
+	 */
+	public static UserInfo convertToUserInfo(User user) {
+		UserInfoImpl userInfo = new UserInfoImpl();
+		userInfo.setUserId(user.userId);
+		userInfo.setName(user.username);
+		userInfo.setUsername(user.username);		
+		return userInfo;
 	}
 	
 	/** Determines if the specified object is equal to this object
