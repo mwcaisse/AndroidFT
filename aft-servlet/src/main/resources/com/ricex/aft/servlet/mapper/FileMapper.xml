@@ -25,7 +25,7 @@
 	
 	<!--  Retreives the specified file, without the contents -->
 	<select id="getFileInfo" resultMap="fileResultMap">
-	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID FROM, FILE.FILE_OWNER FILE
+	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID, FILE.FILE_OWNER FROM FILE
 	    WHERE FILE_ID = #{fileId}	    
 	</select>
 	

@@ -106,7 +106,7 @@ public enum FileManager {
 	
 	protected long calculateStorageRemaining(long userId){
 		long userMaxStorage = MAX_FILE_STORAGE;
-		return MAX_FILE_STORAGE - calculateStorageRemaining(userId);
+		return MAX_FILE_STORAGE - calculateStorageUsed(userId);
 	}
 	
 	/** Creates a new file with the specified contents

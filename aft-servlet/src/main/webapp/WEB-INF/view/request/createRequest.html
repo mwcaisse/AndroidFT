@@ -45,9 +45,10 @@
 			</script>
 		
 	
-			<div id="requestBody" class="body">		
+			<div id="requestBody" class="body" style="width: 700px">		
 	
-				<table class="table table-bordered" style="width:auto" data-bind="with: request">
+	
+				<table class="table table-bordered" data-bind="with: request">
 				
 					<tbody>				
 						<tr>
@@ -86,7 +87,7 @@
 				<!-- /ko -->
 				
 				<div id="divFiles">
-					<table class="table table-bordered table-stripped" style="width: auto">
+					<table class="table table-bordered table-stripped">
 						<thead>				
 							<tr>
 								<th>File Name</th>
@@ -185,6 +186,8 @@
 			
 			<script type="text/javascript">
 				
+				var fileUploadModalViewModel; 
+			
 				$(document).ready(function() {
 			
 					$("navRequests").toggleClass("active");
@@ -195,7 +198,7 @@
 						requestId = -1;
 					}
 					
-					var fileUploadModalViewModel = new PFRequestFileUploadViewModel();
+					fileUploadModalViewModel = new PFRequestFileUploadViewModel();
 					var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		
 					
 					ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));

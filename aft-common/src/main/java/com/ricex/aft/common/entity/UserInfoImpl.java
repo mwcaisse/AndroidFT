@@ -1,11 +1,13 @@
 package com.ricex.aft.common.entity;
 
+import java.io.Serializable;
+
 /** Represents a the details of a user. Used to sending information about the owner of a device / file / request
  * 
  * @author Mitchell Caisse
  *
  */
-public class UserInfoImpl implements UserInfo {
+public class UserInfoImpl implements UserInfo, Serializable {
 
 	/** The id of this user */
 	private long userId;
