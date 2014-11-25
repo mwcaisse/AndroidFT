@@ -141,9 +141,18 @@ public enum UserManager implements UserDetailsService {
 	 * @throws EntityException If the user is not valid, sets the message as to the reason
 	 */
 	protected boolean isUserValid(User user) throws EntityException{
+		if (user.getUsername().contains(" ") || user.getUsername().isEmpty()) {
+			throw new EntityException("This username is not valid!");
+		}
 		if (!isUsernameAvailable(user.getUsername())) {
 			throw new EntityException("The username is not valid!");
-		}		
+		}
+		if (user.getPassword().isEmpty()) {
+			throw new EntityException("Password must not be blank!");
+		}
+		if (user.getEmailAddress().isEmpty() || user.getEmailAddress().contains(" ")) {
+			throw new EntityException("Invalid email address");
+		}
 		return true;
 	}
 	
