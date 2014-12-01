@@ -47,17 +47,10 @@ public class RequestRequester extends AbstractRequester {
 	 */
 	
 	public long updateRequest(Request toUpdate) {
-		addDeviceUploadKey(toUpdate);
 		HttpEntity<Request> entity = new HttpEntity<Request>(toUpdate);
 		ResponseEntity<LongResponse> res = restTemplate.exchange(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
 		return res.getBody().getValue();
-	}
-	
-	/** Adds the device upload key to the specified request to upload
-	 * 
-	 * @param request The request to add the key to
-	 */
-	private void addDeviceUploadKey(Request request) {
-		request.getRequestDevice().setDeviceKey(getOrGenerateUploadKey());
 	}	
+	
 }
+

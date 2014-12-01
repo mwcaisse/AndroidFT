@@ -59,8 +59,6 @@ public class DeviceRequester extends AbstractRequester {
 		Device device = new Device();
 		device.setDeviceName(Build.MODEL);
 		device.setDeviceUid(getDeviceUID());	
-		device.setDeviceKey(getOrGenerateUploadKey());
-		device.setDeviceRegistrationId(registrationId);
 		return device;
 	}	
 
