@@ -14,9 +14,7 @@ import android.provider.Settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ricex.aft.android.AFTProperties;
 import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
-import com.ricex.aft.android.util.DigestAuthenticationHttpRequestFactory;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 
 /**
@@ -57,7 +55,6 @@ public abstract class AbstractRequester {
 		
 		//add the gson message converter to the rest template
 		restTemplate.getMessageConverters().add(converter);
-		restTemplate.setRequestFactory(new DigestAuthenticationHttpRequestFactory());
 	}
 	
 	/** Returns the UID for the device this app is running on

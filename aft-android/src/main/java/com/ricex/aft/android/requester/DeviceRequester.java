@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 import android.content.Context;
 import android.os.Build;
 
-import com.ricex.aft.android.AFTProperties;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;

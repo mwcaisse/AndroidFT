@@ -10,9 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.ricex.aft.servlet.util.AFTAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -45,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/user/isAvailable*", "/api/user/register").permitAll()
 				.anyRequest().authenticated()
 				.and()	
+			.addFilterBefore(aftAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.formLogin()
 				.loginPage("/login")
 				.permitAll()
@@ -53,14 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.logoutSuccessUrl("/login?logout")
 				.logoutUrl("/logout")
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.and()
-			.addFilter(digestAuthenticationFilter());
-
-			
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));			
 	}	
 	
-	/** The user Details Servive to use for spring security
+	/** The user Details Service to use for spring security
 	 * 
 	 */
 	@Bean
@@ -75,29 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 	}
 	
-	/** Create the digest authentication filter
-	 * 
-	 * @return
-	 */
-	
 	@Bean
-	public DigestAuthenticationFilter  digestAuthenticationFilter() {
-		DigestAuthenticationFilter filter = new DigestAuthenticationFilter();
-		filter.setAuthenticationEntryPoint(digestAuthenitcationEntryPoint());
-		filter.setUserDetailsService(userDetailsService());
+	public AFTAuthenticationFilter aftAuthenticationFilter() throws Exception {
+		AFTAuthenticationFilter filter = new AFTAuthenticationFilter();
+		filter.setAuthenticationManager(authenticationManagerBean());
 		return filter;
 	}
-	
-	/** Create the digest authentication entry point
-	 * 
-	 * @return
-	 */
-	
-	@Bean
-	public DigestAuthenticationEntryPoint digestAuthenitcationEntryPoint() {
-		DigestAuthenticationEntryPoint entryPoint = new DigestAuthenticationEntryPoint();
-		entryPoint.setKey("riceX1055AFT");
-		entryPoint.setRealmName("AFT-PushFile");
-		return entryPoint;
-	}
+
 }
