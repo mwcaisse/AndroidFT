@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.ricex.aft.servlet.util.AFTAuthenticationFilter;
+import com.ricex.aft.servlet.auth.AFTAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
