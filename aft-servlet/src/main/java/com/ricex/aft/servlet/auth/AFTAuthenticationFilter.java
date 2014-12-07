@@ -70,13 +70,33 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) 
 			throws ServletException, IOException {
 		
-		//the credentials are valid, create the token		
-		Token token = tokenManager.createToken(auth, request.getRemoteAddr());
+		//the credentials are valid, create the token	
+		log.debug("Authentication Valid, getting a token for the user");
+		Token token = getTokenForUser(auth, request.getRemoteAddr());
 		response.addHeader(AFTTokenAuthenticationFilter.AFT_AUTH_TOKEN_HEADER, token.getTokenId());
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);	
 		
 		chain.doFilter(request, response);
+	}
+	
+	/** Creates or fetches an existing token for the specified user
+	 * 
+	 * @param auth The authentication / user to get the token for
+	 * @param clientAddress The address of the user
+	 * @return The token for the user to use
+	 */
+	private Token getTokenForUser(Authentication auth, String clientAddress) {
+		String username = auth.getName();
+		log.debug("Finding a token for the user: " + username);
+		//check if this user already has a token
+		Token token = tokenManager.getTokenForUser(username);
+		if (token == null) {
+			log.debug("Token for {} not found. Creating new token.", token);
+			//if not create a new token for the user
+			token = tokenManager.createToken(username, auth, clientAddress);
+		}
+		return token;
 	}
 
 	/**

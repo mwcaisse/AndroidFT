@@ -15,6 +15,9 @@ public class AFTToken implements Token {
 	/** The unique id of the token */
 	private String tokenId;
 	
+	/** The username of the owner of this token */
+	private String username;
+	
 	/** The authentication for this token */
 	private Authentication authentication;
 	
@@ -29,23 +32,29 @@ public class AFTToken implements Token {
 
 	
 	/** Creates a new token with the default expiration time
-	 * 
+	 *  
+	 * @param tokenId The id of the token
+	 * @param username The username of the owner of the token
+	 * @param auth The authentication of the token
+	 * @param clientAddress The address of the client for this token
 	 */
-	public AFTToken(String tokenId, Authentication auth, String clientAddress) {
-		this(tokenId, auth, clientAddress, new Date());
+	 
+	public AFTToken(String tokenId, String username, Authentication auth, String clientAddress) {
+		this(tokenId, username, auth, clientAddress, new Date());
 	}
 	
 	/** Creates a new Token
 	 *  
 	 * @param tokenId The id of the token
+	 * @param username The username of the owner of the token
 	 * @param auth The authentication of the token
 	 * @param clientAddress The address of the client for this token
 	 * @param expirationDate When the token expires
-	 */
-	 
+	 */	 
 
-	public AFTToken(String tokenId, Authentication auth, String clientAddress, Date expirationDate) {
+	public AFTToken(String tokenId, String username, Authentication auth, String clientAddress, Date expirationDate) {
 		this.tokenId = tokenId;
+		this.username = username;
 		this.authentication = auth;
 		this.clientAddres = clientAddress;
 		this.expirationDate = expirationDate;
@@ -59,6 +68,14 @@ public class AFTToken implements Token {
 	 */
 	public String getTokenId() {
 		return tokenId;
+	}
+	
+	/**
+	 * @return the username
+	 */
+	
+	public String getUsername() {
+		return username;
 	}
 
 	/**
@@ -83,6 +100,20 @@ public class AFTToken implements Token {
 	public boolean isExpired() {
 		return new Date().after(expirationDate); 
 	}	
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof AFTToken) {
+			AFTToken other = (AFTToken) o;
+			return this.tokenId.equals(other.tokenId);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return tokenId.hashCode();
+	}
 	
 	
 }

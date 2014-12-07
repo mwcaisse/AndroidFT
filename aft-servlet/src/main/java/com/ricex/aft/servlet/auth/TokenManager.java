@@ -41,13 +41,37 @@ public class TokenManager {
 		Token token = tokens.get(tokenId);	
 		log.debug("Fetching token with id: " + tokenId + " Found: " + token);
 		
-		//check if the token is valid before returning it, if not remove it from the map
+		//check if the token is valid, if it is return the token, if not return null
+		return isTokenValid(token) ? token : null;
+	}
+	
+	/** Checks to see if the given token is valid (not yet expired) if it isn't it removes it from the store
+	 * 
+	 * @param token The token to check for validity
+	 * @return True if the token is valid, false otherwise
+	 */
+	private boolean isTokenValid(Token token) {
 		if (token != null && token.isExpired()) {
-			log.debug("Expirering Token: " + tokenId);
+			log.debug("Expirering Token: " + token.getTokenId());
 			tokens.remove(token.getTokenId());
-			token = null;
+			return false;
 		}
-		return token;
+		//token isn't expired, return true if the token isn't null
+		return token != null;
+	}
+	
+	/** Gets the Token for the user with the specified username
+	 * 
+	 * @param username The username to fetch the token for
+	 * @return The token associated with the user
+	 */
+	public Token getTokenForUser(String username) {
+		for (Token token : tokens.values()) {
+			if (token.getUsername().equals(username)) {
+				return isTokenValid(token) ? token : null;
+			}
+		}
+		return null;
 	}
 	
 	/** Creates a new Token with the given authentication
@@ -55,8 +79,8 @@ public class TokenManager {
 	 * @param auth The authentication assosiated with the token
 	 * @return The newly created token
 	 */
-	public AFTToken createToken(Authentication auth, String clientAddress) {
-		AFTToken token = new AFTToken(createTokenId(), auth, clientAddress, getExpirationDate());
+	public AFTToken createToken(String username, Authentication auth, String clientAddress) {		
+		AFTToken token = new AFTToken(createTokenId(), username, auth, clientAddress, getExpirationDate());
 		log.debug("Adding token with id: " + token.getTokenId());
 		tokens.put(token.getTokenId(), token);		
 		return token;

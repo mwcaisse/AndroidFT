@@ -10,6 +10,12 @@ public interface Token {
 	 */
 	public String getTokenId();
 	
+	/** Gets the username of the user who owns this token
+	 * 
+	 * @return The username associated with this token
+	 */
+	public String getUsername();
+	
 	/** The authentication the token represents
 	 * 
 	 * @return

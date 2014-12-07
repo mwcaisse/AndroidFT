@@ -15,7 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
-/** Part of the AFT API Authorziation Filter Chain
+/** Part of the AFT API Authorization Filter Chain
  * 
  *  Extracts the token from the request, and sets the appropriate Authorization
  * 
