@@ -78,6 +78,19 @@ public abstract class AbstractRequester {
 		return androidId;
 	}	
 	
+	/** Makes a generic request to the server with the specified attributes
+	 * 
+	 *  Automatically adds and requests the authentication to each request. Will automatically retry the request if the
+	 *  	Authentication token has expired	
+	 *  
+	 * @param url The URL to make the request on
+	 * @param method The HTTP method of the request
+	 * @param requestEntity The request Entity representing the request body and headers
+	 * @param responseType The expected response type of the request
+	 * @param urlVariables Any url parameters
+	 * @return The results from the request, or null if there were any errors
+	 */
+	
 	protected <T> T makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Object... urlVariables) {	
 		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
 		ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
