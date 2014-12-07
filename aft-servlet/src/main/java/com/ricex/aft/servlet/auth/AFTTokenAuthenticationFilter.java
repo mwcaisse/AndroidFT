@@ -52,11 +52,13 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 		String tokenId = request.getHeader(AFT_AUTH_TOKEN_HEADER);
 		Token token = tokenManager.getToken(tokenId);
 		
-		log.debug("TokenId: " + tokenId + " Token: " + token);
-		
+		log.debug("TokenId: " + tokenId + " Token: " + token);		
 		if (token != null) {
 			return token.getAuthentication();
 		}
+		//no token was found, clear security context, and set the response status to 401
+		SecurityContextHolder.clearContext();
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		//no token was found, return null
 		return null;
 	}
@@ -68,6 +70,7 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 		SecurityContextHolder.getContext().setAuthentication(auth);		
 		chain.doFilter(request, response);
 	}
+	
 
 	/**
 	 * @return the tokenManager
