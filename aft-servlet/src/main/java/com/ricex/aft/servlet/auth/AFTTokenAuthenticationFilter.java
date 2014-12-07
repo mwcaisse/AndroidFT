@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
+import com.ricex.aft.common.auth.AFTAuthentication;
+
 /** Part of the AFT API Authorization Filter Chain
  * 
  *  Extracts the token from the request, and sets the appropriate Authorization
@@ -27,9 +29,6 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 	/** The logger */
 	private static Logger log = LoggerFactory.getLogger(AFTTokenAuthenticationFilter.class);
 	
-	/** The request header that contains the AFT Auth token */
-	public static final String AFT_AUTH_TOKEN_HEADER = "AFT_AUTH_TOKEN";
-	
 	/** The token manager to fetch tokens */
 	private TokenManager tokenManager;
 	
@@ -37,7 +36,7 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 	 * 
 	 */
 	public AFTTokenAuthenticationFilter() {
-		super(new RequestHeaderRequestMatcher(AFT_AUTH_TOKEN_HEADER));
+		super(new RequestHeaderRequestMatcher(AFTAuthentication.AFT_AUTH_TOKEN_HEADER));
 	}
 
 	/** Retrieve the Authentication token from the Request Header, and set the user's authentication
@@ -49,7 +48,7 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 			throws AuthenticationException,	IOException, ServletException {
 		
 		log.debug("AFT Token authentication");
-		String tokenId = request.getHeader(AFT_AUTH_TOKEN_HEADER);
+		String tokenId = request.getHeader(AFTAuthentication.AFT_AUTH_TOKEN_HEADER);
 		Token token = tokenManager.getToken(tokenId);
 		
 		log.debug("TokenId: " + tokenId + " Token: " + token);		

@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
+import com.ricex.aft.common.auth.AFTAuthentication;
+
 /** The Authentication Filter to use for parsing in AFT security
  * 
  * @author Mitchell Caisse
@@ -27,16 +29,13 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
 	
 	/** Logger instance */
-	private static Logger log = LoggerFactory.getLogger(AFTAuthenticationFilter.class);
-
-	/** The Authentication Token containing the user's authentication details to signal their request for auth */
-	public static final String AFT_AUTH_INIT_HEADER = "AFT_AUTH_INIT";	
+	private static Logger log = LoggerFactory.getLogger(AFTAuthenticationFilter.class);	
 	
 	/** The token manager */
 	private TokenManager tokenManager;
 	
 	public AFTAuthenticationFilter() {
-		super(new RequestHeaderRequestMatcher(AFT_AUTH_INIT_HEADER));
+		super(new RequestHeaderRequestMatcher(AFTAuthentication.AFT_AUTH_INIT_HEADER));
 		
 		new SimpleUrlAuthenticationFailureHandler();
 	}
@@ -50,7 +49,7 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 			throws AuthenticationException,	IOException, ServletException {
 		
 		//get the auth info from the request header + decode it
-		String authInit = request.getHeader(AFT_AUTH_INIT_HEADER);
+		String authInit = request.getHeader(AFTAuthentication.AFT_AUTH_INIT_HEADER);
 		//String decodedAuth = new String(Base64.decodeBase64(authInit), "UTF-8");
 		
 		//parse the info into the username + password
@@ -74,7 +73,7 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		//the credentials are valid, create the token	
 		log.debug("Authentication Valid, getting a token for the user");
 		Token token = getTokenForUser(auth, request.getRemoteAddr());
-		response.addHeader(AFTTokenAuthenticationFilter.AFT_AUTH_TOKEN_HEADER, token.getTokenId());
+		response.addHeader(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, token.getTokenId());
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);	
 		
