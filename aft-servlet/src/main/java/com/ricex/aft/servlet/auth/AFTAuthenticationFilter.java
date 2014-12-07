@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
 /** The Authentication Filter to use for parsing in AFT security
@@ -37,6 +37,8 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	
 	public AFTAuthenticationFilter() {
 		super(new RequestHeaderRequestMatcher(AFT_AUTH_INIT_HEADER));
+		
+		new SimpleUrlAuthenticationFailureHandler();
 	}
 
 	/** Extracts the authentication details from the header, and attempts to authenticate the user
@@ -69,7 +71,6 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) 
 			throws ServletException, IOException {
-		
 		//the credentials are valid, create the token	
 		log.debug("Authentication Valid, getting a token for the user");
 		Token token = getTokenForUser(auth, request.getRemoteAddr());

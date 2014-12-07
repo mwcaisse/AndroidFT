@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.ricex.aft.common.entity.UserInfoImpl;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.exception.EntityException;
@@ -58,7 +57,11 @@ public enum UserManager implements UserDetailsService {
 	 */
 	@Override
 	public User loadUserByUsername(String username) throws UsernameNotFoundException {
-		return getUserByUsername(username);
+		User user = getUserByUsername(username);
+		if (user == null) {
+			throw new UsernameNotFoundException("No user with the username " + username + " was found.");
+		}
+		return user;
 	}	
 	
 	

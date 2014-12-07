@@ -56,9 +56,10 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 		if (token != null) {
 			return token.getAuthentication();
 		}
-		//no token was found, clear security context, and set the response status to 401
-		SecurityContextHolder.clearContext();
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		//no token was found, clear security context, and send an error back
+		SecurityContextHolder.clearContext();		
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication Failed: Token is invalid or expired.");
+		
 		//no token was found, return null
 		return null;
 	}
