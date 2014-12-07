@@ -30,8 +30,7 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	private static Logger log = LoggerFactory.getLogger(AFTAuthenticationFilter.class);
 
 	/** The Authentication Token containing the user's authentication details to signal their request for auth */
-	public static final String AFT_AUTH_INIT_HEADER = "AFT_AUTH_INIT";
-	
+	public static final String AFT_AUTH_INIT_HEADER = "AFT_AUTH_INIT";	
 	
 	/** The token manager */
 	private TokenManager tokenManager;
@@ -50,10 +49,11 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		
 		//get the auth info from the request header + decode it
 		String authInit = request.getHeader(AFT_AUTH_INIT_HEADER);
-		String decodedAuth = new String(Base64.decodeBase64(authInit), "UTF-8");
+		//String decodedAuth = new String(Base64.decodeBase64(authInit), "UTF-8");
 		
 		//parse the info into the username + password
-		StringTokenizer st = new StringTokenizer(decodedAuth, "|");		
+		//StringTokenizer st = new StringTokenizer(decodedAuth, "|");
+		StringTokenizer st = new StringTokenizer(authInit, "|");	
 		String username = st.nextToken();
 		String password = st.nextToken();
 		
@@ -62,7 +62,7 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		return this.getAuthenticationManager().authenticate(auth);
 	}
 	
-	/** When the authentication is sucessful, create the token, and send it back to the user in the response header
+	/** When the authentication is successful, create the token, and send it back to the user in the response header
 	 * 
 	 */
 	
@@ -77,6 +77,20 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		SecurityContextHolder.getContext().setAuthentication(auth);	
 		
 		chain.doFilter(request, response);
+	}
+
+	/**
+	 * @return the tokenManager
+	 */
+	public TokenManager getTokenManager() {
+		return tokenManager;
+	}
+
+	/**
+	 * @param tokenManager the tokenManager to set
+	 */
+	public void setTokenManager(TokenManager tokenManager) {
+		this.tokenManager = tokenManager;
 	}
 
 }

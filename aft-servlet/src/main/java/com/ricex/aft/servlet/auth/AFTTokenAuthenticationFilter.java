@@ -4,18 +4,16 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.filter.GenericFilterBean;
 
 /** Part of the AFT API Authorziation Filter Chain
  * 
@@ -26,6 +24,9 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+	/** The logger */
+	private static Logger log = LoggerFactory.getLogger(AFTTokenAuthenticationFilter.class);
+	
 	/** The request header that contains the AFT Auth token */
 	public static final String AFT_AUTH_TOKEN_HEADER = "AFT_AUTH_TOKEN";
 	
@@ -47,8 +48,12 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 	public Authentication attemptAuthentication(HttpServletRequest request,	HttpServletResponse response) 
 			throws AuthenticationException,	IOException, ServletException {
 		
+		log.debug("AFT Token authentication");
 		String tokenId = request.getHeader(AFT_AUTH_TOKEN_HEADER);
 		Token token = tokenManager.getToken(tokenId);
+		
+		log.debug("TokenId: " + tokenId + " Token: " + token);
+		
 		if (token != null) {
 			return token.getAuthentication();
 		}
@@ -59,8 +64,25 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) 
 			throws ServletException, IOException {
-		
+		//successful auth, set the header, and proceed forward
 		SecurityContextHolder.getContext().setAuthentication(auth);		
 		chain.doFilter(request, response);
 	}
+
+	/**
+	 * @return the tokenManager
+	 */
+	public TokenManager getTokenManager() {
+		return tokenManager;
+	}
+
+	/**
+	 * @param tokenManager the tokenManager to set
+	 */
+	public void setTokenManager(TokenManager tokenManager) {
+		this.tokenManager = tokenManager;
+	}
+	
+	
+	
 }

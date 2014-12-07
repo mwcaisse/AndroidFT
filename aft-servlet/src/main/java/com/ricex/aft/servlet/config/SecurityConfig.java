@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ricex.aft.servlet.auth.AFTAuthenticationFilter;
+import com.ricex.aft.servlet.auth.AFTTokenAuthenticationFilter;
+import com.ricex.aft.servlet.auth.TokenManager;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/user/isAvailable*", "/api/user/register").permitAll()
 				.anyRequest().authenticated()
 				.and()	
-			.addFilterBefore(aftAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(aftTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(aftAuthenticationFilter(), AFTTokenAuthenticationFilter.class)
 			.formLogin()
 				.loginPage("/login")
 				.permitAll()
@@ -77,7 +80,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AFTAuthenticationFilter aftAuthenticationFilter() throws Exception {
 		AFTAuthenticationFilter filter = new AFTAuthenticationFilter();
 		filter.setAuthenticationManager(authenticationManagerBean());
+		filter.setTokenManager(tokenManager());
 		return filter;
+	}
+	
+	@Bean
+	public AFTTokenAuthenticationFilter aftTokenAuthenticationFilter() throws Exception {
+		AFTTokenAuthenticationFilter filter = new AFTTokenAuthenticationFilter();
+		filter.setAuthenticationManager(authenticationManagerBean());
+		filter.setTokenManager(tokenManager());
+		return filter;
+	}
+	
+	/** Create the Token Manager for the AFT Token Authentication
+	 *
+	 */
+	@Bean
+	public TokenManager tokenManager() {
+		TokenManager tokenManager = new TokenManager();
+		return tokenManager;
 	}
 
 }

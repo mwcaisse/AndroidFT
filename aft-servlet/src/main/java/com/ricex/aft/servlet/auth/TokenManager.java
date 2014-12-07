@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 
 /** Manages the authentication tokens
@@ -15,6 +17,9 @@ import org.springframework.security.core.Authentication;
  */
 public class TokenManager {
 
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(TokenManager.class);
+	
 	/** The collection of tokens */
 	private Map<String, Token> tokens;
 	
@@ -30,9 +35,15 @@ public class TokenManager {
 	 * @return The token with the given ID, or null if a valid token with that id was not found
 	 */
 	public Token getToken(String tokenId) {
+		
+		log.debug("Number of Tokens: " + tokens.size());
+		
 		Token token = tokens.get(tokenId);	
+		log.debug("Fetching token with id: " + tokenId + " Found: " + token);
+		
 		//check if the token is valid before returning it, if not remove it from the map
 		if (token != null && token.isExpired()) {
+			log.debug("Expirering Token: " + tokenId);
 			tokens.remove(token.getTokenId());
 			token = null;
 		}
@@ -46,6 +57,7 @@ public class TokenManager {
 	 */
 	public AFTToken createToken(Authentication auth, String clientAddress) {
 		AFTToken token = new AFTToken(createTokenId(), auth, clientAddress, getExpirationDate());
+		log.debug("Adding token with id: " + token.getTokenId());
 		tokens.put(token.getTokenId(), token);		
 		return token;
 	}
