@@ -3,9 +3,6 @@
  */
 package com.ricex.aft.android.requester;
 
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
 import android.content.Context;
 import android.os.Build;
 
@@ -21,8 +18,6 @@ public class DeviceRequester extends AbstractRequester {
 	
 	public DeviceRequester(Context context) {
 		super(context);
-		restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
 	}
 	
 	/** Registers the device with the app server
@@ -33,7 +28,7 @@ public class DeviceRequester extends AbstractRequester {
 	
 	public boolean registerDevice(String registrationId) {
 		Device device = createDevice(registrationId);
-		long res = restTemplate.postForObject(serverAddress + "device/register", device, LongResponse.class).getValue();
+		long res = postForObject(serverAddress + "device/register", device, LongResponse.class).getValue();
 		return res >= 0;
 	}
 	
@@ -44,7 +39,7 @@ public class DeviceRequester extends AbstractRequester {
 	
 	public boolean isRegistered() {
 		String deviceUid = getDeviceUID();		
-		BooleanResponse res = restTemplate.getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);		
+		BooleanResponse res = getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);		
 		return res.getValue();
 	}
 	

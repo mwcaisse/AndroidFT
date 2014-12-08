@@ -36,7 +36,7 @@ public class RequestRequester extends AbstractRequester {
 	 */
 	
 	public List<Request> getNewRequestsForDevice() {
-		Request[] requests = restTemplate.getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
+		Request[] requests = getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
 		return Arrays.asList(requests);
 	}
 	
@@ -48,8 +48,8 @@ public class RequestRequester extends AbstractRequester {
 	
 	public long updateRequest(Request toUpdate) {
 		HttpEntity<Request> entity = new HttpEntity<Request>(toUpdate);
-		ResponseEntity<LongResponse> res = restTemplate.exchange(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
-		return res.getBody().getValue();
+		LongResponse res = makeRequest(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
+		return res.getValue();
 	}	
 	
 }

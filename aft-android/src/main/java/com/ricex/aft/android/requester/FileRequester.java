@@ -32,7 +32,7 @@ public class FileRequester extends AbstractRequester {
 	 */
 	
 	public File getCompleteFile(long fileId) {
-		File res = restTemplate.getForObject(serverAddress + "file/{fileId}", File.class, fileId);
+		File res = getForObject(serverAddress + "file/{fileId}", File.class, fileId);
 		return res;
 	}
 	
@@ -42,7 +42,7 @@ public class FileRequester extends AbstractRequester {
 	 * @return The file information
 	 */
 	public File getFileInfo(long fileId) {
-		File res = restTemplate.getForObject(serverAddress + "file/info/{fileId}", File.class, fileId);
+		File res = getForObject(serverAddress + "file/info/{fileId}", File.class, fileId);
 		return res;
 	}
 	
@@ -52,7 +52,7 @@ public class FileRequester extends AbstractRequester {
 	 * @return The contents of the file
 	 */
 	public byte[] getFileContents(long fileId) {
-		byte[] contents = restTemplate.getForObject(serverAddress + "file/contents/{fileId}", byte[].class, fileId);
+		byte[] contents = getForObject(serverAddress + "file/contents/{fileId}", byte[].class, fileId);
 		return contents;
 	}
 	

@@ -6,7 +6,6 @@ package com.ricex.aft.android.requester;
 import java.text.DateFormat;
 import java.util.Date;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -34,7 +33,7 @@ public abstract class AbstractRequester {
 	protected final Context context;
 	
 	/** The rest template */
-	protected RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 	
 	/** The server address */
 	protected final String serverAddress;
@@ -78,6 +77,30 @@ public abstract class AbstractRequester {
 		return androidId;
 	}	
 	
+	/** Performs a get to the specified url, and returns the results as the specified type
+	 * 
+	 * @param url The url to make the request to
+	 * @param responseType The expected response
+	 * @param urlVariables The url parameters
+	 * @return The results of the request, or null if there was an error
+	 */
+	public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) {
+		return makeRequest(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, urlVariables);
+	}
+	
+	/** Performs a post to the specified url, and returns the results as the specified type
+	 * 
+	 * @param url THe url to make the request to
+	 * @param requestBody The body of the request
+	 * @param responseType The expected response
+	 * @param urlVariables The url parameters
+	 * @return The results of the request, or null if there was an error
+	 */
+	
+	public <T> T postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) {
+		return makeRequest(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, urlVariables);
+	}
+	
 	/** Makes a generic request to the server with the specified attributes
 	 * 
 	 *  Automatically adds and requests the authentication to each request. Will automatically retry the request if the
@@ -91,7 +114,7 @@ public abstract class AbstractRequester {
 	 * @return The results from the request, or null if there were any errors
 	 */
 	
-	protected <T> T makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Object... urlVariables) {	
+	protected <T> T makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) {	
 		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
 		ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
 		return processRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
@@ -110,7 +133,7 @@ public abstract class AbstractRequester {
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
 	protected <T> T processRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
-			ParameterizedTypeReference<T> responseType, Object... urlVariables) {
+			Class<T> responseType, Object... urlVariables) {
 		
 		T res = null;
 		//check the status of the response
