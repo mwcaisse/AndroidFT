@@ -34,22 +34,7 @@ function getURLParameter(name) {
  * @param options The options object to send
  * @return The jquery future object
  */
-function ajaxCSRF(options) {
-	//create the CSRF header 
-	var headers = {};
-	var csrfHeaderName = $("#input_csrf").attr("name");
-	var csrfHeaderValue = $("#input_csrf").attr("value");	
-	headers[csrfHeaderName] = csrfHeaderValue;
-	
-	//add the header to the options
-	//check if the options already contains headers, as to not replace custom headerss
-	if (options.headers) {
-		options.headers[csrfHeaderName] = csrfHeaderValue;
-	}
-	else {
-		options.headers = headers;
-	}
-	
+function ajaxCSRF(options) {	
 	//return the ajax call
 	return $.ajax(options);	
 }
@@ -62,12 +47,6 @@ function ajaxCSRF(options) {
  */
 
 function ajaxCSRFPost(url, data) {
-	var headers = {};
-	var csrfHeaderName = $("#input_csrf").attr("name");
-	var csrfHeaderValue = $("#input_csrf").attr("value");
-	
-	headers[csrfHeaderName] = csrfHeaderValue;
-	
 	return ajaxCSRF( {
 		url: requestRoot + url,
 		type: "POST",

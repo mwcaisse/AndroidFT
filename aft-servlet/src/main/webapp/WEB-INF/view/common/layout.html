@@ -43,15 +43,6 @@
 		
 		<!-- import the page footer -->
 		<footer th:replace="@{common/footer}"></footer>
-		
-		<!-- Hidden div for the CSRF token + header name -->
-		<div id="divHiddenForm" style="display:none">
-			<form name="f" th:action="@{/does/not/exist}" method="post" class="form-horizontal">
-				<!-- CSRF tokens -->
-				<input id="input_csrf" type="hidden" th:name="${_csrf.headerName}" th:value="${_csrf.token}" />
-			</form>
-		</div>
-
 
 	</body>
 </html>
