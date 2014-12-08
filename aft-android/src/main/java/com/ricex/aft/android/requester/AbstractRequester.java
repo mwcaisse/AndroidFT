@@ -16,11 +16,15 @@ import org.springframework.web.client.RestTemplate;
 
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
+import com.ricex.aft.android.util.UserInfoDeserializer;
 import com.ricex.aft.common.auth.AFTAuthentication;
+import com.ricex.aft.common.entity.File;
+import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 
 /**
@@ -56,6 +60,7 @@ public abstract class AbstractRequester {
 		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
 				.registerTypeAdapter(byte[].class, new AndroidJsonByteArrayBase64Adapter())
+				.registerTypeAdapter(UserInfo.class, new UserInfoDeserializer())
 				.create();
 		
 		//create the Gson message converter for spring, and set its Gson
@@ -64,7 +69,14 @@ public abstract class AbstractRequester {
 		
 		//add the gson message converter to the rest template
 		restTemplate.getMessageConverters().add(converter);
-				
+		
+		String jsonFile = "{\"fileId\": 4,\"requestId\": 1,\"fileName\": \"10-5-13_YO.png\",\"fileSize\": 4811700,\"fileOwner\":{\"userId\": 4,\"username\": \"testuser\",\"name\": \"testuser\"}}";
+		String jsonUser = "{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}";
+		File file = gson.fromJson(jsonFile, File.class);
+		UserInfo info = file.getFileOwner();
+		Log.i("AR", "UserInfo: " + info);
+		Log.i("AR", "UserInfo Name: " + info.getName());
+		
 	}
 	
 	/** Returns the UID for the device this app is running on

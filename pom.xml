@@ -10,7 +10,7 @@
 		<mybatis.version>3.2.3</mybatis.version>
 		<mybatis-spring.version>1.2.1</mybatis-spring.version>
 		<jackson.version>1.9.13</jackson.version>
-		<gson.version>2.2.4</gson.version>
+		<gson.version>2.3.1</gson.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<mysql.jdbc.version>5.1.33</mysql.jdbc.version>
