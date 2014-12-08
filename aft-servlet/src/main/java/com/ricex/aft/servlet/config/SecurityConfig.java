@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http
+			.csrf().disable()
 			.authorizeRequests()
 				//permit access to the static resources, css, js, and images
 				.antMatchers("/css/**", "/js/**", "/img/**").permitAll()

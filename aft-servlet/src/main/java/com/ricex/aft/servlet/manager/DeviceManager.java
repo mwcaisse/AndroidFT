@@ -5,6 +5,9 @@ package com.ricex.aft.servlet.manager;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 
@@ -19,6 +22,9 @@ public enum DeviceManager {
 
 	/** The singleton instance */
 	INSTANCE;
+
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(DeviceManager.class);
 	
 	/** The device mapper that will be used to fetch data from the database */
 	private DeviceMapper deviceMapper;
@@ -77,6 +83,7 @@ public enum DeviceManager {
 	
 	public long createDevice(Device device) {
 		device.setDeviceId(-1);
+		log.debug("Creating device with owner: " + device.getDeviceOwner().getUserId());
 		deviceMapper.createDevice(device);
 		return device.getDeviceId();
 	}	

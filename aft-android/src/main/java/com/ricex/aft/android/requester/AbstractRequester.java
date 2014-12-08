@@ -49,7 +49,7 @@ public abstract class AbstractRequester {
 	public AbstractRequester(Context context) {
 		this.context = context;
 		//this.serverAddress = "https://home.fourfivefire.com/aft-servlet/api/";
-		this.serverAddress = "http://192.168.1.160:8080/aft-servlet/api/";
+		this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";
 		restTemplate = new RestTemplate();
 		
 		//Create the gson object to decode Json messages

@@ -50,7 +50,7 @@
 	<!-- Inserts the device in the param -->
 	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
 		INSERT INTO DEVICE (DEV_UID, DEV_NAME, DEV_REG_ID, DEV_OWNER)
-		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId}, , #{deviceOwner.userId})
+		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId}, #{deviceOwner.userId})
 	</insert>
 	
 </mapper>

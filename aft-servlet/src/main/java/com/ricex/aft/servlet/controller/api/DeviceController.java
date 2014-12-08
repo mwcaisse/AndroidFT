@@ -2,6 +2,8 @@ package com.ricex.aft.servlet.controller.api;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +18,6 @@ import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.exception.AuthorizationException;
 import com.ricex.aft.servlet.manager.DeviceManager;
-import com.ricex.aft.servlet.manager.UserManager;
 
 /** The SpringMVC Controller for handling devices.
  * 
@@ -29,6 +30,9 @@ import com.ricex.aft.servlet.manager.UserManager;
 @Controller
 @RequestMapping("/api/device")
 public class DeviceController extends ApiController {	
+	
+	/** Logger instance */
+	private static Logger log = LoggerFactory.getLogger(DeviceController.class);
 	
 	/** Manager for fetching device related information */
 	private DeviceManager deviceManager;
@@ -103,6 +107,7 @@ public class DeviceController extends ApiController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
 	public @ResponseBody LongResponse createDevice(@RequestBody Device device) {
 		//set the current user as the device owner
+		log.debug("User {} is creating a device.", getCurrentUser());
 		device.setDeviceOwner(getCurrentUser().toUserInfo());
 		return new LongResponse(deviceManager.createDevice(device));
 	}
@@ -133,7 +138,7 @@ public class DeviceController extends ApiController {
 			}
 		}
 		else {
-			return new LongResponse(deviceManager.createDevice(device));
+			return createDevice(device);
 		}	
 	}
 
