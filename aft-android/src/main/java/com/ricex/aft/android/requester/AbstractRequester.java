@@ -48,8 +48,8 @@ public abstract class AbstractRequester {
 	
 	public AbstractRequester(Context context) {
 		this.context = context;
-		this.serverAddress = "http://fourfivefire.com:8080/aft-servlet/manager/";
-		//this.serverAddress = "http://192.168.1.160:8080/aft-servlet/manager/";
+		//this.serverAddress = "https://home.fourfivefire.com/aft-servlet/api/";
+		this.serverAddress = "http://192.168.1.160:8080/aft-servlet/api/";
 		restTemplate = new RestTemplate();
 		
 		//Create the gson object to decode Json messages
@@ -167,7 +167,8 @@ public abstract class AbstractRequester {
 	 * @return The new HttpEntity with the updated Authentication Headers
 	 */
 	protected HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
-		HttpHeaders headers = entity.getHeaders();		
+		HttpHeaders headers = new HttpHeaders();	
+		headers.putAll(entity.getHeaders());		
 		//check if we have an authentication token
 		if (needAuthenticationToken()) {
 			//TODO: hard coded for now, update after credential manager is added
