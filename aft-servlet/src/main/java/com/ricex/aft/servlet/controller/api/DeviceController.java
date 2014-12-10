@@ -15,7 +15,6 @@ import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
 import com.ricex.aft.servlet.entity.User;
-import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.exception.AuthorizationException;
 import com.ricex.aft.servlet.manager.DeviceManager;
 
@@ -84,7 +83,7 @@ public class DeviceController extends ApiController {
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes={"application/json"})
 	public void updateDevice(@RequestBody Device device) throws AuthorizationException {
-		if (canUserModifyDevice(device.getDeviceId(), getCurrentUser())) {
+		if (canUserModifyDevice(device, getCurrentUser())) {
 			deviceManager.updateDevice(device);
 		}
 		else {
@@ -130,7 +129,7 @@ public class DeviceController extends ApiController {
 		//check if the device exists, if it does update it, otherwise create it
 		if (deviceManager.deviceExists(device.getDeviceUid())) {
 			//check if the user can modify the device
-			if (canUserModifyDevice(device.getDeviceId(), getCurrentUser())) {
+			if (canUserModifyDevice(device, getCurrentUser())) {
 				return new LongResponse(deviceManager.updateDevice(device));
 			}
 			else {
@@ -156,21 +155,21 @@ public class DeviceController extends ApiController {
 	
 	public void setDeviceManager(DeviceManager deviceManager) {
 		this.deviceManager = deviceManager;
-	}
+	}	
 	
-	/** Determines if the specified user can modify the device with the given id
+	/** Determines if the specified user can modify the device
 	 * 
-	 * @param deviceId The id of the device
-	 * @param user The user to check
-	 * @return True if the user can modify the device, false otherwise
+	 * @param device The device to check if the user can modify
+	 * @param user The user in question
+	 * @return True if the given use can modify the device, false if not, or the specified device
+	 * 		was not found.
 	 */
-	protected boolean canUserModifyDevice(long deviceId, User user) {
-		if (user.userHasRole(UserRole.ROLE_ADMIN)) {
-			return true;
+	private boolean canUserModifyDevice(Device device, User user) { 
+		Device dbDevice = deviceManager.getDevice(device.getDeviceId());
+		if (dbDevice == null) {
+			//couldn't find device by id, try Uid
+			dbDevice = deviceManager.getDeviceByUid(device.getDeviceUid());
 		}
-		//get the device from the database
-		Device device = deviceManager.getDevice(deviceId);
-		//user can modify the device if it was found, and they are the owner
 		return device != null && user.equals(device.getDeviceOwner());
 	}
 	

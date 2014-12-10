@@ -64,6 +64,15 @@ public enum DeviceManager {
 		return deviceMapper.getDeviceId(deviceId);
 	}
 	
+	/** Returns the device with the given uid
+	 * 
+	 * @param deviceUid The uid of the device
+	 * @return The device
+	 */
+	public Device getDeviceByUid(String deviceUid) {
+		return deviceMapper.getDeviceUid(deviceUid);
+	}
+	
 	/** Updates the given device
 	 * 
 	 * @param device The device to update
