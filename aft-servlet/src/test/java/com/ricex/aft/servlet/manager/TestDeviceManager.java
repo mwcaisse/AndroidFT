@@ -7,14 +7,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.ricex.aft.common.entity.Device;
+import com.ricex.aft.common.entity.UserInfo;
+import com.ricex.aft.common.entity.UserInfoImpl;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.MockDeviceMapper;
 
@@ -115,7 +115,20 @@ public class TestDeviceManager {
 		device.setDeviceName(createRandomString());
 		device.setDeviceRegistrationId(createRandomString());
 		device.setDeviceUid(createRandomString());
+		device.setDeviceOwner(createTestUser());
 		return device;
+	}
+	
+	/** Create a test user
+	 * 
+	 * @return
+	 */
+	public UserInfo createTestUser() {
+		UserInfoImpl userInfo = new UserInfoImpl();
+		userInfo.setUserId(1);
+		userInfo.setName("Test User");
+		userInfo.setUsername("testuser");
+		return userInfo;
 	}
 	
 	/** Creates a random string
