@@ -15,7 +15,7 @@ import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 import com.ricex.aft.common.util.JsonRequestDirectorySerializer;
 import com.ricex.aft.common.util.JsonRequestStatusSerializer;
-import com.ricex.aft.common.util.UserInfoDeserializer;
+import com.ricex.aft.common.util.UserInfoAdapter;
 
 /** Factory Object for creating the Gson Parser to use
  * 
@@ -44,7 +44,7 @@ public class GsonFactory {
 			.registerTypeAdapter(byte[].class, new JsonByteArrayBase64Adapter())
 			.registerTypeAdapter(RequestStatus.class, new JsonRequestStatusSerializer())
 			.registerTypeAdapter(RequestDirectory.class, new JsonRequestDirectorySerializer())
-			.registerTypeAdapter(UserInfo.class, new UserInfoDeserializer())
+			.registerTypeAdapter(UserInfo.class, new UserInfoAdapter())
 			.create();
 		return gson;
 	}

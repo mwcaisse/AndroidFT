@@ -47,7 +47,7 @@ public abstract class ApiController extends BaseController {
 	 * @param resp The http response
 	 * @return The message to return
 	 */
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ExceptionHandler(AuthorizationException.class)
 	public @ResponseBody String handleAuthorizationException(AuthorizationException e, HttpServletResponse resp) {
 		return e.getMessage();

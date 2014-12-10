@@ -26,7 +26,7 @@ import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
 import com.ricex.aft.common.auth.AFTAuthentication;
 import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
-import com.ricex.aft.common.util.UserInfoDeserializer;
+import com.ricex.aft.common.util.UserInfoAdapter;
 
 /**
  * @author Mitchell Caisse
@@ -42,11 +42,9 @@ public abstract class AbstractRequester {
 	
 	/** The server address */
 	protected final String serverAddress;
-	
-	/** The current Authentication Token */
-	private String aftToken;
-	
-	protected Gson gson;
+
+	/** The security context to use */
+	private SecurityContext securityContext;
 	
 	/** Creates a new Abstract requestor with the specified context
 	 * 
@@ -58,11 +56,13 @@ public abstract class AbstractRequester {
 		//this.serverAddress = "https://home.fourfivefire.com/aft-servlet/api/";
 		this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";	
 		
+		this.securityContext = SecurityContext.INSTANCE;
+		
 		//Create the gson object to decode Json messages
-		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
+		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
 				.registerTypeAdapter(byte[].class, new AndroidJsonByteArrayBase64Adapter())
-				.registerTypeAdapter(UserInfo.class, new UserInfoDeserializer())
+				.registerTypeAdapter(UserInfo.class, new UserInfoAdapter())
 				.create();
 		
 		//create the Gson message converter for spring, and set its Gson
@@ -159,12 +159,12 @@ public abstract class AbstractRequester {
 		if (responseEntity.getStatusCode() == HttpStatus.OK) {
 			res = responseEntity.getBody();
 			//if we need authentication token, extract it from the response
-			if (needAuthenticationToken()) {
+			if (securityContext.needAuthenticationToken()) {
 				extractAuthenticationToken(responseEntity);
 			}
 		}
 		else if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-			if (needAuthenticationToken()) {
+			if (securityContext.needAuthenticationToken()) {
 				//401 was returned, and we still need a token
 				//TODO: means invalid credentials, raise this up somehow
 				res = null; // for now we return null
@@ -172,7 +172,7 @@ public abstract class AbstractRequester {
 			else {
 				//401 was returned, and we don't need a token,
 				// our token has most likely expired, invalidate our current token, and re-request
-				invalidateAFTToken();
+				securityContext.invalidateAFTToken();
 				res = makeRequest(url, method, requestEntity, responseType, urlVariables);
 			}
 		}		
@@ -189,12 +189,12 @@ public abstract class AbstractRequester {
 		HttpHeaders headers = new HttpHeaders();	
 		headers.putAll(entity.getHeaders());		
 		//check if we have an authentication token
-		if (needAuthenticationToken()) {
+		if (securityContext.needAuthenticationToken()) {
 			//TODO: hard coded for now, update after credential manager is added
 			headers.add(AFTAuthentication.AFT_AUTH_INIT_HEADER, "testuser|password");
 		}
 		else {
-			headers.add(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, aftToken);
+			headers.add(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, securityContext.getAftToken());
 		}
 
 		return new HttpEntity<Object>(entity.getBody(), headers);
@@ -209,23 +209,8 @@ public abstract class AbstractRequester {
 		String token = entity.getHeaders().getFirst(AFTAuthentication.AFT_AUTH_TOKEN_HEADER);
 		//set it as the authorization token, if it was found, and is not empty
 		if (token != null && !token.isEmpty()) {
-			aftToken = token;
+			securityContext.setAftToken(token);
 		}
-	}
-	
-	/** Determines if we need an Authentication token or not
-	 * 
-	 * @return True if we need a token, false otherwise
-	 */
-	private boolean needAuthenticationToken() {
-		return (aftToken == null || aftToken.isEmpty());
-	}
-	
-	/** Invalidates the AFT Token
-	 * 
-	 */
-	private void invalidateAFTToken() {
-		aftToken = null;
 	}
 	
 }

@@ -37,9 +37,6 @@ public class RequestRequester extends AbstractRequester {
 	
 	public List<Request> getNewRequestsForDevice() {
 		Request[] requests = getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
-		if (requests.length > 0) {
-			Log.i("AFT-RR", "Request: " + gson.toJson(requests[0]));
-		}
 		return Arrays.asList(requests);
 	}
 	

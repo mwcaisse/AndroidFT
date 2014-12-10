@@ -6,6 +6,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.common.entity.UserInfoImpl;
 
@@ -14,7 +16,7 @@ import com.ricex.aft.common.entity.UserInfoImpl;
  * @author Mitchell Caisse
  *
  */
-public class UserInfoDeserializer implements JsonDeserializer<UserInfo> {
+public class UserInfoAdapter implements JsonDeserializer<UserInfo>, JsonSerializer<UserInfo> {
 
 	/** Deserialize the UserInfoImpl
 	 * 
@@ -25,5 +27,12 @@ public class UserInfoDeserializer implements JsonDeserializer<UserInfo> {
 					throws JsonParseException {
 		return context.deserialize(json, UserInfoImpl.class);
 	}
+
+	@Override
+	public JsonElement serialize(UserInfo userInfo, Type type, JsonSerializationContext context) {
+		return context.serialize(userInfo, UserInfoImpl.class);
+	}
+	
+	
 
 }
