@@ -104,6 +104,8 @@
 						<path>${env.ANDROID_HOME}</path>
 						<platform>19</platform>
 					</sdk>
+					<androidManifest>AndroidManifext.xml</androidManifest>
+					<resourceDirectory>/res</resourceDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
