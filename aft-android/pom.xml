@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	    <artifactId>aft</artifactId>
+	    <groupId>com.ricex.aft</groupId>
+	    <version>0.4.1-SNAPSHOT</version>
+  	</parent>
+	<artifactId>aft-android</artifactId>
+	<packaging>apk</packaging>
+	<name>aft-android</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<android.plugin.version>4.0.0-rc.2</android.plugin.version>
+		<platform.version>4.1.1.4</platform.version>
+		<android.support.version>19.1.0</android.support.version>
+	</properties>
+	
+	<dependencies>
+	
+		<!--  AFT Common -->
+		<dependency>
+			<groupId>com.ricex.aft</groupId>
+			<artifactId>aft-common</artifactId>
+			<version>0.4.1-SNAPSHOT</version>
+		</dependency>
+	
+		<!--  Android Depedencies -->
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${platform.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.android.support</groupId>
+			<artifactId>support-v4</artifactId>
+			<version>${android.support.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.android.gms</groupId>
+		    <artifactId>play-services</artifactId>
+		    <version>5.0.89</version>
+		    <type>aar</type>		    
+		  </dependency>
+				
+		
+		<!--  Spring Android dependencies -->
+		<dependency>
+	        <groupId>org.springframework.android</groupId>
+	        <artifactId>spring-android-rest-template</artifactId>
+    	    <version>${spring.android.version}</version>
+    	</dependency> 
+    	
+    	<dependency>
+	        <groupId>org.springframework.android</groupId>
+	        <artifactId>spring-android-auth</artifactId>
+    	    <version>${spring.android.version}</version>
+    	</dependency> 
+    	
+    	<dependency>
+	        <groupId>org.springframework.android</groupId>
+	        <artifactId>spring-android-core</artifactId>
+    	    <version>${spring.android.version}</version>
+    	</dependency> 
+    
+	</dependencies>
+	
+	<repositories>
+		<repository>
+     	   <id>spring-milestones</id>
+        	<name>Spring Milestones</name>
+        	<url>https://repo.spring.io/milestone</url>
+    	</repository>
+    	<repository>
+    		<id>local-google-repo</id>
+    		<name>Local Google Repository</name>
+    		<url>http://arch-server.mwc.com:8081/nexus/content/repositories/google-repo/</url>
+    	</repository>
+	</repositories>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+		
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<version>${android.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<sdk>
+						<path>${env.ANDROID_HOME}</path>
+						<platform>19</platform>
+					</sdk>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

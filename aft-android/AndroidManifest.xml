@@ -40,7 +40,7 @@
         </receiver>
         
         <service android:name="com.ricex.aft.android.gcm.GcmIntentService" />        
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data android:name="com.google.android.gms.version" android:value="5089000" />
         
     </application>
     
