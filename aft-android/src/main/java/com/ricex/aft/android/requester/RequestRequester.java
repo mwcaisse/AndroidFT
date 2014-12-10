@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.response.LongResponse;
@@ -37,6 +37,9 @@ public class RequestRequester extends AbstractRequester {
 	
 	public List<Request> getNewRequestsForDevice() {
 		Request[] requests = getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
+		if (requests.length > 0) {
+			Log.i("AFT-RR", "Request: " + gson.toJson(requests[0]));
+		}
 		return Arrays.asList(requests);
 	}
 	

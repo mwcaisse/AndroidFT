@@ -10,10 +10,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricex.aft.common.entity.RequestDirectory;
 import com.ricex.aft.common.entity.RequestStatus;
+import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.common.util.JsonByteArrayBase64Adapter;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
 import com.ricex.aft.common.util.JsonRequestDirectorySerializer;
 import com.ricex.aft.common.util.JsonRequestStatusSerializer;
+import com.ricex.aft.common.util.UserInfoDeserializer;
 
 /** Factory Object for creating the Gson Parser to use
  * 
@@ -42,6 +44,7 @@ public class GsonFactory {
 			.registerTypeAdapter(byte[].class, new JsonByteArrayBase64Adapter())
 			.registerTypeAdapter(RequestStatus.class, new JsonRequestStatusSerializer())
 			.registerTypeAdapter(RequestDirectory.class, new JsonRequestDirectorySerializer())
+			.registerTypeAdapter(UserInfo.class, new UserInfoDeserializer())
 			.create();
 		return gson;
 	}

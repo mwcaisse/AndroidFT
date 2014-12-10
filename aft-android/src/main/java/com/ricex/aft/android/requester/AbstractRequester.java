@@ -4,28 +4,29 @@
 package com.ricex.aft.android.requester;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.content.Context;
 import android.provider.Settings;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
-import com.ricex.aft.android.util.UserInfoDeserializer;
 import com.ricex.aft.common.auth.AFTAuthentication;
-import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
+import com.ricex.aft.common.util.UserInfoDeserializer;
 
 /**
  * @author Mitchell Caisse
@@ -45,6 +46,8 @@ public abstract class AbstractRequester {
 	/** The current Authentication Token */
 	private String aftToken;
 	
+	protected Gson gson;
+	
 	/** Creates a new Abstract requestor with the specified context
 	 * 
 	 * @param context The context
@@ -53,11 +56,10 @@ public abstract class AbstractRequester {
 	public AbstractRequester(Context context) {
 		this.context = context;
 		//this.serverAddress = "https://home.fourfivefire.com/aft-servlet/api/";
-		this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";
-		restTemplate = new RestTemplate();
+		this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";	
 		
 		//Create the gson object to decode Json messages
-		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
+		gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
 				.registerTypeAdapter(byte[].class, new AndroidJsonByteArrayBase64Adapter())
 				.registerTypeAdapter(UserInfo.class, new UserInfoDeserializer())
@@ -68,14 +70,19 @@ public abstract class AbstractRequester {
 		converter.setGson(gson);
 		
 		//add the gson message converter to the rest template
-		restTemplate.getMessageConverters().add(converter);
+		restTemplate = new RestTemplate();	
+		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+		messageConverters.add(converter);
+		restTemplate.setMessageConverters(messageConverters);
 		
+		/*
+		String jsonNewRequest = "{\"requestId\":1,\"requestName\":\"Test Request\",\"requestFiles\":[{\"fileId\":3,\"requestId\":1,\"fileName\":\"123.png\",\"fileSize\":155686,\"fileOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}},{\"fileId\":4,\"requestId\":1,\"fileName\":\"10-5-13_YO.png\",\"fileSize\":4811700,\"fileOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}},{\"fileId\":5,\"requestId\":1,\"fileName\":\"10-5-13_YO2.png\",\"fileSize\":4695840,\"fileOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}}],\"requestFileLocation\":\"/tst/\",\"requestDirectory\":\"PICTURES\",\"requestStatus\":\"New\",\"requestStatusMessage\":\"\",\"requestUpdated\":1418010829000,\"requestDevice\":{\"deviceId\":2,\"deviceUid\":\"4c87d6edeb1592c7\",\"deviceName\":\"HTC6435LVW\",\"deviceRegistrationId\":\"APA91bHl3ohv3b4KcxIsBgGWJ0jmhhXmEc_Uugb6wJBcSPj4ryXrDZCX6DAhQYFhfsxL8tLTWuEFYPiWOzLZKTr54h6xOz1XM-sxP-hDW9c5qIIYdwuNoTG55hcBn-Y0KeED40JqTktRpB9lvQ2b_emyvJy0_yvbSQ\",\"deviceOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}},\"requestOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}}";
 		String jsonFile = "{\"fileId\": 4,\"requestId\": 1,\"fileName\": \"10-5-13_YO.png\",\"fileSize\": 4811700,\"fileOwner\":{\"userId\": 4,\"username\": \"testuser\",\"name\": \"testuser\"}}";
 		String jsonUser = "{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}";
-		File file = gson.fromJson(jsonFile, File.class);
-		UserInfo info = file.getFileOwner();
+		Request request = gson.fromJson(jsonNewRequest, Request.class);
+		UserInfo info = request.getRequestOwner();
 		Log.i("AR", "UserInfo: " + info);
-		Log.i("AR", "UserInfo Name: " + info.getName());
+		Log.i("AR", "UserInfo Name: " + info.getName());*/
 		
 	}
 	
