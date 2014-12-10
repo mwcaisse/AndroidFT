@@ -104,8 +104,8 @@
 						<path>${env.ANDROID_HOME}</path>
 						<platform>19</platform>
 					</sdk>
-					<androidManifestFile>${project.build.directory}/AndroidManifext.xml</androidManifestFile>
-					<resourceDirectory>${project.build.directory}/res</resourceDirectory>
+					<androidManifestFile>bin/AndroidManifext.xml</androidManifestFile>
+					<resourceDirectory>bin/res</resourceDirectory>
 					<deleteConflictingFiles>true</deleteConflictingFiles>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
 				</configuration>
