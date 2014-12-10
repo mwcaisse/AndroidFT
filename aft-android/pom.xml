@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<android.plugin.version>4.0.0-rc.2</android.plugin.version>
+		<android.plugin.version>3.9.0-rc.3</android.plugin.version>
 		<platform.version>4.1.1.4</platform.version>
 		<android.support.version>19.1.0</android.support.version>
 	</properties>
