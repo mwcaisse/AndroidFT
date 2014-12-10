@@ -15,7 +15,6 @@
 		<android.plugin.version>4.0.0-rc.2</android.plugin.version>
 		<platform.version>4.1.1.4</platform.version>
 		<android.support.version>19.1.0</android.support.version>
-		<failOnNonStandardStructure>false</failOnNonStandardStructure>
 	</properties>
 	
 	<dependencies>
@@ -105,8 +104,8 @@
 						<path>${env.ANDROID_HOME}</path>
 						<platform>19</platform>
 					</sdk>
-					<androidManifest>AndroidManifext.xml</androidManifest>
-					<resourceDirectory>/res</resourceDirectory>
+					<androidManifest>${project.build.directory}/AndroidManifext.xml</androidManifest>
+					<resourceDirectory>${project.build.directory}/res</resourceDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
