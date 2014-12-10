@@ -105,7 +105,7 @@
 						<platform>19</platform>
 					</sdk>
 					<androidManifestFile>AndroidManifext.xml</androidManifestFile>
-					<resourceDirectory>bin/res</resourceDirectory>
+					<resourceDirectory>res</resourceDirectory>
 					<deleteConflictingFiles>true</deleteConflictingFiles>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
 				</configuration>
