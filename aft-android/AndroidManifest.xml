@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ricex.aft.android"
     android:versionCode="2"
-    android:versionName="0.3.2" >
+    android:versionName="0.4.1" >
 
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
