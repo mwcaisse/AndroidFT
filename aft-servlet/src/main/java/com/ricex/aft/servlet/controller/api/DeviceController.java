@@ -170,7 +170,7 @@ public class DeviceController extends ApiController {
 			//couldn't find device by id, try Uid
 			dbDevice = deviceManager.getDeviceByUid(device.getDeviceUid());
 		}
-		return device != null && user.equals(device.getDeviceOwner());
+		return dbDevice != null && user.equals(dbDevice.getDeviceOwner());
 	}
 	
 	
