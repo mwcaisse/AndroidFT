@@ -8,8 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -50,11 +52,15 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		
 		//get the auth info from the request header + decode it
 		String authInit = request.getHeader(AFTAuthentication.AFT_AUTH_INIT_HEADER);
-		//String decodedAuth = new String(Base64.decodeBase64(authInit), "UTF-8");
 		
+		if (! Base64.isBase64(authInit)) {
+			throw new ServletException("AFT AUTH INIT must be based 64 encoded!");
+		}
+		
+		String decodedAuth = new String(Base64.decodeBase64(authInit), "UTF-8");
+		log.debug("Decoded AFT-AUTH-INIT INTO: |{}|", decodedAuth);
 		//parse the info into the username + password
-		//StringTokenizer st = new StringTokenizer(decodedAuth, "|");
-		StringTokenizer st = new StringTokenizer(authInit, "|");	
+		StringTokenizer st = new StringTokenizer(decodedAuth, "|");
 		String username = st.nextToken();
 		String password = st.nextToken();
 		
@@ -71,7 +77,7 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) 
 			throws ServletException, IOException {
 		//the credentials are valid, create the token	
-		log.debug("Authentication Valid, getting a token for the user");
+		log.info("Authentication Valid, getting a token for the user {}", auth.getName());
 		Token token = getTokenForUser(auth, request.getRemoteAddr());
 		response.addHeader(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, token.getTokenId());
 		
@@ -88,7 +94,6 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	 */
 	private Token getTokenForUser(Authentication auth, String clientAddress) {
 		String username = auth.getName();
-		log.debug("Finding a token for the user: " + username);
 		//check if this user already has a token
 		Token token = tokenManager.getTokenForUser(username);
 		if (token == null) {
