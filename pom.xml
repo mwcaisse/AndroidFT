@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<!-- Version Properties -->
 	<properties>
+		<environment>prod</environment>
 		<spring.version>4.0.0.RELEASE</spring.version>
 		<spring.security.version>3.2.4.RELEASE</spring.security.version>
 		<spring.security.oauth.version>2.0.4.RELEASE</spring.security.oauth.version>
@@ -19,6 +20,53 @@
 		<commons.codec.version>1.8</commons.codec.version>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 	</properties>
+
+	<profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>environment</name>
+					<value>local</value>
+				</property>
+			</activation>
+			<properties>
+				<aft.server.root>http://192.168.1.160:8080/aft-servlet/</aft.server.root>
+			</properties>
+		</profile>
+		<profile>
+			<activation>
+				<property>
+					<name>environment</name>
+					<value>local-debug</value>
+				</property>
+			</activation>
+			<properties>
+				<aft.server.root>http://192.168.1.160:8888/aft-servlet/</aft.server.root>
+			</properties>
+		</profile>
+		<profile>
+			<activation>
+				<property>
+					<name>environment</name>
+					<value>dev</value>
+				</property>
+			</activation>
+			<properties>
+				<aft.server.root>https://home.fourfivefire.com/aft-servlet/</aft.server.root>
+			</properties>
+		</profile>
+		<profile>
+			<activation>
+				<property>
+					<name>environment</name>
+					<value>dev</value>
+				</property>
+			</activation>
+			<properties>
+				<aft.server.root>https://fourfivefire.com/aft-servlet/</aft.server.root>
+			</properties>
+		</profile>
+	</profiles>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ricex.aft</groupId>
@@ -108,6 +156,9 @@
 				</dependencies>
 			</plugin>
 		</plugins>
+		
+
+		
 	</build>
 
 </project>
