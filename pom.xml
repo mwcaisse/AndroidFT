@@ -23,6 +23,7 @@
 
 	<profiles>
 		<profile>
+			<id>profile-environment-local</id>
 			<activation>
 				<property>
 					<name>environment</name>
@@ -34,6 +35,7 @@
 			</properties>
 		</profile>
 		<profile>
+		<id>profile-environment-local-debug</id>
 			<activation>
 				<property>
 					<name>environment</name>
@@ -45,6 +47,7 @@
 			</properties>
 		</profile>
 		<profile>
+		<id>profile-environment-dev</id>
 			<activation>
 				<property>
 					<name>environment</name>
@@ -56,10 +59,11 @@
 			</properties>
 		</profile>
 		<profile>
+		<id>profile-environment-prod</id>
 			<activation>
 				<property>
 					<name>environment</name>
-					<value>dev</value>
+					<value>prod</value>
 				</property>
 			</activation>
 			<properties>
