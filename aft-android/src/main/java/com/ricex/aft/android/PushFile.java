@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.ricex.aft.android.gcm.GCMRegister;
 import com.ricex.aft.android.processor.MessageProcessor;
+import com.ricex.aft.android.register.PushFileRegister;
 import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Main Activity for PushFile.
@@ -54,7 +55,7 @@ public class PushFile extends Activity {
 	 * 
 	 */
 	private void initializeProperties() {
-		AFTProperties.getInstance().setContext(this);
+		AFTPreferences.setContext(this);
 	}	
 	
 	/** Checks if we are registered for GCM + PushFile
@@ -81,8 +82,6 @@ public class PushFile extends Activity {
 	 * 
 	 */
 	private void checkForRequests() {
-		//why don't we check for some updates right now?
-		//TODO: Refactor this, has to be a better way to check for updates
 		new MessageProcessor(this).process();
 	}
 	
@@ -92,28 +91,7 @@ public class PushFile extends Activity {
 	 */
 	
 	private void checkPushFileRegistration() {		
-		final DeviceRequester deviceRequester = new DeviceRequester(this);
-		final Context context = this;
-		
-		new AsyncTask<Object, Object, Boolean>() {
-
-			@Override
-			protected Boolean doInBackground(Object... params) {				
-				boolean res = deviceRequester.isRegistered();
-				if (!res) {
-					Log.i(LOG_TAG, "Device is registered for GCM, but not PushFile, registering");
-					String registrationId = GCMRegister.getRegistrationId(context);
-					Log.d(LOG_TAG, "GCM Registration ID: " + registrationId);
-					res = deviceRequester.registerDevice(registrationId);
-					if (!res) {
-						Log.w(LOG_TAG, "Failed to register device");
-					}
-				}
-				Log.i(LOG_TAG, "Device Registration returned: " + res);
-				return res;				
-			}
-			
-		}.execute(null,null,null);
+		new PushFileRegister(this).registerIfNeeded();
 	}
 	
 }

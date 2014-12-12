@@ -16,7 +16,9 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.ricex.aft.android.AFTPreferences;
 import com.ricex.aft.android.PushFile;
+import com.ricex.aft.android.register.PushFileRegister;
 import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Utility class for Google Cloud Messaging registration
@@ -31,12 +33,6 @@ public class GCMRegister {
 	
 	/** Resolution request for determing if a device has google play services */
 	private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-	
-	/** Property for the registration id */
-	private static final String PROPERTY_REG_ID = "registration_id";
-	
-	/** Property for application version */
-	private static final String PROPERTY_APP_VERSION = "appVersion";
 	
 	/** Sender ID for GCM, project number */
 	private static final String SENDER_ID = "439278995325";
@@ -88,8 +84,7 @@ public class GCMRegister {
 	 */
 	
 	public static String getRegistrationId(Context context) {
-		final SharedPreferences prefs = getGCMPreferences(context);
-		String registrationId = prefs.getString(PROPERTY_REG_ID,  "");
+		String registrationId = AFTPreferences.getValue(AFTPreferences.PROPERTY_REG_ID);
 		if (registrationId.isEmpty()) {
 			Log.i(LOG_TAG, "Registration not found");
 			return "";
@@ -98,7 +93,7 @@ public class GCMRegister {
 		//check if the app has been updated
 		//if it has been updated, it might not work with the old registration id
 		
-		int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+		int registeredVersion = AFTPreferences.getIntValue(AFTPreferences.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 		int currentVersion = getAppVersion(context);
 		
 		if (registeredVersion < currentVersion) {
@@ -108,16 +103,6 @@ public class GCMRegister {
 		}
 		return registrationId;
 		
-	}
-	
-	/** Gets the {@code SharedPreferences} for this application
-	 * 
-	 * @param context The application context
-	 * @return The {@code SharedPreferences} for this application
-	 */
-	
-	private static SharedPreferences getGCMPreferences(Context context) {
-		return context.getSharedPreferences(PushFile.class.getSimpleName(), Context.MODE_PRIVATE);
 	}
 	
 	/** Gets the application version of the currently running application
@@ -171,7 +156,7 @@ public class GCMRegister {
 			protected void onPostExecute(String msg) {
 				Log.i(LOG_TAG, "About to send registration to server: " + msg);
 				if (!msg.isEmpty()) {
-					sendRegistrationToServer(context, msg);
+					sendRegistrationToServer(context);
 				}
 				else {
 					Log.i(LOG_TAG, "Registration Failed");
@@ -182,22 +167,10 @@ public class GCMRegister {
 	}
 	
 	/** Sends the specified registration id to the server
-	 * 
-	 * @param registrationId The registration id of the device
 	 */
 	
-	private static void sendRegistrationToServer(final Context context, final String registrationId) {	
-		new AsyncTask<Object, Object, Boolean>() {
-
-			@Override
-			protected Boolean doInBackground(Object... params) {				
-				boolean res = new DeviceRequester(context).registerDevice(registrationId);
-				Log.i(LOG_TAG, "Device Registration returned: " + res);
-				return res;				
-			}
-			
-		}.execute(null,null,null);
-
+	private static void sendRegistrationToServer(final Context context) {	
+		new PushFileRegister(context).registerIfNeeded();
 	}	
 	
 	/** Stores the given registration ID to the applications {@code SharedPreferences}
@@ -207,12 +180,11 @@ public class GCMRegister {
 	 */
 	
 	private static void storeRegistrationId(Context context, String registrationId) {
-		SharedPreferences prefs = getGCMPreferences(context);
 		int appVersion = getAppVersion(context);
 		Log.i(LOG_TAG, "Saving reistration id on app version" + appVersion);
-		SharedPreferences.Editor prefsEditor = prefs.edit();
-		prefsEditor.putString(PROPERTY_REG_ID, registrationId);
-		prefsEditor.putInt(PROPERTY_APP_VERSION, appVersion);
-		prefsEditor.commit();		
+		
+		//update the preferences
+		AFTPreferences.setValue(AFTPreferences.PROPERTY_REG_ID, registrationId);
+		AFTPreferences.setIntValue(AFTPreferences.PROPERTY_APP_VERSION, appVersion);
 	}
 }

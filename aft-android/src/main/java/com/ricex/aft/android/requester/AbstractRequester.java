@@ -22,6 +22,7 @@ import android.provider.Settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ricex.aft.android.AFTConfigurationProperties;
 import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
 import com.ricex.aft.common.auth.AFTAuthentication;
 import com.ricex.aft.common.entity.UserInfo;
@@ -54,7 +55,8 @@ public abstract class AbstractRequester {
 	public AbstractRequester(Context context) {
 		this.context = context;
 		//this.serverAddress = "https://home.fourfivefire.com/aft-servlet/api/";
-		this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";	
+		//this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";
+		this.serverAddress = AFTConfigurationProperties.getServerAddress() + "api/";
 		
 		this.securityContext = SecurityContext.INSTANCE;
 		
