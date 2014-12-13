@@ -43,6 +43,9 @@ public enum RequestManager {
 	/** The DeviceManager to use to update request files */
 	private DeviceManager deviceManager;
 	
+	/** The UserManager to use to verify users */
+	private UserManager userManager;
+	
 	/** Performs initialization */
 	
 	private RequestManager() {
@@ -163,6 +166,11 @@ public enum RequestManager {
 			throw new EntityException("The request must have a status");
 		}
 		
+		//check that the request has a valid owner
+		if (request.getRequestOwner() == null && userManager.getUserById(request.getRequestOwner().getUserId()) == null) {
+			throw new EntityException("The request must have an owner");
+		}
+		
 		return true; // we made it this far we must be valid! woo
 	}
 
@@ -213,7 +221,19 @@ public enum RequestManager {
 	public void setDeviceManager(DeviceManager deviceManager) {
 		this.deviceManager = deviceManager;
 	}
-	
-	
+
+	/**
+	 * @return the userManager
+	 */
+	public UserManager getUserManager() {
+		return userManager;
+	}
+
+	/**
+	 * @param userManager the userManager to set
+	 */
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
+	}
 	
 }

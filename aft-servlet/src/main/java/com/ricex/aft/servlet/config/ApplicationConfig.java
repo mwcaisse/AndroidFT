@@ -271,6 +271,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		requestManager.setRequestMapper(requestMapper());
 		requestManager.setDeviceManager(deviceManager());
 		requestManager.setFileManager(fileManager());
+		requestManager.setUserManager(userManager());
 		return requestManager;
 	}
 	
