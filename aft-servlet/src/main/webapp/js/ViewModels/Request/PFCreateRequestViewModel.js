@@ -14,6 +14,7 @@ function RequestModel(data) {
 	self.requestDevice = ko.observable(new DeviceModel());
 	self.requestFiles = ko.observableArray([]);
 	self.requestUpdated = ko.observable(new Date().getTime());
+	self.requestOwner = ko.observable(new UserModel());
 	
 	//if there is data initialize the data..
 	if (data) {
@@ -24,6 +25,7 @@ function RequestModel(data) {
 		self.requestStatusMessage(data.requestStatusMessage);
 		self.requestDevice(new DeviceModel(data.requestDevice));
 		self.requestUpdated = ko.observable(data.requestUpdated);
+		self.requestOwner(new UserModel(data.requestOwner));
 		
 		//add the files
 		$.each(data.requestFiles, function( index, value) {
@@ -135,6 +137,22 @@ function DeviceModel(data) {
 		self.deviceName(data.deviceName);
 	}
 	
+}
+
+function UserModel(data) {
+	
+	var self = this;
+	
+	self.userId = -1;
+	self.username = ko.observable("");
+	self.name = ko.observable("");
+	
+	if (data) {
+		self.userId = data.userId;
+		self.username(data.username);
+		self.name(data.name);
+	}
+
 }
 
 /** The model for a file */

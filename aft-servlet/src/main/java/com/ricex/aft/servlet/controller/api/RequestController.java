@@ -90,6 +90,20 @@ public class RequestController extends ApiController {
 		return requestManager.getAllRequests();
 	}
 	
+	/** Retrieves a list of all belonging to the current user
+	 * 
+	 * Each request returned does not include a full copy of the RequestFile, only the meta-data of
+	 *  	the file is populated. This is to conserve bandwidth by not sending the
+	 *  	potentially large file contents for each request. The file contents can be 
+	 *  	retrieved by using FileController.getFileContents. 
+	 *    
+	 * @return A list of all requests.
+	 */
+	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={"application/json"})
+	public @ResponseBody List<Request> getAllMyRequests() {
+		return requestManager.getAllRequestsByUser(getCurrentUser().getUserId());
+	}
+	
 	/** Returns a list of all request associated with the specified device.
 	 * 
 	 *  This method is designed to be able to be called from a device without the device

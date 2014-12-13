@@ -38,7 +38,7 @@ function PFRequestListViewModel() {
 	
 	/** Fetches the requests from the server */
 	self.fetchRequests = function() {
-		$.getJSON(requestRoot + "api/request/all", function(data) {	
+		$.getJSON(requestRoot + "api/request/mine", function(data) {	
 			//remove the old requests, and add the new requests
 			self.Requests.removeAll();			
 			$.each(data, function(index, value) {
