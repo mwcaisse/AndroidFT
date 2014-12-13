@@ -1,7 +1,5 @@
 package com.ricex.aft.android.notifier;
 
-import com.google.android.gms.internal.no;
-
 import android.R;
 
 /** The notification for Request Processed
