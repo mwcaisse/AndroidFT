@@ -45,6 +45,7 @@ public class Notifier {
 	/** Creates a new Notifier */
 	private Notifier() {
 		notifications = new HashMap<NotificationType, AFTNotification>();
+		notificationIdCounter = 0;
 	}
 	
 	/** Updates the context of this notifier
@@ -53,7 +54,7 @@ public class Notifier {
 	 */
 	public void updateContext(Context context) {
 		this.context = context;
-		notificationIdCounter = 0;
+		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 	
 	/** Displays the given notification to the user, or updates an already showing notification if one exists

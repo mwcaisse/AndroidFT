@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.ricex.aft.android.gcm.GCMRegister;
+import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.processor.MessageProcessor;
 import com.ricex.aft.android.register.PushFileRegister;
 import com.ricex.aft.android.requester.DeviceRequester;
@@ -56,6 +57,7 @@ public class PushFile extends Activity {
 	 */
 	private void initializeProperties() {
 		AFTPreferences.setContext(this);
+		Notifier.getInstance().updateContext(this);
 	}	
 	
 	/** Checks if we are registered for GCM + PushFile

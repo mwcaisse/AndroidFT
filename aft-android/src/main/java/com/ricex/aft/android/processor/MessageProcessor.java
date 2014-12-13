@@ -15,6 +15,8 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.ricex.aft.android.notifier.Notifier;
+import com.ricex.aft.android.notifier.RequestProcessedNotification;
 import com.ricex.aft.android.requester.RequestRequester;
 import com.ricex.aft.common.entity.Request;
 
@@ -85,28 +87,13 @@ public class MessageProcessor {
 	
 	
 	
-	/** Used to show a notification when we receive a GCM message
+	/**  Show the notification of how many requests were sucessful and how many failed
 	 * 
 	 */
 	
 	private void showNotification(int successful, int error) {
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-		builder.setSmallIcon(R.drawable.stat_notify_sync);
-		builder.setContentTitle("PushFile Request");
-		builder.setAutoCancel(true);
-		
-		String notificationMessage = "";
-		if (successful > 0) {
-			notificationMessage += "Sucessfully received " + successful + " requests \n";
-		}
-		if (error > 0) {
-			//only add the error message if there were errors
-			notificationMessage += "Errors receiving " + error + " requests";
-		}		
-		builder.setContentText(notificationMessage);
-		
-		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.notify(notificationId, builder.build());
+		Notifier notifier = Notifier.getInstance();
+		notifier.displayNotification(new RequestProcessedNotification(successful, error));
 	}
 
 }
