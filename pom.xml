@@ -75,7 +75,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ricex.aft</groupId>
 	<artifactId>aft</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
+	<version>0.4.1</version>
 	<packaging>pom</packaging>
 	<name>Android File Transfer</name>
 
@@ -83,7 +83,7 @@
 		<connection>scm:git:git@github.com:mwcaisse/AndroidFT.git</connection>
 		<developerConnection>scm:git:git@github.com:mwcaisse/AndroidFT.git</developerConnection>
 		<url>https://github.com/mwcaisse/AndroidFT</url>
-		<tag>HEAD</tag>
+		<tag>aft-0.4.1</tag>
 	</scm>
 
 	<modules>
