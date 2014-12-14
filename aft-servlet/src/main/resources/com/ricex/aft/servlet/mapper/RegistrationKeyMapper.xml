@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.RegistrationKeyMapper">
+
+	<cache/>
+
+	<!-- Registration Key result map -->
+	<resultMap id="registrationKeyResultMap" type="RegistrationKey">
+		<id property="keyId" column="KEY_ID" />		
+		<result property="registrationKey" column="KEY_KEY" />
+		<result property="usesRemaining" column="KEY_USES_REMAINING" />		
+		<result property="active" column="KEY_ACTIVE" />		
+	</resultMap>
+
+	<!-- Selects the request with the given id -->
+	<select id="getRegistrationKey" parameterType="long" resultMap="registrationKeyResultMap">
+	    SELECT * FROM USER_REGISTRATION_KEY
+	    WHERE KEY_ID = #{id}
+	</select>
+	
+	<!-- Selects all requests -->
+	<select id="getRegistrationKeyByKey" resultMap="registrationKeyResultMap">
+	   	SELECT * FROM USER_REGISTRATION_KEY
+	   	WHERE KEY_KEY = #{key}
+	</select>
+	
+	<!-- Selects all requests for a given user -->
+	<select id="getAllRegistrationKeys" parameterType="long" resultMap="registrationKeyResultMap">
+		SELECT * FROM USER_REGISTRATION_KEY
+	</select>
+	
+	<!-- Insert a new registration key -->
+	<insert id="createRegistrationKey" useGeneratedKeys="true" keyProperty="keyId">
+	    INSERT INTO USER_REGISTRATION_KEY (KEY_KEY, KEY_USES_REMAINING, KEY_ACTIVE)
+	    VALUES (#{key.registrationKey}, #{key.usesRemaining}, #{key.active})
+	</insert>
+	
+	<!-- Update a registration key -->
+	<update id="updateRegistrationKey">
+	    UPDATE USER_REGISTRATION_KEY SET
+	    	KEY_KEY = #{key.registrationKey},
+	    	KEY_USES_REMAINING = #{key.usesRemaining},
+	    	KEY_ACTIVE = #{key.active}
+    	WHERE KEY_ID = #{key.keyId}
+	</update>
+	
+</mapper>

@@ -58,7 +58,7 @@
 						
 						<div class="control-group">
 							<label class="control-label" for="inputEmailConfirm">Confirm Email</label>
-							<input type="text" class="form-control" id="inputEmailConfirm" name="email" data-bind="value: emailAddressConfirm" />
+							<input type="text" class="form-control" id="inputEmailConfirm" name="emailConfirm" data-bind="value: emailAddressConfirm" />
 						</div>
 						
 						<!-- ko if: emailAddressError -->
@@ -68,6 +68,22 @@
 						<!-- Error message for emails not matching -->
 						<div class="alert alert-danger" role="alert">
 							<strong>Error! </strong><span data-bind="text: emailAddressErrorText"></span>
+						</div>
+						
+						<!-- /ko -->
+						
+						<div class="control-group">
+							<label class="control-label" for="inputRegistrationKey">Registration Key</label>
+							<input type="text" class="form-control" id="inputRegistrationKey" name="registrationKey" data-bind="value: registrationKey" />
+						</div>
+						
+						<!-- ko if: registrationKeyError -->
+						
+						<!-- some padding between the elements -->
+						<div style="padding-top:10px"></div>
+						<!-- Error message for registration key -->
+						<div class="alert alert-danger" role="alert">
+							<strong>Error! </strong><span data-bind="text: registrationKeyErrorText"></span>
 						</div>
 						
 						<!-- /ko -->

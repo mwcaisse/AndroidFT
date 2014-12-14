@@ -35,10 +35,12 @@ import com.ricex.aft.servlet.controller.view.RequestViewController;
 import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
+import com.ricex.aft.servlet.manager.RegistrationKeyManager;
 import com.ricex.aft.servlet.manager.RequestManager;
 import com.ricex.aft.servlet.manager.UserManager;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.FileMapper;
+import com.ricex.aft.servlet.mapper.RegistrationKeyMapper;
 import com.ricex.aft.servlet.mapper.RequestMapper;
 import com.ricex.aft.servlet.mapper.UserMapper;
 import com.ricex.aft.servlet.util.GsonFactory;
@@ -211,6 +213,19 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		return mapperFactoryBean.getObject();
 	}
 	
+	/** The User mapper to be used by the managers
+	 * 
+	 * @return The user mapper
+	 * @throws Exception If fetching the sql session factory failed
+	 */
+	@Bean
+	public RegistrationKeyMapper registrationKeyMapper() throws Exception {
+		MapperFactoryBean<RegistrationKeyMapper> mapperFactoryBean = new MapperFactoryBean<RegistrationKeyMapper>();
+		mapperFactoryBean.setMapperInterface(RegistrationKeyMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
 	/** The Request Mapper to be used by the controllers
 	 * 
 	 * @return The request mapper
@@ -256,6 +271,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		UserManager userManager = UserManager.INSTANCE;
 		userManager.setUserMapper(userMapper());
 		userManager.setPasswordEncoder(passwordEncoder());
+		userManager.setRegistrationKeyManager(registrationKeyManager());
 		return userManager;
 	}
 	
@@ -273,6 +289,19 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		requestManager.setFileManager(fileManager());
 		requestManager.setUserManager(userManager());
 		return requestManager;
+	}
+	
+	/** The bean for the registration key manager
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	
+	@Bean
+	public RegistrationKeyManager registrationKeyManager() throws Exception {
+		RegistrationKeyManager registrationKeyManager = RegistrationKeyManager.INSTANCE;
+		registrationKeyManager.setRegistrationKeyMapper(registrationKeyMapper());
+		return registrationKeyManager;
 	}
 	
 	@Bean
@@ -346,6 +375,5 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 	
 }

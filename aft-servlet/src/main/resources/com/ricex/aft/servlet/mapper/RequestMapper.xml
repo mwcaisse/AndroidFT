@@ -7,7 +7,7 @@
 
 	<cache/>
 
-	<!-- Device result map -->
+	<!-- Request result map -->
 	<resultMap id="requestResultMap" type="Request">
 		<id property="requestId" column="REQ_ID" />		
 		<result property="requestName" column="REQ_NAME" />

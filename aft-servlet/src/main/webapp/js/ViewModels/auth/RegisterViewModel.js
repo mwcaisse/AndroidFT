@@ -20,6 +20,9 @@ function UserModel() {
 	/** The users confirmed email address */
 	self.emailAddressConfirm = ko.observable("");
 	
+	/** The registration key that the user has entered */
+	self.registrationKey = ko.observable("");
+	
 	/** Whether or not there is an error with user name */
 	self.usernameError = ko.observable(false);
 	
@@ -37,6 +40,12 @@ function UserModel() {
 	
 	/** The email address error text */
 	self.emailAddressErrorText = ko.observable("Email addresses do not match!");
+	
+	/** Whether or not there is a registration key error */
+	self.registrationKeyError = ko.observable(false);
+	
+	/** The registration key error text */
+	self.registrationKeyErrorText = ko.observable("");
 	
 	/** Verifies that the username is available */
 	self.verifyUserNameAvailable = function() {
@@ -79,7 +88,8 @@ function UserModel() {
 				self.emailAddressError(false);
 			}
 		}
-	};
+	};	
+
 	
 	/** Subscribes to the username observable, and checks if it is valid */
 	self.username.subscribe(function (newValue) {
@@ -91,15 +101,46 @@ function UserModel() {
 	self.passwordConfirm.subscribe(self.verifyPasswordsMatch);
 	
 	/** Subscribe to the email fields */
-	self.emailAddress.subscribe(self.verifyEmailAddressesMatch);
+	self.emailAddress.subscribe(function (newValue) {
+		//if (self.emailAddress() == ""
+	});
 	self.emailAddressConfirm.subscribe(self.verifyEmailAddressesMatch);
+	
+	/** Clears the registration key error when the user enters text */
+	self.registrationKey.subscribe(function (newValue) {
+		if (newValue != "") {
+			self.registrationKeyError(false);
+		}
+	});
 	
 	/** Determines if this model is valid or not
 	 * 
 	 */
 	
 	self.isValid = function() {
-		return !self.usernameError() && !self.passwordError() && !self.emailAddressError();
+		var valid = true;
+		
+		if (self.username() == "" || self.usernameError()) {
+			self.usernameError(true);
+			self.usernameErrorText("Username cannot be blank!");
+			valid = false;
+		}
+		if (self.password() == "" || self.passwordError()) {
+			self.passwordError(true);
+			self.passwordErrorText("Password cannot be blank!");
+			valid = false;
+		}
+		if (self.emailAddress() == "" || self.emailAddressError()) {
+			self.emailAddressError(true);
+			self.emailAddressErrorText("Email Address cannot be blank!");
+			valid = false;
+		}
+		if (self.registrationKey() == "") {
+			self.registrationKeyError(true);
+			self.registrationKeyErrorText("Registration Key cannot be blank!");
+			valid = false;
+		}		
+		return valid;
 	}
 
 };

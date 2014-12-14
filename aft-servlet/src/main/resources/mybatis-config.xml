@@ -13,6 +13,7 @@
 		<typeAlias alias="User" type="com.ricex.aft.servlet.entity.User" />
 		<typeAlias alias="UserRole" type="com.ricex.aft.servlet.entity.UserRole" />
 		<typeAlias alias="UserInfo" type="com.ricex.aft.common.entity.UserInfoImpl" /> 
+		<typeAlias alias="RegistrationKey" type="com.ricex.aft.servlet.entity.RegistrationKey" />
 	</typeAliases>
 	
 	
@@ -21,6 +22,7 @@
 		<mapper resource="com/ricex/aft/servlet/mapper/FileMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/UserMapper.xml" />
+		<mapper resource="com/ricex/aft/servlet/mapper/RegistrationKeyMapper.xml"/>
 	</mappers>
 
 </configuration>

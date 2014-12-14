@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.response.BooleanResponse;
-import com.ricex.aft.servlet.entity.User;
+import com.ricex.aft.servlet.entity.UserRegistration;
 import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.manager.UserManager;
 
@@ -50,13 +50,13 @@ public class UserController extends ApiController {
 	
 	/** Creates the given user account, and gives them a basic role of USER
 	 * 
-	 * @param user The user object representing the user to create
+	 * @param userRegistration The user object representing the user to create
 	 * @return True if creation was successful, false otherwise
 	 * @throws EntityException If the User is invalid
 	 */
 	@RequestMapping(value="/register", method = RequestMethod.POST, produces={"application/json"})
-	public @ResponseBody BooleanResponse registerUser(@RequestBody User user) throws EntityException {
-		return new BooleanResponse(userManager.createUser(user));
+	public @ResponseBody BooleanResponse registerUser(@RequestBody UserRegistration userRegistration) throws EntityException {
+		return new BooleanResponse(userManager.createUser(userRegistration));
 	}
 	
 	/**

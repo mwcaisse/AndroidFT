@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ricex.aft.servlet.entity.User;
+import com.ricex.aft.servlet.entity.UserRegistration;
 import com.ricex.aft.servlet.entity.UserRole;
 import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.mapper.UserMapper;
@@ -23,6 +24,9 @@ public enum UserManager implements UserDetailsService {
 	
 	/** The user mapper to use for accessing the data store	 */
 	private UserMapper userMapper;
+	
+	/** The Registration Key manager to verify if registration key is valid */
+	private RegistrationKeyManager registrationKeyManager;
 	
 	/** The Password Encoder to use when creating / saving users and passwords */
 	private PasswordEncoder passwordEncoder;
@@ -77,13 +81,16 @@ public enum UserManager implements UserDetailsService {
 	
 	/** Creates the specified user
 	 * 
-	 * @param user The user to create
+	 * @param userRegistration The user to create
 	 * @return True if creation successful, false otherwise
 	 * @throws EntityException If the given user was not valid, sets the message to the reason
 	 */
-	public boolean createUser(User user) throws EntityException {
+	public boolean createUser(UserRegistration userRegistration) throws EntityException {
 		//check to make sure that the user is valid
-		if (isUserValid(user)) {
+		if (isUserRegistrationValid(userRegistration)) {
+			//registration is valid, use the registration key
+			registrationKeyManager.consumeRegistrationKey(userRegistration.getRegistrationKey());
+			User user = userRegistration.toUser();
 			//hash password, and initialize active and locked fields
 			hashUserPassword(user);
 			user.setActive(true);
@@ -143,7 +150,7 @@ public enum UserManager implements UserDetailsService {
 	 * @return True if the user is valid, false otherwise
 	 * @throws EntityException If the user is not valid, sets the message as to the reason
 	 */
-	protected boolean isUserValid(User user) throws EntityException{
+	protected boolean isUserRegistrationValid(UserRegistration user) throws EntityException{
 		if (user.getUsername().contains(" ") || user.getUsername().isEmpty()) {
 			throw new EntityException("This username is not valid!");
 		}
@@ -155,6 +162,9 @@ public enum UserManager implements UserDetailsService {
 		}
 		if (user.getEmailAddress().isEmpty() || user.getEmailAddress().contains(" ")) {
 			throw new EntityException("Invalid email address");
+		}
+		if (!registrationKeyManager.isRegistrationKeyValid(user.getRegistrationKey())) {
+			throw new EntityException("Registration Key is not valid!");
 		}
 		return true;
 	}
@@ -171,8 +181,7 @@ public enum UserManager implements UserDetailsService {
 	 */
 	public void setUserMapper(UserMapper userMapper) {
 		this.userMapper = userMapper;
-	}
-
+	}	
 	
 	/**
 	 * @return the passwordEncoder
@@ -188,6 +197,21 @@ public enum UserManager implements UserDetailsService {
 	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 	}
-	
+
+	/**
+	 * @return the registrationKeyManager
+	 */
+	public RegistrationKeyManager getRegistrationKeyManager() {
+		return registrationKeyManager;
+	}
+
+	/**
+	 * @param registrationKeyManager the registrationKeyManager to set
+	 */
+	public void setRegistrationKeyManager(
+			RegistrationKeyManager registrationKeyManager) {
+		this.registrationKeyManager = registrationKeyManager;
+	}
+		
 }
 
