@@ -35,16 +35,16 @@
 	<!-- Insert a new registration key -->
 	<insert id="createRegistrationKey" useGeneratedKeys="true" keyProperty="keyId">
 	    INSERT INTO USER_REGISTRATION_KEY (KEY_KEY, KEY_USES_REMAINING, KEY_ACTIVE)
-	    VALUES (#{key.registrationKey}, #{key.usesRemaining}, #{key.active})
+	    VALUES (#{registrationKey}, #{usesRemaining}, #{active})
 	</insert>
 	
 	<!-- Update a registration key -->
 	<update id="updateRegistrationKey">
 	    UPDATE USER_REGISTRATION_KEY SET
-	    	KEY_KEY = #{key.registrationKey},
-	    	KEY_USES_REMAINING = #{key.usesRemaining},
-	    	KEY_ACTIVE = #{key.active}
-    	WHERE KEY_ID = #{key.keyId}
+	    	KEY_KEY = #{registrationKey},
+	    	KEY_USES_REMAINING = #{usesRemaining},
+	    	KEY_ACTIVE = #{active}
+    	WHERE KEY_ID = #{keyId}
 	</update>
 	
 </mapper>
