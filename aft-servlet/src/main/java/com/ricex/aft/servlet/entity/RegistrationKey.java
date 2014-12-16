@@ -1,6 +1,6 @@
 package com.ricex.aft.servlet.entity;
 
-import java.io.Serializable;
+import com.ricex.aft.common.entity.AbstractEntity;
 
 /** Registration key that is required to register an account
  * 
@@ -8,10 +8,8 @@ import java.io.Serializable;
  *
  */
 
-public class RegistrationKey implements Serializable {
+public class RegistrationKey extends AbstractEntity {
 
-	/** The id of the registration key */
-	private long keyId;
 	
 	/** The registration key */
 	private String registrationKey;
@@ -27,20 +25,6 @@ public class RegistrationKey implements Serializable {
 	 */
 	public RegistrationKey() {
 		
-	}
-
-	/**
-	 * @return the keyId
-	 */
-	public long getKeyId() {
-		return keyId;
-	}
-
-	/**
-	 * @param keyId the keyId to set
-	 */
-	public void setKeyId(long keyId) {
-		this.keyId = keyId;
 	}
 
 	/**

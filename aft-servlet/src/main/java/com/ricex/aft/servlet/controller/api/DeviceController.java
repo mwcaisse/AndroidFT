@@ -65,7 +65,7 @@ public class DeviceController extends ApiController {
 	 */
 	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Device> getMyDevices() {
-		return deviceManager.getAllDevicesByUser(getCurrentUser().getUserId());
+		return deviceManager.getAllDevicesByUser(getCurrentUser().getId());
 	}
 	
 	/** Updates the device that currently exists on the database with the specified device.
@@ -165,7 +165,7 @@ public class DeviceController extends ApiController {
 	 * 		was not found.
 	 */
 	private boolean canUserModifyDevice(Device device, User user) { 
-		Device dbDevice = deviceManager.getDevice(device.getDeviceId());
+		Device dbDevice = deviceManager.getDevice(device.getId());
 		if (dbDevice == null) {
 			//couldn't find device by id, try Uid
 			dbDevice = deviceManager.getDeviceByUid(device.getDeviceUid());

@@ -43,7 +43,7 @@ public class TestDeviceManager {
 		Device dev = createTestDevice();
 		long devId = deviceManager.createDevice(dev);
 		assertEquals(0, devId);
-		assertEquals(dev.getDeviceId(), devId);		
+		assertEquals(dev.getId(), devId);		
 	}
 	
 	@Test
@@ -75,11 +75,11 @@ public class TestDeviceManager {
 		Device updatedDev = createTestDevice();
 		
 		deviceMapper.createDevice(origDev);
-		updatedDev.setDeviceId(origDev.getDeviceId());
+		updatedDev.setId(origDev.getId());
 		
 		assertEquals(0, deviceManager.updateDevice(updatedDev));
 		
-		Device modifiedDevice = deviceMapper.getDeviceId(updatedDev.getDeviceId());
+		Device modifiedDevice = deviceMapper.getDeviceId(updatedDev.getId());
 		assertEquals(updatedDev.getDeviceName(), modifiedDevice.getDeviceName());
 		assertEquals(updatedDev.getDeviceRegistrationId(), modifiedDevice.getDeviceRegistrationId());
 		assertEquals(updatedDev.getDeviceUid(), modifiedDevice.getDeviceUid());
@@ -125,7 +125,7 @@ public class TestDeviceManager {
 	 */
 	public UserInfo createTestUser() {
 		UserInfoImpl userInfo = new UserInfoImpl();
-		userInfo.setUserId(1);
+		userInfo.setId(1);
 		userInfo.setName("Test User");
 		userInfo.setUsername("testuser");
 		return userInfo;

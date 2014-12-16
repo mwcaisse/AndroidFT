@@ -10,10 +10,7 @@ import java.util.List;
  *
  */
 
-public class Request implements Serializable {
-	
-	/** The id of this update request */
-	private long requestId;
+public class Request extends AbstractEntity {
 	
 	/** The name of this request */
 	private String requestName;
@@ -49,22 +46,6 @@ public class Request implements Serializable {
 	public Request() {
 		requestStatus = RequestStatus.NEW;
 		requestDirectory = RequestDirectory.ROOT;
-	}
-	
-	/**
-	 * @return the requestId
-	 */
-	
-	public long getRequestId() {
-		return requestId;
-	}
-
-	/**
-	 * @param requestId the requestId to set
-	 */
-	
-	public void setRequestId(long requestId) {
-		this.requestId = requestId;
 	}
 
 	/**
@@ -220,7 +201,7 @@ public class Request implements Serializable {
 			return false;
 		}
 		Request req = (Request) other;
-		return req.requestId == this.requestId;
+		return req.getId() == this.getId();
 	}
 	
 	

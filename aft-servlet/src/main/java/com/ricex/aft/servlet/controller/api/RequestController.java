@@ -101,7 +101,7 @@ public class RequestController extends ApiController {
 	 */
 	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={"application/json"})
 	public @ResponseBody List<Request> getAllMyRequests() {
-		return requestManager.getAllRequestsByUser(getCurrentUser().getUserId());
+		return requestManager.getAllRequestsByUser(getCurrentUser().getId());
 	}
 	
 	/** Returns a list of all request associated with the specified device.
@@ -215,7 +215,7 @@ public class RequestController extends ApiController {
 	
 	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
 	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws EntityException, AuthorizationException {
-		if (canUserModifyRequest(request.getRequestId(), getCurrentUser())) {
+		if (canUserModifyRequest(request.getId(), getCurrentUser())) {
 			return new LongResponse(requestManager.updateRequest(request));
 		}
 		else {
@@ -228,7 +228,7 @@ public class RequestController extends ApiController {
 	 * @param request The request to notify about
 	 */
 	private void notifyDeviceOfRequest(Request request) {
-		Device device = deviceManager.getDevice(request.getRequestDevice().getDeviceId());
+		Device device = deviceManager.getDevice(request.getRequestDevice().getId());
 		deviceNotifier.notifyDevice(device);
 	}
 	

@@ -112,7 +112,7 @@ public enum RequestManager {
 			requestMapper.createRequest(request);	
 			//update the files for the request
 			fileManager.updateFilesForRequest(request);
-			return request.getRequestId();
+			return request.getId();
 		}
 		return -1; // invalid request
 	}
@@ -132,7 +132,7 @@ public enum RequestManager {
 			requestMapper.updateRequest(request);
 			//update the files for the request
 			fileManager.updateFilesForRequest(request);
-			return request.getRequestId();
+			return request.getId();
 		}
 		return -1; //invalid request
 	}
@@ -149,7 +149,7 @@ public enum RequestManager {
 	protected boolean isValidRequest(Request request) throws EntityException {
 		//check to make sure it has a device, with a valid device id
 		Device requestDevice = request.getRequestDevice();
-		if (!deviceManager.deviceExists(requestDevice.getDeviceId())) {
+		if (!deviceManager.deviceExists(requestDevice.getId())) {
 			throw new EntityException("The specified device does not exist");
 		}
 		//check to make sure the request has atleast one file
@@ -157,7 +157,7 @@ public enum RequestManager {
 			throw new EntityException("A request must contain atleast one file");
 		}
 		for (File requestFile : request.getRequestFiles()) {
-			if (requestFile.getFileId() < 0) {
+			if (requestFile.getId() < 0) {
 				throw new EntityException("Invalid file");
 			}
 		}	
@@ -167,7 +167,7 @@ public enum RequestManager {
 		}
 		
 		//check that the request has a valid owner
-		if (request.getRequestOwner() == null && userManager.getUserById(request.getRequestOwner().getUserId()) == null) {
+		if (request.getRequestOwner() == null && userManager.getUserById(request.getRequestOwner().getId()) == null) {
 			throw new EntityException("The request must have an owner");
 		}
 		

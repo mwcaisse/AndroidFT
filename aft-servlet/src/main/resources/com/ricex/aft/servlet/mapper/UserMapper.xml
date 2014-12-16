@@ -9,7 +9,7 @@
 	
 	<!-- User result map -->
 	<resultMap id="userResultMap" type="User">
-		<id property="userId" column="USER_ID" />
+		<id property="id" column="USER_ID" />
 		<result property="username" column="USER_USERNAME" />
 		<result property="password" column="USER_PASSWORD" />
 		<result property="emailAddress" column="USER_EMAIL" />
@@ -22,7 +22,7 @@
 	
 	<!-- UserInfo result map -->
 	<resultMap id="userInfoResultMap" type="UserInfo">
-		<id property="userId" column="USER_ID" />
+		<id property="id" column="USER_ID" />
 		<result property="username" column="USER_USERNAME" />
 		<result property="name" column="USER_USERNAME" />
 	</resultMap>
@@ -52,7 +52,7 @@
 	</select>
 	
 	<!-- Inserts a new user -->
-	<insert id="createUser" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO USER (USER_USERNAME, USER_PASSWORD, USER_EMAIL, USER_ACTIVE, USER_LOCKED, USER_EXP_DATE, USER_PASSWORD_EXP_DATE)
 		VALUES (#{username}, #{password}, #{emailAddress}, #{active}, #{locked}, #{expirationDate}, #{passwordExpirationDate})
 	</insert>

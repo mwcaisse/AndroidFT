@@ -9,7 +9,7 @@
 
 	<!-- Registration Key result map -->
 	<resultMap id="registrationKeyResultMap" type="RegistrationKey">
-		<id property="keyId" column="KEY_ID" />		
+		<id property="id" column="KEY_ID" />		
 		<result property="registrationKey" column="KEY_KEY" />
 		<result property="usesRemaining" column="KEY_USES_REMAINING" />		
 		<result property="active" column="KEY_ACTIVE" />		
@@ -33,7 +33,7 @@
 	</select>
 	
 	<!-- Insert a new registration key -->
-	<insert id="createRegistrationKey" useGeneratedKeys="true" keyProperty="keyId">
+	<insert id="createRegistrationKey" useGeneratedKeys="true" keyProperty="id">
 	    INSERT INTO USER_REGISTRATION_KEY (KEY_KEY, KEY_USES_REMAINING, KEY_ACTIVE)
 	    VALUES (#{registrationKey}, #{usesRemaining}, #{active})
 	</insert>
@@ -44,7 +44,7 @@
 	    	KEY_KEY = #{registrationKey},
 	    	KEY_USES_REMAINING = #{usesRemaining},
 	    	KEY_ACTIVE = #{active}
-    	WHERE KEY_ID = #{keyId}
+    	WHERE KEY_ID = #{id}
 	</update>
 	
 </mapper>

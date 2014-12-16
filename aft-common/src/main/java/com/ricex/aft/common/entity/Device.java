@@ -8,10 +8,7 @@ import java.io.Serializable;
  *
  */
 
-public class Device implements Serializable {
-
-	/** The id of this device */
-	private long deviceId;
+public class Device extends AbstractEntity {
 	
 	/** The Unique ID of this device, provided by the device itself */
 	private String deviceUid;
@@ -24,21 +21,6 @@ public class Device implements Serializable {
 	
 	/** The owner of this device */
 	private UserInfo deviceOwner;
-
-	/**
-	 * @return the deviceId
-	 */
-	public long getDeviceId() {
-		return deviceId;
-	}
-
-	/**
-	 * @param deviceId the deviceId to set
-	 */
-	
-	public void setDeviceId(long deviceId) {
-		this.deviceId = deviceId;
-	}
 
 	/**
 	 * @return the deviceName
@@ -121,7 +103,7 @@ public class Device implements Serializable {
 			return false;
 		}
 		Device dev = (Device) other;		
-		return dev.deviceId == this.deviceId;		
+		return dev.getId() == this.getId();		
 	}
 	
 }

@@ -91,10 +91,10 @@ public enum DeviceManager {
 	 */
 	
 	public long createDevice(Device device) {
-		device.setDeviceId(-1);
-		log.debug("Creating device with owner: " + device.getDeviceOwner().getUserId());
+		device.setId(-1);
+		log.debug("Creating device with owner: " + device.getDeviceOwner().getId());
 		deviceMapper.createDevice(device);
-		return device.getDeviceId();
+		return device.getId();
 	}	
 	
 	/** Determines if a device with the specified ID exists

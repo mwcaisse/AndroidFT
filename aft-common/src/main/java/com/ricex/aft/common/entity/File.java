@@ -3,7 +3,6 @@
  */
 package com.ricex.aft.common.entity;
 
-import java.io.Serializable;
 
 /** Represents the meta data of a file
  * 
@@ -11,14 +10,11 @@ import java.io.Serializable;
  *
  *
  */
-public class File implements Serializable {
+public class File extends AbstractEntity {
 
 	/**
 	 */
 	private static final long serialVersionUID = -7013774805895194303L;
-
-	/** The id of this file */
-	private long fileId;
 	
 	/** The id of the request that this file belongs to */
 	private Long requestId;
@@ -32,21 +28,6 @@ public class File implements Serializable {
 	/** The Owner of this file */
 	private UserInfo fileOwner;
 	
-	/**
-	 * @return the fileId
-	 */
-	
-	public long getFileId() {
-		return fileId;
-	}
-
-	/**
-	 * @param fileId the fileId to set
-	 */
-	
-	public void setFileId(long fileId) {
-		this.fileId = fileId;
-	}	
 
 	/**
 	 * @return the requestId
@@ -118,7 +99,7 @@ public class File implements Serializable {
 			return false;
 		}
 		File file = (File) other;
-		return file.fileId == this.fileId;
+		return file.getId() == this.getId();
 	}
 	
 }

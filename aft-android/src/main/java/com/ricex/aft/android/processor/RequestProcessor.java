@@ -70,7 +70,7 @@ public class RequestProcessor {
 		//process / download each of the files
 		for(File file : request.getRequestFiles()) {
 			if (!downloadFile(file)) {
-				updateRequest(RequestStatus.FAILED, "Failed to download file: " + file.getFileId() + " : " + file.getFileName());
+				updateRequest(RequestStatus.FAILED, "Failed to download file: " + file.getId() + " : " + file.getFileName());
 			}
 		}
 		
@@ -86,7 +86,7 @@ public class RequestProcessor {
 	
 	protected boolean downloadFile(File fileInfo) {
 		java.io.File localFile =  getStorageFile(fileInfo);
-		byte[] fileContents = new FileRequester(context).getFileContents(fileInfo.getFileId());
+		byte[] fileContents = new FileRequester(context).getFileContents(fileInfo.getId());
 		if (localFile == null) {
 			Log.w(LOG_TAG, "Creating storage file failed");
 			updateRequest(RequestStatus.FAILED, "Unable to create storage file");

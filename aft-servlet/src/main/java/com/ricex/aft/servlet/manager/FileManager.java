@@ -76,11 +76,11 @@ public enum FileManager {
 	 */
 	public FileQuota getFileQuotaForUser(User user) {
 		FileQuota quota = new FileQuota();
-		Collection<File> userFiles = getUserFiles(user.getUserId());	
+		Collection<File> userFiles = getUserFiles(user.getId());	
 		quota.setUser(user.toUserInfo());
 		quota.setFileCount(userFiles.size());
 		quota.setFileStorage(MAX_FILE_STORAGE);
-		quota.setFileStorageUsed(calculateStorageUsed(user.getUserId()));		
+		quota.setFileStorageUsed(calculateStorageUsed(user.getId()));		
 		return quota;
 	}
 	
@@ -125,7 +125,7 @@ public enum FileManager {
 			fileInfo.setFileSize(fileContents.length);
 			fileInfo.setFileOwner(owner.toUserInfo());
 			fileMapper.createFile(fileInfo, fileContents);
-			return fileInfo.getFileId();
+			return fileInfo.getId();
 		}
 		throw new EntityException("Unable to create file!");
 	}
@@ -139,7 +139,7 @@ public enum FileManager {
 	 * @throws EntityException If the user can not create the file, The message is set to the reason
 	 */
 	public boolean canUserCreateFile(long fileSize, String fileName, User user) throws EntityException {
-		if (fileSize > calculateStorageRemaining(user.getUserId())) {
+		if (fileSize > calculateStorageRemaining(user.getId())) {
 			throw new EntityException("Not enough space remaining to upload file");
 		}		
 		return true;
@@ -155,7 +155,7 @@ public enum FileManager {
 	 */
 	
 	public boolean updateFilesForRequest(Request request) {
-		List<File> currentFiles = getRequestFiles(request.getRequestId());
+		List<File> currentFiles = getRequestFiles(request.getId());
 		List<File> requestFiles = new ArrayList<File>(request.getRequestFiles());
 		
 		for (File file : currentFiles) {
@@ -170,7 +170,7 @@ public enum FileManager {
 		
 		//add the remaning files
 		for (File file : requestFiles) {
-			file.setRequestId(request.getRequestId());
+			file.setRequestId(request.getId());
 			fileMapper.updateFileRequest(file);
 		}
 		
@@ -182,7 +182,7 @@ public enum FileManager {
 	 * @param file The file to delete
 	 */
 	public void deleteFile(File file) {
-		deleteFile(file.getFileId());
+		deleteFile(file.getId());
 	}
 	
 	/** Deletes the file with the given id

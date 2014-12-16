@@ -1,6 +1,5 @@
 package com.ricex.aft.servlet.entity;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ricex.aft.common.entity.AbstractEntity;
 import com.ricex.aft.common.entity.UserInfo;
 import com.ricex.aft.common.entity.UserInfoImpl;
 
@@ -16,10 +16,7 @@ import com.ricex.aft.common.entity.UserInfoImpl;
  * @author Mitchell Caisse
  *
  */
-public class User implements Serializable, UserDetails {
-
-	/** The id of the user */
-	private long userId;
+public class User extends AbstractEntity implements UserDetails {
 	
 	/** The username of the user */
 	private String username;
@@ -98,23 +95,6 @@ public class User implements Serializable, UserDetails {
 		}
 		return false;		
 	}
-
-	
-	/**
-	 * @return the userId
-	 */
-	public long getUserId() {
-		return userId;
-	}
-
-	
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
 	
 	/**
 	 * @return the username
@@ -296,7 +276,7 @@ public class User implements Serializable, UserDetails {
 	 */
 	public static UserInfo convertToUserInfo(User user) {
 		UserInfoImpl userInfo = new UserInfoImpl();
-		userInfo.setUserId(user.userId);
+		userInfo.setId(user.getId());
 		userInfo.setName(user.username);
 		userInfo.setUsername(user.username);		
 		return userInfo;
@@ -311,7 +291,7 @@ public class User implements Serializable, UserDetails {
 		}
 		UserInfo info = (UserInfo)other;
 		//the othere is a UserInfo, return true if the ids are equal
-		return info.getUserId() == getUserId();
+		return info.getId() == getId();
 	}
 	
 }

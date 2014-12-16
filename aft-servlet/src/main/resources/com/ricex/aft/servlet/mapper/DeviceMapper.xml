@@ -9,7 +9,7 @@
 
 	<!-- Device result map -->
 	<resultMap id="deviceResultMap" type="Device">
-		<id property="deviceId" column="DEV_ID" />
+		<id property="id" column="DEV_ID" />
 		<result property="deviceUid" column="DEV_UID" />
 		<result property="deviceName" column="DEV_NAME"/>
 		<result property="deviceRegistrationId" column="DEV_REG_ID" />
@@ -44,11 +44,11 @@
 			DEV_UID = #{deviceUid},
 			DEV_REG_ID = #{deviceRegistrationId},
 			DEV_OWNER = #{deviceOwner.userId}
-		WHERE DEV_ID = #{deviceId}
+		WHERE DEV_ID = #{id}
 	</update>
 	
 	<!-- Inserts the device in the param -->
-	<insert id="createDevice" useGeneratedKeys="true" keyProperty="deviceId">
+	<insert id="createDevice" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO DEVICE (DEV_UID, DEV_NAME, DEV_REG_ID, DEV_OWNER)
 		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId}, #{deviceOwner.userId})
 	</insert>

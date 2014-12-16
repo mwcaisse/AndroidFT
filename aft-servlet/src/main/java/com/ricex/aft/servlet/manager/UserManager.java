@@ -98,7 +98,7 @@ public enum UserManager implements UserDetailsService {
 			//create the user
 			userMapper.createUser(user);
 			//asign the user role to the user
-			assignRoleToUser(user.getUserId(), UserRole.ROLE_USER);
+			assignRoleToUser(user.getId(), UserRole.ROLE_USER);
 			return true;
 		}
 		return false;

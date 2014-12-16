@@ -10,7 +10,7 @@
 
 	<!-- File result map -->
 	<resultMap id="fileResultMap" type="File">
-		<id property="fileId" column="FILE_ID" />
+		<id property="id" column="FILE_ID" />
 		<result property="fileName" column="FILE_NAME" />
 		<result property="fileSize" column="FILE_SIZE" />
 		<result property="requestId" column="REQ_ID" />
@@ -48,7 +48,7 @@
 	</select>
 	
 	<!-- Inserts a new file into the database -->
-	<insert id="createFile" useGeneratedKeys="true" keyProperty="fileInfo.fileId">
+	<insert id="createFile" useGeneratedKeys="true" keyProperty="fileInfo.id">
 		INSERT INTO FILE (FILE_VAL, FILE_NAME, FILE_SIZE, REQ_ID, FILE_OWNER)
 		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.fileSize}, #{fileInfo.requestId}, #{fileInfo.fileOwner.userId})
 	</insert>

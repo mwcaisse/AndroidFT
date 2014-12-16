@@ -87,7 +87,7 @@ public class FileController extends ApiController {
 	
 	@RequestMapping(value = "/info/mine", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<File> getMyFiles() {
-		return fileManager.getUserFiles(getCurrentUser().getUserId());
+		return fileManager.getUserFiles(getCurrentUser().getId());
 	}
 	
 	/** Retreives information about the requesting users file storage, how many files they have, how much

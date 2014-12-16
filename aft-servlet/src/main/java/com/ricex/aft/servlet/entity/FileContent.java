@@ -3,18 +3,16 @@
  */
 package com.ricex.aft.servlet.entity;
 
-import java.io.Serializable;
+import com.ricex.aft.common.entity.AbstractEntity;
 
 /** Wrapper class for the contents of a file
  * 
  * @author Mitchell Caisse
  *
  */
-public class FileContent implements Serializable {
+public class FileContent extends AbstractEntity {
 
-	/** The id of the file */
-	private long fileId;
-	
+
 	/** The contents of the file */
 	private byte[] fileContents;
 	
@@ -23,22 +21,6 @@ public class FileContent implements Serializable {
 	 */
 	public FileContent() {
 		
-	}
-
-	/**
-	 * @return the fileId
-	 */
-	
-	public long getFileId() {
-		return fileId;
-	}
-
-	/**
-	 * @param fileId the fileId to set
-	 */
-	
-	public void setFileId(long fileId) {
-		this.fileId = fileId;
 	}
 
 	/**

@@ -61,12 +61,12 @@ public class MockDeviceMapper implements DeviceMapper {
 
 	@Override
 	public void updateDevice(Device device) {
-		devices.put(device.getDeviceId(), device);		
+		devices.put(device.getId(), device);		
 	}
 	
 	@Override
 	public void createDevice(Device device) {
-		device.setDeviceId(getNextDeviceId());
+		device.setId(getNextDeviceId());
 		updateDevice(device);		
 	}
 	
