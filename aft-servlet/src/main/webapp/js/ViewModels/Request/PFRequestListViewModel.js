@@ -4,7 +4,7 @@ function RequestModel(data) {
 	var self = this;	
 	if (data) {		
 		/** The id of this request */
-		self.requestId = data.requestId;
+		self.id = data.id;
 		
 		/** The name of this request */
 		self.requestName = data.requestName;
@@ -65,7 +65,7 @@ function PFRequestListViewModel() {
 		request = ko.toJS(request);
 		
 		//navigate to the view page
-		window.location.href = "./create?requestId=" + request.requestId;
+		window.location.href = "./create?requestId=" + request.id;
 		
 	};
 	

@@ -5,7 +5,7 @@ function RequestModel(data) {
 	var self = this;
 	
 	//initialize the fields
-	self.requestId = ko.observable(-1);
+	self.id = ko.observable(-1);
 	self.requestName = ko.observable("");
 	self.requestFileLocation = ko.observable("");
 	self.requestDirectory = ko.observable("");
@@ -18,7 +18,7 @@ function RequestModel(data) {
 	
 	//if there is data initialize the data..
 	if (data) {
-		self.requestId(data.requestId);
+		self.id(data.id);
 		self.requestName(data.requestName);
 		self.requestDirectory(data.requestDirectory);
 		self.requestStatus(data.requestStatus);
@@ -35,7 +35,7 @@ function RequestModel(data) {
 	
 	/** Whether or not this request is new */
 	self.isNew = ko.computed(function() {
-		return self.requestId() < 0; //if the id is less than zero, it is new
+		return self.id() < 0; //if the id is less than zero, it is new
 	});
 	
 	/** The template for the status field */
@@ -128,12 +128,12 @@ function DeviceModel(data) {
 	
 	var self = this;
 	
-	self.deviceId = -1;
+	self.id = -1;
 	self.deviceName = ko.observable("");
 	self.deviceKey = ko.observable("");	
 	
 	if (data) {
-		self.deviceId = data.deviceId;
+		self.id = data.id;
 		self.deviceName(data.deviceName);
 	}
 	
@@ -143,12 +143,12 @@ function UserModel(data) {
 	
 	var self = this;
 	
-	self.userId = -1;
+	self.id = -1;
 	self.username = ko.observable("");
 	self.name = ko.observable("");
 	
 	if (data) {
-		self.userId = data.userId;
+		self.id = data.id;
 		self.username(data.username);
 		self.name(data.name);
 	}
@@ -174,7 +174,7 @@ function FileModel(data) {
 }
 
 /** View model for creating a request */
-function PFCreateRequestViewModel(fileUploadModal, requestId) {
+function PFCreateRequestViewModel(fileUploadModal, id) {
 	
 	var self = this;
 	
@@ -182,8 +182,8 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	self.request = ko.observable(new RequestModel());
 	
 	//check if a request id was passed in, if so set it
-	if (requestId >= 0) {
-		self.request().requestId(requestId);
+	if (id >= 0) {
+		self.request().id(id);
 	}
 	
 	/** The list of request statuses */
@@ -236,7 +236,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 			self.request(new RequestModel());
 		}
 		else {
-			$.getJSON(requestRoot + "api/request/" + self.request().requestId(), function (data) {
+			$.getJSON(requestRoot + "api/request/" + self.request().id(), function (data) {
 				self.request(new RequestModel(data));
 			}).fail( function (jqXHR, textStatus, error) {
 				alert("Failed to fetch the request: " + textStatus + " : " + error);
@@ -286,7 +286,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
             	}
             	else {
 	            	//update the request id
-	            	self.request().requestId(data.value);
+	            	self.request().id(data.value);
 	            	
 	            	//update the tab title
 	            	self.updateTabTitle();   
@@ -338,7 +338,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId) {
 	 * 		the id of the request
 	 */
 	self.updateTabTitle = function() {
-		if (self.request().requestId() < 0) {
+		if (self.request().id() < 0) {
 			$("#liViewRequest").text("Create Request");
 			$("#liCreateRequest").addClass("hidden");
 		}

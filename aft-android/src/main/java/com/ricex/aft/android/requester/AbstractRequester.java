@@ -77,15 +77,6 @@ public abstract class AbstractRequester {
 		messageConverters.add(converter);
 		restTemplate.setMessageConverters(messageConverters);
 		
-		/*
-		String jsonNewRequest = "{\"requestId\":1,\"requestName\":\"Test Request\",\"requestFiles\":[{\"fileId\":3,\"requestId\":1,\"fileName\":\"123.png\",\"fileSize\":155686,\"fileOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}},{\"fileId\":4,\"requestId\":1,\"fileName\":\"10-5-13_YO.png\",\"fileSize\":4811700,\"fileOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}},{\"fileId\":5,\"requestId\":1,\"fileName\":\"10-5-13_YO2.png\",\"fileSize\":4695840,\"fileOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}}],\"requestFileLocation\":\"/tst/\",\"requestDirectory\":\"PICTURES\",\"requestStatus\":\"New\",\"requestStatusMessage\":\"\",\"requestUpdated\":1418010829000,\"requestDevice\":{\"deviceId\":2,\"deviceUid\":\"4c87d6edeb1592c7\",\"deviceName\":\"HTC6435LVW\",\"deviceRegistrationId\":\"APA91bHl3ohv3b4KcxIsBgGWJ0jmhhXmEc_Uugb6wJBcSPj4ryXrDZCX6DAhQYFhfsxL8tLTWuEFYPiWOzLZKTr54h6xOz1XM-sxP-hDW9c5qIIYdwuNoTG55hcBn-Y0KeED40JqTktRpB9lvQ2b_emyvJy0_yvbSQ\",\"deviceOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}},\"requestOwner\":{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}}";
-		String jsonFile = "{\"fileId\": 4,\"requestId\": 1,\"fileName\": \"10-5-13_YO.png\",\"fileSize\": 4811700,\"fileOwner\":{\"userId\": 4,\"username\": \"testuser\",\"name\": \"testuser\"}}";
-		String jsonUser = "{\"userId\":4,\"username\":\"testuser\",\"name\":\"testuser\"}";
-		Request request = gson.fromJson(jsonNewRequest, Request.class);
-		UserInfo info = request.getRequestOwner();
-		Log.i("AR", "UserInfo: " + info);
-		Log.i("AR", "UserInfo Name: " + info.getName());*/
-		
 	}
 	
 	/** Returns the UID for the device this app is running on
