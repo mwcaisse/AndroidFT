@@ -29,7 +29,7 @@ public class GCMSyncMessageCommand implements Runnable {
 	private static Logger log = LoggerFactory.getLogger(GCMSyncMessageCommand.class);
 	
 	/** The API / AUthorization key to use when sending the message to the server */
-	private static final String API_KEY = "AIzaSyD0ZBXFhwOc_I1ig50mweBPWpeQiCkmnlw";
+	private final String apiKey;
 	
 	/** The syn message to send */
 	private SyncMessage message;
@@ -43,7 +43,8 @@ public class GCMSyncMessageCommand implements Runnable {
 	 * @param requestUrl The URL to send the sync message to
 	 */
 	
-	public GCMSyncMessageCommand(String registrationId, String requestUrl) {
+	public GCMSyncMessageCommand(String apiKey, String registrationId, String requestUrl) {
+		this.apiKey = apiKey;
 		this.requestUrl = requestUrl;
 		createSyncMessage(registrationId);
 	}
@@ -64,7 +65,7 @@ public class GCMSyncMessageCommand implements Runnable {
 	 * @return The response from the server
 	 */
 	
-	private static ResponseEntity<Map> postMessage(SyncMessage message, String requestUrl) {
+	private ResponseEntity<Map> postMessage(SyncMessage message, String requestUrl) {
 		log.debug("Posting message to GCM, REG ID: " + message.getRegistration_ids().get(0));
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<SyncMessage> entity = createHttpEntity(message);
@@ -77,10 +78,10 @@ public class GCMSyncMessageCommand implements Runnable {
 	 * @return The HttpEntity created
 	 */
 	
-	private static HttpEntity<SyncMessage> createHttpEntity(SyncMessage message) {
+	private HttpEntity<SyncMessage> createHttpEntity(SyncMessage message) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String,String>();
 		headers.add("Content-Type","application/json");
-		headers.add("Authorization","key=" + API_KEY);
+		headers.add("Authorization","key=" + apiKey);
 		return new HttpEntity<SyncMessage>(message, headers);
 	}
 	

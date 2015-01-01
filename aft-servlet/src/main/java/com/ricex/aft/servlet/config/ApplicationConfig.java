@@ -2,6 +2,7 @@ package com.ricex.aft.servlet.config;
 
 import java.util.List;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,6 +15,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.jndi.JndiTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -305,8 +307,20 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	}
 	
 	@Bean
-	public GCMDeviceNotifier gcmDeviceNotifier() {
-		return new GCMDeviceNotifier();
+	public GCMDeviceNotifier gcmDeviceNotifier() throws Exception {
+		return new GCMDeviceNotifier(gcmApiKey());
+	}
+	
+	/** Looks up the API key for GCM from the servlet context
+	 * 
+	 * @return The gcm key
+	 * @throws NamingException an error occured while fetching the key
+	 */
+	
+	@Bean
+	public String gcmApiKey() throws NamingException {
+		JndiTemplate template = new JndiTemplate();
+		return template.lookup("java:comp/env/AFT_GCM_API_KEY",String.class);
 	}
 	
 	/** The multipart resolver bean
