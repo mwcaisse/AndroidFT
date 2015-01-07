@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.DeviceImageMapper">
+
+	<!-- Use cache -->
+	<cache/>
+
+	<!-- Device Image result map -->
+	<resultMap id="deviceImageResultMap" type="DeviceImage">
+	    <id property="id" column="DEV_IMG_ID" />
+	    <result property="deviceId" column="DEV_ID" />
+	    <result property="imageContents" column="DEV_IMG_CONT" />
+	    <result property="imageSize" column="DEV_IMG_SIZE" />
+	</resultMap>
+	
+	<!-- Selects the device image for the given device -->
+	<select id="getDeviceImage" parameterType="long" resultMap="deviceImageResultMap">
+	    SELECT * FROM DEVICE_IMAGE
+	    WHERE DEV_IMG_ID = #{deviceId}
+	</select>
+	
+	<!-- Creates the specified device image -->
+	<insert id="createDeviceImage" useGeneratedKeys="true" keyProperty="id" parameterType="DeviceImage">
+	    INSERT INTO DEVICE_IMAGE (DEV_ID, DEV_IMG_CONT, DEV_IMG_SIZE)
+	    VALUES (#{deviceId}, #{imageContents}, #{imageSize})
+    </insert>
+	
+	<!-- Updates the image for the specified device -->
+	<update id="updateDeviceImage" parameterType="DeviceImage">
+    	UPDATE DEVICE_IMAGE SET
+    		DEV_IMG_CONT = #{imageContents},
+    		DEV_IMG_SIZE = #{imageSize}
+    	WHERE DEV_ID = #{deviceId}
+    </update>
+	
+	<!--  Deletes the specified device image -->
+	<delete id="deleteDeviceImage" parameterType="long">
+		DELETE FROM DEVICE_IMAGE
+		WHERE DEV_ID = #{deviceId}
+	</delete>
+	
+</mapper>

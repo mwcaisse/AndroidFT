@@ -35,11 +35,13 @@ import com.ricex.aft.servlet.controller.view.HomeController;
 import com.ricex.aft.servlet.controller.view.LoginViewController;
 import com.ricex.aft.servlet.controller.view.RequestViewController;
 import com.ricex.aft.servlet.gcm.GCMDeviceNotifier;
+import com.ricex.aft.servlet.manager.DeviceImageManager;
 import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
 import com.ricex.aft.servlet.manager.RegistrationKeyManager;
 import com.ricex.aft.servlet.manager.RequestManager;
 import com.ricex.aft.servlet.manager.UserManager;
+import com.ricex.aft.servlet.mapper.DeviceImageMapper;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.FileMapper;
 import com.ricex.aft.servlet.mapper.RegistrationKeyMapper;
@@ -54,6 +56,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public DeviceController deviceController() throws Exception {
 		DeviceController deviceController = new DeviceController();
 		deviceController.setDeviceManager(deviceManager());
+		deviceController.setDeviceImageManager(deviceImageManager());
 		return deviceController;
 	}
 	
@@ -188,6 +191,19 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		return mapperFactoryBean.getObject();
 	}
 	
+	/** The Device Image mapper to be used by the managers
+	 * 
+	 * @return The device image mapper
+	 * @throws Exception If fetching the sql session factory failed
+	 */
+	@Bean 
+	public DeviceImageMapper deviceImageMapper() throws Exception {
+		MapperFactoryBean<DeviceImageMapper> mapperFactoryBean = new MapperFactoryBean<DeviceImageMapper>();
+		mapperFactoryBean.setMapperInterface(DeviceImageMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
 	/** The File mapper to be used by the managers
 	 * 
 	 * @return The file mapper
@@ -253,6 +269,19 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		DeviceManager deviceManager = DeviceManager.INSTANCE;
 		deviceManager.setDeviceMapper(deviceMapper());
 		return deviceManager;
+	}
+	
+	/** The bean for the device image manager used by the controllers
+	 * 
+	 * @return The instance of the device image manager
+	 * @throws Exception  If creating a mapper interface failed
+	 */
+	@Bean
+	public DeviceImageManager deviceImageManager() throws Exception {
+		DeviceImageManager deviceImageManager = DeviceImageManager.INSTANCE;
+		deviceImageManager.setDeviceImageMapper(deviceImageMapper());
+		deviceImageManager.setDeviceManager(deviceManager());
+		return deviceImageManager;
 	}
 	
 	/** The bean for the file manger used by the controllers

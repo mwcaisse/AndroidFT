@@ -14,11 +14,13 @@
 		<typeAlias alias="UserRole" type="com.ricex.aft.servlet.entity.UserRole" />
 		<typeAlias alias="UserInfo" type="com.ricex.aft.common.entity.UserInfoImpl" /> 
 		<typeAlias alias="RegistrationKey" type="com.ricex.aft.servlet.entity.RegistrationKey" />
+		<typeAlias alias="DeviceImage" type="com.ricex.aft.servlet.entity.DeviceImage" />
 	</typeAliases>
 	
 	
 	<mappers>
 		<mapper resource="com/ricex/aft/servlet/mapper/DeviceMapper.xml" />
+		<mapper resource="com/ricex/aft/servlet/mapper/DeviceImageMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/FileMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/UserMapper.xml" />

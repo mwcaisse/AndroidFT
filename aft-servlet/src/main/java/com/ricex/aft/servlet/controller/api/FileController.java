@@ -90,7 +90,7 @@ public class FileController extends ApiController {
 		return fileManager.getUserFiles(getCurrentUser().getId());
 	}
 	
-	/** Retreives information about the requesting users file storage, how many files they have, how much
+	/** Retrieves information about the requesting users file storage, how many files they have, how much
 	 * 		storage they have, and how much storage they have used.
 	 * 
 	 * @return The file quota for the requesting user

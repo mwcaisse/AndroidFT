@@ -2,20 +2,28 @@ package com.ricex.aft.servlet.controller.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
+import com.ricex.aft.servlet.entity.DeviceImage;
 import com.ricex.aft.servlet.entity.User;
 import com.ricex.aft.servlet.entity.exception.AuthorizationException;
+import com.ricex.aft.servlet.entity.exception.EntityException;
+import com.ricex.aft.servlet.manager.DeviceImageManager;
 import com.ricex.aft.servlet.manager.DeviceManager;
 
 /** The SpringMVC Controller for handling devices.
@@ -35,6 +43,9 @@ public class DeviceController extends ApiController {
 	
 	/** Manager for fetching device related information */
 	private DeviceManager deviceManager;
+	
+	/** Manager for fetching device images */
+	private DeviceImageManager deviceImageManager;
 	
 	/** Creates a new DeviceController Instance, and sets up the deviceManager
 	 * 		for use
@@ -140,22 +151,47 @@ public class DeviceController extends ApiController {
 			return createDevice(device);
 		}	
 	}
-
-	/**
-	 * @return the deviceManager
+	
+	/** Downloads the file with the given file id.
+	 * 
+	 * Similar to getFileContents, but this adds the attachment header for use in web browsers
+	 * 
+	 * @param fileId The id of the file to download
+	 * @param fileName The name of the file, not used, for URL purposes
+	 * @return The byte stream of the file
 	 */
 	
-	public DeviceManager getDeviceManager() {
-		return deviceManager;
+	@RequestMapping(value = "/image/{deviceId}", method = RequestMethod.GET, produces={MediaType.IMAGE_PNG_VALUE})
+	public @ResponseBody byte[] getDeviceImage(@PathVariable long deviceId, HttpServletResponse response) {
+		DeviceImage deviceImage = deviceImageManager.getDeviceImage(deviceId);
+		//response.setHeader("Content-Disposition", "attachment;filename=" + removeSpacesFromFileName(file.getFileName()));
+		return deviceImage.getImageContents();
 	}
-
-	/**
-	 * @param deviceManager the deviceManager to set
+	
+	/** Uploads an image for a device
+	 * 
+	 * The contents of the image should be uploaded as a multipart file and as part of a form upload
+	 * 
+	 * @param deviceId The id of the device to add the image to
+	 * @param image The image for the device 
+	 * @return True if the device was uploaded successfully, false otherwise
 	 */
 	
-	public void setDeviceManager(DeviceManager deviceManager) {
-		this.deviceManager = deviceManager;
-	}	
+	@RequestMapping(value = "/image/upload", method = RequestMethod.POST)
+	public @ResponseBody BooleanResponse formUploadFile(@RequestParam("deviceId") long deviceId, @RequestParam("image") MultipartFile image) 
+			throws EntityException{
+		if (!image.isEmpty()) {
+			try {
+				byte[] bytes = image.getBytes();
+				
+				return new BooleanResponse(deviceImageManager.uploadDeviceImage(deviceId, bytes));				
+			}
+			catch (Exception e) {
+				log.warn("Failed to upload device image for  device with id {}", deviceId, e);
+			}
+		}
+		return new BooleanResponse(false);
+	}
 	
 	/** Determines if the specified user can modify the device
 	 * 
@@ -172,7 +208,35 @@ public class DeviceController extends ApiController {
 		}
 		return dbDevice != null && user.equals(dbDevice.getDeviceOwner());
 	}
-	
-	
 
+	/**
+	 * @return the deviceManager
+	 */
+	
+	public DeviceManager getDeviceManager() {
+		return deviceManager;
+	}
+
+	/**
+	 * @param deviceManager the deviceManager to set
+	 */
+	
+	public void setDeviceManager(DeviceManager deviceManager) {
+		this.deviceManager = deviceManager;
+	}
+
+	/**
+	 * @return the deviceImageManager
+	 */
+	public DeviceImageManager getDeviceImageManager() {
+		return deviceImageManager;
+	}
+
+	/**
+	 * @param deviceImageManager the deviceImageManager to set
+	 */
+	public void setDeviceImageManager(DeviceImageManager deviceImageManager) {
+		this.deviceImageManager = deviceImageManager;
+	}	
+	
 }
