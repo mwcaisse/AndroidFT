@@ -163,7 +163,7 @@ public class DeviceController extends ApiController {
 	
 	@RequestMapping(value = "/image/{deviceId}", method = RequestMethod.GET, produces={MediaType.IMAGE_PNG_VALUE})
 	public @ResponseBody byte[] getDeviceImage(@PathVariable long deviceId, HttpServletResponse response) {
-		DeviceImage deviceImage = deviceImageManager.getDeviceImage(deviceId);
+		DeviceImage deviceImage = deviceImageManager.getDeviceImageOrDefault(deviceId);
 		//response.setHeader("Content-Disposition", "attachment;filename=" + removeSpacesFromFileName(file.getFileName()));
 		return deviceImage.getImageContents();
 	}
