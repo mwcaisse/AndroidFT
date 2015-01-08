@@ -35,3 +35,15 @@ input, select {
 .compactCell {
 	width: 1%;
 }
+
+.deviceRow {
+	clear:both;
+}
+
+.deviceCell {
+	float: left;
+	margin: 10px;
+	padding: 10px;
+	/*border: 3px solid black; */
+	
+}
