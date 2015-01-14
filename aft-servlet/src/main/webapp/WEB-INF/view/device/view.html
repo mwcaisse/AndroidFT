@@ -1,0 +1,82 @@
+<html layout:decorator="common/layout">
+	<head>	
+		<title>Push File</title>		
+	</head>
+	
+	<body>	
+	
+		<input type="hidden" id="deviceId" th:value="${deviceId}" />
+			
+		<div layout:fragment="content" >	
+		
+			<!-- The nav bar -->
+			<div th:replace="common/navbar"></div>
+			
+			<div class="body">
+							
+				<!-- The div for the device image -->
+				<div style="float: left; width: 30%;">
+					<img src="http://localhost:8080/aft-servlet/api/device/image/3" />
+				</div>
+				
+				<div style="float: right; width: 69%;">
+					<div>
+						<table>
+							<tbody>
+								<tr>
+									<th>Device Name: </th> <td>Name Here</td>
+								</tr>
+								<tr>
+									<th>Device UUID: </th> <td>UUID Here </td>
+								</tr>
+								<tr>
+									<th>Device Registration ID: </th> <td>Registration ID Here </td>
+								</tr>
+								<tr>
+									<th>Device Owner: </th> <td>Owner Here </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<br />
+					<br />
+					<h3> Device Requests </h3>
+					<div>
+						<table class="table table-bordered table-striped table-hover">				
+							<thead>
+								<tr>
+									<td>Name</td>
+									<td>Status</td>
+									<td>Last Updated</td>
+									<td>Device</td>
+								</tr>
+							</thead>
+							
+							<tbody>
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+			
+			</div>	
+		
+		<!--
+			<script th:src="@{/js/ViewModels/PFViewDeviceViewModel.js}"></script>
+			<script type="text/javascript">
+	
+				$(document).ready(function() {
+				
+					$("#navDevices").toggleClass("active");
+				
+					var deviceViewModel = new PFDeviceViewModel();			
+					ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+				});
+	
+			</script>
+			-->
+			
+		</div>
+
+	</body>
+</html>

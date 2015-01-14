@@ -9,6 +9,14 @@
 			<!-- The nav bar -->
 			<div th:replace="common/navbar"></div>
 			
+			<!-- The Devices nav bar -->
+			<div>
+				<ul class="nav nav-tabs" role="tablist">	
+					<li class="active"><a th:href="@{/device/}">My Devices</a></li>
+					<li><a th:href="@{/device/view/?deviceId=1}">View Device</a></li>
+				</ul>	
+			</div>
+			
 			<div class="body">
 				
 				<!-- ko foreach: devicesGrid -->	
@@ -27,9 +35,9 @@
 				<!-- /ko -->	
 			
 			</div>	
-		
-		
-			<script th:src="@{/js/ViewModels/PFDeviceViewModel.js}"></script>
+	
+	
+			<script th:src="@{/js/ViewModels/device/PFDeviceListViewModel.js}"></script>
 			<script type="text/javascript">
 	
 				$(document).ready(function() {

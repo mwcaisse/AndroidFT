@@ -3,6 +3,7 @@ package com.ricex.aft.servlet.controller.view;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /** View Controller for the devices page
@@ -21,7 +22,19 @@ public class DeviceViewController extends ViewController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView deviceRoot() {
-		return new ModelAndView("device");
+		return new ModelAndView("device/devices");
+	}
+	
+	/** Returns the view for viewing a device
+	 * 
+	 * @param deviceId the id of the device to view
+	 * @return The view for viewing a device
+	 */
+	@RequestMapping(value = "/view", method = RequestMethod.GET) 
+	public ModelAndView deviceView(@RequestParam long deviceId) {
+		ModelAndView mv = new ModelAndView("device/view");
+		mv.addObject("deviceId", deviceId);
+		return mv;
 	}
 	
 }
