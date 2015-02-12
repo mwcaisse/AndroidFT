@@ -2,6 +2,7 @@ package com.ricex.aft.servlet.controller.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +44,7 @@ public class UserController extends ApiController {
 	 * @param username The username to check
 	 * @return True if the username is available, false otherwise
 	 */
-	@RequestMapping(value="/isAvailable", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/isAvailable", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody BooleanResponse isUsernameAvailable(@RequestParam String username) {
 		return new BooleanResponse(userManager.isUsernameAvailable(username));
 	}
@@ -54,7 +55,7 @@ public class UserController extends ApiController {
 	 * @return True if creation was successful, false otherwise
 	 * @throws EntityException If the User is invalid
 	 */
-	@RequestMapping(value="/register", method = RequestMethod.POST, produces={"application/json"})
+	@RequestMapping(value="/register", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody BooleanResponse registerUser(@RequestBody UserRegistration userRegistration) throws EntityException {
 		return new BooleanResponse(userManager.createUser(userRegistration));
 	}

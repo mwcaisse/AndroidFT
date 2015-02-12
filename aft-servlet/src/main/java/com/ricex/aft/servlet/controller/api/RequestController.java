@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,7 +71,7 @@ public class RequestController extends ApiController {
 	 * @return The request with the specified id
 	 */
 	
-	@RequestMapping(value="/{id}", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/{id}", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody Request getRequestById(@PathVariable long id) {
 		return requestManager.getRequestById(id);
 	}
@@ -85,7 +86,7 @@ public class RequestController extends ApiController {
 	 * @return A list of all requests.
 	 */
 	
-	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/all", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllRequests() {
 		return requestManager.getAllRequests();
 	}
@@ -99,7 +100,7 @@ public class RequestController extends ApiController {
 	 *    
 	 * @return A list of all requests.
 	 */
-	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllMyRequests() {
 		return requestManager.getAllRequestsByUser(getCurrentUser().getId());
 	}
@@ -119,7 +120,7 @@ public class RequestController extends ApiController {
 	 * @return A list containing all of the requests for the specified device.
 	 */
 	
-	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/all/{deviceUid}", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getRequestsForDevice(@PathVariable String deviceUid) {
 		return requestManager.getRequestsForDevice(deviceUid);
 	}
@@ -142,7 +143,7 @@ public class RequestController extends ApiController {
 	 * @return A list containing the new requests for the specified device.
 	 */
 	
-	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/new/{deviceUid}", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getNewRequestsForDevice(@PathVariable String deviceUid) {
 		return requestManager.getNewRequestsForDevice(deviceUid);
 	}
@@ -152,7 +153,7 @@ public class RequestController extends ApiController {
 	 * @return The list of all possible request directories
 	 */
 	
-	@RequestMapping(value="/directories", method=RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/directories", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<String> getRequestDirectories() {
 		List<String> requestDirectories = new ArrayList<String>();
 		for (RequestDirectory directory : RequestDirectory.values()) {
@@ -166,7 +167,7 @@ public class RequestController extends ApiController {
 	 * @return The list of all request statuses
 	 */
 	
-	@RequestMapping(value="/statuses", method=RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/statuses", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<String> getRequestStatuses() {
 		List<String> requestStatuses = new ArrayList<String>();
 		for (RequestStatus status : RequestStatus.values()) {
@@ -188,7 +189,7 @@ public class RequestController extends ApiController {
 	 * @throws EntityException when the request passed in is invalid
 	 */
 	
-	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={"application/json"})
+	@RequestMapping(value="/create", method= RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse createRequest(@RequestBody Request request) throws EntityException {		
 		//set the owner of the request
 		request.setRequestOwner(getCurrentUser().toUserInfo());
@@ -213,7 +214,7 @@ public class RequestController extends ApiController {
 	 * @throws EntityException when the request passed in is invalid
 	 */
 	
-	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={"application/json"})
+	@RequestMapping(value="/update", method= RequestMethod.PUT, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse updateRequest(@RequestBody Request request) throws EntityException, AuthorizationException {
 		if (canUserModifyRequest(request.getId(), getCurrentUser())) {
 			return new LongResponse(requestManager.updateRequest(request));
