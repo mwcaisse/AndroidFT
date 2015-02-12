@@ -55,7 +55,12 @@ public class DeviceController extends ApiController {
 
 	}
 	
-	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/id/{deviceId}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody Device getDevice(@PathVariable long deviceId) {
+		return deviceManager.getDevice(deviceId);
+	}
+	
+	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody BooleanResponse isDeviceRegistered(@PathVariable String deviceUid) {
 		return new BooleanResponse(deviceManager.deviceExists(deviceUid));
 	}
@@ -65,7 +70,7 @@ public class DeviceController extends ApiController {
 	 * @return List of all available devices
 	 */
 
-	@RequestMapping(value="/all", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/all", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Device> getAllDevices() {
 		return deviceManager.getAllDevices();
 	}
@@ -74,7 +79,7 @@ public class DeviceController extends ApiController {
 	 * 
 	 * @return List of all devices belonging to the requesting user
 	 */
-	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Device> getMyDevices() {
 		return deviceManager.getAllDevicesByUser(getCurrentUser().getId());
 	}
@@ -92,7 +97,7 @@ public class DeviceController extends ApiController {
 	 */
 	
 	
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes={"application/json"})
+	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public void updateDevice(@RequestBody Device device) throws AuthorizationException {
 		if (canUserModifyDevice(device, getCurrentUser())) {
 			deviceManager.updateDevice(device);
@@ -114,7 +119,7 @@ public class DeviceController extends ApiController {
 	 * @return The ID of the device that was created
 	 */
 	
-	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={"application/json"})
+	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse createDevice(@RequestBody Device device) {
 		//set the current user as the device owner
 		log.debug("User {} is creating a device.", getCurrentUser());
@@ -135,7 +140,7 @@ public class DeviceController extends ApiController {
 	 * 		-1 if the request failed.
 	 */
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={"application/json"})
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody LongResponse registerDevice(@RequestBody Device device) throws AuthorizationException {		
 		//check if the device exists, if it does update it, otherwise create it
 		if (deviceManager.deviceExists(device.getDeviceUid())) {
