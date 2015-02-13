@@ -3,6 +3,7 @@ package com.ricex.aft.servlet.controller.view;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -30,7 +31,13 @@ public class RequestViewController extends ViewController {
 	 * @return The view for creating a new request
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET) 
-	public ModelAndView createRequest() {
-		return new ModelAndView("request/createRequest");
+	public ModelAndView createRequest(
+		@RequestParam(required = false, defaultValue = "") String deviceUID,
+		@RequestParam(required = false, defaultValue = "-1") String requestID) {
+		
+		ModelAndView mv = new ModelAndView("request/createRequest");
+		mv.addObject("deviceUID", deviceUID);
+		mv.addObject("requestID", requestID);
+		return mv;
 	}
 }

@@ -7,6 +7,10 @@
 	<body>	
 		<div layout:fragment="content">	
 		
+			<!-- Request Parameters -->
+			<input type="hidden" id="deviceUID" th:value="${deviceUID}" />	
+			<input type="hidden" id="requestID" th:value="${requestID}" />	
+		
 			<!-- The nav bar -->
 			<div th:replace="common/navbar"></div>
 		
@@ -191,15 +195,12 @@
 					
 					//$("#liViewRequest").removeClass("hidden");
 					
-					//get the requestid from the url params
-					//TODO: Update this to the Thymeleaf / view parameter
-					var requestId = getURLParameter("requestId")
-					if (!requestId) {
-						requestId = -1;
-					}
+					//fetch the parameters
+					var requestId = $("#requestID").val();					
+					var deviceUid = $("#deviceUID").val();	
 					
 					fileUploadModalViewModel = new PFRequestFileUploadViewModel();
-					var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId);		
+					var requestViewModel = new PFCreateRequestViewModel(fileUploadModalViewModel, requestId, deviceUid);		
 					
 					ko.applyBindings(fileUploadModalViewModel, document.getElementById("divFileUploadModal"));
 					ko.applyBindings(requestViewModel, document.getElementById("requestBody"));

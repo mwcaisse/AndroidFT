@@ -131,10 +131,12 @@ function DeviceModel(data) {
 	self.id = -1;
 	self.deviceName = ko.observable("");
 	self.deviceKey = ko.observable("");	
+	self.deviceUid = ko.observable("");
 	
 	if (data) {
 		self.id = data.id;
 		self.deviceName(data.deviceName);
+		self.deviceUid(data.deviceUid);
 	}
 	
 }
@@ -174,7 +176,7 @@ function FileModel(data) {
 }
 
 /** View model for creating a request */
-function PFCreateRequestViewModel(fileUploadModal, id) {
+function PFCreateRequestViewModel(fileUploadModal, requestId, deviceUid) {
 	
 	var self = this;
 	
@@ -182,8 +184,8 @@ function PFCreateRequestViewModel(fileUploadModal, id) {
 	self.request = ko.observable(new RequestModel());
 	
 	//check if a request id was passed in, if so set it
-	if (id >= 0) {
-		self.request().id(id);
+	if (requestId >= 0) {
+		self.request().id(requestId);
 	}
 	
 	/** The list of request statuses */
@@ -221,9 +223,18 @@ function PFCreateRequestViewModel(fileUploadModal, id) {
 		$.getJSON(requestRoot + "api/device/all", function (data) {
 			self.devices.removeAll();
 			
-			$.each(data, function(index, value) {				
+			$.each(data, function(index, value) {					
 				self.devices.push(new DeviceModel(value));
 			});
+			
+			if (self.request().isNew() && deviceUid !== "") {
+				$.each(self.devices(), function(index, value) {
+					if (value.deviceUid() === deviceUid) {
+						self.request().requestDevice(value);
+					}
+				});
+			}
+			
 		}).fail( function (jqXHR, textStatus, error) {
 			alert("Failed to fetch the devices " + textStatus + " : " + error);
 		});
