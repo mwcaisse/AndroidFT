@@ -86,6 +86,22 @@ function viewRequest(request) {
 	window.location.href = requestRoot + "/request/create?requestId=" + request.id;
 }
 
+/** Redirects the user to create request view
+ * 
+ * @param device The device to create the request for, optional
+ */
+function createRequestView(device) {	
+	var params = "";
+	
+	if (device) {
+		device = ko.toJS(device);
+		
+		params = "?deviceUID=" + device.deviceUid;
+	}
+	
+	window.location.href = requestRoot + "/request/create" + params;
+}
+
 /** Model for a file to upload
  * 
  */

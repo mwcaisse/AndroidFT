@@ -49,6 +49,12 @@ function DeviceViewModel(deviceUID) {
 		});
 	};
 	
+	/** Brings the user to the create Request page, with this device selected
+	 */
+	self.createRequest = function() {
+		createRequestView(self.device());
+	};
+	
 	// fetch the device + requests
 	self.fetchData();
 	
