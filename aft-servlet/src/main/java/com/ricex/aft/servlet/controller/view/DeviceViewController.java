@@ -31,9 +31,9 @@ public class DeviceViewController extends ViewController {
 	 * @return The view for viewing a device
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET) 
-	public ModelAndView deviceView(@RequestParam long deviceId) {
+	public ModelAndView deviceView(@RequestParam String deviceUID) {
 		ModelAndView mv = new ModelAndView("device/view");
-		mv.addObject("deviceId", deviceId);
+		mv.addObject("deviceUID", deviceUID);
 		return mv;
 	}
 	

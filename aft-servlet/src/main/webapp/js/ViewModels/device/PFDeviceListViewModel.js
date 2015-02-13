@@ -20,6 +20,32 @@ function DeviceModel(data) {
 	self.deviceActive = ko.observable(true);
 }
 
+/** The model for a Request */
+function RequestModel(data) {	
+	var self = this;	
+	if (data) {		
+		/** The id of this request */
+		self.id = data.id;
+		
+		/** The name of this request */
+		self.requestName = data.requestName;
+		
+		/** The status of this request */
+		self.requestStatus = data.requestStatus;
+		
+		/** The date that this request was updated */
+		self.requestUpdated = data.requestUpdated;
+		
+		self.requestUpdatedText = ko.computed( function() {
+			return parseDate(self.requestUpdated);
+		});
+		
+		/** The name of the device this request belongs to */
+		self.requestDeviceName = data.requestDevice.deviceName;		
+	}
+	
+}
+
 /** The view model for the device view */
 
 function PFDeviceViewModel() {

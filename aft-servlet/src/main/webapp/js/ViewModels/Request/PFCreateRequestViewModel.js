@@ -339,12 +339,12 @@ function PFCreateRequestViewModel(fileUploadModal, id) {
 	 */
 	self.updateTabTitle = function() {
 		if (self.request().id() < 0) {
-			$("#liViewRequest").text("Create Request");
-			$("#liCreateRequest").addClass("hidden");
+			$("#liViewRequest").addClass("hidden");
+			$("#liCreateRequest").addClass("active");
 		}
 		else {
-			$("#liViewRequest").text("Modify Request");
-			$("#liCreateRequest").removeClass("hidden");
+			$("#liViewRequest").removeClass("hidden");
+			$("#liViewRequest").addClass("active");
 		}
 	};
 	

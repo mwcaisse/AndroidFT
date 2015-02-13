@@ -44,6 +44,9 @@ input, select {
 	float: left;
 	margin: 10px;
 	padding: 10px;
-	/*border: 3px solid black; */
-	
+	/*border: 3px solid black; */	
+}
+
+.hidden {
+	display: none;
 }

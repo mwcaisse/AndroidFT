@@ -55,11 +55,25 @@ public class DeviceController extends ApiController {
 
 	}
 	
-	@RequestMapping(value="/id/{deviceId}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody Device getDevice(@PathVariable long deviceId) {
-		return deviceManager.getDevice(deviceId);
+	/** Returns the device with the specified UID
+	 * 
+	 * @param deviceUid The UID of the device to fetch
+	 * @return The device with the specified UID
+	 */
+	
+	@RequestMapping(value="/{deviceUid}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody Device getDevice(@PathVariable String deviceUid) {
+		return deviceManager.getDeviceByUid(deviceUid);
 	}
 	
+	/** Checks if there is a device registered with the specified UID.
+	 * 
+	 *  Allows a device to check if it has registered with the application before, and if not tells them that they need
+	 *  to register
+	 * 
+	 * @param deviceUid The UID of the device to check
+	 * @return True if there is a device with this UID registered, false otherwise
+	 */
 	@RequestMapping(value="/isRegistered/{deviceUid}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody BooleanResponse isDeviceRegistered(@PathVariable String deviceUid) {
 		return new BooleanResponse(deviceManager.deviceExists(deviceUid));

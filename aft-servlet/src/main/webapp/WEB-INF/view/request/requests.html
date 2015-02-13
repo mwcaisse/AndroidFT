@@ -7,15 +7,11 @@
 			
 		<div layout:fragment="content">	
 		
-			<!-- The nav bar -->
+			<!-- The main nav bar -->
 			<div th:replace="common/navbar"></div>
 		
-			<ul class="nav nav-tabs" role="tablist">	
-				<li class="active"><a href="#">All Requests</a></li>
-				<li><a th:href="@{/request/create}">Create Request</a></li>
-			</ul>
-		
-		
+			<!-- The requests nav bar -->
+			<div th:replace="request/navbar"></div>	
 	
 			<div id="requestBody" class="body">
 				
@@ -47,6 +43,7 @@
 				
 				$(document).ready(function() {			
 					$("#navRequests").toggleClass("active");
+					$("#liAllRequests").addClass("active");
 					var requestListViewModel = new PFRequestListViewModel();			
 					ko.applyBindings(requestListViewModel, document.getElementById("requestBody"));
 				});

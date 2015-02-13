@@ -3,37 +3,39 @@
 		<title>Push File</title>		
 	</head>
 	
-	<body>	
-	
-		<input type="hidden" id="deviceId" th:value="${deviceId}" />
+	<body>			
 			
-		<div layout:fragment="content" >	
+		<div layout:fragment="content" >
+		
+			<input type="hidden" id="deviceUID" th:value="${deviceUID}" />	
 		
 			<!-- The nav bar -->
 			<div th:replace="common/navbar"></div>
 			
-			<div class="body">
+			<!-- The devices nav bar -->
+			<div th:replace="device/navbar"></div>
+			
+			<div  id="deviceBody" class="body">
+						
+				<h3 data-bind="text: device().deviceName"></h3>
 							
 				<!-- The div for the device image -->
 				<div style="float: left; width: 30%;">
-					<img src="http://localhost:8080/aft-servlet/api/device/image/3" />
+					<img data-bind="attr:{src: device().deviceImageUrl}" />
 				</div>
 				
 				<div style="float: right; width: 69%;">
 					<div>
 						<table>
-							<tbody>
+							<tbody data-bind="with: device">						
 								<tr>
-									<th>Device Name: </th> <td>Name Here</td>
+									<th>Device UUID: </th> <td data-bind="text: deviceUid"></td>
 								</tr>
 								<tr>
-									<th>Device UUID: </th> <td>UUID Here </td>
+									<th>Device Registration ID: </th> <td data-bind="text: deviceRegistrationId"> </td>
 								</tr>
 								<tr>
-									<th>Device Registration ID: </th> <td>Registration ID Here </td>
-								</tr>
-								<tr>
-									<th>Device Owner: </th> <td>Owner Here </td>
+									<th>Device Owner: </th> <td data-bind="text: deviceOwner().name"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -42,7 +44,8 @@
 					<br />
 					<h3> Device Requests </h3>
 					<div>
-						<table class="table table-bordered table-striped table-hover">				
+						<table class="table table-bordered table-striped table-hover">
+				
 							<thead>
 								<tr>
 									<td>Name</td>
@@ -51,9 +54,14 @@
 									<td>Device</td>
 								</tr>
 							</thead>
-							
-							<tbody>
-							
+											
+							<tbody data-bind="foreach: requests">
+								<tr data-bind="click: $root.viewRequest">
+									<td data-bind="text: requestName"></td>
+									<td data-bind="text: requestStatus"></td>
+									<td data-bind="text: requestUpdatedText"></td>
+									<td data-bind="text: requestDeviceName"></td>						
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -61,20 +69,26 @@
 			
 			</div>	
 		
-		<!--
-			<script th:src="@{/js/ViewModels/PFViewDeviceViewModel.js}"></script>
+		
+			<script th:src="@{/js/ViewModels/device/PFViewDeviceViewModel.js}"></script>
 			<script type="text/javascript">
 	
 				$(document).ready(function() {
 				
 					$("#navDevices").toggleClass("active");
+					
+					$("#liViewDevice").addClass("active");
+					
+					//get the deviceUID from the URL parameter
+					var deviceUID = $("#deviceUID").val();
 				
-					var deviceViewModel = new PFDeviceViewModel();			
+					//create the device view model and apply its bindings
+					var deviceViewModel = new DeviceViewModel(deviceUID);			
 					ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
 				});
 	
 			</script>
-			-->
+			
 			
 		</div>
 

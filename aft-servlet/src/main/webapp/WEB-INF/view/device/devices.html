@@ -9,13 +9,8 @@
 			<!-- The nav bar -->
 			<div th:replace="common/navbar"></div>
 			
-			<!-- The Devices nav bar -->
-			<div>
-				<ul class="nav nav-tabs" role="tablist">	
-					<li class="active"><a th:href="@{/device/}">My Devices</a></li>
-					<li><a th:href="@{/device/view/?deviceId=1}">View Device</a></li>
-				</ul>	
-			</div>
+			<!-- The devices nav bar -->
+			<div th:replace="device/navbar"></div>
 			
 			<div class="body">
 				
@@ -43,6 +38,8 @@
 				$(document).ready(function() {
 				
 					$("#navDevices").toggleClass("active");
+					
+					$("#liMyDevices").addClass("active");
 				
 					var deviceViewModel = new PFDeviceViewModel();			
 					ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));

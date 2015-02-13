@@ -10,11 +10,8 @@
 			<!-- The nav bar -->
 			<div th:replace="common/navbar"></div>
 		
-			<ul class="nav nav-tabs" role="tablist">	
-				<li><a th:href="@{/request/}">All Requests</a></li>
-				<li class="active"><a id="liViewRequest" href="#">Create Request</a></li>
-				<li><a id="liCreateRequest" th:href="@{/request/create}">Create Request</a></li>
-			</ul>	
+			<!-- The requests nav bar -->
+			<div th:replace="request/navbar"></div>	
 	
 			<script type="text/html" id="request-status-non-modifiable">
 				<tr>
@@ -192,7 +189,10 @@
 			
 					$("navRequests").toggleClass("active");
 					
-					//get the requestid from the url params			
+					//$("#liViewRequest").removeClass("hidden");
+					
+					//get the requestid from the url params
+					//TODO: Update this to the Thymeleaf / view parameter
 					var requestId = getURLParameter("requestId")
 					if (!requestId) {
 						requestId = -1;
