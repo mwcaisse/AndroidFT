@@ -49,20 +49,6 @@ function DeviceViewModel(deviceUID) {
 		});
 	};
 	
-	/** Views the specified request
-	 *  
-	 */
-	self.viewRequest = function(request) {
-		if (!request) {
-			request = this;
-		}
-		//remove any observables
-		request = ko.toJS(request);
-		
-		//navigate to the view page
-		window.location.href = requestRoot + "/request/create?requestId=" + request.id;
-	}
-	
 	// fetch the device + requests
 	self.fetchData();
 	

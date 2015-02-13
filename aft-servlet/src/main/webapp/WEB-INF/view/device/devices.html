@@ -18,7 +18,7 @@
 					<div class="deviceRow">				
 						<!-- ko foreach: $data -->
 						
-							<div class="deviceCell btn btn-default">
+							<div class="deviceCell btn btn-default" data-bind="click: viewDevice">
 								<img width="100px" data-bind="attr:{src: deviceImageUrl}" /> 
 								<br />
 								<span data-bind="text: deviceName"></span>

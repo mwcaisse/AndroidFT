@@ -52,21 +52,6 @@ function PFRequestListViewModel() {
 	
 	//fetch the requests
 	self.fetchRequests();
-	
-	/** Views the specified request
-	 * 
-	 * @param request The request to view, if null, uses calling context
-	 */
-	self.viewRequest = function(request) {	
-		if (!request) {
-			request = this;
-		}
-		//remove any observables
-		request = ko.toJS(request);
-		
-		//navigate to the view page
-		window.location.href = "./create?requestId=" + request.id;
-		
-	};
+
 	
 }

@@ -55,6 +55,37 @@ function ajaxCSRFPost(url, data) {
 	});
 }
 
+/** Redirects the user to view the specified device
+ * 
+ * @param device The device to view, if null, then it will use the calling context (this)
+ */
+function viewDevice(device) {
+	if (!device) {
+		device = this;
+	}
+	
+	//remove any observables
+	device = ko.toJS(device);
+	
+	//redirect to the view device page
+	window.location.href = requestRoot + "/device/view?deviceUID=" + device.deviceUid;
+}
+
+/** Redirects the user to view the specified request
+ * 
+ * @param request The request to view, if null, then it will use the calling context (this)
+ */
+function viewRequest(request) {
+	if (!request) {
+		request = this;
+	}
+	//remove any observables
+	request = ko.toJS(request);
+	
+	//navigate to the view page
+	window.location.href = requestRoot + "/request/create?requestId=" + request.id;
+}
+
 /** Model for a file to upload
  * 
  */
