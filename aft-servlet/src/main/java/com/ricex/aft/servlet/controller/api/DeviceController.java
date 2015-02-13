@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
@@ -181,10 +182,15 @@ public class DeviceController extends ApiController {
 	 */
 	
 	@RequestMapping(value = "/image/{deviceId}", method = RequestMethod.GET, produces={MediaType.IMAGE_PNG_VALUE})
-	public @ResponseBody byte[] getDeviceImage(@PathVariable long deviceId, HttpServletResponse response) {
-		DeviceImage deviceImage = deviceImageManager.getDeviceImageOrDefault(deviceId);
+	public @ResponseBody Object getDeviceImage(@PathVariable long deviceId, HttpServletResponse response) {
+		DeviceImage deviceImage = deviceImageManager.getDeviceImage(deviceId);
 		//response.setHeader("Content-Disposition", "attachment;filename=" + removeSpacesFromFileName(file.getFileName()));
-		return deviceImage.getImageContents();
+		if (deviceImage != null) {
+			return deviceImage.getImageContents();
+		}
+		else {
+			return new RedirectView("/aft-servlet/img/device/default_icon.png");
+		}
 	}
 	
 	/** Uploads an image for a device
