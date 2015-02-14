@@ -19,7 +19,7 @@
 	
 	<!-- File Content result map -->
 	<resultMap id="fileContentResultMap" type="FileContent">
-	    <id property="fileId" column="FILE_ID" />
+	    <id property="id" column="FILE_ID" />
 	    <result property="fileContents" column="FILE_VAL" javaType="_byte[]"/>
 	</resultMap>
 	

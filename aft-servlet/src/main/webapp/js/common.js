@@ -83,7 +83,7 @@ function viewRequest(request) {
 	request = ko.toJS(request);
 	
 	//navigate to the view page
-	window.location.href = requestRoot + "/request/create?requestId=" + request.id;
+	window.location.href = requestRoot + "/request/create?requestID=" + request.id;
 }
 
 /** Redirects the user to create request view

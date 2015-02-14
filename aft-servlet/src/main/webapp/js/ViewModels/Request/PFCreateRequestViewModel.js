@@ -161,7 +161,7 @@ function UserModel(data) {
 function FileModel(data) {
 	var self = this;
 	
-	self.fileId = data.fileId;
+	self.fileId = data.id;
 	self.fileName = data.fileName;
 	
 	/** The url to download the file
