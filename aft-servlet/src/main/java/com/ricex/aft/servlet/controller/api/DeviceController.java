@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.ricex.aft.common.entity.Device;
@@ -191,31 +190,33 @@ public class DeviceController extends ApiController {
 		else {
 			return new RedirectView("/aft-servlet/img/device/default_icon.png");
 		}
-	}
-	
-	/** Uploads an image for a device
+	}	
+
+	/** Uploads a device image for the specified device.
 	 * 
-	 * The contents of the image should be uploaded as a multipart file and as part of a form upload
+	 * 	The body of the request should be the raw bytes of the file, and the id of the device the image is for
+	 * 		should be in the deviceId request param
 	 * 
-	 * @param deviceId The id of the device to add the image to
-	 * @param image The image for the device 
-	 * @return True if the device was uploaded successfully, false otherwise
+	 * @param image The raw bytes of the image
+	 * @param deviceId The deviceId of the device the image is for
+	 * @return True if the upload was successful, false otherwise
 	 */
 	
-	@RequestMapping(value = "/image/upload", method = RequestMethod.POST)
-	public @ResponseBody BooleanResponse formUploadFile(@RequestParam("deviceId") long deviceId, @RequestParam("image") MultipartFile image) 
-			throws EntityException{
-		if (!image.isEmpty()) {
-			try {
-				byte[] bytes = image.getBytes();
-				
-				return new BooleanResponse(deviceImageManager.uploadDeviceImage(deviceId, bytes));				
-			}
-			catch (Exception e) {
-				log.warn("Failed to upload device image for  device with id {}", deviceId, e);
-			}
+	@RequestMapping(value = "/image/rawUpload", method = RequestMethod.POST, consumes={MediaType.APPLICATION_OCTET_STREAM_VALUE})
+	public @ResponseBody BooleanResponse createFileRaw(@RequestBody byte[] image, @RequestParam(value="deviceId", required = true) long deviceId)
+			throws EntityException, AuthorizationException {
+		
+		Device device = deviceManager.getDevice(deviceId);
+		if (device == null) {
+			throw new EntityException("A device with the id: " + deviceId + " does not exist!");
 		}
-		return new BooleanResponse(false);
+		else if (canUserModifyDevice(device, getCurrentUser())) {
+			return new BooleanResponse(deviceImageManager.uploadDeviceImage(deviceId, image));
+		}
+		else {
+			throw new AuthorizationException("You are not authorized to modify the image for this device!");
+		}
+		
 	}
 	
 	/** Determines if the specified user can modify the device
@@ -226,6 +227,9 @@ public class DeviceController extends ApiController {
 	 * 		was not found.
 	 */
 	private boolean canUserModifyDevice(Device device, User user) { 
+		if (device == null) {
+			return false;
+		}
 		Device dbDevice = deviceManager.getDevice(device.getId());
 		if (dbDevice == null) {
 			//couldn't find device by id, try Uid
