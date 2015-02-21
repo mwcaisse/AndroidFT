@@ -109,7 +109,7 @@ public class RequestController extends ApiController {
 	
 	@RequestMapping(value="/mine-by-status", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllMyRequestsByStatus(@RequestParam(value = "status") RequestStatus[] statuses) {
-		return requestManager.getAllRequestsByUserAndStatus(userId, statuses);
+		return requestManager.getAllRequestsByUserAndStatus(getCurrentUser().getId(), statuses);
 	}
 	
 	/** Returns a list of all request associated with the specified device.
