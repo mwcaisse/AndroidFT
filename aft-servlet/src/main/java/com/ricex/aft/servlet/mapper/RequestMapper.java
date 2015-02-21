@@ -39,6 +39,14 @@ public interface RequestMapper {
 	 */
 	public List<Request> getAllRequestsByUser(long userId);
 	
+	/** Returns a list of all requests owned by the given user and with the specified statuses
+	 * 
+	 * @param userId The id owner of the requests
+	 * @param statuses The statuses of the requests to fetch
+	 * @return The list of requests owned by the specified owners, with the specified statuses.
+	 */
+	public List<Request> getAllRequestsByUserAndStatus(@Param ("userId") long userId, @Param("statuses") RequestStatus[] statuses);
+	
 	/** Returns a list of all requests for the device with the specified deviceUid
 	 * 
 	 * @param deviceUid The unique id of the device in a hex string

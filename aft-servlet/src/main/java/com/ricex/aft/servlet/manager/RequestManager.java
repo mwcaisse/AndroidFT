@@ -79,6 +79,17 @@ public enum RequestManager {
 		return requestMapper.getAllRequestsByUser(userId);
 	}
 	
+	/** Retrusn a list of all requests owned by the specified user, and with the specified status
+	 * 
+	 * @param userId The owner of the requests
+	 * @param statuses The statuses of the requests
+	 * @return The list of all requests that match the owner + statuses
+	 */
+	
+	public List<Request> getAllRequestsByUserAndStatus(long userId, RequestStatus[] statuses) {
+		return requestMapper.getAllRequestsByUserAndStatus(userId, statuses);
+	}
+	
 	/** Returns a list of all the requests for the device with the specified uid
 	 * 
 	 * @param deviceUid The UID of the device in a hex string

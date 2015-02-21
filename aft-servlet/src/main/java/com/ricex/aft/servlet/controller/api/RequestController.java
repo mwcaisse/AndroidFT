@@ -1,6 +1,7 @@
 package com.ricex.aft.servlet.controller.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.aft.common.entity.Device;
@@ -105,6 +107,11 @@ public class RequestController extends ApiController {
 		return requestManager.getAllRequestsByUser(getCurrentUser().getId());
 	}
 	
+	@RequestMapping(value="/mine-by-status", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody List<Request> getAllMyRequestsByStatus(@RequestParam(value = "status") RequestStatus[] statuses) {
+		return requestManager.getAllRequestsByUserAndStatus(userId, statuses);
+	}
+	
 	/** Returns a list of all request associated with the specified device.
 	 * 
 	 *  This method is designed to be able to be called from a device without the device
@@ -168,12 +175,8 @@ public class RequestController extends ApiController {
 	 */
 	
 	@RequestMapping(value="/statuses", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody List<String> getRequestStatuses() {
-		List<String> requestStatuses = new ArrayList<String>();
-		for (RequestStatus status : RequestStatus.values()) {
-			requestStatuses.add(status.toString());
-		}
-		return requestStatuses;
+	public @ResponseBody List<RequestStatus> getRequestStatuses() {	
+		return Arrays.asList(RequestStatus.values());
 	}
 	
 	/** Creates the given request. 

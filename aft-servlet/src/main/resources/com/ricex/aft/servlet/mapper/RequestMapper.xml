@@ -38,6 +38,16 @@
 		WHERE REQ_OWNER = #{userId}
 	</select>
 	
+	<!-- Selects all requests for a given user and with the given statuses -->
+	<select id="getAllRequestsByUserAndStatus" resultMap="requestResultMap">
+		SELECT REQUEST.* FROM REQUEST
+		WHERE REQ_OWNER = #{userId}
+		AND REQ_STAT IN
+		<foreach item="status" index="index" collection="statuses" open="(" separator ="," close=")">
+		    #{status}
+	    </foreach>
+	</select>
+	
 	<!-- Select all requests for a specific device -->
 	<select id="getRequestsForDevice" parameterType="String" resultMap="requestResultMap">
 		SELECT REQUEST.* FROM REQUEST INNER JOIN DEVICE ON REQUEST.REQ_DEV_ID = DEVICE.DEV_ID

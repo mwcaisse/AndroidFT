@@ -50,3 +50,7 @@ input, select {
 .hidden {
 	display: none;
 }
+
+div.bordered {
+	border: 2px solid black;	
+}

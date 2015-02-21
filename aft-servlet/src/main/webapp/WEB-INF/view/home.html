@@ -12,7 +12,53 @@
 			<div th:replace="common/navbar"></div>
 
 			<div class="body">
-				<h3>Welcome to Push File!</h3>
+				
+				<div style="float: left; width:49%;">
+					<h3>Welcome to Push File!</h3>
+				</div>	
+				
+				<div style="float: right; width: 49%">
+					
+					<!-- Quick Actions button group -->
+					<div style="margin-bottom: 25px">
+						<button class="btn pull-right" type="button">Create Request</button>
+					</div>
+					
+					<!-- Table for inprogress requests -->
+					<div>
+						<h4>My In Progress Requests</h4>
+						
+						<table class="table table-bordered table-striped table-hover">
+				
+							<thead>
+								<tr>
+									<td>Name</td>
+									<td>Status</td>
+									<td>Last Updated</td>
+									<td>Device</td>
+								</tr>
+							</thead>
+							
+							<tbody>
+							</tbody>
+							<!--											
+							<tbody data-bind="foreach: requests">
+								<tr data-bind="click: viewRequest">
+									<td data-bind="text: requestName"></td>
+									<td data-bind="text: requestStatus"></td>
+									<td data-bind="text: requestUpdatedText"></td>
+									<td data-bind="text: requestDeviceName"></td>						
+								</tr>
+							</tbody>
+							
+							-->
+						</table>
+					</div>
+					
+					
+				</div>
+				
+				
 			</div>
 
 			
