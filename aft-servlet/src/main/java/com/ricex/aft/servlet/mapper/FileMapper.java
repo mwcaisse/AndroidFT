@@ -23,7 +23,7 @@ public interface FileMapper {
 	 * @return The file without the file contents
 	 */
 	
-	public File getFileInfo(long fileId);
+	public File getFileInfo(long id);
 	
 	/** Retrieves the information (meta-data) about the files for the specified request
 	 * 
@@ -47,7 +47,7 @@ public interface FileMapper {
 	 * @return The FileContent containing the raw bytes of the file
 	 */
 	
-	public FileContent getFileContents(long fileId);
+	public FileContent getFileContents(long id);
 	
 
 	/** Creates the file with the given meta-data + Content
@@ -71,7 +71,7 @@ public interface FileMapper {
 	 * @param fileId The id of the file to delete
 	 */
 	
-	public void deleteFile(long fileId);
+	public void deleteFile(long id);
 	
 
 }

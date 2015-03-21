@@ -26,7 +26,7 @@
 	<!--  Retreives the specified file, without the contents -->
 	<select id="getFileInfo" resultMap="fileResultMap">
 	    SELECT FILE.FILE_ID, FILE.FILE_NAME, FILE.FILE_SIZE, FILE.REQ_ID, FILE.FILE_OWNER FROM FILE
-	    WHERE FILE_ID = #{fileId}	    
+	    WHERE FILE_ID = #{id}	    
 	</select>
 	
 	<!--  Retrieves the files for the specified request -->
@@ -44,32 +44,32 @@
 	<!--  Gets the contents of the specified file -->
 	<select id="getFileContents" parameterType="long" resultMap="fileContentResultMap">
 	    SELECT FILE_ID, FILE_VAL FROM FILE
-	    WHERE FILE_ID = #{fileId}
+	    WHERE FILE_ID = #{id}
 	</select>
 	
 	<!-- Inserts a new file into the database -->
 	<insert id="createFile" useGeneratedKeys="true" keyProperty="fileInfo.id">
 		INSERT INTO FILE (FILE_VAL, FILE_NAME, FILE_SIZE, REQ_ID, FILE_OWNER)
-		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.fileSize}, #{fileInfo.requestId}, #{fileInfo.fileOwner.userId})
+		VALUES (#{fileContents}, #{fileInfo.fileName}, #{fileInfo.fileSize}, #{fileInfo.requestId}, #{fileInfo.fileOwner.id})
 	</insert>
 	
 	<!-- Updates the contents of the file -->
 	<update id="updateFileContents">
 	    UPDATE FILE SET
 	    	FILE_VAL = #{fileContents}
-	    WHERE FILE_ID = #{fileId}	    
+	    WHERE FILE_ID = #{id}	    
 	</update>
 	
 	<!-- Updates the request for the given file -->
 	<update id="updateFileRequest">
 	    UPDATE FILE SET
 	    	REQ_ID = #{requestId}
-    	WHERE FILE_ID = #{fileId}
+    	WHERE FILE_ID = #{id}
 	</update>
 	
 	<!--  Deletes the file contents from the database -->
 	<update id="deleteFile">
 		DELETE FROM FILE
-		WHERE FILE_ID = #{fileId}
+		WHERE FILE_ID = #{id}
 	</update>
 </mapper>

@@ -10,8 +10,8 @@
 		<thymeleaf.version>2.1.3.RELEASE</thymeleaf.version>
 		<thymeleaf.layout.version>1.2.7</thymeleaf.layout.version>
 		<thymeleaf.security.version>2.1.1.RELEASE</thymeleaf.security.version>
-		<mybatis.version>3.2.3</mybatis.version>
-		<mybatis-spring.version>1.2.1</mybatis-spring.version>
+		<mybatis.version>3.2.8</mybatis.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		<jackson.version>1.9.13</jackson.version>
 		<gson.version>2.3.1</gson.version>
 		<slf4j.version>1.7.5</slf4j.version>

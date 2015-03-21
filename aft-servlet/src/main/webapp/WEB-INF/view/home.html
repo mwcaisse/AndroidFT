@@ -21,7 +21,7 @@
 					
 					<!-- Quick Actions button group -->
 					<div style="margin-bottom: 25px">
-						<button class="btn pull-right" type="button">Create Request</button>
+						<button id="butCreateRequest" class="btn pull-right" type="button">Create Request</button>
 					</div>
 					
 					<!-- Table for inprogress requests -->
@@ -65,7 +65,12 @@
 			<script type="text/javascript">
 	
 				$(document).ready(function() {			
-					$("#navHome").toggleClass("active");			
+					$("#navHome").toggleClass("active");		
+					
+					// add the click listener to the create request button
+					$("#butCreateRequest").click(function() {
+						createRequestView();
+					});
 				});
 	
 			</script>	

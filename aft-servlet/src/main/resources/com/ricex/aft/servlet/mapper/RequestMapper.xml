@@ -63,13 +63,13 @@
 	<!-- Update a request -->
 	<update id="updateRequest">
 		UPDATE REQUEST SET
-			REQ_DEV_ID = #{requestDevice.deviceId},
+			REQ_DEV_ID = #{requestDevice.id},
 			REQ_NAME = #{requestName},
 			REQ_FILE_LOC = #{requestFileLocation},
 			REQ_FILE_BASE_DIR = #{requestDirectory},
 			REQ_STAT = #{requestStatus},
 			REQ_STAT_MSG = #{requestStatusMessage},
-			REQ_OWNER = #{requestOwner.userId}
+			REQ_OWNER = #{requestOwner.id}
 		WHERE REQ_ID = #{id}
 	</update>		
 
@@ -77,8 +77,8 @@
 	<insert id="createRequest" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO REQUEST (REQ_DEV_ID, REQ_NAME, REQ_FILE_LOC, 
 			REQ_FILE_BASE_DIR, REQ_STAT, REQ_STAT_MSG, REQ_OWNER)
-		VALUES (#{requestDevice.deviceId}, #{requestName}, #{requestFileLocation}, 
-			#{requestDirectory}, #{requestStatus}, #{requestStatusMessage}, #{requestOwner.userId})
+		VALUES (#{requestDevice.id}, #{requestName}, #{requestFileLocation}, 
+			#{requestDirectory}, #{requestStatus}, #{requestStatusMessage}, #{requestOwner.id})
 	</insert>
 	
 </mapper>
