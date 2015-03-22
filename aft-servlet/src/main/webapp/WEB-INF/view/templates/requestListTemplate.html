@@ -1,6 +1,7 @@
-<!-- The template for a simple list of all requests -->
+<!-- The template for a simple list of all requests -->	
 
-<table class="table table-striped table-hover">				
+<table class="table table-bordered table-striped table-hover">
+				
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -9,9 +10,7 @@
 			<th>Device</th>
 		</tr>
 	</thead>
-	
-	<tbody>
-	</tbody>										
+					
 	<tbody data-bind="foreach: requests">
 		<tr data-bind="click: viewRequest">
 			<td data-bind="text: requestName"></td>

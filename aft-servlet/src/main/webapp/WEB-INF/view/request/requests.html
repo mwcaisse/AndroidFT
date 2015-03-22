@@ -14,28 +14,8 @@
 			<div th:replace="request/navbar"></div>	
 	
 			<div id="requestBody" class="body">
-				
-				
-				<table class="table table-bordered table-striped table-hover">
-				
-					<thead>
-						<tr>
-							<td>Name</td>
-							<td>Status</td>
-							<td>Last Updated</td>
-							<td>Device</td>
-						</tr>
-					</thead>
-									
-					<tbody data-bind="foreach: requests">
-						<tr data-bind="click: viewRequest">
-							<td data-bind="text: requestName"></td>
-							<td data-bind="text: requestStatus"></td>
-							<td data-bind="text: requestUpdatedText"></td>
-							<td data-bind="text: requestDeviceName"></td>						
-						</tr>
-					</tbody>
-				</table>
+				<!-- Import the request list template for the request table -->				
+				<div th:replace="templates/requestListTemplate"></div>
 			</div>
 	
 			<script th:src="@{/js/ViewModels/Request/PFRequestListViewModel.js}"></script>
@@ -44,7 +24,8 @@
 				$(document).ready(function() {			
 					$("#navRequests").toggleClass("active");
 					$("#liAllRequests").addClass("active");
-					var requestListViewModel = new PFRequestListViewModel();			
+					
+					var requestListViewModel = new PFRequestListViewModel("api/request/mine/all");			
 					ko.applyBindings(requestListViewModel, document.getElementById("requestBody"));
 				});
 	
