@@ -57,12 +57,12 @@
 					});
 					
 					//create the view model for the requests in progress
-					var requestListViewModel = new PFRequestListViewModel("api/request/mine-by-status?status=NEW,IN_PROGRESS");			
+					var requestListViewModel = new PFRequestListViewModel("api/request/mine/status?status=NEW,IN_PROGRESS");			
 					ko.applyBindings(requestListViewModel, document.getElementById("divRequestsInProgress"));
 
 					
 					//create the view model for recent requests
-					var requestListViewModel = new PFRequestListViewModel("api/request/mine-recent");			
+					var requestListViewModel = new PFRequestListViewModel("api/request/mine/recent");			
 					ko.applyBindings(requestListViewModel, document.getElementById("divRequestsRecent"));
 				});
 	

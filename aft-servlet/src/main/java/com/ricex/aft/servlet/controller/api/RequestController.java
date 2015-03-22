@@ -103,7 +103,7 @@ public class RequestController extends ApiController {
 	 *    
 	 * @return A list of all requests.
 	 */
-	@RequestMapping(value="/mine", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/mine/all", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllMyRequests() {
 		return requestManager.getAllRequestsByUser(getCurrentUser().getId());
 	}
@@ -114,7 +114,7 @@ public class RequestController extends ApiController {
 	 * @return The requests that are in the specified statuses
 	 */
 	
-	@RequestMapping(value="/mine-by-status", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/mine/status", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllMyRequestsByStatus(@RequestParam(value = "status") RequestStatus[] statuses) {
 		return requestManager.getAllRequestsByUserAndStatus(getCurrentUser().getId(), statuses);
 	}
@@ -125,7 +125,7 @@ public class RequestController extends ApiController {
 	 */
 	
 	//TODO: Add a paramater to specify the date range of the requests Issue #38
-	@RequestMapping(value="/mine-recent", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/mine/recent", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllMyRecentRequests() {
 		//start date is two weeks before now
 		Calendar startDate = Calendar.getInstance();

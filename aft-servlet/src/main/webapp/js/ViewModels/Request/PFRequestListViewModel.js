@@ -37,7 +37,7 @@ function PFRequestListViewModel(requestQuery) {
 	var self = this;
 	
 	if (!requestQuery) {
-		requestQuery = "api/request/mine";
+		requestQuery = "api/request/mine/all";
 	}
 	
 	/** The list of requests to show */
