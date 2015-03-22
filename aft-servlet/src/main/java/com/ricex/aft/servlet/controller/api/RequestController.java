@@ -107,6 +107,12 @@ public class RequestController extends ApiController {
 		return requestManager.getAllRequestsByUser(getCurrentUser().getId());
 	}
 	
+	/** Retrieves a list of all requests belonging to the current user, with one of the specified statuses
+	 * 
+	 * @param statuses The list of statuses to fetch requests in
+	 * @return The requests that are in the specified statuses
+	 */
+	
 	@RequestMapping(value="/mine-by-status", method= RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody List<Request> getAllMyRequestsByStatus(@RequestParam(value = "status") RequestStatus[] statuses) {
 		return requestManager.getAllRequestsByUserAndStatus(getCurrentUser().getId(), statuses);

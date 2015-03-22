@@ -28,21 +28,28 @@ function RequestModel(data) {
 
 /** The view model for displaying a list of all requests
  * 
+ * 	@param requestQuery the query used to fetch the requests from the server, without the server root
+ * 						Defaults to api/request/mine
+ * 
  */
-function PFRequestListViewModel() {
+function PFRequestListViewModel(requestQuery) {
 
 	var self = this;
 	
+	if (!requestQuery) {
+		requestQuery = "api/request/mine";
+	}
+	
 	/** The list of requests to show */
-	self.Requests = ko.observableArray([]);
+	self.requests = ko.observableArray([]);
 	
 	/** Fetches the requests from the server */
 	self.fetchRequests = function() {
-		$.getJSON(requestRoot + "api/request/mine", function(data) {	
+		$.getJSON(requestRoot + requestQuery, function(data) {	
 			//remove the old requests, and add the new requests
-			self.Requests.removeAll();			
+			self.requests.removeAll();			
 			$.each(data, function(index, value) {
-				self.Requests.push(new RequestModel(value));
+				self.requests.push(new RequestModel(value));
 			});			
 		}).fail( function(jqXHR, textStatus, error) {
 			alert("Error fefetching requests! " + textStatus + " : " + error);

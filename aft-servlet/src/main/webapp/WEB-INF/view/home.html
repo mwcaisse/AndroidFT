@@ -25,42 +25,26 @@
 					</div>
 					
 					<!-- Table for inprogress requests -->
-					<div>
-						<h4>My In Progress Requests</h4>
-						
-						<table class="table table-bordered table-striped table-hover">
-				
-							<thead>
-								<tr>
-									<td>Name</td>
-									<td>Status</td>
-									<td>Last Updated</td>
-									<td>Device</td>
-								</tr>
-							</thead>
-							
-							<tbody>
-							</tbody>
-							<!--											
-							<tbody data-bind="foreach: requests">
-								<tr data-bind="click: viewRequest">
-									<td data-bind="text: requestName"></td>
-									<td data-bind="text: requestStatus"></td>
-									<td data-bind="text: requestUpdatedText"></td>
-									<td data-bind="text: requestDeviceName"></td>						
-								</tr>
-							</tbody>
-							
-							-->
-						</table>
-					</div>
+					<div id="divRequestsInProgress">
+						<h4>My In Progress Requests</h4>						
+						<!-- Load in the template for the request list -->
+						<div th:replace="templates/requestListTemplate"></div>
+					</div>	
 					
+					<br />
 					
+					<!-- Table for recent requests -->
+					<div id="divRequestsRecent">
+						<h4>My Recent Requests</h4>						
+						<!-- Load in the template for the request list -->
+						<div th:replace="templates/requestListTemplate"></div>
+					</div>					
 				</div>
 				
 				
 			</div>
 
+			<script th:src="@{/js/ViewModels/Request/PFRequestListViewModel.js}"></script>
 			
 			<script type="text/javascript">
 	
@@ -71,6 +55,15 @@
 					$("#butCreateRequest").click(function() {
 						createRequestView();
 					});
+					
+					//create the view model for the requests in progress
+					var requestListViewModel = new PFRequestListViewModel("api/request/mine-by-status?status=NEW,IN_PROGRESS");			
+					ko.applyBindings(requestListViewModel, document.getElementById("divRequestsInProgress"));
+
+					
+					//create the view model for recent requests
+					var requestListViewModel = new PFRequestListViewModel();			
+					ko.applyBindings(requestListViewModel, document.getElementById("divRequestsRecent"));
 				});
 	
 			</script>	
