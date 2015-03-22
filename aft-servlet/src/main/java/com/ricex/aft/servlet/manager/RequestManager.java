@@ -3,6 +3,7 @@
  */
 package com.ricex.aft.servlet.manager;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public enum RequestManager {
 		return requestMapper.getAllRequestsByUser(userId);
 	}
 	
-	/** Retrusn a list of all requests owned by the specified user, and with the specified status
+	/** Returns a list of all requests owned by the specified user, and with the specified status
 	 * 
 	 * @param userId The owner of the requests
 	 * @param statuses The statuses of the requests
@@ -88,6 +89,19 @@ public enum RequestManager {
 	
 	public List<Request> getAllRequestsByUserAndStatus(long userId, RequestStatus[] statuses) {
 		return requestMapper.getAllRequestsByUserAndStatus(userId, statuses);
+	}
+	
+	
+	/** Returns a list of all requests owned by the specified user, that were updated between the specified date range
+	 * 
+	 * @param userId The id of the owning user
+	 * @param startDate The starting date of the range
+	 * @param endDate The ending date of the range
+	 * @return The requests between the date range
+	 */
+	
+	public List<Request> getRequestsByUserBetweenRange(long userId, Calendar startDate, Calendar endDate){ 
+		return requestMapper.getRequestsByUserInRange(userId, startDate.getTime(), endDate.getTime());
 	}
 	
 	/** Returns a list of all the requests for the device with the specified uid

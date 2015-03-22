@@ -62,7 +62,7 @@
 
 					
 					//create the view model for recent requests
-					var requestListViewModel = new PFRequestListViewModel();			
+					var requestListViewModel = new PFRequestListViewModel("api/request/mine-recent");			
 					ko.applyBindings(requestListViewModel, document.getElementById("divRequestsRecent"));
 				});
 	

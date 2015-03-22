@@ -3,6 +3,7 @@
  */
 package com.ricex.aft.servlet.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -46,6 +47,17 @@ public interface RequestMapper {
 	 * @return The list of requests owned by the specified owners, with the specified statuses.
 	 */
 	public List<Request> getAllRequestsByUserAndStatus(@Param ("userId") long userId, @Param("statuses") RequestStatus[] statuses);
+	
+	/** Returns a list of requests that belong to the specified user and have been updated between the specified date range
+	 * 
+	 * @param userId The id of the user
+	 * @param startDate The starting date of the range
+	 * @param endDate The ending date of the range
+	 * @return The requests that have been updated between the date range
+	 */	
+	public List<Request> getRequestsByUserInRange(@Param ("userId") long userId,
+												  @Param ("startDate") Date startDate,
+												  @Param ("endDate") Date endDate);
 	
 	/** Returns a list of all requests for the device with the specified deviceUid
 	 * 

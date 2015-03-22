@@ -60,6 +60,13 @@
 		WHERE DEVICE.DEV_UID = #{deviceUid} AND REQUEST.REQ_STAT = #{status}
 	</select>
 	
+	<!-- Select requests updated between the specified date range -->
+	<select id="getRequestsByUserInRange" resultMap="requestResultMap">
+	    SELECT REQUEST.* FROM REQUEST
+	    WHERE REQ_OWNER = #{userId}
+	    AND REQ_UPD BETWEEN #{startDate} AND #{endDate}
+	</select>
+	
 	<!-- Update a request -->
 	<update id="updateRequest">
 		UPDATE REQUEST SET

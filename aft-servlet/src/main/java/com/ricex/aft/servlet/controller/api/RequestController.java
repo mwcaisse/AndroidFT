@@ -2,6 +2,7 @@ package com.ricex.aft.servlet.controller.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -117,6 +118,25 @@ public class RequestController extends ApiController {
 	public @ResponseBody List<Request> getAllMyRequestsByStatus(@RequestParam(value = "status") RequestStatus[] statuses) {
 		return requestManager.getAllRequestsByUserAndStatus(getCurrentUser().getId(), statuses);
 	}
+	
+	/** Retrieves a list of all requests belonging to the current user that have been updated within the past 2 weeks
+	 * 
+	 * @return List of all recent requests
+	 */
+	
+	//TODO: Add a paramater to specify the date range of the requests Issue #38
+	@RequestMapping(value="/mine-recent", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody List<Request> getAllMyRecentRequests() {
+		//start date is two weeks before now
+		Calendar startDate = Calendar.getInstance();
+		startDate.add(Calendar.WEEK_OF_YEAR, -2);
+		
+		// end date is the current date
+		Calendar endDate = Calendar.getInstance();
+		
+		return requestManager.getRequestsByUserBetweenRange(getCurrentUser().getId(), startDate, endDate);
+	}
+	
 	
 	/** Returns a list of all request associated with the specified device.
 	 * 
