@@ -356,6 +356,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId, deviceUid) {
 		else {
 			$("#liViewRequest").removeClass("hidden");
 			$("#liViewRequest").addClass("active");
+			$("#liCreateRequest").removeClass("active");
 		}
 	};
 	

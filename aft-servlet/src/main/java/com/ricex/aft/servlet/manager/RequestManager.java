@@ -199,7 +199,7 @@ public enum RequestManager {
 		return true; // we made it this far we must be valid! woo
 	}
 
-	/** Retreives the RequestMppaer that this manager is using to interact with the data store
+	/** Retrieves the RequestMppaer that this manager is using to interact with the data store
 	 * @return the requestMapper
 	 */
 	
