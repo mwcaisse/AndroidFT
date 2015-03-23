@@ -4,7 +4,7 @@
  *  
  *  @param deviceId the ID of the device that will be viewed
  */
-function DeviceViewModel(deviceUID) {
+function DeviceViewModel(changeDeviceImageViewModel, deviceUID) {
 	
 	var self = this;
 	
@@ -54,6 +54,12 @@ function DeviceViewModel(deviceUID) {
 	self.createRequest = function() {
 		createRequestView(self.device());
 	};
+	
+	/** Opens the device image modal to change the current device image
+	 */
+	self.changeDeviceImage = function() {
+		changeDeviceImageViewModel.show(self.device());
+	}
 	
 	// fetch the device + requests
 	self.fetchData();

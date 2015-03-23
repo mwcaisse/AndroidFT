@@ -22,6 +22,10 @@
 				<!-- The div for the device image -->
 				<div style="float: left; width: 30%;">
 					<img data-bind="attr:{src: device().deviceImageUrl}" />
+					<button class="btn" type="button" data-bind="click: changeDeviceImage">Change Image</button>
+					<br />
+					<br />
+				
 				</div>
 				
 				<div style="float: right; width: 69%;">
@@ -54,7 +58,10 @@
 					</div>
 				</div>
 			
-			</div>	
+			</div>
+			
+			<!-- Import the change device image modal -->
+			<div th:replace="device/changeDeviceImageModal"></div>	
 		
 		
 			<script th:src="@{/js/ViewModels/device/PFViewDeviceViewModel.js}"></script>
@@ -65,14 +72,16 @@
 					$("#navDevices").toggleClass("active");
 					
 					$("#liViewDevice").addClass("active");
-					$("#liViewDevice").removeClass("hidden");
+					$("#liViewDevice").removeClass("hidden");					
 					
 					//get the deviceUID from the URL parameter
 					var deviceUID = $("#deviceUID").val();
 				
 					//create the device view model and apply its bindings
-					var deviceViewModel = new DeviceViewModel(deviceUID);			
+					var deviceViewModel = new DeviceViewModel(changeDeviceImageViewModel, deviceUID);	
+					
 					ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+
 				});
 	
 			</script>

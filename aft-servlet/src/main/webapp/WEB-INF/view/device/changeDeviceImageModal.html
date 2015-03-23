@@ -1,0 +1,49 @@
+<!--  The File Upload modal -->
+
+<div>			
+	<div id="divChangeDeviceImageModal" class="modal fade" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-bind="click: hide">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">Change Device Image</h4>
+				</div>
+				<div class="modal-body">
+					
+					<span>Current Image</span>
+					<img data-bind="attr:{src: device().deviceImageUrl}" width="64" />
+					
+					<!-- ko if: proposedFileUrl -->
+						<span>New Image</span>
+						<img data-bind="attr:{src: proposedFileUrl}" width="64" />					
+					<!-- /ko -->
+					
+					<input id="fileUploadInput" type="file" data-bind="fileUpload: file" style="display: none"/>	
+					
+					<a href="#" data-bind="click: selectImage">Select New Image</a>				
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-bind="click: hide">Close</button>
+					<button type="button" class="btn btn-default" data-bind="click: changeImage">Change Image</button> 
+				</div>
+			</div> <!-- Modal content -->
+		</div> <!-- modal dialog -->
+	</div> <!-- modal -->
+	
+	<!-- Set up the ViewModel -->
+	<script th:src="@{/js/ViewModels/device/PFChangeDeviceImageViewModel.js}"></script>
+	<script type="text/javascript">
+		
+		//create the device image view model, and apply it to the modal
+		var changeDeviceImageViewModel = new PFChangeDeviceImageViewModel();
+		$(document).ready(function() {		
+			ko.applyBindings(changeDeviceImageViewModel, document.getElementById("divChangeDeviceImageModal"));
+		});
+	
+	</script>
+
+</div>
