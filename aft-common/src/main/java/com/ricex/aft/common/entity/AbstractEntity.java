@@ -8,14 +8,14 @@ package com.ricex.aft.common.entity;
  */
 public abstract class AbstractEntity implements Entity {
 
-	/** The id of thi entity */
+	/** The id of this entity */
 	protected long id;
 	
 	/** Creates a new Abstract Entity
 	 * 
 	 */
 	public AbstractEntity() {
-		
+		id = -1; //initialize the id to be invalid
 	}
 
 	/**

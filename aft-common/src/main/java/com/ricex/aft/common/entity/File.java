@@ -28,7 +28,6 @@ public class File extends AbstractEntity {
 	/** The Owner of this file */
 	private UserInfo fileOwner;
 	
-
 	/**
 	 * @return the requestId
 	 */

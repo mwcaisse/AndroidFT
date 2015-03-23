@@ -161,16 +161,16 @@ function UserModel(data) {
 function FileModel(data) {
 	var self = this;
 	
-	self.fileId = data.id;
+	self.id = data.id;
 	self.fileName = data.fileName;
 	
 	/** The url to download the file
 	 */
 	self.downloadUrl = ko.computed(function() {
-		if (self.fileId < 0) {
+		if (self.id < 0) {
 			return "#"; //no id, can't download
 		}
-		return requestRoot + "api/file/download/" + self.fileId;
+		return requestRoot + "api/file/download/" + self.id;
 	});
 	
 }
@@ -322,7 +322,7 @@ function PFCreateRequestViewModel(fileUploadModal, requestId, deviceUid) {
 	self.requestFileCallback = function(newFiles) {
 		$.each(newFiles, function(index, value) {
 			self.request().requestFiles.push(new FileModel({
-				fileId: value.fileId,
+				id: value.fileId,
 				fileName: value.name
 			}));
 		});
