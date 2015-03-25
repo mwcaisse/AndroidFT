@@ -21,7 +21,8 @@
 							<div class="deviceCell btn btn-default" data-bind="click: viewDevice">
 								<img width="100px" data-bind="attr:{src: deviceImageUrl}" /> 
 								<br />
-								<span data-bind="text: deviceName"></span>
+								<span class="deviceCellText" data-bind="text: deviceName"></span>
+								
 							</div>
 							
 						<!-- /ko -->
@@ -43,6 +44,7 @@
 				
 					var deviceViewModel = new PFDeviceViewModel();			
 					ko.applyBindings(deviceViewModel, document.getElementById("deviceBody"));
+				
 				});
 	
 			</script>

@@ -61,7 +61,7 @@ function BasicDeviceModel(data) {
 	var self = this;
 	
 	/** The id of the device */
-	self.id = ko.observable("");
+	self.id = ko.observable(-1);
 	
 	/** The name of the device */
 	self.deviceName = ko.observable("");

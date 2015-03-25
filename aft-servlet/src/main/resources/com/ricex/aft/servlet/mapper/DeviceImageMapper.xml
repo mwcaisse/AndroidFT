@@ -19,7 +19,7 @@
 	<!-- Selects the device image for the given device -->
 	<select id="getDeviceImage" parameterType="long" resultMap="deviceImageResultMap">
 	    SELECT * FROM DEVICE_IMAGE
-	    WHERE DEV_IMG_ID = #{deviceId}
+	    WHERE DEV_ID = #{deviceId}
 	</select>
 	
 	<!-- Creates the specified device image -->
