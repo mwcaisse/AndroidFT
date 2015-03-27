@@ -11,14 +11,16 @@
 					</button>
 					<h4 class="modal-title">Change Device Image</h4>
 				</div>
-				<div class="modal-body">
-					
+				<div class="modal-body">					
 					<span>Current Image</span>
-					<img data-bind="attr:{src: device().deviceImageUrl}" width="64" />
+					<img data-bind="attr:{src: device().deviceImageUrl}" width="80%" />
+					<br />
 					
 					<!-- ko if: proposedFileUrl -->
 						<span>New Image</span>
-						<img data-bind="attr:{src: proposedFileUrl}" width="64" />					
+						<img data-bind="attr:{src: proposedFileUrl}" width="80%" />
+						
+						<br />					
 					<!-- /ko -->
 					
 					<input id="fileUploadInput" type="file" data-bind="fileUpload: file" style="display: none"/>	
