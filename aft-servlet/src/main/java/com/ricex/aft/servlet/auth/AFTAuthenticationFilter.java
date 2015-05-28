@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -54,13 +53,18 @@ public class AFTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		String authInit = request.getHeader(AFTAuthentication.AFT_AUTH_INIT_HEADER);
 		
 		if (! Base64.isBase64(authInit)) {
-			throw new ServletException("AFT AUTH INIT must be based 64 encoded!");
+			throw new AFTAuthorizationInitHeaderInvalid("AUTH INIT Header must be Base64 Encoded!");
 		}
 		
 		String decodedAuth = new String(Base64.decodeBase64(authInit), "UTF-8");
 		log.debug("Decoded AFT-AUTH-INIT INTO: |{}|", decodedAuth);
 		//parse the info into the username + password
 		StringTokenizer st = new StringTokenizer(decodedAuth, "|");
+		
+		//check to make sure that the token is in the correct format
+		if (st.countTokens() != 2) {
+			throw new AFTAuthorizationInitHeaderInvalid("AUTH INIT must be in the form \"username|password\"!");
+		}
 		String username = st.nextToken();
 		String password = st.nextToken();
 		
