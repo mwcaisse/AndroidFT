@@ -60,6 +60,19 @@ public class UserController extends ApiController {
 		return new BooleanResponse(userManager.createUser(userRegistration));
 	}
 	
+	/** Entry point for a user to test logging in
+	 * 
+	 *  Like any request it will grant the user an authorization token if they are requesting one, and will validate an existing authorization token
+	 *  	if they are not.
+	 * 	If the login was successful this will return Http.OK (200), if the login was not successful then Http.Unauthorized (401) will be returned.
+	 * 
+	 * @return true
+	 */
+	@RequestMapping(value="/testLogin", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody BooleanResponse testLogin() {
+		return new BooleanResponse(true);
+	}
+	
 	/**
 	 * @return the userManager
 	 */
