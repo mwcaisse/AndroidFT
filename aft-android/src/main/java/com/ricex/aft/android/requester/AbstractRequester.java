@@ -183,7 +183,7 @@ public abstract class AbstractRequester {
 		headers.putAll(entity.getHeaders());		
 		//check if we have an authentication token
 		if (securityContext.needAuthenticationToken()) {
-			headers.add(AFTAuthentication.AFT_AUTH_INIT_HEADER, securityContext.getCredentials());
+			//headers.add(AFTAuthentication.AFT_AUTH_INIT_HEADER, securityContext.getCredentials());
 		}
 		else {
 			headers.add(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, securityContext.getAftToken());
