@@ -1,16 +1,27 @@
 package com.ricex.aft.servlet.controller.api;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.ricex.aft.common.auth.AFTAuthentication;
+import com.ricex.aft.common.auth.AuthUser;
 import com.ricex.aft.common.response.BooleanResponse;
+import com.ricex.aft.servlet.auth.APIUserAuthenticator;
+import com.ricex.aft.servlet.auth.Token;
 import com.ricex.aft.servlet.entity.UserRegistration;
 import com.ricex.aft.servlet.entity.exception.EntityException;
 import com.ricex.aft.servlet.manager.UserManager;
@@ -27,11 +38,14 @@ import com.ricex.aft.servlet.manager.UserManager;
 public class UserController extends ApiController {
 
 	/** Logger instance */
-	private static Logger log = LoggerFactory.getLogger(FileController.class);
+	private static Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	/** The user manager to use */
 	private UserManager userManager;
 	
+	/** The User Authenticator to use to authenticate users */
+	private APIUserAuthenticator userAuthenticator;
+
 	/** Creates a new User Controller
 	 * 
 	 */
@@ -60,17 +74,26 @@ public class UserController extends ApiController {
 		return new BooleanResponse(userManager.createUser(userRegistration));
 	}
 	
-	/** Entry point for a user to test logging in
+	/** Log in via API, without the html form at /login
 	 * 
-	 *  Like any request it will grant the user an authorization token if they are requesting one, and will validate an existing authorization token
-	 *  	if they are not.
-	 * 	If the login was successful this will return Http.OK (200), if the login was not successful then Http.Unauthorized (401) will be returned.
+	 *  If login is successful will grant the user an authorization token in the AFTToken Header and return true.
 	 * 
-	 * @return true
+	 * @param user The user's login credentials
+	 * @param response The http response to be sent back to the client
+	 * @return True if the user logged in successfully, false if not
 	 */
-	@RequestMapping(value="/testLogin", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody BooleanResponse testLogin() {
-		return new BooleanResponse(true);
+	@RequestMapping(value="/login", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody BooleanResponse testLogin(@RequestBody AuthUser user, HttpServletRequest request, HttpServletResponse response) {		
+
+		Token token = userAuthenticator.authenticateUser(user, request.getRemoteAddr());
+		//check if a valid token was received
+		if (token == null) {
+			return new BooleanResponse(false);
+		}
+		else {
+			response.addHeader(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, token.getTokenId());			
+			return new BooleanResponse(true);
+		}
 	}
 	
 	/**
@@ -86,5 +109,19 @@ public class UserController extends ApiController {
 	public void setUserManager(UserManager userManager) {
 		this.userManager = userManager;
 	}
+
+	/**
+	 * @return the userAuthenticator
+	 */
+	public APIUserAuthenticator getUserAuthenticator() {
+		return userAuthenticator;
+	}
+
+	/**
+	 * @param userAuthenticator the userAuthenticator to set
+	 */
+	public void setUserAuthenticator(APIUserAuthenticator userAuthenticator) {
+		this.userAuthenticator = userAuthenticator;
+	}	
 	
 }

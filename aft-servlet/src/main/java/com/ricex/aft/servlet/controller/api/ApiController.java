@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -60,5 +61,19 @@ public abstract class ApiController extends BaseController {
 		log.error("AuthorizationException", e);
 		return e.getMessage();
 	}
+	
+	/** Handles Authentication Exceptions and returns the proper message
+	 * 
+	 * @param e The Authentication exception that occurred
+	 * @param resp The http response
+	 * @return The message to return
+	 */
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(AuthenticationException.class)
+	public @ResponseBody String handleDisabledException(AuthenticationException e, HttpServletResponse resp) {
+		log.error("AuthenticationException", e);
+		return e.getMessage();
+	}
+	
 	
 }

@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -51,7 +52,13 @@ import com.ricex.aft.servlet.util.GsonFactory;
 
 @Configuration
 //@ComponentScan (basePackages = {"com.ricex.aft.servlet.controller"})
+
 public class ApplicationConfig extends WebMvcConfigurationSupport  {	
+	
+	/** The security configuration for the app */
+	@Autowired
+	public SecurityConfig securityConfig;
+	
 	@Bean
 	public DeviceController deviceController() throws Exception {
 		DeviceController deviceController = new DeviceController();
@@ -80,19 +87,9 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public UserController userController() throws Exception {
 		UserController userController = new UserController();
 		userController.setUserManager(userManager());
+		userController.setUserAuthenticator(securityConfig.userAuthenticator());
 		return userController;
 	}
-	
-	
-	/* Old JSP View Resolver
-	@Bean
-	public InternalResourceViewResolver viewResolver() {
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/view/");
-		viewResolver.setSuffix(".jsp");
-		return viewResolver;
-	}*/
 	
 	/** Creates the Home Controller
 	 * 

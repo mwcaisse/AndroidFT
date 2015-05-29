@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.ricex.aft.servlet.auth.AFTAuthenticationFilter;
 import com.ricex.aft.servlet.auth.AFTTokenAuthenticationFilter;
+import com.ricex.aft.servlet.auth.APIUserAuthenticator;
 import com.ricex.aft.servlet.auth.TokenManager;
 
 @Configuration
@@ -46,11 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//permit access to login, and register pages
 				.antMatchers("/login", "/register").permitAll()
 				//permit access to the registration functions
-				.antMatchers("/api/user/isAvailable*", "/api/user/register").permitAll()
+				.antMatchers("/api/user/isAvailable*", "/api/user/register", "/api/user/login").permitAll()
 				.anyRequest().authenticated()
 				.and()	
 			.addFilterBefore(aftTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(aftAuthenticationFilter(), AFTTokenAuthenticationFilter.class)
 			.formLogin()
 				.loginPage("/login")
 				.permitAll()
@@ -78,14 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public AFTAuthenticationFilter aftAuthenticationFilter() throws Exception {
-		AFTAuthenticationFilter filter = new AFTAuthenticationFilter();
-		filter.setAuthenticationManager(authenticationManagerBean());
-		filter.setTokenManager(tokenManager());
-		return filter;
-	}
-	
-	@Bean
 	public AFTTokenAuthenticationFilter aftTokenAuthenticationFilter() throws Exception {
 		AFTTokenAuthenticationFilter filter = new AFTTokenAuthenticationFilter();
 		filter.setAuthenticationManager(authenticationManagerBean());
@@ -100,6 +91,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public TokenManager tokenManager() {
 		TokenManager tokenManager = new TokenManager();
 		return tokenManager;
+	}
+	
+	/** Create the APIUserAuthenticator bean
+	 * 
+	 */
+	@Bean
+	public APIUserAuthenticator userAuthenticator() throws Exception {
+		APIUserAuthenticator userAuthenticator = new APIUserAuthenticator();
+		userAuthenticator.setAuthenticationManager(authenticationManagerBean());
+		userAuthenticator.setTokenManager(tokenManager());
+		return userAuthenticator;
 	}
 
 }
