@@ -1,0 +1,16 @@
+## TODO for PushFile ##
+#######################
+
+Clean up the old authorization method from aft-android
+Implement the AccountManager for aft-android
+	implement the new login functionality for aft-android
+implement the account manager to the login UI on android
+implement the user registration on aft-android
+
+add ability to view requests on aft-android
+add ability to create requests for different devices on aft-android
+
+add a new device type for PC's
+create the device notifier for PC (does nothing)
+create a PC client
+	much more here
