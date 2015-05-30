@@ -17,6 +17,21 @@ import com.ricex.aft.android.R;
  */
 public class LoginActivity extends Activity {
 
+	/** Argument in the intent for the Account Type to create */
+	public static final String ARG_ACCOUNT_TYPE = "auth-account-type";
+	
+	/** Argument in the intent for the name of the account to update */
+	public static final String ARG_ACCOUNT_NAME = "auth-account-name";
+	
+	/** Argument in the intent for the Authorization type */
+	public static final String ARG_AUTH_TYPE = "auth-auth-type";
+	
+	/** Argument in the intent for whether the user is adding a new account or not */
+	public static final String ARG_IS_ADDING_NEW_ACCOUNT = "auth-add-new-account";
+	
+	/** Argument in the intent for the account authenticator response */
+	public static final String KEY_ACCOUNT_AUTHENTICATOR_RESPONSE = "auth-account-authenticator-response";
+	
 	private static final String LOG_TAG = "PushFile-Login";
 	
 	/** The username text box on the view */
