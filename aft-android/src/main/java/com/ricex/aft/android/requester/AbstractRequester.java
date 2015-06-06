@@ -18,6 +18,7 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.provider.Settings;
 
 import com.google.gson.Gson;
@@ -170,12 +171,24 @@ public abstract class AbstractRequester {
 	 * @param urlVariables Any url parameters
 	 * @return The results from the request, or null if there were any errors
 	 */
-	protected <T> void makeRequestAsync(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, 
-									 RequesterCallback<T> callback, Object... urlVariables) {
-		
-		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
-		ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
-		processRequestResponseAsync(results, url, method, requestEntity, responseType, callback, urlVariables);
+	protected <T> void makeRequestAsync(final String url, final HttpMethod method, final HttpEntity<?> requestEntity, 
+										final Class<T> responseType, final RequesterCallback<T> callback, 
+										final Object... urlVariables) {
+		new AsyncTask<Void, Void, T>() {
+
+			@Override
+			protected T doInBackground(Void... params) {
+				HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
+				ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
+				return processRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
+			}
+			
+			@Override
+			protected void onPostExecute(T results) {
+				callback.onSuccess(results);
+			}
+			
+		}.execute();
 	}
 	
 	/** Processes the results of an AFT Request 
@@ -214,33 +227,7 @@ public abstract class AbstractRequester {
 		}		
 		return res;
 	}
-	
-	/** Processes the results of an async AFT Request 
-	 * 
-	 * @param responseEntity The results of the request 
-	 * @param url The url of the request
-	 * @param method The method of the request
-	 * @param requestEntity The response entity of the request
-	 * @param responseType the response type of the request
-	 * @param callback The RequesterCallback to call with the results of the request
-	 * @param urlVariables The url variables of the request
-	 * @return The processed results of the request, the request body or null if there was an error
-	 */
-	
-	private <T> void processRequestResponseAsync(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
-			Class<T> responseType, RequesterCallback<T> callback, Object... urlVariables) {
-		
-		if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-			T res = responseEntity.getBody();
-			callback.onSuccess(res);
-		}
-		else {
-			Exception cause = new Exception("Request Failed: Server returned status: " + responseEntity.getStatusCode().toString());
-			callback.onFailure(cause);
-		}
-		
-		
-	}
+
 	/** Adds the appropriate Authentication headers to the given HttpEntity. The entity passed in is not modified. New entity
 	 * 		is returned.
 	 * 
