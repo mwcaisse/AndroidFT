@@ -39,7 +39,7 @@ public abstract class AbstractRequester {
 	protected final Context context;
 	
 	/** The rest template */
-	private RestTemplate restTemplate;
+	protected RestTemplate restTemplate;
 	
 	/** The server address */
 	protected final String serverAddress;
@@ -153,7 +153,8 @@ public abstract class AbstractRequester {
 			res = responseEntity.getBody();
 			//if we need authentication token, extract it from the response
 			if (securityContext.needAuthenticationToken()) {
-				extractAuthenticationToken(responseEntity);
+				//TODO: Update this
+				//extractAuthenticationToken(responseEntity);
 			}
 		}
 		else if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
@@ -192,17 +193,5 @@ public abstract class AbstractRequester {
 		return new HttpEntity<Object>(entity.getBody(), headers);
 	}
 	
-	/** Extracts the authentication token from the http response
-	 * 
-	 * @param entity The http response to extract the token from
-	 */
-	
-	private void extractAuthenticationToken(ResponseEntity<?> entity) {
-		String token = entity.getHeaders().getFirst(AFTAuthentication.AFT_AUTH_TOKEN_HEADER);
-		//set it as the authorization token, if it was found, and is not empty
-		if (token != null && !token.isEmpty()) {
-			securityContext.setAftToken(token);
-		}
-	}
 	
 }
