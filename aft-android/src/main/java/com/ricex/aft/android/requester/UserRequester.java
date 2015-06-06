@@ -21,21 +21,16 @@ public class UserRequester extends AbstractRequester {
 		super(context);
 	}
 
-	
-	/*
-	 * 	public boolean isRegistered() {
-		String deviceUid = getDeviceUID();		
-		BooleanResponse res = getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);		
-		return res.getValue();
-	}
-	
+	/** Logins into the server and requests an Authentication Token if the credentials are valid
+	 * 
+	 * @param username The username of the user to login as
+	 * @param password The user's password
+	 * @return The authentication token received, or null if no token was received, currently this should only occur
+	 * 			if there was a server error during the request.
+	 * @throws InvalidCredentialsException thrown if the credentials the user provided are invalid
 	 */
 	
-	public boolean areValidCredentials(String username, String password) {
-		return false;
-	}
-	
-	public String fetchAuthenticationHeader(String username, String password) throws InvalidCredentialsException {
+	public String fetchAuthenticationToken(String username, String password) throws InvalidCredentialsException {
 		AuthUser user = new AuthUser(username, password);
 		
 		HttpEntity<?> entity = new HttpEntity<AuthUser>(user);
