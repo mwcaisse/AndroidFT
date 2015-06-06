@@ -96,8 +96,20 @@ public abstract class AbstractRequester {
 	 * @param urlVariables The url parameters
 	 * @return The results of the request, or null if there was an error
 	 */
-	public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) {
+	protected <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) {
 		return makeRequest(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, urlVariables);
+	}
+	
+	/** Performs a get to the specified url, and returns the results as the specified type
+	 * 
+	 * @param url The url to make the request to
+	 * @param responseType The expected response
+	 * @param callback The RequesterCallback to return the results to on completion
+	 * @param urlVariables The url parameters
+	 * @return The results of the request, or null if there was an error
+	 */
+	protected <T> void getForObjectAsync(String url, Class<T> responseType, RequesterCallback<T> callback, Object... urlVariables) {
+		makeRequestAsync(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, callback, urlVariables);
 	}
 	
 	/** Performs a post to the specified url, and returns the results as the specified type
@@ -109,10 +121,23 @@ public abstract class AbstractRequester {
 	 * @return The results of the request, or null if there was an error
 	 */
 	
-	public <T> T postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) {
+	protected <T> T postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) {
 		return makeRequest(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
+	/** Performs an async post to the specified url, and returns the results as the specified type
+	 * 
+	 * @param url THe url to make the request to
+	 * @param requestBody The body of the request
+	 * @param responseType The expected response
+	 * @param callback The requester callback to return the results to on completion
+	 * @param urlVariables The url parameters
+	 * @return The results of the request, or null if there was an error
+	 */
+	
+	protected <T> void postForObjectAsync(String url, Object requestBody, Class<T> responseType, RequesterCallback<T> callback, Object... urlVariables) {
+		makeRequestAsync(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, callback, urlVariables);
+	}
 	/** Makes a generic request to the server with the specified attributes
 	 * 
 	 *  Automatically adds and requests the authentication to each request. Will automatically retry the request if the
@@ -132,7 +157,26 @@ public abstract class AbstractRequester {
 		return processRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
 	}
 	
-	//TODO: Make an AFTRequest object
+	/** Makes a generic async request to the server with the specified attributes
+	 * 
+	 *  Automatically adds and requests the authentication to each request. Will automatically retry the request if the
+	 *  	Authentication token has expired	
+	 *  
+	 * @param url The URL to make the request on
+	 * @param method The HTTP method of the request
+	 * @param requestEntity The request Entity representing the request body and headers
+	 * @param responseType The expected response type of the request
+	 * @param callback The callback to call with the results of the request
+	 * @param urlVariables Any url parameters
+	 * @return The results from the request, or null if there were any errors
+	 */
+	protected <T> void makeRequestAsync(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, 
+									 RequesterCallback<T> callback, Object... urlVariables) {
+		
+		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
+		ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
+		processRequestResponseAsync(results, url, method, requestEntity, responseType, callback, urlVariables);
+	}
 	
 	/** Processes the results of an AFT Request 
 	 * 
@@ -144,7 +188,7 @@ public abstract class AbstractRequester {
 	 * @param urlVariables The url variables of the request
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
-	protected <T> T processRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
+	private <T> T processRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
 			Class<T> responseType, Object... urlVariables) {
 		
 		T res = null;
@@ -153,14 +197,12 @@ public abstract class AbstractRequester {
 			res = responseEntity.getBody();
 			//if we need authentication token, extract it from the response
 			if (securityContext.needAuthenticationToken()) {
-				//TODO: Update this
 				//extractAuthenticationToken(responseEntity);
 			}
 		}
 		else if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			if (securityContext.needAuthenticationToken()) {
 				//401 was returned, and we still need a token
-				//TODO: means invalid credentials, raise this up somehow
 				res = null; // for now we return null
 			}
 			else {
@@ -173,13 +215,39 @@ public abstract class AbstractRequester {
 		return res;
 	}
 	
+	/** Processes the results of an async AFT Request 
+	 * 
+	 * @param responseEntity The results of the request 
+	 * @param url The url of the request
+	 * @param method The method of the request
+	 * @param requestEntity The response entity of the request
+	 * @param responseType the response type of the request
+	 * @param callback The RequesterCallback to call with the results of the request
+	 * @param urlVariables The url variables of the request
+	 * @return The processed results of the request, the request body or null if there was an error
+	 */
+	
+	private <T> void processRequestResponseAsync(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
+			Class<T> responseType, RequesterCallback<T> callback, Object... urlVariables) {
+		
+		if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+			T res = responseEntity.getBody();
+			callback.onSuccess(res);
+		}
+		else {
+			Exception cause = new Exception("Request Failed: Server returned status: " + responseEntity.getStatusCode().toString());
+			callback.onFailure(cause);
+		}
+		
+		
+	}
 	/** Adds the appropriate Authentication headers to the given HttpEntity. The entity passed in is not modified. New entity
 	 * 		is returned.
 	 * 
 	 * @param entity The HttpEntity to add the request headers
 	 * @return The new HttpEntity with the updated Authentication Headers
 	 */
-	protected HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
+	private HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
 		HttpHeaders headers = new HttpHeaders();	
 		headers.putAll(entity.getHeaders());		
 		//check if we have an authentication token
