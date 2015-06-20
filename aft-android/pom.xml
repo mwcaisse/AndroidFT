@@ -15,6 +15,9 @@
 		<android.plugin.version>3.9.0-rc.3</android.plugin.version>
 		<android.version>4.4.2_r4</android.version>
 		<android.support.version>19.1.0</android.support.version>
+		<android.play-services.version>5.0.89</android.play-services.version>
+		<robospice.version>1.4.14</robospice.version>
+		<robopsice.spring-android.version>1.4.14</robopsice.spring-android.version>
 	</properties>
 	
 	<dependencies>
@@ -43,12 +46,29 @@
 		<dependency>
 		    <groupId>com.google.android.gms</groupId>
 		    <artifactId>play-services</artifactId>
-		    <version>5.0.89</version>
+		    <version>${android.play-services.version}</version>
 		    <type>aar</type>		    
 		  </dependency>
+		  
+		<!-- RoboSpice dependencies -->
+		<dependency>
+			<groupId>com.octo.android.robospice</groupId>
+			<artifactId>robospice</artifactId>
+			<version>${robospice.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.octo.android.robospice</groupId>
+			<artifactId>robospice-spring-android</artifactId>
+			<version>${robopsice.spring-android.version}</version>
+		</dependency>
+		
+
+		
 				
 		
 		<!--  Spring Android dependencies -->
+		<!--
 		<dependency>
 	        <groupId>org.springframework.android</groupId>
 	        <artifactId>spring-android-rest-template</artifactId>
@@ -72,6 +92,7 @@
 	        <artifactId>spring-android-core</artifactId>
     	    <version>${spring.android.version}</version>
     	</dependency> 
+    	-->
     
 	</dependencies>
 	

@@ -1,7 +1,8 @@
-package com.ricex.aft.android.view;
+package com.ricex.aft.android.auth;
 
-import android.app.Activity;
+import android.accounts.AccountAuthenticatorActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,30 +10,35 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ricex.aft.android.R;
+import com.ricex.aft.android.requester.RequesterCallback;
+import com.ricex.aft.android.requester.UserRequester;
 
 /** The Activity used for Logging in
  * 
  * @author Mitchell Caisse
  *
  */
-public class LoginActivity extends Activity {
+public class AccountActivity extends AccountAuthenticatorActivity {
 
 	/** Argument in the intent for the Account Type to create */
-	public static final String ARG_ACCOUNT_TYPE = "auth-account-type";
+	public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
 	
 	/** Argument in the intent for the name of the account to update */
-	public static final String ARG_ACCOUNT_NAME = "auth-account-name";
+	public static final String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
 	
 	/** Argument in the intent for the Authorization type */
-	public static final String ARG_AUTH_TYPE = "auth-auth-type";
+	public static final String ARG_AUTH_TYPE = "AUTH_TYPE";
 	
 	/** Argument in the intent for whether the user is adding a new account or not */
-	public static final String ARG_IS_ADDING_NEW_ACCOUNT = "auth-add-new-account";
+	public static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_NEW_ACCOUNT";
 	
 	/** Argument in the intent for the account authenticator response */
-	public static final String KEY_ACCOUNT_AUTHENTICATOR_RESPONSE = "auth-account-authenticator-response";
+	public static final String KEY_ACCOUNT_AUTHENTICATOR_RESPONSE = "ACCOUNT_AUTHENTICATOR_RESPONSE";
 	
 	private static final String LOG_TAG = "PushFile-Login";
+	
+	/** The User requester to use to verify the account */
+	private final UserRequester userRequester;
 	
 	/** The username text box on the view */
 	private EditText textUsername;
@@ -43,8 +49,8 @@ public class LoginActivity extends Activity {
 	/** The Login button on the view */
 	private Button butLogin;
 	
-	public LoginActivity() {
-		
+	public AccountActivity() {
+		userRequester = new UserRequester(this);
 	}
 	
 	/**
@@ -70,20 +76,45 @@ public class LoginActivity extends Activity {
 			}
 		});
 		
+		//check if an account name was passed in
+		String accountName = getIntent().getStringExtra(ARG_ACCOUNT_NAME);
+		if (!TextUtils.isEmpty(accountName)) {
+			textUsername.setText(accountName);
+		}
+		
 	}
 	
 	/** Handles the user pressing the log in button
 	 */
 	protected void login() {
 		//fetch the values that the user has entered from the view
-		String username = textUsername.getText().toString();
-		String password = textPassword.getText().toString();
+		final String username = textUsername.getText().toString();
+		final String password = textPassword.getText().toString();
 		
 		//show a message telling the user what they have entered
 		Toast.makeText(getApplicationContext(), "Entered: " + username + "|" + password, Toast.LENGTH_LONG).show();
 		
+		userRequester.fetchAuthenticationTokenAsync(username, password, new RequesterCallback<String>() {
+
+			@Override
+			public void onSuccess(String results) {
+				finishLogin(username, results);			
+			}
+
+			@Override
+			public void onFailure(Exception e) {	
+				//error, couldn't 
+				Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
+			}
+			
+		});
+		
 		//remove the password entered by the user after login attempt
 		textPassword.getText().clear();
+		
+	}
+	
+	protected void finishLogin(String username, String authToken) {
 		
 	}
 	

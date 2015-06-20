@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.ricex.aft.common.auth.AFTAuthentication;
 import com.ricex.aft.common.auth.AuthUser;
@@ -47,6 +48,33 @@ public class UserRequester extends AbstractRequester {
 
 		//server responded with an error, add appropriate error handling here at some point
 		return null;
+	}
+	
+	/** Makes an async login request to the server and provides a authentication token if the credentials are valid
+	 * 
+	 * @param username The username of the user to login as
+	 * @param password The user's password
+	 * @param callack The callback to call with the results
+	 * @return The authentication token received, or null if no token was received, currently this should only occur
+	 * 			if there was a server error during the request.
+	 * @throws InvalidCredentialsException thrown if the credentials the user provided are invalid
+	 */
+	
+	public void fetchAuthenticationTokenAsync(final String username, final String password, final RequesterCallback<String> callback) {
+		new AsyncTask<Void, Void, Void>() {
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				try {
+					callback.onSuccess(fetchAuthenticationToken(username, password));
+				}
+				catch (InvalidCredentialsException e) {
+					callback.onFailure(e);
+				}
+				return null;
+			}			
+	
+		}.execute();
 	}
 	
 	/** Extracts the authentication token from the http response

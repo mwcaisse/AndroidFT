@@ -1,6 +1,6 @@
 package com.ricex.aft.android.requester;
 
-import org.springframework.core.ParameterizedTypeReference;
+//import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class AFTRequest {
 	private HttpEntity<?> requestEntity;
 	
 	/** The expected response type */
-	private ParameterizedTypeReference<?> responseType;
+	//private ParameterizedTypeReference<?> responseType;
 	
 	/** The response received from the request */
 	private ResponseEntity<?> responseEntity;
@@ -87,16 +87,16 @@ public class AFTRequest {
 	/**
 	 * @return the responseType
 	 */
-	public ParameterizedTypeReference<?> getResponseType() {
+	/*public ParameterizedTypeReference<?> getResponseType() {
 		return responseType;
-	}
+	}*/
 
 	/**
 	 * @param responseType the responseType to set
 	 */
-	public void setResponseType(ParameterizedTypeReference<?> responseType) {
+	/*public void setResponseType(ParameterizedTypeReference<?> responseType) {
 		this.responseType = responseType;
-	}
+	}*/
 
 	/**
 	 * @return the responseEntity

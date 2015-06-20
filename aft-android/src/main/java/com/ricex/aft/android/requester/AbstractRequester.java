@@ -178,9 +178,7 @@ public abstract class AbstractRequester {
 
 			@Override
 			protected T doInBackground(Void... params) {
-				HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
-				ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
-				return processRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
+				return makeRequest(url, method, requestEntity, responseType, urlVariables);
 			}
 			
 			@Override

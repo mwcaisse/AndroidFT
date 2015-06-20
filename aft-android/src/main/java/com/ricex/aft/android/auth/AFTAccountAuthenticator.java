@@ -10,7 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.ricex.aft.android.view.LoginActivity;
+import com.ricex.aft.android.requester.InvalidCredentialsException;
+import com.ricex.aft.android.requester.UserRequester;
 
 /** The AccountAuthenticator to use with AccountManager for PushFile
  * 
@@ -22,6 +23,9 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 	/** The context for the Authenticator to use */
 	private Context context;	
 	
+	/** The user requester to make account based requests to the server */
+	private UserRequester userRequester;
+	
 	/** Creates a new AFTAccountAuthenticator with the specified context
 	 * 
 	 * @param context The context
@@ -29,12 +33,12 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 	public AFTAccountAuthenticator(Context context) {
 		super(context);
 		this.context = context;
+		userRequester = new UserRequester(context);
 	}
 
 	@Override
 	public Bundle editProperties(AccountAuthenticatorResponse response,
 			String accountType) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -43,11 +47,11 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 							 String[] requiredFeatures, Bundle options)	throws NetworkErrorException {
 		
 		//create the intent for the account manager to launch to create an account
-		Intent intent = new Intent(context, LoginActivity.class);
-		intent.putExtra(LoginActivity.ARG_ACCOUNT_TYPE, accountType);
-		intent.putExtra(LoginActivity.ARG_AUTH_TYPE, authTokenType);
-		intent.putExtra(LoginActivity.ARG_IS_ADDING_NEW_ACCOUNT, true);
-		intent.putExtra(LoginActivity.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+		Intent intent = new Intent(context, AccountActivity.class);
+		intent.putExtra(AccountActivity.ARG_ACCOUNT_TYPE, accountType);
+		intent.putExtra(AccountActivity.ARG_AUTH_TYPE, authTokenType);
+		intent.putExtra(AccountActivity.ARG_IS_ADDING_NEW_ACCOUNT, true);
+		intent.putExtra(AccountActivity.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 		
 		//create the bundle to contain the intent
 		Bundle bundle = new Bundle();
@@ -60,7 +64,6 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 	@Override
 	public Bundle confirmCredentials(AccountAuthenticatorResponse response,
 			Account account, Bundle options) throws NetworkErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -77,7 +80,12 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 		if (TextUtils.isEmpty(authToken)) {
 			String password = accountManager.getPassword(account);
 			if (!TextUtils.isEmpty(password)) {
-				authToken = ""; //TODO: Add fetch to server for the auth tokens
+				try {
+					authToken = userRequester.fetchAuthenticationToken(account.name, password);
+				}
+				catch (InvalidCredentialsException e) {
+					//fall through, this will prompt the user for new credentials.
+				}
 			}
 		}
 		
@@ -96,12 +104,12 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 		// either there were no stored credentials or the stored credentials are no longer valid
 		// prompt the user for new credentials
 		
-		Intent intent = new Intent(context, LoginActivity.class);
-		intent.putExtra(LoginActivity.ARG_ACCOUNT_TYPE, account.type);
-		intent.putExtra(LoginActivity.ARG_ACCOUNT_NAME, account.name);
-		intent.putExtra(LoginActivity.ARG_AUTH_TYPE, authTokenType);
-		intent.putExtra(LoginActivity.ARG_IS_ADDING_NEW_ACCOUNT, false);
-		intent.putExtra(LoginActivity.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+		Intent intent = new Intent(context, AccountActivity.class);
+		intent.putExtra(AccountActivity.ARG_ACCOUNT_TYPE, account.type);
+		intent.putExtra(AccountActivity.ARG_ACCOUNT_NAME, account.name);
+		intent.putExtra(AccountActivity.ARG_AUTH_TYPE, authTokenType);
+		intent.putExtra(AccountActivity.ARG_IS_ADDING_NEW_ACCOUNT, false);
+		intent.putExtra(AccountActivity.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 		
 		Bundle res = new Bundle();
 		res.putParcelable(AccountManager.KEY_INTENT, intent);		
