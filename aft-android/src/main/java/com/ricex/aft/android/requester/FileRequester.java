@@ -5,6 +5,7 @@ package com.ricex.aft.android.requester;
 
 import android.content.Context;
 
+import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.File;
 
 /** Requestor for requesting files 
@@ -31,8 +32,9 @@ public class FileRequester extends AbstractRequester {
 	 * @return The file fetched
 	 */
 	
-	public File getCompleteFile(long fileId) {
-		File res = getForObject(serverAddress + "file/{fileId}", File.class, fileId);
+	public File getCompleteFile(long fileId) throws RequestException {
+		AFTResponse<File> resp = getForObject(serverAddress + "file/{fileId}", File.class, fileId);
+		File res = processAFTResponse(resp);	
 		return res;
 	}
 	
@@ -41,8 +43,9 @@ public class FileRequester extends AbstractRequester {
 	 * @param fileId The id of the file to fetch the information for
 	 * @return The file information
 	 */
-	public File getFileInfo(long fileId) {
-		File res = getForObject(serverAddress + "file/info/{fileId}", File.class, fileId);
+	public File getFileInfo(long fileId) throws RequestException {
+		AFTResponse<File> resp  = getForObject(serverAddress + "file/info/{fileId}", File.class, fileId);
+		File res = processAFTResponse(resp);
 		return res;
 	}
 	
@@ -51,8 +54,9 @@ public class FileRequester extends AbstractRequester {
 	 * @param fileId The id of the file to fetch the contents for
 	 * @return The contents of the file
 	 */
-	public byte[] getFileContents(long fileId) {
-		byte[] contents = getForObject(serverAddress + "file/contents/{fileId}", byte[].class, fileId);
+	public byte[] getFileContents(long fileId) throws RequestException {
+		AFTResponse<byte[]> resp  = getForObject(serverAddress + "file/contents/{fileId}", byte[].class, fileId);
+		byte[] contents = processAFTResponse(resp);
 		return contents;
 	}
 	

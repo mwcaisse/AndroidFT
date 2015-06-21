@@ -6,6 +6,7 @@ package com.ricex.aft.android.requester;
 import android.content.Context;
 import android.os.Build;
 
+import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.BooleanResponse;
 import com.ricex.aft.common.response.LongResponse;
@@ -26,9 +27,10 @@ public class DeviceRequester extends AbstractRequester {
 	 * @return True if successful, false otherwise
 	 */
 	
-	public boolean registerDevice(String registrationId) {
+	public boolean registerDevice(String registrationId) throws RequestException {
 		Device device = createDevice(registrationId);
-		long res = postForObject(serverAddress + "device/register", device, LongResponse.class).getValue();
+		AFTResponse<LongResponse> resp = postForObject(serverAddress + "device/register", device, LongResponse.class);
+		long res = processAFTResponse(resp).getValue();
 		return res >= 0;
 	}
 	
@@ -37,9 +39,10 @@ public class DeviceRequester extends AbstractRequester {
 	 * @return True if the device is registered, false otherwise
 	 */
 	
-	public boolean isRegistered() {
+	public boolean isRegistered() throws RequestException {
 		String deviceUid = getDeviceUID();		
-		BooleanResponse res = getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);		
+		AFTResponse<BooleanResponse> resp = getForObject(serverAddress + "device/isRegistered/{deviceUid}", BooleanResponse.class, deviceUid);
+		BooleanResponse res = processAFTResponse(resp);
 		return res.getValue();
 	}
 	

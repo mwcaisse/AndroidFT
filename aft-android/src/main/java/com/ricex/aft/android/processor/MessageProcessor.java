@@ -3,21 +3,17 @@
  */
 package com.ricex.aft.android.processor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import android.R;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.media.MediaScannerConnection;
-import android.media.MediaScannerConnection.MediaScannerConnectionClient;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.notifier.RequestProcessedNotification;
 import com.ricex.aft.android.requester.RequestRequester;
+import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.Request;
 
 /**
@@ -61,7 +57,16 @@ public class MessageProcessor {
 			protected Boolean doInBackground(Object... params) {	
 				Log.i(LOG_TAG, "Process(): About to fetch the requests from the server");
 				//fetch the requets from the server
-				List<Request> newRequests = new RequestRequester(context).getNewRequestsForDevice();
+				
+				List<Request> newRequests = new ArrayList<Request>();
+				
+				try {
+					newRequests = new RequestRequester(context).getNewRequestsForDevice();
+				}
+				catch (RequestException e) {
+					Log.e(LOG_TAG, "Process(): error requesting requests from server.", e);						
+				}
+				
 				Log.i(LOG_TAG, "Process(): Fetched the requests");
 				int failed = 0;
 				int success = 0;

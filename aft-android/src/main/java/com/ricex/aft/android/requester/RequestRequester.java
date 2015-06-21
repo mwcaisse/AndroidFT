@@ -10,8 +10,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.response.LongResponse;
 
@@ -35,8 +35,9 @@ public class RequestRequester extends AbstractRequester {
 	 * @return The list of new requests
 	 */
 	
-	public List<Request> getNewRequestsForDevice() {
-		Request[] requests = getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
+	public List<Request> getNewRequestsForDevice() throws RequestException {
+		AFTResponse<Request[]> resp = getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, getDeviceUID());
+		Request[] requests = processAFTResponse(resp);
 		return Arrays.asList(requests);
 	}
 	
@@ -46,9 +47,10 @@ public class RequestRequester extends AbstractRequester {
 	 * @return The status value returned
 	 */
 	
-	public long updateRequest(Request toUpdate) {
+	public long updateRequest(Request toUpdate) throws RequestException {
 		HttpEntity<Request> entity = new HttpEntity<Request>(toUpdate);
-		LongResponse res = makeRequest(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
+		AFTResponse<LongResponse> resp = makeRequest(serverAddress + "request/update", HttpMethod.PUT, entity, LongResponse.class);
+		LongResponse res = processAFTResponse(resp);
 		return res.getValue();
 	}	
 	

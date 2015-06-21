@@ -16,11 +16,17 @@ public interface RequesterCallback<T> {
 	
 	public void onSuccess(T results);
 	
-	/** Called when the request failed, received a response other than OK (HTTP 200) from the server, or
-	 * 		an internal error occurred.
+	/** Called when the request completed with out error, but the server returned a non HTTP 200 result, indicating an invalid request
 	 * 
-	 * @param e The exception indicating why it failed
+	 * @param response The response received from the server
 	 */
 	
-	public void onFailure( Exception e);
+	public void onFailure(AFTResponse<T> response);
+	
+	/** Called when an error / exception occurred while processing the request
+	 * 
+	 * @param e The exception that occurred
+	 */
+	public void onError(Exception e);
+	
 }

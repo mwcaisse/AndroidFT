@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.ricex.aft.android.requester.FileRequester;
 import com.ricex.aft.android.requester.RequestRequester;
+import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
@@ -86,7 +87,14 @@ public class RequestProcessor {
 	
 	protected boolean downloadFile(File fileInfo) {
 		java.io.File localFile =  getStorageFile(fileInfo);
-		byte[] fileContents = new FileRequester(context).getFileContents(fileInfo.getId());
+		byte[] fileContents;
+		try {
+			fileContents = new FileRequester(context).getFileContents(fileInfo.getId());
+		}
+		catch (RequestException e) {
+			Log.e(LOG_TAG, "Failed to retreive the file contents from the server!", e);
+			return false;
+		}
 		if (localFile == null) {
 			Log.w(LOG_TAG, "Creating storage file failed");
 			updateRequest(RequestStatus.FAILED, "Unable to create storage file");
@@ -143,7 +151,13 @@ public class RequestProcessor {
 	private boolean updateRequest(RequestStatus status, String message) {
 		request.setRequestStatus(status);
 		request.setRequestStatusMessage(message);
-		long res = new RequestRequester(context).updateRequest(request);
+		long res = -1;
+		try {
+			res = new RequestRequester(context).updateRequest(request);
+		}
+		catch (RequestException e) {
+			Log.e(LOG_TAG, "Failed to send the updated request to the server", e);
+		}
 		if (res < 0) {
 			Log.e(LOG_TAG, "Failed to send the updated request to the sever");			
 			return false;

@@ -69,7 +69,7 @@ public class UserRequester extends AbstractRequester {
 					callback.onSuccess(fetchAuthenticationToken(username, password));
 				}
 				catch (InvalidCredentialsException e) {
-					callback.onFailure(e);
+					callback.onError(e);
 				}
 				return null;
 			}			

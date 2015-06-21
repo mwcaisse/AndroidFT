@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ricex.aft.android.R;
+import com.ricex.aft.android.requester.AFTResponse;
 import com.ricex.aft.android.requester.RequesterCallback;
 import com.ricex.aft.android.requester.UserRequester;
 
@@ -96,13 +97,15 @@ public class AccountActivity extends AccountAuthenticatorActivity {
 		
 		userRequester.fetchAuthenticationTokenAsync(username, password, new RequesterCallback<String>() {
 
-			@Override
 			public void onSuccess(String results) {
 				finishLogin(username, results);			
 			}
-
-			@Override
-			public void onFailure(Exception e) {	
+				
+			public void onFailure(AFTResponse<String> resp) {
+				
+			}
+			
+			public void onError(Exception e) {	
 				//error, couldn't 
 				Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
 			}

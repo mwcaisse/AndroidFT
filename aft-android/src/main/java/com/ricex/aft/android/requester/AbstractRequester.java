@@ -3,32 +3,22 @@
  */
 package com.ricex.aft.android.requester;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.provider.Settings;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.ricex.aft.android.AFTConfigurationProperties;
-import com.ricex.aft.android.util.AndroidJsonByteArrayBase64Adapter;
+import com.ricex.aft.android.requester.exception.InvalidRequestException;
+import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.requester.exception.UnauthorizedRequestException;
 import com.ricex.aft.common.auth.AFTAuthentication;
-import com.ricex.aft.common.entity.UserInfo;
-import com.ricex.aft.common.util.JsonDateMillisecondsEpochDeserializer;
-import com.ricex.aft.common.util.UserInfoAdapter;
 
 /**
  * @author Mitchell Caisse
@@ -55,29 +45,9 @@ public abstract class AbstractRequester {
 	
 	public AbstractRequester(Context context) {
 		this.context = context;
-		//this.serverAddress = "https://home.fourfivefire.com/aft-servlet/api/";
-		//this.serverAddress = "http://192.168.1.160:8888/aft-servlet/api/";
-		this.serverAddress = AFTConfigurationProperties.getServerAddress() + "api/";
-		
-		this.securityContext = SecurityContext.INSTANCE;
-		
-		//Create the gson object to decode Json messages
-		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
-				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
-				.registerTypeAdapter(byte[].class, new AndroidJsonByteArrayBase64Adapter())
-				.registerTypeAdapter(UserInfo.class, new UserInfoAdapter())
-				.create();
-		
-		//create the Gson message converter for spring, and set its Gson
-		GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
-		converter.setGson(gson);
-		
-		//add the gson message converter to the rest template
+		this.serverAddress = AFTConfigurationProperties.getServerAddress() + "api/";		
+		this.securityContext = SecurityContext.INSTANCE;	
 		restTemplate = new RestTemplate();	
-		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-		messageConverters.add(converter);
-		restTemplate.setMessageConverters(messageConverters);
-		
 	}
 	
 	/** Returns the UID for the device this app is running on
@@ -97,7 +67,7 @@ public abstract class AbstractRequester {
 	 * @param urlVariables The url parameters
 	 * @return The results of the request, or null if there was an error
 	 */
-	protected <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) {
+	protected <T> AFTResponse<T> getForObject(String url, Class<T> responseType, Object... urlVariables) {
 		return makeRequest(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, urlVariables);
 	}
 	
@@ -122,7 +92,7 @@ public abstract class AbstractRequester {
 	 * @return The results of the request, or null if there was an error
 	 */
 	
-	protected <T> T postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) {
+	protected <T> AFTResponse<T> postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) {
 		return makeRequest(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
@@ -152,9 +122,9 @@ public abstract class AbstractRequester {
 	 * @return The results from the request, or null if there were any errors
 	 */
 	
-	protected <T> T makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) {	
+	protected <T> AFTResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) {	
 		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
-		ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);		
+		ResponseEntity<String> results = restTemplate.exchange(url, method, entity, String.class, urlVariables);		
 		return processRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
 	}
 	
@@ -174,16 +144,31 @@ public abstract class AbstractRequester {
 	protected <T> void makeRequestAsync(final String url, final HttpMethod method, final HttpEntity<?> requestEntity, 
 										final Class<T> responseType, final RequesterCallback<T> callback, 
 										final Object... urlVariables) {
-		new AsyncTask<Void, Void, T>() {
+		new AsyncTask<Void, Void, AFTResponse<T>>() {
 
 			@Override
-			protected T doInBackground(Void... params) {
-				return makeRequest(url, method, requestEntity, responseType, urlVariables);
-			}
+			protected AFTResponse<T> doInBackground(Void... params) {
+				AFTResponse<T> response = null;
+				try {
+					response = makeRequest(url, method, requestEntity, responseType, urlVariables);
+				}
+				catch (Exception e) {
+					callback.onError(e);
+				}	
+				return response;
+			}			
 			
 			@Override
-			protected void onPostExecute(T results) {
-				callback.onSuccess(results);
+			protected void onPostExecute(AFTResponse<T> results) {
+				//if results are null, then error callback has been called already
+				if (results != null) {
+					if (results.isValid()) {
+						callback.onSuccess(results.getResponse());
+					}
+					else {
+						callback.onFailure(results);
+					}
+				}
 			}
 			
 		}.execute();
@@ -199,31 +184,45 @@ public abstract class AbstractRequester {
 	 * @param urlVariables The url variables of the request
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
-	private <T> T processRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
+	private <T> AFTResponse<T> processRequestResponse(ResponseEntity<String> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
 			Class<T> responseType, Object... urlVariables) {
 		
-		T res = null;
-		//check the status of the response
-		if (responseEntity.getStatusCode() == HttpStatus.OK) {
-			res = responseEntity.getBody();
-			//if we need authentication token, extract it from the response
-			if (securityContext.needAuthenticationToken()) {
-				//extractAuthenticationToken(responseEntity);
+		AFTResponse<T> response = new AFTResponse<T>(responseEntity.getBody(), responseEntity.getStatusCode(), responseType);
+		
+		//TODO: Revisit with updated security
+		if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+			//401 was returned, prompt the user to login
+			securityContext.invalidateAFTToken(); //invalidate the current token, if any
+			securityContext.getAftToken(); //request a new token
+			response = makeRequest(url, method, requestEntity, responseType, urlVariables);
+		}		
+		return response;
+	}
+	
+	/** Processes the AFT Response received after making a request.
+	 * 
+	 *  If the response is valid (server returned Http OK) then the object the server responded with is returned. Otherwise an exception
+	 *  	is thrown indicating the error that occurred.
+	 * 
+	 * @param response The response received from the server
+	 * @return The parsed response object
+	 * @throws RequestException If response is invalid, the error returned by the server
+	 */
+	protected <T> T processAFTResponse(AFTResponse<T> response) throws RequestException {
+		if (response.isValid()) {
+			return response.getResponse();
+		}
+		else {
+			String error = response.getError();
+			switch (response.getStatusCode()) {
+			case BAD_REQUEST:
+				throw new InvalidRequestException(error);			
+			case FORBIDDEN:
+				throw new UnauthorizedRequestException(error);		
+			default:
+				throw new RequestException(error);
 			}
 		}
-		else if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-			if (securityContext.needAuthenticationToken()) {
-				//401 was returned, and we still need a token
-				res = null; // for now we return null
-			}
-			else {
-				//401 was returned, and we don't need a token,
-				// our token has most likely expired, invalidate our current token, and re-request
-				securityContext.invalidateAFTToken();
-				res = makeRequest(url, method, requestEntity, responseType, urlVariables);
-			}
-		}		
-		return res;
 	}
 
 	/** Adds the appropriate Authentication headers to the given HttpEntity. The entity passed in is not modified. New entity
@@ -234,15 +233,8 @@ public abstract class AbstractRequester {
 	 */
 	private HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
 		HttpHeaders headers = new HttpHeaders();	
-		headers.putAll(entity.getHeaders());		
-		//check if we have an authentication token
-		if (securityContext.needAuthenticationToken()) {
-			//headers.add(AFTAuthentication.AFT_AUTH_INIT_HEADER, securityContext.getCredentials());
-		}
-		else {
-			headers.add(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, securityContext.getAftToken());
-		}
-
+		headers.putAll(entity.getHeaders());	
+		headers.add(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, securityContext.getAftToken());
 		return new HttpEntity<Object>(entity.getBody(), headers);
 	}
 	
