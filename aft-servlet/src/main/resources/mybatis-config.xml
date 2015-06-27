@@ -15,6 +15,7 @@
 		<typeAlias alias="UserInfo" type="com.ricex.aft.common.entity.UserInfoImpl" /> 
 		<typeAlias alias="RegistrationKey" type="com.ricex.aft.servlet.entity.RegistrationKey" />
 		<typeAlias alias="DeviceImage" type="com.ricex.aft.servlet.entity.DeviceImage" />
+		<typeAlias alias="UserAuthenticationToken" type="com.ricex.aft.servlet.entity.UserAuthenticationToken" />
 	</typeAliases>
 	
 	
@@ -25,6 +26,7 @@
 		<mapper resource="com/ricex/aft/servlet/mapper/RequestMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/UserMapper.xml" />
 		<mapper resource="com/ricex/aft/servlet/mapper/RegistrationKeyMapper.xml"/>
+		<mapper resource="com/ricex/aft/servlet/mapper/UserAuthenticationTokenMapper.xml"/>
 	</mappers>
 
 </configuration>

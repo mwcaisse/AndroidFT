@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.aft.servlet.mapper.UserAuthenticationTokenMapper">
+
+	<cache/>
+	
+	<!-- User Authentication Token result map -->
+	<resultMap id="userAuthenticationTokenResultMap" type="UserAuthenticationToken">
+    	<id property="id" column="UAT_ID" />
+    	<result property="authenticationToken" column="UAT_TOKEN" />
+    	<result property="deviceUid" column="UAT_DEV_UID" />
+    	<result property="active" column="UAT_ACTIVE" />
+    	<result property="expirationDate" column="UAT_EXP_DATE" />
+    	<association property="user" column="UAT_USER_ID" javaType="User" select="com.ricex.aft.servlet.mapper.UserMapper.getUserById" />
+    </resultMap>
+    
+	<!-- Select an UserAuthenticationToken by ID -->
+	<select id="getUserAuthenticationToken" parameterType="long" resultMap="userAuthenticationTokenResultMap">
+    	SELECT * FROM USER_AUTH_TOKEN
+    	WHERE UAT_ID = #{id}
+    </select>
+    
+	<!-- Select an UserAuthenticationToken by Token string -->
+	<select id="getUserAuthenticationTokenByToken" parameterType="string" resultMap="userAuthenticationTokenResultMap">
+    	SELECT * FROM USER_AUTH_TOKEN
+    	WHERE UAT_TOKEN = #{token}
+    </select>
+    
+	<!-- Get all of the UserAuthenticationTokens for a User -->
+	<select id="getUserAuthenticationTokensForUser" parameterType="long" resultMap="userAuthenticationTokenResultMap">
+    	SELECT * FROM USER_AUTHE_TOKEN
+    	WHERE UAT_USER_ID = #{userId}
+    </select>
+    
+	<!-- Create a new UserAuthenticationToken -->
+	<insert id="createUserAuthenticationToken" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO USER_AUTH_TOKEN (UAT_USER_ID, UAT_TOKEN, UAT_DEV_UID, UAT_ACTIVE, UAT_EXP_DATE)
+	    VALUES (#{user.userId}, #{authenticationToken}, #{deviceUid}, #{active}, #{expirationDate})
+    </insert>
+    
+	<!-- Update an existing UserAuthentication Token -->
+	<update id="updateUserAuthenticationToken">
+	    UPDATE USER_AUTH_TOKEN SET
+	    	UAt_USER_ID = #{user.userId},
+	    	UAT_TOKEN = #{authenitcationToken},
+	    	UAT_DEV_UID = #{deviceUid},
+	    	UAT_ACTIVE = #{active},
+	    	UAT_EXP_DATE = #{expirationDate}
+    	WHERE UAT_ID = #{id}
+    </update>	
+	
+</mapper>

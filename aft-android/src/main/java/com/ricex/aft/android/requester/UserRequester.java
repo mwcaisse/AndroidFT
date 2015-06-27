@@ -84,7 +84,7 @@ public class UserRequester extends AbstractRequester {
 	 */
 	
 	private String extractAuthenticationToken(ResponseEntity<?> entity) {
-		String token = entity.getHeaders().getFirst(AFTAuthentication.AFT_AUTH_TOKEN_HEADER);
+		String token = entity.getHeaders().getFirst(AFTAuthentication.AFT_SESSION_TOKEN_HEADER);
 		//set it as the authorization token, if it was found, and is not empty
 		if (token != null && !token.isEmpty()) {
 			return token;

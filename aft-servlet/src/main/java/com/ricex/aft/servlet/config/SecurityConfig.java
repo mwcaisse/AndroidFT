@@ -101,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		APIUserAuthenticator userAuthenticator = new APIUserAuthenticator();
 		userAuthenticator.setAuthenticationManager(authenticationManagerBean());
 		userAuthenticator.setTokenManager(tokenManager());
+		userAuthenticator.setUserAuthenticationTokenManager(applicationConfig.userAuthenticationTokenManager());
 		return userAuthenticator;
 	}
 

@@ -9,9 +9,14 @@ import java.io.Serializable;
  */
 public class AuthUser implements Serializable {	
 
+	/** The user's username */
 	private String username;
 	
+	/** The user's password */
 	private String password;
+	
+	/** The uid of the user's device */
+	private String deviceUid;
 
 	/** Constructs a new AuthUser
 	 */
@@ -56,6 +61,22 @@ public class AuthUser implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	/**
+	 * @return the deviceUid
+	 */
+	public String getDeviceUid() {
+		return deviceUid;
+	}
+
+	/**
+	 * @param deviceUid the deviceUid to set
+	 */
+	public void setDeviceUid(String deviceUid) {
+		this.deviceUid = deviceUid;
+	}
+	
+	
 	
 	
 }

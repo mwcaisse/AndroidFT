@@ -36,7 +36,7 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 	 * 
 	 */
 	public AFTTokenAuthenticationFilter() {
-		super(new RequestHeaderRequestMatcher(AFTAuthentication.AFT_AUTH_TOKEN_HEADER));
+		super(new RequestHeaderRequestMatcher(AFTAuthentication.AFT_SESSION_TOKEN_HEADER));
 	}
 
 	/** Retrieve the Authentication token from the Request Header, and set the user's authentication
@@ -48,7 +48,7 @@ public class AFTTokenAuthenticationFilter extends AbstractAuthenticationProcessi
 			throws AuthenticationException,	IOException, ServletException {
 		
 		log.debug("AFT Token authentication");
-		String tokenId = request.getHeader(AFTAuthentication.AFT_AUTH_TOKEN_HEADER);
+		String tokenId = request.getHeader(AFTAuthentication.AFT_SESSION_TOKEN_HEADER);
 		Token token = tokenManager.getToken(tokenId);
 		
 		log.debug("TokenId: " + tokenId + " Token: " + token);		

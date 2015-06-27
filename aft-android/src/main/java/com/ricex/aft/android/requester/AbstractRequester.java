@@ -234,7 +234,7 @@ public abstract class AbstractRequester {
 	private HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
 		HttpHeaders headers = new HttpHeaders();	
 		headers.putAll(entity.getHeaders());	
-		headers.add(AFTAuthentication.AFT_AUTH_TOKEN_HEADER, securityContext.getAftToken());
+		headers.add(AFTAuthentication.AFT_SESSION_TOKEN_HEADER, securityContext.getAftToken());
 		return new HttpEntity<Object>(entity.getBody(), headers);
 	}
 	

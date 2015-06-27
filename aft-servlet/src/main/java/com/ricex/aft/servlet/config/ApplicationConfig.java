@@ -41,12 +41,14 @@ import com.ricex.aft.servlet.manager.DeviceManager;
 import com.ricex.aft.servlet.manager.FileManager;
 import com.ricex.aft.servlet.manager.RegistrationKeyManager;
 import com.ricex.aft.servlet.manager.RequestManager;
+import com.ricex.aft.servlet.manager.UserAuthenticationTokenManager;
 import com.ricex.aft.servlet.manager.UserManager;
 import com.ricex.aft.servlet.mapper.DeviceImageMapper;
 import com.ricex.aft.servlet.mapper.DeviceMapper;
 import com.ricex.aft.servlet.mapper.FileMapper;
 import com.ricex.aft.servlet.mapper.RegistrationKeyMapper;
 import com.ricex.aft.servlet.mapper.RequestMapper;
+import com.ricex.aft.servlet.mapper.UserAuthenticationTokenMapper;
 import com.ricex.aft.servlet.mapper.UserMapper;
 import com.ricex.aft.servlet.util.GsonFactory;
 
@@ -228,7 +230,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		return mapperFactoryBean.getObject();
 	}
 	
-	/** The User mapper to be used by the managers
+	/** The RegistrationKey Mapper
 	 * 
 	 * @return The user mapper
 	 * @throws Exception If fetching the sql session factory failed
@@ -237,6 +239,19 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 	public RegistrationKeyMapper registrationKeyMapper() throws Exception {
 		MapperFactoryBean<RegistrationKeyMapper> mapperFactoryBean = new MapperFactoryBean<RegistrationKeyMapper>();
 		mapperFactoryBean.setMapperInterface(RegistrationKeyMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
+	/** The UserAuthenticationToken mapper
+	 * 
+	 * @return The user mapper
+	 * @throws Exception If fetching the sql session factory failed
+	 */	
+	@Bean
+	public UserAuthenticationTokenMapper userAuthenticationTokenMapper() throws Exception {
+		MapperFactoryBean<UserAuthenticationTokenMapper> mapperFactoryBean = new MapperFactoryBean<UserAuthenticationTokenMapper>();
+		mapperFactoryBean.setMapperInterface(UserAuthenticationTokenMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}
@@ -330,6 +345,14 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		RegistrationKeyManager registrationKeyManager = RegistrationKeyManager.INSTANCE;
 		registrationKeyManager.setRegistrationKeyMapper(registrationKeyMapper());
 		return registrationKeyManager;
+	}
+	
+	@Bean 	
+	public UserAuthenticationTokenManager userAuthenticationTokenManager() throws Exception {
+		UserAuthenticationTokenManager manager = UserAuthenticationTokenManager.INSTANCE;
+		manager.setUserAuthenticationTokenMapper(userAuthenticationTokenMapper());
+		manager.setUserManager(userManager());
+		return manager;
 	}
 	
 	@Bean
