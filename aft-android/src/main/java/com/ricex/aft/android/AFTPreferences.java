@@ -3,6 +3,7 @@ package com.ricex.aft.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 
 /** Properties wrapper around Android Shared preferences to retreive and store
  * 		values
@@ -88,6 +89,16 @@ public class AFTPreferences {
 	 */
 	public static boolean setIntValue(String key, int value) {
 		return preferences.edit().putInt(key, value).commit();
+	}
+	
+	/** Returns the UID for the device this app is running on
+	 * 
+	 * @return the UID, or -1 if failed.
+	 */
+	
+	public static String getDeviceUID() {		
+		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		return androidId;
 	}
 	
 	/** Sets the context to use to retrieve properties. This MUST be set before any preferences can be retreived

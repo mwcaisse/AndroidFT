@@ -10,9 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ricex.aft.android.R;
+import com.ricex.aft.android.request.user.AuthenticationTokenRequest;
+import com.ricex.aft.android.request.user.LoginPasswordRequest;
 import com.ricex.aft.android.requester.AFTResponse;
-import com.ricex.aft.android.requester.RequesterCallback;
+import com.ricex.aft.android.requester.AbstractRequestCallback;
+import com.ricex.aft.android.requester.RequestCallback;
 import com.ricex.aft.android.requester.UserRequester;
+import com.ricex.aft.common.response.BooleanResponse;
 
 /** The Activity used for Logging in
  * 
@@ -95,22 +99,25 @@ public class AccountActivity extends AccountAuthenticatorActivity {
 		//show a message telling the user what they have entered
 		Toast.makeText(getApplicationContext(), "Entered: " + username + "|" + password, Toast.LENGTH_LONG).show();
 		
-		userRequester.fetchAuthenticationTokenAsync(username, password, new RequesterCallback<String>() {
-
-			public void onSuccess(String results) {
-				finishLogin(username, results);			
-			}
-				
-			public void onFailure(AFTResponse<String> resp) {
-				
-			}
-			
-			public void onError(Exception e) {	
-				//error, couldn't 
+		new LoginPasswordRequest(username, password).executeAsync(new AbstractRequestCallback<BooleanResponse>() {
+			public void onSuccess(BooleanResponse results) {
+				if (results.getValue()) {					
+					new AuthenticationTokenRequest().executeAsync(new AbstractRequestCallback<String>() {
+						public void onSuccess(String authenticationToken) {
+							finishLogin(username, authenticationToken);	
+						}
+						public void onError(Exception e) {
+							Toast.makeText(getApplicationContext(), "Couldn't get authentication Token!", Toast.LENGTH_LONG).show();
+						}
+					});					
+				}
+			}	
+			public void onError(Exception e) {
 				Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
 			}
-			
-		});
+		});		
+		
+	
 		
 		//remove the password entered by the user after login attempt
 		textPassword.getText().clear();

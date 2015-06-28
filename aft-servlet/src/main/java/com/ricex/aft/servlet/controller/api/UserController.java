@@ -106,8 +106,8 @@ public class UserController extends ApiController {
 	 * @throws EntityException If the user or deviceUid is invalid
 	 */
 	
-	@RequestMapping(value="/token", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody String createAuthenticationToken(@RequestParam String deviceUid) throws EntityException {
+	@RequestMapping(value="/token", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody String createAuthenticationToken(@RequestBody String deviceUid) throws EntityException {
 		return userAuthenticationTokenManager.createUserAuthenticationToken(getCurrentUser().getUsername(), deviceUid).getAuthenticationToken();
 	}
 	

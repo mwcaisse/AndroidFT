@@ -79,7 +79,7 @@ public abstract class AbstractRequester {
 	 * @param urlVariables The url parameters
 	 * @return The results of the request, or null if there was an error
 	 */
-	protected <T> void getForObjectAsync(String url, Class<T> responseType, RequesterCallback<T> callback, Object... urlVariables) {
+	protected <T> void getForObjectAsync(String url, Class<T> responseType, RequestCallback<T> callback, Object... urlVariables) {
 		makeRequestAsync(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, callback, urlVariables);
 	}
 	
@@ -106,7 +106,7 @@ public abstract class AbstractRequester {
 	 * @return The results of the request, or null if there was an error
 	 */
 	
-	protected <T> void postForObjectAsync(String url, Object requestBody, Class<T> responseType, RequesterCallback<T> callback, Object... urlVariables) {
+	protected <T> void postForObjectAsync(String url, Object requestBody, Class<T> responseType, RequestCallback<T> callback, Object... urlVariables) {
 		makeRequestAsync(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, callback, urlVariables);
 	}
 	/** Makes a generic request to the server with the specified attributes
@@ -142,8 +142,9 @@ public abstract class AbstractRequester {
 	 * @return The results from the request, or null if there were any errors
 	 */
 	protected <T> void makeRequestAsync(final String url, final HttpMethod method, final HttpEntity<?> requestEntity, 
-										final Class<T> responseType, final RequesterCallback<T> callback, 
+										final Class<T> responseType, final RequestCallback<T> callback, 
 										final Object... urlVariables) {
+		
 		new AsyncTask<Void, Void, AFTResponse<T>>() {
 
 			@Override
@@ -236,6 +237,6 @@ public abstract class AbstractRequester {
 		headers.add(AFTAuthentication.AFT_SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
 		return new HttpEntity<Object>(entity.getBody(), headers);
 	}
-	
+
 	
 }

@@ -7,7 +7,7 @@ package com.ricex.aft.android.requester;
  *
  * @param <T> The type of the response excepted from the request
  */
-public interface RequesterCallback<T> {
+public interface RequestCallback<T> {
 	
 	/** Called when the request completed successfully
 	 * 

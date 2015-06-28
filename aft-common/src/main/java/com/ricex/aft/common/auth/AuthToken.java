@@ -16,6 +16,17 @@ public class AuthToken implements Serializable {
 	public AuthToken() {
 		
 	}
+	
+	/** Creates a new instance of AuthToken and initializes the fields
+	 * 
+	 * @param authenticationToken The authorizationToken
+	 * @param deviceUid The deviceUid
+	 */
+	
+	public AuthToken(String authenticationToken, String deviceUid) {
+		this.authenticationToken = authenticationToken;
+		this.deviceUid = deviceUid;
+	}
 
 	/**
 	 * @return the authenticationToken
