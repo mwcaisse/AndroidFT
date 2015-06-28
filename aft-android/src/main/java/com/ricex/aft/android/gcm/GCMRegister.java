@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
@@ -17,9 +16,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.ricex.aft.android.AFTPreferences;
-import com.ricex.aft.android.PushFile;
 import com.ricex.aft.android.register.PushFileRegister;
-import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Utility class for Google Cloud Messaging registration
  * 
