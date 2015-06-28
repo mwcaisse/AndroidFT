@@ -1,7 +1,7 @@
 package com.ricex.aft.android.request.user;
 
+import com.ricex.aft.android.request.AFTResponse;
 import com.ricex.aft.android.request.AbstractRequest;
-import com.ricex.aft.android.requester.AFTResponse;
 import com.ricex.aft.android.requester.exception.RequestException;
 
 /** Request to fetch an Authentication Token from the server, to use for future authentication/login requests

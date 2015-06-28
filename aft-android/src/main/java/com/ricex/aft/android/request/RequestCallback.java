@@ -1,4 +1,5 @@
-package com.ricex.aft.android.requester;
+package com.ricex.aft.android.request;
+
 
 
 /** The callback to use when making an asynchronous request

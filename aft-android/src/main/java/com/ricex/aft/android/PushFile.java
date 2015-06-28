@@ -1,8 +1,6 @@
 package com.ricex.aft.android;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,7 +8,6 @@ import com.ricex.aft.android.gcm.GCMRegister;
 import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.processor.MessageProcessor;
 import com.ricex.aft.android.register.PushFileRegister;
-import com.ricex.aft.android.requester.DeviceRequester;
 
 /** Main Activity for PushFile.
  *

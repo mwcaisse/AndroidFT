@@ -15,6 +15,8 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 
 import com.ricex.aft.android.AFTConfigurationProperties;
+import com.ricex.aft.android.request.AFTResponse;
+import com.ricex.aft.android.request.RequestCallback;
 import com.ricex.aft.android.requester.exception.InvalidRequestException;
 import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.android.requester.exception.UnauthorizedRequestException;

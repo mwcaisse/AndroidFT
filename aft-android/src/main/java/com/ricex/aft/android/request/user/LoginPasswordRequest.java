@@ -1,7 +1,7 @@
 package com.ricex.aft.android.request.user;
 
+import com.ricex.aft.android.request.AFTResponse;
 import com.ricex.aft.android.request.AbstractRequest;
-import com.ricex.aft.android.requester.AFTResponse;
 import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.auth.AuthUser;
 import com.ricex.aft.common.response.BooleanResponse;

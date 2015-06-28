@@ -1,4 +1,4 @@
-package com.ricex.aft.android.requester;
+package com.ricex.aft.android.request;
 
 import java.text.DateFormat;
 import java.util.Date;

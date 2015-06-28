@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 
 import android.content.Context;
 
+import com.ricex.aft.android.request.AFTResponse;
 import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.response.LongResponse;

@@ -3,7 +3,6 @@
  */
 package com.ricex.aft.android.request;
 
-import com.ricex.aft.android.requester.RequestCallback;
 import com.ricex.aft.android.requester.exception.RequestException;
 
 /**

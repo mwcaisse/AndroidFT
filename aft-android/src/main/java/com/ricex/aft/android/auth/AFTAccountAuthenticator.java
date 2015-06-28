@@ -1,5 +1,7 @@
 package com.ricex.aft.android.auth;
 
+import org.apache.commons.lang3.StringUtils;
+
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
@@ -10,8 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.ricex.aft.android.requester.InvalidCredentialsException;
-import com.ricex.aft.android.requester.UserRequester;
+import com.ricex.aft.android.requester.exception.InvalidCredentialsException;
 
 /** The AccountAuthenticator to use with AccountManager for PushFile
  * 
@@ -23,9 +24,6 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 	/** The context for the Authenticator to use */
 	private Context context;	
 	
-	/** The user requester to make account based requests to the server */
-	private UserRequester userRequester;
-	
 	/** Creates a new AFTAccountAuthenticator with the specified context
 	 * 
 	 * @param context The context
@@ -33,7 +31,6 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 	public AFTAccountAuthenticator(Context context) {
 		super(context);
 		this.context = context;
-		userRequester = new UserRequester(context);
 	}
 
 	@Override
@@ -79,13 +76,9 @@ public class AFTAccountAuthenticator extends AbstractAccountAuthenticator {
 		// if they exist
 		if (TextUtils.isEmpty(authToken)) {
 			String password = accountManager.getPassword(account);
-			if (!TextUtils.isEmpty(password)) {
-				try {
-					authToken = userRequester.fetchAuthenticationToken(account.name, password);
-				}
-				catch (InvalidCredentialsException e) {
-					//fall through, this will prompt the user for new credentials.
-				}
+			if (StringUtils.isNotBlank(password)) {
+				//TODO: Update this
+				//authToken = userRequester.fetchAuthenticationToken(account.name, password);		
 			}
 		}
 		

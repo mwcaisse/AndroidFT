@@ -1,4 +1,5 @@
-package com.ricex.aft.android.requester;
+package com.ricex.aft.android.request;
+
 
 public abstract class AbstractRequestCallback<T> implements RequestCallback<T> {
 

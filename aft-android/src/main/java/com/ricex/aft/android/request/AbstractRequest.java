@@ -13,8 +13,6 @@ import android.os.AsyncTask;
 import com.ricex.aft.android.AFTConfigurationProperties;
 import com.ricex.aft.android.AFTPreferences;
 import com.ricex.aft.android.request.user.LoginTokenRequest;
-import com.ricex.aft.android.requester.AFTResponse;
-import com.ricex.aft.android.requester.RequestCallback;
 import com.ricex.aft.android.requester.SessionContext;
 import com.ricex.aft.android.requester.exception.InvalidRequestException;
 import com.ricex.aft.android.requester.exception.RequestException;

@@ -1,4 +1,4 @@
-package com.ricex.aft.android.requester;
+package com.ricex.aft.android.requester.exception;
 
 
 /** Exception thrown when invalid credentials are provided during a request
@@ -7,7 +7,7 @@ package com.ricex.aft.android.requester;
  *
  */
 
-public class InvalidCredentialsException extends Exception {
+public class InvalidCredentialsException extends RequestException {
 
 	private static final long serialVersionUID = -6223879697256967201L;
 

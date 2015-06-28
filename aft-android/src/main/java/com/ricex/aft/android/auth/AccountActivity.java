@@ -10,12 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ricex.aft.android.R;
+import com.ricex.aft.android.request.AbstractRequestCallback;
 import com.ricex.aft.android.request.user.AuthenticationTokenRequest;
 import com.ricex.aft.android.request.user.LoginPasswordRequest;
-import com.ricex.aft.android.requester.AFTResponse;
-import com.ricex.aft.android.requester.AbstractRequestCallback;
-import com.ricex.aft.android.requester.RequestCallback;
-import com.ricex.aft.android.requester.UserRequester;
 import com.ricex.aft.common.response.BooleanResponse;
 
 /** The Activity used for Logging in
@@ -42,9 +39,6 @@ public class AccountActivity extends AccountAuthenticatorActivity {
 	
 	private static final String LOG_TAG = "PushFile-Login";
 	
-	/** The User requester to use to verify the account */
-	private final UserRequester userRequester;
-	
 	/** The username text box on the view */
 	private EditText textUsername;
 	
@@ -55,7 +49,7 @@ public class AccountActivity extends AccountAuthenticatorActivity {
 	private Button butLogin;
 	
 	public AccountActivity() {
-		userRequester = new UserRequester(this);
+
 	}
 	
 	/**
