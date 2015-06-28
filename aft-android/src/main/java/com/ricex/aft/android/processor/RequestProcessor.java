@@ -13,7 +13,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import com.ricex.aft.android.requester.FileRequester;
+import com.ricex.aft.android.request.file.GetFileContentsRequest;
 import com.ricex.aft.android.requester.RequestRequester;
 import com.ricex.aft.android.requester.exception.RequestException;
 import com.ricex.aft.common.entity.File;
@@ -89,7 +89,8 @@ public class RequestProcessor {
 		java.io.File localFile =  getStorageFile(fileInfo);
 		byte[] fileContents;
 		try {
-			fileContents = new FileRequester(context).getFileContents(fileInfo.getId());
+			//fileContents = new FileRequester(context).getFileContents(fileInfo.getId());
+			fileContents = new GetFileContentsRequest(fileInfo.getId()).execute();
 		}
 		catch (RequestException e) {
 			Log.e(LOG_TAG, "Failed to retreive the file contents from the server!", e);
