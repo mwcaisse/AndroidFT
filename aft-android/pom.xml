@@ -71,7 +71,14 @@
 	        <groupId>org.springframework.android</groupId>
 	        <artifactId>spring-android-core</artifactId>
     	    <version>${spring.android.version}</version>
-    	</dependency> 
+    	</dependency>
+    	
+   		<!-- Apache Commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache.commons.version}</version>
+		</dependency> 
     
 	</dependencies>
 	

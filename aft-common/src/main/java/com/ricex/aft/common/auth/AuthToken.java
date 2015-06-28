@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class AuthToken implements Serializable {
 	
-	/** The username */
-	private String username;
-	
 	/** The authentication token */
 	private String authenticationToken;
 	
@@ -19,24 +16,6 @@ public class AuthToken implements Serializable {
 	public AuthToken() {
 		
 	}
-	
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-
-
-	/**
-	 * @param username the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
 
 	/**
 	 * @return the authenticationToken

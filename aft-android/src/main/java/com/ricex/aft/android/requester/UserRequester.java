@@ -21,6 +21,20 @@ public class UserRequester extends AbstractRequester {
 	public UserRequester(Context context) {
 		super(context);
 	}
+	
+	/** Logs into the server with a username and password and receives a session token if credentials are valid
+	 * 
+	 * @param username The username to log in to the server with
+	 * @param password The password to log in to the server with
+	 * @return True if login was successful, false otherwise
+	 * @throws InvalidCredentialsException If the provided credentials are invalid
+	 */
+	public boolean loginPassword(String username, String password) throws InvalidCredentialsException {
+		AuthUser user = new AuthUser(username, password);
+		
+		AFTResponse<BooleanResponse> res = postForObject(serverAddress + "user/login", user, BooleanResponse.class);
+		return res.getResponse().getValue();
+	}
 
 	/** Logins into the server and requests an Authentication Token if the credentials are valid
 	 * 
@@ -42,7 +56,7 @@ public class UserRequester extends AbstractRequester {
 			if (!validCredentials) {
 				throw new InvalidCredentialsException("Unable to login as user: " + username + ". Invalid credentials");
 			}
-			return extractAuthenticationToken(results);
+			//return extractSessionToken(results);
 			
 		}		
 
@@ -77,18 +91,17 @@ public class UserRequester extends AbstractRequester {
 		}.execute();
 	}
 	
-	/** Extracts the authentication token from the http response
+	/** Extracts the session token from the http response
 	 * 
 	 * @param entity The http response to extract the token from
-	 * @return The token received in the response, or null if no token was received
 	 */
 	
-	private String extractAuthenticationToken(ResponseEntity<?> entity) {
+	private void extractSessionToken(ResponseEntity<?> entity) {
 		String token = entity.getHeaders().getFirst(AFTAuthentication.AFT_SESSION_TOKEN_HEADER);
-		//set it as the authorization token, if it was found, and is not empty
+		//set it as the session token, if it was found, and is not empty
 		if (token != null && !token.isEmpty()) {
-			return token;
+			SessionContext.INSTANCE.setSessionToken(token);
 		}
-		return null;
+
 	}
 }

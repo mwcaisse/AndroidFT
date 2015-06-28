@@ -36,7 +36,7 @@ public abstract class AbstractRequester {
 	protected final String serverAddress;
 
 	/** The security context to use */
-	private SecurityContext securityContext;
+	private SessionContext sessionContext;
 	
 	/** Creates a new Abstract requestor with the specified context
 	 * 
@@ -46,7 +46,7 @@ public abstract class AbstractRequester {
 	public AbstractRequester(Context context) {
 		this.context = context;
 		this.serverAddress = AFTConfigurationProperties.getServerAddress() + "api/";		
-		this.securityContext = SecurityContext.INSTANCE;	
+		this.sessionContext = SessionContext.INSTANCE;	
 		restTemplate = new RestTemplate();	
 	}
 	
@@ -192,8 +192,7 @@ public abstract class AbstractRequester {
 		//TODO: Revisit with updated security
 		if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			//401 was returned, prompt the user to login
-			securityContext.invalidateAFTToken(); //invalidate the current token, if any
-			securityContext.getAftToken(); //request a new token
+			sessionContext.invalidateSessionToken(); //invalidate the current token, if any
 			response = makeRequest(url, method, requestEntity, responseType, urlVariables);
 		}		
 		return response;
@@ -234,7 +233,7 @@ public abstract class AbstractRequester {
 	private HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
 		HttpHeaders headers = new HttpHeaders();	
 		headers.putAll(entity.getHeaders());	
-		headers.add(AFTAuthentication.AFT_SESSION_TOKEN_HEADER, securityContext.getAftToken());
+		headers.add(AFTAuthentication.AFT_SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
 		return new HttpEntity<Object>(entity.getBody(), headers);
 	}
 	

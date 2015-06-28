@@ -141,15 +141,14 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-		</dependency>
-		
+		</dependency>			
+
 		<!-- Apache Commons -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.version}</version>
 		</dependency>
-				
 
 		<!-- Logging -->
 

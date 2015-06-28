@@ -88,19 +88,14 @@ public enum UserAuthenticationTokenManager {
 	 * @throws AuthenticationException If the user could not be authenticated
 	 */
 	
-	public Authentication authenticate(AuthToken token) throws AuthenticationException {
-		User user = userManager.getUserByUsername(token.getUsername());		
-		if (user == null) {
-			throw new UsernameNotFoundException("No user could be found with the username: " + token.getUsername());
-		}
-		
+	public Authentication authenticate(AuthToken token) throws AuthenticationException {		
 		UserAuthenticationToken userToken = getUserAuthenticationTokenByToken(token.getAuthenticationToken());		
 		if (userToken == null) {
 			throw new PreAuthenticatedCredentialsNotFoundException("The provided UserAuthenticationToken is not valid");
 		}
 		
-		//check if the deviceUids provided and stored in the token are the same, check if the token provided is for the username provided
-		if (!userToken.getDeviceUid().equals(token.getDeviceUid()) || user.getId() != userToken.getUser().getId()) {
+		//check if the deviceUids provided and stored in the token are the same, check that the token has a valid user
+		if (!userToken.getDeviceUid().equals(token.getDeviceUid()) || userToken.getUser() == null) {
 			throw new BadCredentialsException("Invalid Authentication Token for user and/or device!");
 		}
 		
