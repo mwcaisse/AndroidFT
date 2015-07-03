@@ -1,4 +1,4 @@
-package com.ricex.aft.android.requester.exception;
+package com.ricex.aft.android.request.exception;
 
 
 /** Thrown in response to a BAD_REQUEST status, meaning the request was invalid

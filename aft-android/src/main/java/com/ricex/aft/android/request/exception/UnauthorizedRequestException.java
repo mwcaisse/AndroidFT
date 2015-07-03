@@ -1,4 +1,4 @@
-package com.ricex.aft.android.requester.exception;
+package com.ricex.aft.android.request.exception;
 
 
 /** Thrown when a user does not have the Authorization/privileges to perform the requested action

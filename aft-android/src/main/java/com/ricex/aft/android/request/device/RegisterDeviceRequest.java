@@ -7,7 +7,7 @@ import android.os.Build;
 
 import com.ricex.aft.android.request.AFTResponse;
 import com.ricex.aft.android.request.AbstractRequest;
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.exception.RequestException;
 import com.ricex.aft.common.entity.Device;
 import com.ricex.aft.common.response.LongResponse;
 

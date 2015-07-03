@@ -3,7 +3,7 @@
  */
 package com.ricex.aft.android.request;
 
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.exception.RequestException;
 
 /**
  * @author Mitchell Caisse

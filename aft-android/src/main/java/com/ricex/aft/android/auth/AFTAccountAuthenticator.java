@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.ricex.aft.android.requester.exception.InvalidCredentialsException;
+import com.ricex.aft.android.request.exception.InvalidCredentialsException;
 
 /** The AccountAuthenticator to use with AccountManager for PushFile
  * 

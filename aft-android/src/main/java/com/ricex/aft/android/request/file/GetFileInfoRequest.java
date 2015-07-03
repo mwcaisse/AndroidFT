@@ -2,7 +2,7 @@ package com.ricex.aft.android.request.file;
 
 import com.ricex.aft.android.request.AFTResponse;
 import com.ricex.aft.android.request.AbstractRequest;
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.exception.RequestException;
 import com.ricex.aft.common.entity.File;
 
 /** Request to get the information on a File

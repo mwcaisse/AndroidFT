@@ -1,4 +1,4 @@
-package com.ricex.aft.android.requester.exception;
+package com.ricex.aft.android.request.exception;
 
 
 /** Exception thrown when invalid credentials are provided during a request

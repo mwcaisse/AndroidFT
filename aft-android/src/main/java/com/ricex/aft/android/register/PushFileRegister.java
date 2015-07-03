@@ -7,7 +7,7 @@ import android.util.Log;
 import com.ricex.aft.android.gcm.GCMRegister;
 import com.ricex.aft.android.request.device.CheckRegistrationRequest;
 import com.ricex.aft.android.request.device.RegisterDeviceRequest;
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.exception.RequestException;
 
 /** Registers this device for the PushFile service if it is not already registered
  * 

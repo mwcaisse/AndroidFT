@@ -4,6 +4,7 @@
 package com.ricex.aft.android.processor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -12,8 +13,8 @@ import android.util.Log;
 
 import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.notifier.RequestProcessedNotification;
-import com.ricex.aft.android.requester.RequestRequester;
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.exception.RequestException;
+import com.ricex.aft.android.request.request.GetNewRequestsForDeviceRequest;
 import com.ricex.aft.common.entity.Request;
 
 /**
@@ -60,8 +61,8 @@ public class MessageProcessor {
 				
 				List<Request> newRequests = new ArrayList<Request>();
 				
-				try {
-					newRequests = new RequestRequester(context).getNewRequestsForDevice();
+				try {		
+					newRequests = Arrays.asList(new GetNewRequestsForDeviceRequest().execute());
 				}
 				catch (RequestException e) {
 					Log.e(LOG_TAG, "Process(): error requesting requests from server.", e);						

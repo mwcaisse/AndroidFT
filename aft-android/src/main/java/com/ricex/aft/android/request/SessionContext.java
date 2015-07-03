@@ -1,4 +1,4 @@
-package com.ricex.aft.android.requester;
+package com.ricex.aft.android.request;
 
 import org.apache.commons.lang3.StringUtils;
 

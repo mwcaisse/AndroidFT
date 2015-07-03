@@ -2,7 +2,7 @@ package com.ricex.aft.android.request.device;
 
 import com.ricex.aft.android.request.AFTResponse;
 import com.ricex.aft.android.request.AbstractRequest;
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.exception.RequestException;
 import com.ricex.aft.common.response.BooleanResponse;
 
 /** Request to check if the device is registered

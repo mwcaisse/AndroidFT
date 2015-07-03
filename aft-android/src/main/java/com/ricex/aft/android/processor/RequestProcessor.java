@@ -13,9 +13,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ricex.aft.android.request.exception.RequestException;
 import com.ricex.aft.android.request.file.GetFileContentsRequest;
-import com.ricex.aft.android.requester.RequestRequester;
-import com.ricex.aft.android.requester.exception.RequestException;
+import com.ricex.aft.android.request.request.UpdateRequestRequest;
 import com.ricex.aft.common.entity.File;
 import com.ricex.aft.common.entity.Request;
 import com.ricex.aft.common.entity.RequestStatus;
@@ -154,7 +154,7 @@ public class RequestProcessor {
 		request.setRequestStatusMessage(message);
 		long res = -1;
 		try {
-			res = new RequestRequester(context).updateRequest(request);
+			res = new UpdateRequestRequest(request).execute().getValue();
 		}
 		catch (RequestException e) {
 			Log.e(LOG_TAG, "Failed to send the updated request to the server", e);

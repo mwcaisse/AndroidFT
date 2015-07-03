@@ -12,11 +12,10 @@ import android.os.AsyncTask;
 
 import com.ricex.aft.android.AFTConfigurationProperties;
 import com.ricex.aft.android.AFTPreferences;
+import com.ricex.aft.android.request.exception.InvalidRequestException;
+import com.ricex.aft.android.request.exception.RequestException;
+import com.ricex.aft.android.request.exception.UnauthorizedRequestException;
 import com.ricex.aft.android.request.user.LoginTokenRequest;
-import com.ricex.aft.android.requester.SessionContext;
-import com.ricex.aft.android.requester.exception.InvalidRequestException;
-import com.ricex.aft.android.requester.exception.RequestException;
-import com.ricex.aft.android.requester.exception.UnauthorizedRequestException;
 import com.ricex.aft.common.auth.AFTAuthentication;
 
 /** Abstract Request implementing the Request interface. 
@@ -101,7 +100,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return the UID, or -1 if failed.
 	 */
 	
-	protected String getDeviceUID() {		
+	protected static String getDeviceUID() {		
 		return AFTPreferences.getDeviceUID();
 	}
 	
@@ -136,6 +135,20 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	
 	protected AFTResponse<T> postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, urlVariables);
+	}
+	
+	/** Performs a put to the specified url, and returns the results as the specified type
+	 * 
+	 * @param url The url to make the request to
+	 * @param requestBody The body of the request
+	 * @param responseType The expected response
+	 * @param urlVariables The url parameters
+	 * @return The results of the request, or null if there was an error
+	 * @throws RequestException If an error occurred while making the request
+	 */
+	
+	protected AFTResponse<T> putForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
+		return makeRequest(url, HttpMethod.PUT, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
 	/** Makes a generic request to the server with the specified attributes
