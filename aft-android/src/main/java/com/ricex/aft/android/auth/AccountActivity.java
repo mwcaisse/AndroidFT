@@ -1,6 +1,7 @@
 package com.ricex.aft.android.auth;
 
-import android.accounts.AccountAuthenticatorActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ricex.aft.android.AFTPreferences;
 import com.ricex.aft.android.R;
 import com.ricex.aft.android.request.AbstractRequestCallback;
 import com.ricex.aft.android.request.user.AuthenticationTokenRequest;
@@ -20,22 +22,16 @@ import com.ricex.aft.common.response.BooleanResponse;
  * @author Mitchell Caisse
  *
  */
-public class AccountActivity extends AccountAuthenticatorActivity {
+public class AccountActivity extends Activity {
 
-	/** Argument in the intent for the Account Type to create */
-	public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
-	
-	/** Argument in the intent for the name of the account to update */
+	/** The key for passing in an account name to the activity */
 	public static final String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
 	
-	/** Argument in the intent for the Authorization type */
-	public static final String ARG_AUTH_TYPE = "AUTH_TYPE";
+	/** The key for retrieving the account name result */
+	public static final String RES_ACCOUNT_NAME = "com.ricex.aft.android.auth.account_name";
 	
-	/** Argument in the intent for whether the user is adding a new account or not */
-	public static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_NEW_ACCOUNT";
-	
-	/** Argument in the intent for the account authenticator response */
-	public static final String KEY_ACCOUNT_AUTHENTICATOR_RESPONSE = "ACCOUNT_AUTHENTICATOR_RESPONSE";
+	/** The key for retrieving the auth token result */
+	public static final String RES_AUTH_TOKEN = "com.ricex.aft.android.auth.auth_token";
 	
 	private static final String LOG_TAG = "PushFile-Login";
 	
@@ -90,9 +86,6 @@ public class AccountActivity extends AccountAuthenticatorActivity {
 		final String username = textUsername.getText().toString();
 		final String password = textPassword.getText().toString();
 		
-		//show a message telling the user what they have entered
-		Toast.makeText(getApplicationContext(), "Entered: " + username + "|" + password, Toast.LENGTH_LONG).show();
-		
 		new LoginPasswordRequest(username, password).executeAsync(new AbstractRequestCallback<BooleanResponse>() {
 			public void onSuccess(BooleanResponse results) {
 				if (results.getValue()) {					
@@ -118,8 +111,21 @@ public class AccountActivity extends AccountAuthenticatorActivity {
 		
 	}
 	
-	protected void finishLogin(String username, String authToken) {
+	/** User has finished logging in. Add the username + authtoken as the result of the activity
+	 * 	and finish.
+	 * 
+	 * @param username The username the user provided
+	 * @param authToken The authtoken returned from the server upon successful login
+	 */
+	protected void finishLogin(String username, String authToken) {		
+		Intent result = new Intent();
 		
+		result.putExtra(RES_ACCOUNT_NAME, username);
+		result.putExtra(RES_AUTH_TOKEN, authToken);
+		
+		setResult(RESULT_OK, result);
+		
+		finish();
 	}
 	
 }

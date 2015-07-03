@@ -1,15 +1,18 @@
 package com.ricex.aft.android;
 
+import org.apache.commons.lang3.StringUtils;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.ricex.aft.android.auth.AccountActivity;
 import com.ricex.aft.android.gcm.GCMRegister;
 import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.processor.MessageProcessor;
 import com.ricex.aft.android.register.PushFileRegister;
-import com.ricex.aft.android.request.AFTResponse;
-import com.ricex.aft.android.request.RequestCallback;
+import com.ricex.aft.android.request.AbstractRequestCallback;
 import com.ricex.aft.android.request.SessionContext;
 import com.ricex.aft.android.request.user.LoginTokenRequest;
 import com.ricex.aft.common.response.BooleanResponse;
@@ -24,6 +27,8 @@ import com.ricex.aft.common.response.BooleanResponse;
 
 public class PushFile extends Activity {
 
+	/** Result code used when requesting a login */
+	private static final int REQUEST_LOGIN_CODE = 343562;
 	
 	private static final String LOG_TAG = "PushFile";
 	
@@ -37,12 +42,19 @@ public class PushFile extends Activity {
 		setContentView(R.layout.activity_push_file);		
 		Log.i(LOG_TAG, "On Create");
 		
+		initializeProperties();	
+		
 		if (needSessionToken()) {
 			
 		}
-		initializeProperties();
+	}
+	
+	/** Called when we have successfully fetched a session token
+	 * 
+	 */
+	private void onFetchSessionToken() {
 		checkRegistration();
-		checkForRequests();		
+		checkForRequests();	
 	}
 	
 	/**
@@ -111,28 +123,54 @@ public class PushFile extends Activity {
 	}
 	
 
-	//TODO: Implement
-	private void fetchSessionToken(final FetchSessionTokenListener listener) {
-		new LoginTokenRequest("").executeAsync(new RequestCallback<BooleanResponse>() {
-
-			@Override
-			public void onSuccess(BooleanResponse results) {
-				listener.onSuccess();				
-			}
-
-			@Override
-			public void onFailure(AFTResponse<BooleanResponse> response) {
-				listener.onError(response.getError());				
-			}
-
-			@Override
-			public void onError(Exception e) {		
-				listener.onError(e.getMessage());
-			}
+	/**
+	 *  Fetch a session token from the server.
+	 *  
+	 *  If we do not have a valid auth token stored. Prompt the user to login.
+	 *  
+	 *  Calls onFetchSessionToken() when we have fetched the token
+	 */
+	private void fetchSessionToken() {
+		String authToken = AFTPreferences.getValue(AFTPreferences.PROPERTY_AUTH_TOKEN);
+		if (StringUtils.isEmpty(authToken)) {
+			//we don't have a username or authtoken. need to get both before we can log in
+			Intent intent = new Intent(this, AccountActivity.class);
+			startActivityForResult(intent, REQUEST_LOGIN_CODE);
+		}
+		else {
+			//we have an auth token. lets login
 			
-		});
-	}
+			new LoginTokenRequest(authToken).executeAsync(new AbstractRequestCallback<BooleanResponse>() {
+				public void onSuccess(BooleanResponse results) {
+					onFetchSessionToken();
+				}
+			});
+			
+		}
 	
+	}	
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+			case REQUEST_LOGIN_CODE:
+			
+				if (resultCode == RESULT_OK) {
+					String username = data.getStringExtra(AccountActivity.RES_ACCOUNT_NAME);
+					String authToken = data.getStringExtra(AccountActivity.RES_AUTH_TOKEN);
+					
+					AFTPreferences.setValue(AFTPreferences.PROPERTY_USERNAME, username);
+					AFTPreferences.setValue(AFTPreferences.PROPERTY_AUTH_TOKEN, authToken);
+					
+					//since we logged in, we will have a session token already in the context.
+					onFetchSessionToken();
+				}
+				else {
+					Log.w(LOG_TAG, "Could not receive auth token from user login!");
+				}
+				
+			break;
+		}
+	}
 	
 	private interface FetchSessionTokenListener {
 		

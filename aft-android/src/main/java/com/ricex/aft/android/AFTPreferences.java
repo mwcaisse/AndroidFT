@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 
-/** Properties wrapper around Android Shared preferences to retreive and store
+/** Properties wrapper around Android Shared preferences to retrieve and store
  * 		values
  * 
  * @author Mitchell Caisse
@@ -19,8 +19,16 @@ public class AFTPreferences {
 	/** Property for application version */
 	public static final String PROPERTY_APP_VERSION = "appVersion";
 	
+	/** Property for the user's username */
+	public static final String PROPERTY_USERNAME = "username";
+	
+	/** Property for the user's auth token */
+	public static final String PROPERTY_AUTH_TOKEN = "authToken";
+	
 	/** The name of the shared preferences that is used to store and retrieve the properties */
 	private static final String SHARED_PREFERENCES_NAME = "AFT_ANDROID_PREFERENCES";
+	
+
 	
 	/** The context to use to get the android preferences */
 	private static Context context;

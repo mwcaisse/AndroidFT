@@ -1,5 +1,7 @@
 package com.ricex.aft.android.request;
 
+import com.ricex.aft.android.request.exception.RequestException;
+
 
 
 /** The callback to use when making an asynchronous request
@@ -19,10 +21,11 @@ public interface RequestCallback<T> {
 	
 	/** Called when the request completed with out error, but the server returned a non HTTP 200 result, indicating an invalid request
 	 * 
+	 * @param e The exception representing the error from the server
 	 * @param response The response received from the server
 	 */
 	
-	public void onFailure(AFTResponse<T> response);
+	public void onFailure(RequestException e, AFTResponse<T> response);
 	
 	/** Called when an error / exception occurred while processing the request
 	 * 

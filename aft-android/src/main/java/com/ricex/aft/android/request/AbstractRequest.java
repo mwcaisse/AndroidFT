@@ -14,6 +14,7 @@ import com.ricex.aft.android.AFTConfigurationProperties;
 import com.ricex.aft.android.AFTPreferences;
 import com.ricex.aft.android.request.exception.InvalidRequestException;
 import com.ricex.aft.android.request.exception.RequestException;
+import com.ricex.aft.android.request.exception.UnauthenticationRequestException;
 import com.ricex.aft.android.request.exception.UnauthorizedRequestException;
 import com.ricex.aft.android.request.user.LoginTokenRequest;
 import com.ricex.aft.common.auth.AFTAuthentication;
@@ -81,14 +82,13 @@ public abstract class AbstractRequest<T> implements Request<T> {
 			@Override
 			protected void onPostExecute(AFTResponse<T> results) {
 				//if results are null, then error callback has been called already
-				if (results != null) {
-					if (results.isValid()) {
-						callback.onSuccess(results.getResponse());
-					}
-					else {
-						callback.onFailure(results);
-					}
+				try {
+					T resEntity = processAFTResponse(results);
+					callback.onSuccess(resEntity);
 				}
+				catch (RequestException e) {
+					callback.onFailure(e, results);
+				}		
 			}
 			
 		}.execute();
@@ -203,15 +203,19 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		if (responseEntity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			//401 was returned, prompt the user to login
 			sessionContext.invalidateSessionToken(); //invalidate the current token, if any
-
+			String authToken = AFTPreferences.getValue(AFTPreferences.PROPERTY_AUTH_TOKEN);
+			if (StringUtils.isEmpty(authToken)) {
+				//we don't have an authtoken. raise this up
+				throw new UnauthenticationRequestException("Unable to make request, not authenticated with the server and no credentials");
+			}
 			//TODO: Add the functionality to get the stored auth token
-			boolean res = new LoginTokenRequest("").execute().getValue();
+			boolean res = new LoginTokenRequest(authToken).execute().getValue();
 			
 			if (res) {
 				return executeRequest();
 			}
 			else {
-				throw new RequestException("Unable to Login to the server!");
+				throw new UnauthenticationRequestException("Unable to make request, not authenticated, and could not obtain session token!");
 			}
 			
 		}	
