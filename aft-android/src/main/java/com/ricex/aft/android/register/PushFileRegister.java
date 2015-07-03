@@ -46,10 +46,10 @@ public class PushFileRegister {
 					if (!registered) {
 						Log.i(LOG_TAG, "Device is not registered with PushFile server, registering now.");
 						String registrationId = GCMRegister.getRegistrationId(context);
-						//boolean res = deviceRequester.registerDevice(registrationId);
 						long res = new RegisterDeviceRequest(registrationId).execute().getValue();
 						if (res < 0) {
 							Log.e(LOG_TAG, "Failed to register this device with the PushFile server");
+							return false;
 						}
 					}
 					return true;

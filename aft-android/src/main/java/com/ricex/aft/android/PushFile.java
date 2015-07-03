@@ -8,6 +8,11 @@ import com.ricex.aft.android.gcm.GCMRegister;
 import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.processor.MessageProcessor;
 import com.ricex.aft.android.register.PushFileRegister;
+import com.ricex.aft.android.request.AFTResponse;
+import com.ricex.aft.android.request.RequestCallback;
+import com.ricex.aft.android.request.SessionContext;
+import com.ricex.aft.android.request.user.LoginTokenRequest;
+import com.ricex.aft.common.response.BooleanResponse;
 
 /** Main Activity for PushFile.
  *
@@ -32,6 +37,9 @@ public class PushFile extends Activity {
 		setContentView(R.layout.activity_push_file);		
 		Log.i(LOG_TAG, "On Create");
 		
+		if (needSessionToken()) {
+			
+		}
 		initializeProperties();
 		checkRegistration();
 		checkForRequests();		
@@ -91,6 +99,55 @@ public class PushFile extends Activity {
 	
 	private void checkPushFileRegistration() {		
 		new PushFileRegister(this).registerIfNeeded();
+	}
+	
+	/** Checks if we need a session token
+	 * 
+	 * @return True if we need a session token, false otherwise
+	 */	
+	private boolean needSessionToken() {
+		SessionContext sessionContext = SessionContext.INSTANCE;
+		return sessionContext.needSessionToken();
+	}
+	
+
+	//TODO: Implement
+	private void fetchSessionToken(final FetchSessionTokenListener listener) {
+		new LoginTokenRequest("").executeAsync(new RequestCallback<BooleanResponse>() {
+
+			@Override
+			public void onSuccess(BooleanResponse results) {
+				listener.onSuccess();				
+			}
+
+			@Override
+			public void onFailure(AFTResponse<BooleanResponse> response) {
+				listener.onError(response.getError());				
+			}
+
+			@Override
+			public void onError(Exception e) {		
+				listener.onError(e.getMessage());
+			}
+			
+		});
+	}
+	
+	
+	private interface FetchSessionTokenListener {
+		
+		/** Called when the request to fetch the session token completed successfully
+		 * 
+		 */
+		public void onSuccess();
+		
+		/** Called when there was an error fetching the session token
+		 * 
+		 * @param error String describing the error that occurred
+		 */
+		public void onError(String error);
+		
+		
 	}
 	
 }
