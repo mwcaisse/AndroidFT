@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ricex.aft.android.AFTPreferences;
 import com.ricex.aft.android.R;
 import com.ricex.aft.android.request.AbstractRequestCallback;
+import com.ricex.aft.android.request.exception.InvalidCredentialsException;
 import com.ricex.aft.android.request.user.AuthenticationTokenRequest;
 import com.ricex.aft.android.request.user.LoginPasswordRequest;
 import com.ricex.aft.common.response.BooleanResponse;
@@ -104,7 +104,15 @@ public class AccountActivity extends Activity {
 			}	
 			public void onError(Exception e) {
 				Looper.prepare();
-				Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
+				if (e instanceof InvalidCredentialsException) {
+					Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
+				}
+				else {
+					Toast.makeText(getApplicationContext(), "Error communicating with the server. Please try again later.", Toast.LENGTH_LONG).show();
+				}
+				
+				Log.w(LOG_TAG, "Error Loggining to server: " + e.getMessage(), e);				
+				
 				Looper.loop();
 			}
 		});		
