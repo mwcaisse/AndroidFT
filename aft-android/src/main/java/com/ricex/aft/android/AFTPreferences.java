@@ -28,11 +28,6 @@ public class AFTPreferences {
 	/** The name of the shared preferences that is used to store and retrieve the properties */
 	private static final String SHARED_PREFERENCES_NAME = "AFT_ANDROID_PREFERENCES";
 	
-
-	
-	/** The context to use to get the android preferences */
-	private static Context context;
-	
 	/** The Shared preferences to use to store + retrieve values */
 	private static SharedPreferences preferences;
 	
@@ -105,24 +100,15 @@ public class AFTPreferences {
 	 */
 	
 	public static String getDeviceUID() {		
-		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		String androidId = Settings.Secure.getString(PushFileApplication.getAppContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 		return androidId;
-	}
-	
-	/** Sets the context to use to retrieve properties. This MUST be set before any preferences can be retreived
-	 * 
-	 * @param newContext The context to set
-	 */
-	public static void setContext(Context newContext) {
-		context = newContext;
-		updateSharedPreferences();
-	}	
+	}		
 	
 	/** Updates the shared preferences object to use
 	 * 
 	 */
 	private static void updateSharedPreferences() {
-		preferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+		preferences = PushFileApplication.getAppContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 	}	
 	
 }

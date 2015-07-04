@@ -22,6 +22,14 @@ public enum SessionContext {
 		sessionToken = "";
 	}
 	
+	/** Checks if we currently have a session token
+	 * 
+	 * @return True if we have a session token, false otherwise
+	 */
+	public boolean hasSessionToken() {
+		return StringUtils.isNotEmpty(sessionToken);
+	}
+	
 	/** Checks if we need a Session token
 	 * 
 	 * @return True if a session token is needed, false otherwise

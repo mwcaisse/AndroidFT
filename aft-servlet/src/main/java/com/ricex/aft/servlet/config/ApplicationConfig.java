@@ -90,6 +90,7 @@ public class ApplicationConfig extends WebMvcConfigurationSupport  {
 		UserController userController = new UserController();
 		userController.setUserManager(userManager());
 		userController.setUserAuthenticator(securityConfig.userAuthenticator());
+		userController.setUserAuthenticationTokenManager(userAuthenticationTokenManager());
 		return userController;
 	}
 	

@@ -38,7 +38,7 @@
 	<!-- Create a new UserAuthenticationToken -->
 	<insert id="createUserAuthenticationToken" useGeneratedKeys="true" keyProperty="id">
 	    INSERT INTO USER_AUTH_TOKEN (UAT_USER_ID, UAT_TOKEN, UAT_DEV_UID, UAT_ACTIVE, UAT_EXP_DATE)
-	    VALUES (#{user.userId}, #{authenticationToken}, #{deviceUid}, #{active}, #{expirationDate})
+	    VALUES (#{user.id}, #{authenticationToken}, #{deviceUid}, #{active}, #{expirationDate})
     </insert>
     
 	<!-- Update an existing UserAuthentication Token -->

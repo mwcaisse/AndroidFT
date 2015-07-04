@@ -3,6 +3,8 @@ package com.ricex.aft.android.notifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ricex.aft.android.PushFileApplication;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -36,9 +38,6 @@ public class Notifier {
 	/** Mapping of all notifications currently being displayed */
 	private Map<NotificationType, AFTNotification> notifications;
 	
-	/** The context of the application */
-	private Context context;
-	
 	/** The Notification manager to use to add notifications */
 	private NotificationManager notificationManager;
 	
@@ -46,16 +45,9 @@ public class Notifier {
 	private Notifier() {
 		notifications = new HashMap<NotificationType, AFTNotification>();
 		notificationIdCounter = 0;
-	}
-	
-	/** Updates the context of this notifier
-	 * 
-	 * @param context The new context
-	 */
-	public void updateContext(Context context) {
-		this.context = context;
-		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-	}
+		
+		notificationManager = (NotificationManager) PushFileApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+	}	
 	
 	/** Displays the given notification to the user, or updates an already showing notification if one exists
 	 * 
@@ -81,7 +73,7 @@ public class Notifier {
 	 * @return The android notification
 	 */
 	private Notification buildNotification(AFTNotification notification) {
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(PushFileApplication.getAppContext());
 		
 		builder.setSmallIcon(notification.getSmallIcon());
 		builder.setContentTitle(notification.getTitle());

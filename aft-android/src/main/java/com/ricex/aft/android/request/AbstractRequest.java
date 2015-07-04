@@ -178,10 +178,14 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The new HttpEntity with the updated Authentication Headers
 	 */
 	private HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
-		HttpHeaders headers = new HttpHeaders();	
-		headers.putAll(entity.getHeaders());	
-		headers.add(AFTAuthentication.AFT_SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
-		return new HttpEntity<Object>(entity.getBody(), headers);
+		//only add the session token header, if we have a session token.
+		if (sessionContext.hasSessionToken()) {		
+			HttpHeaders headers = new HttpHeaders();	
+			headers.putAll(entity.getHeaders());	
+			headers.add(AFTAuthentication.AFT_SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
+			return new HttpEntity<Object>(entity.getBody(), headers);
+		}
+		return entity;
 	}
 	
 	/** Processes the results of an AFT Request 

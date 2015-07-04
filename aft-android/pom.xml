@@ -83,6 +83,13 @@
 	</dependencies>
 	
 	<repositories>
+	<!--
+		<repository>
+			<id>nexus-snapshot</id>
+			<name>Snapshots</name>
+			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/snapshots/</url>
+		</repository>	
+		-->
 		<repository>
      	   <id>spring-milestones</id>
         	<name>Spring Milestones</name>

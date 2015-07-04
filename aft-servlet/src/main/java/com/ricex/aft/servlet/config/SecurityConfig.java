@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//permit access to login, and register pages
 				.antMatchers("/login", "/register").permitAll()
 				//permit access to the registration functions
-				.antMatchers("/api/user/isAvailable*", "/api/user/register", "/api/user/login").permitAll()
+				.antMatchers("/api/user/isAvailable*", "/api/user/register", "/api/user/login/*").permitAll()
 				.anyRequest().authenticated()
 				.and()	
 			.addFilterBefore(aftTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

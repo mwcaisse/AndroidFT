@@ -40,12 +40,13 @@ public class PushFile extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_push_file);		
-		Log.i(LOG_TAG, "On Create");
-		
-		initializeProperties();	
+		Log.i(LOG_TAG, "On Create");		
 		
 		if (needSessionToken()) {
-			
+			fetchSessionToken();
+		}
+		else {
+			onFetchSessionToken();
 		}
 	}
 	
@@ -69,13 +70,6 @@ public class PushFile extends Activity {
 		}
 	}
 	
-	/** Initializes the properties to use this as a context
-	 * 
-	 */
-	private void initializeProperties() {
-		AFTPreferences.setContext(this);
-		Notifier.getInstance().updateContext(this);
-	}	
 	
 	/** Checks if we are registered for GCM + PushFile
 	 * 
@@ -170,22 +164,6 @@ public class PushFile extends Activity {
 				
 			break;
 		}
-	}
-	
-	private interface FetchSessionTokenListener {
-		
-		/** Called when the request to fetch the session token completed successfully
-		 * 
-		 */
-		public void onSuccess();
-		
-		/** Called when there was an error fetching the session token
-		 * 
-		 * @param error String describing the error that occurred
-		 */
-		public void onError(String error);
-		
-		
 	}
 	
 }

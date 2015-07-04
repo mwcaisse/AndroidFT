@@ -3,6 +3,7 @@ package com.ricex.aft.android.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -94,13 +95,17 @@ public class AccountActivity extends Activity {
 							finishLogin(username, authenticationToken);	
 						}
 						public void onError(Exception e) {
+							Looper.prepare();
 							Toast.makeText(getApplicationContext(), "Couldn't get authentication Token!", Toast.LENGTH_LONG).show();
+							Looper.loop();
 						}
 					});					
 				}
 			}	
 			public void onError(Exception e) {
+				Looper.prepare();
 				Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
+				Looper.loop();
 			}
 		});		
 		
