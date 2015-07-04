@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
@@ -120,6 +121,10 @@ public enum UserAuthenticationTokenManager {
 		//check if the deviceUids provided and stored in the token are the same, check that the token has a valid user
 		if (!userToken.getDeviceUid().equals(token.getDeviceUid()) || userToken.getUser() == null) {
 			throw new BadCredentialsException("Invalid Authentication Token for user and/or device!");
+		}
+		
+		if (!userToken.isActive()) {
+			throw new DisabledException("The authentication token is not active!");
 		}
 		
 		userToken.setLastLogin(new Date());

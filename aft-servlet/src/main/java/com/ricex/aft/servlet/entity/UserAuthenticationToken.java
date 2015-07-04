@@ -178,6 +178,9 @@ public class UserAuthenticationToken extends AbstractEntity implements Authentic
 		if (user == null || StringUtils.isBlank(deviceUid)) {
 			throw new IllegalArgumentException("Can not be authenticated with no user or device uid!");
 		}
+		if (!isActive()) {
+			throw new IllegalArgumentException("Authentication Token is not active! Can not be authenticated!");
+		}
 		//check last login info
 		if (StringUtils.isBlank(lastLoginAddress)) {
 			throw new IllegalArgumentException("Last Login Address must be set before the token can be authenticated!");
