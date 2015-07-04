@@ -35,6 +35,12 @@ public class UserAuthenticationToken extends AbstractEntity implements Authentic
 	
 	/** The date on which this token expires */
 	private Date expirationDate;
+	
+	/** The last time this token was used to login */
+	private Date lastLogin;
+	
+	/** The remote address (IP) of the last login */
+	private String lastLoginAddress;
 
 	/** Creates a new isntance of UserAuthenticationToken
 	 * 
@@ -113,6 +119,34 @@ public class UserAuthenticationToken extends AbstractEntity implements Authentic
 		this.expirationDate = expirationDate;
 	}
 
+	/**
+	 * @return the lastLogin
+	 */
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	/**
+	 * @param lastLogin the lastLogin to set
+	 */
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	/**
+	 * @return the lastLoginAddress
+	 */
+	public String getLastLoginAddress() {
+		return lastLoginAddress;
+	}
+
+	/**
+	 * @param lastLoginAddress the lastLoginAddress to set
+	 */
+	public void setLastLoginAddress(String lastLoginAddress) {
+		this.lastLoginAddress = lastLoginAddress;
+	}
+
 	public String getName() {
 		return user.getUsername();
 	}
@@ -130,7 +164,7 @@ public class UserAuthenticationToken extends AbstractEntity implements Authentic
 	}
 
 	public Object getPrincipal() {
-		return user.getUsername();
+		return user;
 	}
 
 	public boolean isAuthenticated() {
@@ -143,6 +177,14 @@ public class UserAuthenticationToken extends AbstractEntity implements Authentic
 		}
 		if (user == null || StringUtils.isBlank(deviceUid)) {
 			throw new IllegalArgumentException("Can not be authenticated with no user or device uid!");
+		}
+		//check last login info
+		if (StringUtils.isBlank(lastLoginAddress)) {
+			throw new IllegalArgumentException("Last Login Address must be set before the token can be authenticated!");
+		}		
+		//check if last login time is within 5 seconds of now
+		if (lastLogin == null || new Date().getTime() - lastLogin.getTime() > 5000) {
+			throw new IllegalArgumentException("Last login time must be set before the token can be authenticated!");
 		}
 		
 		authenticated = isAuthenticated; 

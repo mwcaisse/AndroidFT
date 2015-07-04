@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.ricex.aft.android.auth.AccountActivity;
 import com.ricex.aft.android.gcm.GCMRegister;
-import com.ricex.aft.android.notifier.Notifier;
 import com.ricex.aft.android.processor.MessageProcessor;
 import com.ricex.aft.android.register.PushFileRegister;
 import com.ricex.aft.android.request.AbstractRequestCallback;
@@ -41,6 +40,8 @@ public class PushFile extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_push_file);		
 		Log.i(LOG_TAG, "On Create");		
+		
+		AFTPreferences.initializeSharedPreferences();
 		
 		if (needSessionToken()) {
 			fetchSessionToken();

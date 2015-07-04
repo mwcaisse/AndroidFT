@@ -33,7 +33,6 @@ public class AFTPreferences {
 	
 	/** Creates a new AFTPreferences */
 	private AFTPreferences() {
-		
 	}
 	
 	/** Returns the value associated with the given key
@@ -107,7 +106,7 @@ public class AFTPreferences {
 	/** Updates the shared preferences object to use
 	 * 
 	 */
-	private static void updateSharedPreferences() {
+	public static void initializeSharedPreferences() {
 		preferences = PushFileApplication.getAppContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 	}	
 	

@@ -43,14 +43,14 @@
 			DEV_NAME = #{deviceName},
 			DEV_UID = #{deviceUid},
 			DEV_REG_ID = #{deviceRegistrationId},
-			DEV_OWNER = #{deviceOwner.userId}
+			DEV_OWNER = #{deviceOwner.id}
 		WHERE DEV_ID = #{id}
 	</update>
 	
 	<!-- Inserts the device in the param -->
 	<insert id="createDevice" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO DEVICE (DEV_UID, DEV_NAME, DEV_REG_ID, DEV_OWNER)
-		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId}, #{deviceOwner.userId})
+		VALUES (#{deviceUid}, #{deviceName}, #{deviceRegistrationId}, #{deviceOwner.id})
 	</insert>
 	
 </mapper>

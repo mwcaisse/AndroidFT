@@ -65,7 +65,7 @@ public class APIUserAuthenticator {
 	 * @throws AuthenticationException If the user was unable to be authenticated
 	 */
 	public Token authenticateUserToken(AuthToken token, String clientAddress) throws AuthenticationException {
-		Authentication auth = userAuthenticationTokenManager.authenticate(token);
+		Authentication auth = userAuthenticationTokenManager.authenticate(token, clientAddress);
 		
 		log.info("User: {} successfully authenticated by authentication token, generating a session token!", auth.getName());
 		Token sessionToken = getTokenForUser(auth, clientAddress);

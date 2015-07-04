@@ -2,6 +2,8 @@ package com.ricex.aft.servlet.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ricex.aft.servlet.entity.UserAuthenticationToken;
 
 /** UserAuthenticationToken Mapper for retreiving and updating User Authentication Tokens
@@ -49,4 +51,11 @@ public interface UserAuthenticationTokenMapper {
 	
 	public void updateUserAuthenticationToken(UserAuthenticationToken token);
 	
+	/** Deactivates all of the auth tokens that belong to a user and belong to a specific device
+	 * 
+	 * @param deviceUid The uid of the device
+	 * @param userId The id of the user
+	 */
+	
+	public void deactivateAuthTokens(@Param("deviceUid") String deviceUid, @Param("userId") long userId);
 }

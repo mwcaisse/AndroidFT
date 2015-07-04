@@ -1,12 +1,12 @@
 package com.ricex.aft.servlet.manager;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 
 import com.ricex.aft.common.auth.AuthToken;
@@ -51,6 +51,25 @@ public enum UserAuthenticationTokenManager {
 		return userAuthenticationTokenMapper.getUserAuthenticationTokenByToken(token);
 	}
 	
+	/** Updates an UserAuthenticationToken
+	 * 
+	 * @param token The token to update
+	 */
+	
+	protected void updateUserAuthenticationToken(UserAuthenticationToken token) {
+		userAuthenticationTokenMapper.updateUserAuthenticationToken(token);
+	}
+	
+	/** Deactivates all of the auth tokens that belong to a user and belong to a specific device
+	 * 
+	 * @param deviceUid The uid of the device
+	 * @param userId The id of the user
+	 */
+	
+	protected void deactivateAuthenticationToken(String deviceUid, long userId) {
+		userAuthenticationTokenMapper.deactivateAuthTokens(deviceUid, userId);
+	}
+	
 	/** Creates and persists a UserAuthenticationToken for the specified User and Device
 	 * 
 	 * @param userName The username of the user this token is for
@@ -68,6 +87,9 @@ public enum UserAuthenticationTokenManager {
 			throw new EntityException("Device Uid cannot be blank!");
 		}
 		
+		//deactivate any old auth tokens for the user and the device
+		deactivateAuthenticationToken(deviceUid, user.getId());
+		
 		String tokenString = generateAuthenitcationToken();
 		UserAuthenticationToken token = new UserAuthenticationToken();
 		
@@ -84,11 +106,12 @@ public enum UserAuthenticationTokenManager {
 	/** Authenticates the given AuthToken
 	 * 
 	 * @param token The token to use to perform the Authentication
+	 * @param String representing the address of the requester
 	 * @return The authentication	
 	 * @throws AuthenticationException If the user could not be authenticated
 	 */
 	
-	public Authentication authenticate(AuthToken token) throws AuthenticationException {		
+	public Authentication authenticate(AuthToken token, String remoteAddress) throws AuthenticationException {		
 		UserAuthenticationToken userToken = getUserAuthenticationTokenByToken(token.getAuthenticationToken());		
 		if (userToken == null) {
 			throw new PreAuthenticatedCredentialsNotFoundException("The provided UserAuthenticationToken is not valid");
@@ -98,6 +121,11 @@ public enum UserAuthenticationTokenManager {
 		if (!userToken.getDeviceUid().equals(token.getDeviceUid()) || userToken.getUser() == null) {
 			throw new BadCredentialsException("Invalid Authentication Token for user and/or device!");
 		}
+		
+		userToken.setLastLogin(new Date());
+		userToken.setLastLoginAddress(remoteAddress);
+		
+		updateUserAuthenticationToken(userToken);
 		
 		//the provided token was found, has a user and deviceUid, user + devideUid match the request. Authenication Successful.
 		userToken.setAuthenticated(true);
