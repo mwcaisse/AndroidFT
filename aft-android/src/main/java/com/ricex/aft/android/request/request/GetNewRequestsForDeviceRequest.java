@@ -35,7 +35,7 @@ public class GetNewRequestsForDeviceRequest extends AbstractRequest<Request[]> {
 
 	@Override
 	protected AFTResponse<Request[]> executeRequest() throws RequestException {
-		return getForObject(serverAddress + "api/request/new/{deviceUid}", Request[].class, deviceUid);
+		return getForObject(serverAddress + "request/new/{deviceUid}", Request[].class, deviceUid);
 	}
 
 }
