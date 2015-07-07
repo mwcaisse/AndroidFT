@@ -4,7 +4,7 @@
 	<parent>
 	    <artifactId>aft</artifactId>
 	    <groupId>com.ricex.aft</groupId>
-	    <version>0.4.2-SNAPSHOT</version>
+	    <version>0.4.2</version>
   	</parent>
 	<artifactId>aft-android</artifactId>
 	<packaging>apk</packaging>
@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>com.ricex.aft</groupId>
 			<artifactId>aft-common</artifactId>
-			<version>0.4.2-SNAPSHOT</version>
+			<version>0.4.2</version>
 		</dependency>
 	
 		<!--  Android Depedencies -->
