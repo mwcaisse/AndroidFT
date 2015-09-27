@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<android.plugin.version>3.9.0-rc.3</android.plugin.version>
+		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.version>4.4.2_r4</android.version>
 		<android.support.version>19.1.0</android.support.version>
 	</properties>
@@ -115,7 +115,7 @@
             </plugin>
 		
 			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<groupId>com.simpligility.maven.plugins</groupId>
 				<artifactId>android-maven-plugin</artifactId>
 				<version>${android.plugin.version}</version>
 				<extensions>true</extensions>
