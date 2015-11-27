@@ -12,9 +12,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<android.plugin.version>3.9.0-rc.3</android.plugin.version>
-		<android.version>4.4.2_r4</android.version>
-		<android.support.version>19.1.0</android.support.version>
+		<android.plugin.version>4.3.0</android.plugin.version>
+		<android.version>6.0_r2</android.version>
+		<android.support.version>23.1.1</android.support.version>
+		<android.play.services.version>8.3.0</android.play.services.version>
+		
 	</properties>
 	
 	<dependencies>
@@ -32,20 +34,43 @@
 			<artifactId>android</artifactId>
 			<version>${android.version}</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>		
 		
 		<dependency>
 			<groupId>com.android.support</groupId>
 			<artifactId>support-v4</artifactId>
 			<version>${android.support.version}</version>
+			<type>aar</type>
 		</dependency>
 		
 		<dependency>
+			<groupId>com.android.support</groupId>
+			<artifactId>appcompat-v7</artifactId>
+			<version>${android.support.version}</version>
+			<type>aar</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.android.support</groupId>
+			<artifactId>design</artifactId>
+			<version>${android.support.version}</version>
+			<type>aar</type>
+		</dependency>
+		
+		
+		<dependency>
 		    <groupId>com.google.android.gms</groupId>
-		    <artifactId>play-services</artifactId>
-		    <version>5.0.89</version>
+		    <artifactId>play-services-base</artifactId>
+		    <version>${android.play.services.version}</version>
+		    <type>aar</type>	    
+ 		</dependency>				
+		
+		<dependency>
+		    <groupId>com.google.android.gms</groupId>
+		    <artifactId>play-services-gcm</artifactId>
+		    <version>${android.play.services.version}</version>
 		    <type>aar</type>		    
-		  </dependency>
+ 		</dependency> 
 				
 		
 		<!--  Spring Android dependencies -->
@@ -115,14 +140,14 @@
             </plugin>
 		
 			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<groupId>com.simpligility.maven.plugins</groupId>
 				<artifactId>android-maven-plugin</artifactId>
 				<version>${android.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<sdk>
 						<path>${env.ANDROID_HOME}</path>
-						<platform>19</platform>
+						<platform>23</platform>
 					</sdk>
 					<androidManifestFile>AndroidManifest.xml</androidManifestFile>
 					<resourceDirectory>res</resourceDirectory>
@@ -131,5 +156,40 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.simpligility.maven.plugins
+										</groupId>
+										<artifactId>
+											android-maven-plugin
+										</artifactId>
+										<versionRange>
+											[4.3.0,)
+										</versionRange>
+										<goals>
+											<goal>emma</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
