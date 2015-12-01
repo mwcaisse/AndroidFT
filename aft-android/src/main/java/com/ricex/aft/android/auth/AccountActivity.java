@@ -1,22 +1,22 @@
 package com.ricex.aft.android.auth;
 
+import com.ricex.aft.android.request.AbstractRequestCallback;
+import com.ricex.aft.android.request.exception.InvalidCredentialsException;
+import com.ricex.aft.android.request.user.AuthenticationTokenRequest;
+import com.ricex.aft.android.request.user.LoginPasswordRequest;
+import com.ricex.aft.common.response.BooleanResponse;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.ricex.aft.android.R;
-import com.ricex.aft.android.request.AbstractRequestCallback;
-import com.ricex.aft.android.request.exception.InvalidCredentialsException;
-import com.ricex.aft.android.request.user.AuthenticationTokenRequest;
-import com.ricex.aft.android.request.user.LoginPasswordRequest;
-import com.ricex.aft.common.response.BooleanResponse;
 
 /** The Activity used for Logging in
  * 
@@ -63,6 +63,8 @@ public class AccountActivity extends Activity {
 		textUsername = (EditText) findViewById(R.id.loginUsernameText);
 		textPassword = (EditText) findViewById(R.id.loginPasswordText);
 		butLogin = (Button) findViewById(R.id.loginButton);		
+		
+		TextInputLayout t = new TextInputLayout(this);
 		
 		//Tell the button what to do when it is clicked
 		butLogin.setOnClickListener(new View.OnClickListener() {

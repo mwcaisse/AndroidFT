@@ -41,20 +41,36 @@
 			<artifactId>support-v4</artifactId>
 			<version>${android.support.version}</version>
 			<type>aar</type>
+			<scope>compile</scope>
 		</dependency>
 		
+		<dependency>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v7-appcompat</artifactId>
+            <version>23.1.1</version>
+            <type>apklib</type>
+            <scope>compile</scope>
+        </dependency>
+		
+		<!-- 
 		<dependency>
 			<groupId>com.android.support</groupId>
 			<artifactId>appcompat-v7</artifactId>
 			<version>${android.support.version}</version>
 			<type>aar</type>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>com.android.support</groupId>
 			<artifactId>design</artifactId>
 			<version>${android.support.version}</version>
 			<type>aar</type>
+			<exclusions>
+				<exclusion>
+					<artifactId>appcompat-v7</artifactId>
+					<groupId>com.android.support</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		
@@ -114,16 +130,17 @@
 			<name>Snapshots</name>
 			<url>http://arch-server.mwc.com:8081/nexus/content/repositories/snapshots/</url>
 		</repository>	
-		-->
-		<repository>
-     	   <id>spring-milestones</id>
-        	<name>Spring Milestones</name>
-        	<url>https://repo.spring.io/milestone</url>
-    	</repository>
+		-->		
     	<repository>
     		<id>local-google-repo</id>
     		<name>Local Google Repository</name>
     		<url>http://arch-server.mwc.com:8081/nexus/content/repositories/google-repo/</url>
+    	</repository>    	
+    	
+    	<repository>
+     	   <id>spring-milestones</id>
+        	<name>Spring Milestones</name>
+        	<url>https://repo.spring.io/milestone</url>
     	</repository>
 	</repositories>
 	
