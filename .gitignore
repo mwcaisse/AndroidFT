@@ -51,3 +51,7 @@ doc/
 .settings/
 lint.xml
 aft-android/AndroidManifest.out.xml
+.gradle/
+gradlew
+gradlew.bat
+gradle

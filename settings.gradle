@@ -1,0 +1,8 @@
+rootProject.name = 'aft'
+include ':aft-common'
+include ':aft-servlet'
+include ':aft-android'
+
+project(':aft-common').projectDir = "$rootDir/aft-common" as File
+project(':aft-servlet').projectDir = "$rootDir/aft-servlet" as File
+project(':aft-android').projectDir = "$rootDir/aft-android" as File
