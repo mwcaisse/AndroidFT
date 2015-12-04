@@ -9,21 +9,22 @@ android {
 		applicationId "com.ricex.aft.android"
 		minSdkVersion 23
 		targetSdkVersion 23
-		versionCode version
-		versionName version
+		versionCode 1
+		versionName "0.0.1"
 	}
+}
 
 description = 'aft-android'
 dependencies {
   compile project(':aft-common')
-    compile group: 'com.android.support', name: 'support-v4', version:'23.1.1'
-    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile(group: 'com.android.support', name: 'support-v4', version:'23.1.1')
+    compile('com.android.support:appcompat-v7:20.0.0')
     compile(group: 'com.android.support', name: 'design', version:'23.1.1') 
-    compile group: 'com.google.android.gms', name: 'play-services-base', version:'8.3.0'
-    compile group: 'com.google.android.gms', name: 'play-services-gcm', version:'8.3.0'
-    compile group: 'org.springframework.android', name: 'spring-android-rest-template', version:'2.0.0.M1'
+    compile(group: 'com.google.android.gms', name: 'play-services-base', version:'8.3.0')
+    compile(group: 'com.google.android.gms', name: 'play-services-gcm', version:'8.3.0')
+    compile(group: 'org.springframework.android', name: 'spring-android-rest-template', version:'2.0.0.M1')
     compile(group: 'org.springframework.android', name: 'spring-android-auth', version:'2.0.0.M1')
-    compile group: 'org.springframework.android', name: 'spring-android-core', version:'2.0.0.M1'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.4'
+    compile(group: 'org.springframework.android', name: 'spring-android-core', version:'2.0.0.M1')
+    compile(group: 'org.apache.commons', name: 'commons-lang3', version:'3.4')
     compile(group: 'android', name: 'android', version:'6.0_r2')
 }
