@@ -1,9 +1,24 @@
-apply plugin 'com.android.application'
+apply plugin: 'com.android.application'
 
+description = 'aft-android'
+
+dependencies {
+  compile project(':aft-common')
+    compile group: 'com.android.support', name: 'support-v4', version:'23.1.1'
+    compile'com.android.support:appcompat-v7:20.0.0'
+    compile(group: 'com.android.support', name: 'design', version:'23.1.1') 
+    compile(group: 'com.google.android.gms', name: 'play-services-base', version:'8.3.0')
+    compile(group: 'com.google.android.gms', name: 'play-services-gcm', version:'8.3.0')
+    compile(group: 'org.springframework.android', name: 'spring-android-rest-template', version:'2.0.0.M1')
+    compile(group: 'org.springframework.android', name: 'spring-android-auth', version:'2.0.0.M1')
+    compile(group: 'org.springframework.android', name: 'spring-android-core', version:'2.0.0.M1')
+    compile(group: 'org.apache.commons', name: 'commons-lang3', version:'3.4')
+    compile(group: 'android', name: 'android', version:'6.0_r2')
+}
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion "23.0.0"
+	buildToolsVersion "23.0.2"
 	
 	defaultConfig {
 		applicationId "com.ricex.aft.android"
@@ -14,17 +29,3 @@ android {
 	}
 }
 
-description = 'aft-android'
-dependencies {
-  compile project(':aft-common')
-    compile(group: 'com.android.support', name: 'support-v4', version:'23.1.1')
-    compile('com.android.support:appcompat-v7:20.0.0')
-    compile(group: 'com.android.support', name: 'design', version:'23.1.1') 
-    compile(group: 'com.google.android.gms', name: 'play-services-base', version:'8.3.0')
-    compile(group: 'com.google.android.gms', name: 'play-services-gcm', version:'8.3.0')
-    compile(group: 'org.springframework.android', name: 'spring-android-rest-template', version:'2.0.0.M1')
-    compile(group: 'org.springframework.android', name: 'spring-android-auth', version:'2.0.0.M1')
-    compile(group: 'org.springframework.android', name: 'spring-android-core', version:'2.0.0.M1')
-    compile(group: 'org.apache.commons', name: 'commons-lang3', version:'3.4')
-    compile(group: 'android', name: 'android', version:'6.0_r2')
-}

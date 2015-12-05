@@ -1,6 +1,10 @@
-
+apply plugin: 'java'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+  
 description = 'aft-common'
 dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version:'2.3.1'
     compile group: 'commons-codec', name: 'commons-codec', version:'1.8'
+	testCompile group: 'junit', name: 'junit', version:'4.11'
 }
